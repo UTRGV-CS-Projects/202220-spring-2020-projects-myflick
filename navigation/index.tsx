@@ -17,6 +17,7 @@ import { ColorSchemeName, Pressable } from "react-native";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import Home from "../screens/Home";
+import Introduction from "../screens/Introduction";
 import Login from "../screens/Login";
 import ModalScreen from "../screens/ModalScreen";
 
@@ -50,12 +51,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{ headerShown: false }}
-      />
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Introduction" component={Introduction} />
+      <Stack.Screen name="Login" component={Login} />
       <Stack.Screen
         name="Home"
         component={Home}
