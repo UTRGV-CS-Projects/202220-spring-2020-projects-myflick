@@ -19,7 +19,6 @@ import useColorScheme from "../hooks/useColorScheme";
 import Home from "../screens/Home";
 import Introduction from "../screens/Introduction";
 import Login from "../screens/Login";
-import ModalScreen from "../screens/ModalScreen";
 
 import {
   RootStackParamList,

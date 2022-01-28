@@ -1,8 +1,12 @@
 import { ImageBackground, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { View, Text } from "../components/Themed";
-import { RootStackScreenProps } from "../types";
-const Login = ({ navigation }: RootStackScreenProps<"Login">) => {
+import { LoginParamList, RootStackScreenProps } from "../types";
+const Login = ({
+  navigation,
+  route,
+  test,
+}: RootStackScreenProps<"Login"> & LoginParamList) => {
   return (
     <View style={styles.container}>
       <ImageBackground
