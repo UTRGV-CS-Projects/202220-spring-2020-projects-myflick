@@ -19,6 +19,7 @@ import useColorScheme from "../hooks/useColorScheme";
 import Home from "../screens/Home";
 import Introduction from "../screens/Introduction";
 import Login from "../screens/Login";
+import Messages from "../screens/Messages";
 
 import {
   RootStackParamList,
@@ -51,6 +52,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Messages" component={Messages} />
       <Stack.Screen name="Introduction" component={Introduction} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen
