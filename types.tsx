@@ -9,6 +9,7 @@ import {
   NavigatorScreenParams,
 } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { PeopleDetailsType } from "./db/db";
 
 declare global {
   namespace ReactNavigation {
@@ -34,6 +35,10 @@ export type RootTabParamList = {
 
 export type LoginParamList = {
   test: string;
+};
+
+export type MessageParamList = {
+  item: PeopleDetailsType;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =

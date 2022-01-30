@@ -1,18 +1,25 @@
-import { FlatList, Image, StyleSheet, ListRenderItem } from "react-native";
+import { FlatList, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { View, Text } from "../Themed";
 import React from "react";
-import { NewMatches } from "../../db/db";
-import { NewMatchesType } from "../../db/db";
+import { NewMatches, PeopleDetailsType } from "../../db/db";
+
 const ChatList = () => {
   return (
-    <View style={styles.newMatchesList}>
+    <View style={styles.container}>
       <FlatList
         data={NewMatches}
         horizontal={true}
-        keyExtractor={(item: NewMatchesType) => item.id}
-        renderItem={({ item }: { item: NewMatchesType }) => {
+        contentContainerStyle={styles.newMatchesListContainer}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item: PeopleDetailsType) => item.id}
+        renderItem={({ item }: { item: PeopleDetailsType }) => {
           return (
-            <Image style={styles.profile} source={{ uri: item.image }}></Image>
+            <TouchableOpacity>
+              <Image
+                style={styles.profile}
+                source={{ uri: item.image }}
+              ></Image>
+            </TouchableOpacity>
           );
         }}
       />
@@ -23,17 +30,16 @@ const ChatList = () => {
 export default ChatList;
 
 const styles = StyleSheet.create({
-  newMatchesList: {
+  container: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "transparent",
   },
+  newMatchesListContainer: { paddingHorizontal: 10 },
 
   profile: {
-    backgroundColor: "red",
-    width: 50,
-    height: 50,
+    width: 57,
+    height: 57,
     borderRadius: 50,
     margin: 10,
   },
