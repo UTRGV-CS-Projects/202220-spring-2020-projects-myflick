@@ -20,6 +20,7 @@ export type RootStackParamList = {
   Login: NavigatorScreenParams<LoginParamList> | undefined;
   Home: undefined;
   Introduction: undefined;
+  Settings: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
