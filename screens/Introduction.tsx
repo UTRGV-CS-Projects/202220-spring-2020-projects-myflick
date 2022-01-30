@@ -20,11 +20,10 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    flexDirection: "column",
+    flexDirection: "row",
     height: 100,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
-    width: "50%",
   },
   title: {
     fontWeight: "bold",
@@ -38,11 +37,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logo: {
-    position: "absolute",
-    left: 20,
-    top: 57,
     width: 30,
     height: 30,
+    marginRight: 10,
   },
   slide2: {
     flex: 1,
@@ -93,11 +90,11 @@ export default class Introduction extends Component {
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.header}>
-          <Text style={styles.title}>MyFlick</Text>
           <Image
             source={require("../assets/images/logo.png")}
             style={styles.logo}
           />
+          <Text style={styles.title}>MyFlick</Text>
         </SafeAreaView>
         <Swiper
           style={styles.wrapper}
@@ -127,6 +124,7 @@ export default class Introduction extends Component {
               color={themeColor}
               style={styles.captionIcon}
             />
+
             <Text style={styles.caption}>Watch Movies</Text>
             <Text style={styles.subCaption}>
               Watch your favorite nearby movies with people you've matched with!
