@@ -47,4 +47,52 @@ export const NewMatches: PeopleDetailsType[] = [
     lastMessage: "I'm so excited to see you!",
     opened: true,
   },
+  {
+    id: "6",
+    name: "Sam",
+    image:
+      "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
+    lastMessage: "I'm here",
+    opened: true,
+  },
+  {
+    id: "7",
+    name: "Sam",
+    image:
+      "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
+    lastMessage: "I'm here",
+    opened: true,
+  },
+  {
+    id: "8",
+    name: "Sam",
+    image:
+      "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
+    lastMessage: "I'm here",
+    opened: true,
+  },
+  {
+    id: "9",
+    name: "Sam",
+    image:
+      "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
+    lastMessage: "I'm here",
+    opened: true,
+  },
+  {
+    id: "10",
+    name: "Sam",
+    image:
+      "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
+    lastMessage: "I'm here",
+    opened: true,
+  },
+  {
+    id: "11",
+    name: "Sam",
+    image:
+      "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
+    lastMessage: "I'm here",
+    opened: true,
+  },
 ];

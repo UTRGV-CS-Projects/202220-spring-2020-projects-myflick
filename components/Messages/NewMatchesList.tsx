@@ -1,12 +1,17 @@
 import { FlatList, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { View, Text } from "../Themed";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { NewMatches, PeopleDetailsType } from "../../db/db";
+import { useScrollToTop } from "@react-navigation/native";
 
 const ChatList = () => {
+  const ref = React.useRef(null);
+  useScrollToTop(ref);
+
   return (
     <View style={styles.container}>
       <FlatList
+        ref={ref}
         data={NewMatches}
         horizontal={true}
         contentContainerStyle={styles.newMatchesListContainer}
