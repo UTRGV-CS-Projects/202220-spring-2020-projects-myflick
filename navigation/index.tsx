@@ -3,7 +3,6 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
@@ -54,10 +53,6 @@ function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Root" component={BottomTabNavigator} />
-      {/*       <Stack.Screen name="Messages" component={Messages} />
-      <Stack.Screen name="Introduction" component={Introduction} />
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Home" component={Home} /> */}
     </Stack.Navigator>
   );
 }
@@ -124,9 +119,9 @@ function BottomTabNavigator() {
         })}
       />
 
-<BottomTab.Screen
+      <BottomTab.Screen
         name="MyProfile"
-        component = {MyProfile}
+        component={MyProfile}
         options={({ navigation }: RootTabScreenProps<"MyProfile">) => ({
           title: "",
           tabBarAccessibilityLabel: "MyProfile",
@@ -138,13 +133,11 @@ function BottomTabNavigator() {
               }}
               accessibilityRole="button"
             >
-              <Ionicons name="logo-ionic" size={30} color={color} />
+              <Ionicons name="person-outline" size={30} color={color} />
             </TouchableOpacity>
           ),
-
         })}
       />
-      
     </BottomTab.Navigator>
   );
 }
