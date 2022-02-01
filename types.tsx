@@ -19,6 +19,7 @@ declare global {
 
 export type RootStackParamList = {
   Login: NavigatorScreenParams<LoginParamList> | undefined;
+  MyProfile: NavigatorScreenParams<MyProfileList> | undefined;
   Home: undefined;
   Introduction: NavigatorScreenParams<MessageParamList> | undefined;
   Settings: undefined;
@@ -34,9 +35,14 @@ export type RootTabParamList = {
   TabTwo: undefined;
   Messages: undefined;
   Introduction: undefined;
+  MyProfile: undefined;
 };
 
 export type LoginParamList = {
+  test: string;
+};
+
+export type MyProfileList = {
   test: string;
 };
 

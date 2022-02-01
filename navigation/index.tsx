@@ -21,7 +21,7 @@ import Home from "../screens/Home";
 import Introduction from "../screens/Introduction";
 import Login from "../screens/Login";
 import Messages from "../screens/Messages";
-
+import MyProfile from "../screens/MyProfile";
 import {
   RootStackParamList,
   RootTabParamList,
@@ -121,24 +121,30 @@ function BottomTabNavigator() {
               <Ionicons name="logo-ionic" size={30} color={color} />
             </TouchableOpacity>
           ),
-          //We can use this to add a badge to the top part later on if we want
-          /* headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("Home")}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              <Ionicons
-                name="chatbubbles-outline"
-                size={24}
-                color="red"
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ), */
         })}
       />
+
+<BottomTab.Screen
+        name="MyProfile"
+        component = {MyProfile}
+        options={({ navigation }: RootTabScreenProps<"MyProfile">) => ({
+          title: "",
+          tabBarAccessibilityLabel: "MyProfile",
+          tabBarTestID: "MyProfileTab",
+          tabBarIcon: ({ color }) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("MyProfile");
+              }}
+              accessibilityRole="button"
+            >
+              <Ionicons name="logo-ionic" size={30} color={color} />
+            </TouchableOpacity>
+          ),
+
+        })}
+      />
+      
     </BottomTab.Navigator>
   );
 }
