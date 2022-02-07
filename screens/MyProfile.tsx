@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   FlatList,
   SectionList,
+  Alert,
+  ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
@@ -14,6 +16,7 @@ import { MyProfileSections } from "../db/db";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
+import { Chip } from 'react-native-paper';
 
 const ListItem = ({ item }: { item: any }) => {
   return (
@@ -36,6 +39,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
   const colorScheme = useColorScheme();
 
   return (
+    <ScrollView>
     <SafeAreaView style={styles.container}>
       <View style={styles.titleBar}>
         <TouchableOpacity onPress={() => {}}>
@@ -81,6 +85,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
         <Text style={styles.bio}>Quantico, VA | 23 | Film Maker</Text>
       </View>
 
+
       <View style={styles.container}>
         <SectionList
           contentContainerStyle={styles.sectionList}
@@ -106,9 +111,33 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
             }
             return <ListItem item={item} />;
           }}
-        />
+        />        
       </View>
+
+     <View style={styles.container}>  
+          <Text style={styles.sectionHeader2}>Basic Info</Text>
+     <View style = {{flex:1, flexDirection:'row', flexWrap:'wrap', }}>{ basicInfo.map((item, index) => {
+          return (
+          <View style={{margin: 5}}>
+            <Chip key={index} mode="outlined" textStyle={{ color:'white',fontSize: 15, }} style={{ backgroundColor: themeColor, borderColor: 'white'  }}>
+                   {item}</Chip>
+        </View>
+        );})}
+        </View>
+
+            <Text style={styles.sectionHeader2}>My Interests</Text>
+     <View style = {{flex:1, flexDirection:'row', flexWrap:'wrap', alignItems:'center'}}>{ myInterests.map((item, index) => {
+          return (
+          <View style={{margin: 5}}>
+            <Chip key={index} mode="outlined" textStyle={{ color:'white',fontSize: 15, }} style={{ backgroundColor: themeColor, borderColor: 'white'  }}>
+                   {item}</Chip>
+        </View>
+        );})}
+         </View>
+     </View>
+
     </SafeAreaView>
+    </ScrollView>
   );
 };
 
@@ -180,6 +209,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
+  sectionHeader2: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 20
+  },
   item: {
     marginHorizontal: 5,
   },
@@ -193,3 +229,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
 });
+
+const myInterests = ["Photography", "Film Making", "Hiking", "Foodie", "Reading", "Wine", "Baking"]
+const basicInfo = ["5'5''", "Single", "Spiritual", "Voter", 
+                    "Libra", "Vaccinated", "Mother", "Dog Lover"]
