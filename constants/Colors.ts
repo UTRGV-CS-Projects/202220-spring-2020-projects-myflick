@@ -5,6 +5,7 @@ export const lightThemeColor = "#F8C1D1";
 
 export default {
   light: {
+    opposite: "#000000",
     text: "#4A4A4A",
     background: "#fff",
     tint: tintColorLight,
@@ -12,7 +13,8 @@ export default {
     tabIconSelected: tintColorLight,
   },
   dark: {
-    text: "#fff",
+    opposite: "#ffffff",
+    text: "#ffffff",
     background: "#000",
     tint: tintColorDark,
     tabIconDefault: "#ccc",

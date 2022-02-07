@@ -12,77 +12,6 @@ import { View, Text } from "../components/Themed";
 import { themeColor, lightThemeColor } from "../constants/Colors";
 import Swiper from "react-native-swiper";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  header: {
-    flexDirection: "row",
-    height: 100,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  title: {
-    fontWeight: "bold",
-    fontSize: 23,
-    marginBottom: 5,
-  },
-  wrapper: {},
-  slide1: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  logo: {
-    width: 30,
-    height: 30,
-    marginRight: 10,
-  },
-  slide2: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  slide3: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  caption: {
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-  captionIcon: {
-    marginBottom: 20,
-  },
-  subCaption: {
-    paddingVertical: 10,
-    paddingHorizontal: 35,
-    fontSize: 20,
-    opacity: 0.5,
-    textAlign: "center",
-  },
-  buttons: {
-    width: 200,
-    height: 150,
-    justifyContent: "space-evenly",
-    alignItems: "center",
-  },
-  loginButtons: {},
-  footer: {
-    paddingHorizontal: 35,
-    height: 150,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  span: {
-    color: themeColor,
-  },
-});
-
 export default class Introduction extends Component {
   render() {
     const handleFacebookLogin = () => {};
@@ -167,3 +96,74 @@ export default class Introduction extends Component {
 }
 
 AppRegistry.registerComponent("myproject", () => Introduction);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  header: {
+    flexDirection: "row",
+    height: 100,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 23,
+    marginBottom: 5,
+  },
+  wrapper: {},
+  slide1: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  logo: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+  },
+  slide2: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  slide3: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  caption: {
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  captionIcon: {
+    marginBottom: 20,
+  },
+  subCaption: {
+    paddingVertical: 10,
+    paddingHorizontal: 35,
+    fontSize: 20,
+    opacity: 0.5,
+    textAlign: "center",
+  },
+  buttons: {
+    width: 200,
+    height: 150,
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
+  loginButtons: {},
+  footer: {
+    paddingHorizontal: 35,
+    height: 150,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  span: {
+    color: themeColor,
+  },
+});

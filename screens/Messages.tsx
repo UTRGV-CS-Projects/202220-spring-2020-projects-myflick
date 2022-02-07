@@ -1,11 +1,11 @@
-import { Image, SafeAreaView, StyleSheet } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import React from "react";
 import { Text, View } from "../components/Themed";
 import NewMatchesList from "../components/Messages/NewMatchesList";
 import NewMessagesList from "../components/Messages/NewMessagesList";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RootStackScreenProps } from "../types";
-
+import { SafeAreaView } from "../components/Themed";
 const Messages = ({ navigation }: RootStackScreenProps<"Messages">) => {
   const insets = useSafeAreaInsets();
 
