@@ -53,6 +53,10 @@ export type MessageParamList = {
   item: PeopleDetailsType;
 };
 
+export type ImagesSliderParamsList = {
+  person: PeopleDetailsType;
+};
+
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
   CompositeScreenProps<
     BottomTabScreenProps<RootTabParamList, Screen>,

@@ -1,17 +1,41 @@
-import { StyleSheet, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import { StyleSheet, Image, TouchableOpacity, FlatList } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaView, Text, View } from "../components/Themed";
 import { People } from "../db/db";
 import { Chip } from "react-native-paper";
-import { themeColor } from "../constants/Colors";
+import { lightThemeColor, themeColor } from "../constants/Colors";
 import { EvilIcons } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
-
+import LottieView from "lottie-react-native";
+import ImagesSlider from "../components/PersonDetails/ImagesSlider";
 const PersonDetails = ({
   navigation,
 }: RootStackScreenProps<"PersonDetails">) => {
   const person = People[0];
+  const heart = useRef<LottieView>(null);
+  const isFirstRun = useRef(true);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleFavorite = () => {
+    setIsLiked(!isLiked);
+  };
+  const handleDislike = () => {
+    navigation.goBack();
+  };
+  useEffect(() => {
+    if (isFirstRun.current) {
+      if (isLiked) {
+        heart.current?.play(75, 75);
+      } else {
+        heart.current?.play(0, 0);
+      }
+      isFirstRun.current = false;
+    } else if (isLiked) {
+      heart.current?.play(0, 75);
+    } else {
+      heart.current?.play(10, 0);
+    }
+  }, [isLiked]);
 
   return (
     <View style={styles.container}>
@@ -32,13 +56,11 @@ const PersonDetails = ({
             </View>
           </TouchableOpacity>
         </View>
-        <Image
-          style={styles.profilePicture}
-          resizeMode="cover"
-          source={{ uri: person.profileImage }}
-        ></Image>
+
+        <ImagesSlider person={person} />
+
         <View style={styles.bubbleContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleDislike}>
             <View style={styles.bubble}>
               <EvilIcons
                 name="close"
@@ -48,12 +70,12 @@ const PersonDetails = ({
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleFavorite}>
             <View style={styles.bubble}>
-              <Ionicons
-                name="heart"
-                size={45}
-                color={themeColor}
+              <LottieView
+                ref={heart}
+                loop={false}
+                source={require("../assets/lotties/favorite.json")}
                 style={styles.heart}
               />
             </View>
@@ -66,7 +88,7 @@ const PersonDetails = ({
             {person.firstName} {person.lastName}, {person.age}
           </Text>
           <Text style={styles.location}>
-            {person.city} {person.state}
+            {person.city}, {person.state}
           </Text>
         </View>
 
@@ -165,19 +187,14 @@ const styles = StyleSheet.create({
     paddingLeft: 18,
     paddingTop: 22,
   },
-  heart: { paddingLeft: 18, paddingTop: 18 },
+  heart: { width: 70, height: 70, paddingLeft: 2, paddingTop: 3 },
   lowerContainer: {
     flex: 0.5,
     justifyContent: "space-evenly",
     alignItems: "flex-start",
     paddingHorizontal: 20,
   },
-  profilePicture: {
-    width: "100%",
-    height: "100%",
-    borderBottomRightRadius: 50,
-    borderBottomLeftRadius: 50,
-  },
+
   name: {
     fontSize: 28,
     fontWeight: "bold",
@@ -186,10 +203,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "500",
   },
-  chip: { marginRight: 10, backgroundColor: themeColor },
+  chip: {
+    marginRight: 10,
+    backgroundColor: themeColor,
+  },
   chipText: {
     fontWeight: "bold",
     color: "white",
+    paddingTop: 1,
   },
   bio: {
     fontSize: 16,
@@ -197,7 +218,9 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 21,
     fontWeight: "bold",
+    marginBottom: 10,
   },
+  wrapper: {},
   chipsContainer: {
     flexDirection: "row",
     alignItems: "center",

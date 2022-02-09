@@ -17,7 +17,6 @@ import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import { Chip } from "react-native-paper";
-import { LogBox } from "react-native";
 
 const ListItem = ({ item }: { item: any }) => {
   return (

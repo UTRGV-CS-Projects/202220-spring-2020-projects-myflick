@@ -1,8 +1,7 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet } from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { RootStackScreenProps } from "../types";
-
+import { View, Text, SafeAreaView } from "../components/Themed";
 const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
   const handleDetailsPress = () => {
     navigation.navigate("PersonDetails");
