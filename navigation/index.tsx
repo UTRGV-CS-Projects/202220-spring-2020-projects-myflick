@@ -21,6 +21,7 @@ import Introduction from "../screens/Introduction";
 import Login from "../screens/Login";
 import Messages from "../screens/Messages";
 import MyProfile from "../screens/MyProfile";
+import PersonDetails from "../screens/PersonDetails";
 import {
   RootStackParamList,
   RootTabParamList,
@@ -53,6 +54,9 @@ function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Root" component={BottomTabNavigator} />
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Screen name="PersonDetails" component={PersonDetails} />
+      </Stack.Group>
     </Stack.Navigator>
   );
 }
@@ -110,6 +114,26 @@ function BottomTabNavigator() {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("Introduction");
+              }}
+              accessibilityRole="button"
+            >
+              <Ionicons name="logo-ionic" size={30} color={color} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+
+      <BottomTab.Screen
+        name="Home"
+        component={Home}
+        options={({ navigation }: RootTabScreenProps<"Home">) => ({
+          title: "",
+          tabBarAccessibilityLabel: "Home",
+          tabBarTestID: "HomeTab",
+          tabBarIcon: ({ color }) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Home");
               }}
               accessibilityRole="button"
             >

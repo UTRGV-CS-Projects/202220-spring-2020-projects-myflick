@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet } from "react-native";
 import React from "react";
 import { View, Text } from "../Themed";
-import { NewMatches, PeopleDetailsType } from "../../db/db";
+import { People, PeopleDetailsType } from "../../db/db";
 import Message from "./Message";
 import { useScrollToTop } from "@react-navigation/native";
 
@@ -13,7 +13,7 @@ const NewMessagesList = () => {
     <View style={styles.container}>
       <FlatList
         ref={ref}
-        data={NewMatches}
+        data={People}
         contentContainerStyle={styles.newMatchesListContainer}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}

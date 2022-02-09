@@ -19,11 +19,14 @@ const Message = ({ item }: MessageParamList) => {
   return (
     <View style={styles.messageContainer}>
       <TouchableOpacity>
-        <Image style={styles.profile} source={{ uri: item.image }}></Image>
+        <Image
+          style={styles.profile}
+          source={{ uri: item.profileImage }}
+        ></Image>
       </TouchableOpacity>
       <TouchableOpacity style={styles.innerMessageContainer}>
         <View style={styles.innerMessage}>
-          <Text style={styles.name}>{item.name}</Text>
+          <Text style={styles.name}>{item.firstName}</Text>
           <Text style={messageStyle}>{formatMessage(item.lastMessage)}</Text>
         </View>
       </TouchableOpacity>

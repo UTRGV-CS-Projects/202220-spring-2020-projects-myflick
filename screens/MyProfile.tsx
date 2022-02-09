@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Image,
@@ -16,7 +16,8 @@ import { MyProfileSections } from "../db/db";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
-import { Chip } from 'react-native-paper';
+import { Chip } from "react-native-paper";
+import { LogBox } from "react-native";
 
 const ListItem = ({ item }: { item: any }) => {
   return (
@@ -28,6 +29,7 @@ const ListItem = ({ item }: { item: any }) => {
           }}
           style={styles.itemPhoto}
           resizeMode="cover"
+          key={item.id}
         />
       </TouchableOpacity>
     </View>
@@ -39,105 +41,132 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
   const colorScheme = useColorScheme();
 
   return (
-    <ScrollView>
     <SafeAreaView style={styles.container}>
-      <View style={styles.titleBar}>
-        <TouchableOpacity onPress={() => {}}>
-          <Ionicons
-            name="settings-outline"
-            size={30}
-            color={Colors[colorScheme].opposite}
-          ></Ionicons>
-        </TouchableOpacity>
-        <Text style={styles.title}>Profile</Text>
-        <TouchableOpacity onPress={() => {}}>
-          <Ionicons
-            name="share-outline"
-            size={30}
-            color={Colors[colorScheme].opposite}
-          ></Ionicons>
-        </TouchableOpacity>
-      </View>
-
-      <View style={{ alignSelf: "center" }}>
-        <View style={styles.profileImage}>
-          <Image
-            style={styles.image}
-            source={{
-              uri: "https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXw0ODI5MTZ8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=60",
-            }}
-          ></Image>
-        </View>
-        <View style={styles.add}>
+      <ScrollView>
+        <View style={styles.titleBar}>
           <TouchableOpacity onPress={() => {}}>
             <Ionicons
-              name="add-circle-sharp"
+              name="settings-outline"
               size={30}
-              color={themeColor}
-              style={{ marginTop: 30, marginLeft: 32 }}
+              color={Colors[colorScheme].opposite}
+            ></Ionicons>
+          </TouchableOpacity>
+          <Text style={styles.title}>Profile</Text>
+          <TouchableOpacity onPress={() => {}}>
+            <Ionicons
+              name="share-outline"
+              size={30}
+              color={Colors[colorScheme].opposite}
             ></Ionicons>
           </TouchableOpacity>
         </View>
-      </View>
 
-      <View>
-        <Text style={styles.name}>Ashley Nicole</Text>
-        <Text style={styles.bio}>Quantico, VA | 23 | Film Maker</Text>
-      </View>
+        <View style={{ alignSelf: "center" }}>
+          <View style={styles.profileImage}>
+            <Image
+              style={styles.image}
+              source={{
+                uri: "https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXw0ODI5MTZ8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=60",
+              }}
+            ></Image>
+          </View>
+          <View style={styles.add}>
+            <TouchableOpacity onPress={() => {}}>
+              <Ionicons
+                name="add-circle-sharp"
+                size={30}
+                color={themeColor}
+                style={{ marginTop: 30, marginLeft: 32 }}
+              ></Ionicons>
+            </TouchableOpacity>
+          </View>
+        </View>
 
+        <View>
+          <Text style={styles.name}>Ashley Nicole</Text>
+          <Text style={styles.bio}>Quantico, VA | 23 | Film Maker</Text>
+        </View>
 
-      <View style={styles.container}>
-        <SectionList
-          contentContainerStyle={styles.sectionList}
-          stickySectionHeadersEnabled={false}
-          sections={MyProfileSections}
-          initialNumToRender={5}
-          renderSectionHeader={({ section }) => (
-            <View>
-              <Text style={styles.sectionHeader}>{section.title}</Text>
-              {section.horizontal ? (
-                <FlatList
-                  horizontal
-                  data={section.data}
-                  renderItem={({ item }) => <ListItem item={item} />}
-                  showsHorizontalScrollIndicator={false}
-                />
-              ) : null}
-            </View>
-          )}
-          renderItem={({ item, section }) => {
-            if (section.horizontal) {
-              return null;
-            }
-            return <ListItem item={item} />;
-          }}
-        />        
-      </View>
+        <View style={styles.container}>
+          <SectionList
+            contentContainerStyle={styles.sectionList}
+            stickySectionHeadersEnabled={false}
+            sections={MyProfileSections}
+            keyExtractor={(item, index) => item.key + index}
+            initialNumToRender={5}
+            renderSectionHeader={({ section }) => (
+              <View>
+                <Text style={styles.sectionHeader}>{section.title}</Text>
+                {section.horizontal ? (
+                  <FlatList
+                    horizontal
+                    keyExtractor={(item, index) => item.key + index}
+                    data={section.data}
+                    renderItem={({ item }) => <ListItem item={item} />}
+                    showsHorizontalScrollIndicator={false}
+                  />
+                ) : null}
+              </View>
+            )}
+            renderItem={({ item, section }) => {
+              if (section.horizontal) {
+                return null;
+              }
+              return <ListItem item={item} />;
+            }}
+          />
+        </View>
 
-     <View style={styles.container}>  
+        <View style={styles.container}>
           <Text style={styles.sectionHeader2}>Basic Info</Text>
-     <View style = {{flex:1, flexDirection:'row', flexWrap:'wrap', }}>{ basicInfo.map((item, index) => {
-          return (
-          <View style={{margin: 5}}>
-            <Chip key={index} mode="outlined" textStyle={{ color:'white',fontSize: 15, }} style={{ backgroundColor: themeColor, borderColor: 'white'  }}>
-                   {item}</Chip>
-        </View>
-        );})}
-        </View>
+          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
+            {basicInfo.map((item, index) => {
+              return (
+                <View key={index} style={{ margin: 5 }}>
+                  <Chip
+                    mode="outlined"
+                    textStyle={{ color: "white", fontSize: 15 }}
+                    style={{
+                      backgroundColor: themeColor,
+                      borderColor: "white",
+                    }}
+                  >
+                    {item}
+                  </Chip>
+                </View>
+              );
+            })}
+          </View>
 
-            <Text style={styles.sectionHeader2}>My Interests</Text>
-     <View style = {{flex:1, flexDirection:'row', flexWrap:'wrap', alignItems:'center'}}>{ myInterests.map((item, index) => {
-          return (
-          <View style={{margin: 5}}>
-            <Chip key={index} mode="outlined" textStyle={{ color:'white',fontSize: 15, }} style={{ backgroundColor: themeColor, borderColor: 'white'  }}>
-                   {item}</Chip>
+          <Text style={styles.sectionHeader2}>My Interests</Text>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              flexWrap: "wrap",
+              alignItems: "center",
+            }}
+          >
+            {myInterests.map((item, index) => {
+              return (
+                <View key={index} style={{ margin: 5 }}>
+                  <Chip
+                    mode="outlined"
+                    textStyle={{ color: "white", fontSize: 15 }}
+                    style={{
+                      backgroundColor: themeColor,
+                      borderColor: "white",
+                    }}
+                  >
+                    {item}
+                  </Chip>
+                </View>
+              );
+            })}
+          </View>
         </View>
-        );})}
-         </View>
-     </View>
-
+      </ScrollView>
     </SafeAreaView>
-    </ScrollView>
   );
 };
 
@@ -214,7 +243,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 10,
     marginBottom: 10,
-    marginLeft: 20
+    marginLeft: 20,
   },
   item: {
     marginHorizontal: 5,
@@ -230,6 +259,22 @@ const styles = StyleSheet.create({
   },
 });
 
-const myInterests = ["Photography", "Film Making", "Hiking", "Foodie", "Reading", "Wine", "Baking"]
-const basicInfo = ["5'5''", "Single", "Spiritual", "Voter", 
-                    "Libra", "Vaccinated", "Mother", "Dog Lover"]
+const myInterests = [
+  "Photography",
+  "Film Making",
+  "Hiking",
+  "Foodie",
+  "Reading",
+  "Wine",
+  "Baking",
+];
+const basicInfo = [
+  "5'5''",
+  "Single",
+  "Spiritual",
+  "Voter",
+  "Libra",
+  "Vaccinated",
+  "Mother",
+  "Dog Lover",
+];

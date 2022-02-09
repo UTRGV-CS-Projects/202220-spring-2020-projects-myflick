@@ -25,6 +25,7 @@ export type RootStackParamList = {
   Settings: undefined;
   Messages: NavigatorScreenParams<MessageParamList> | undefined;
   Root: undefined;
+  PersonDetails: NavigatorScreenParams<MessageParamList> | undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
@@ -36,6 +37,8 @@ export type RootTabParamList = {
   Messages: undefined;
   Introduction: undefined;
   MyProfile: undefined;
+  PersonDetails: undefined;
+  Home: undefined;
 };
 
 export type LoginParamList = {

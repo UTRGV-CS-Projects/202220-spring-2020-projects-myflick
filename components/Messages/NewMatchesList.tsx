@@ -1,7 +1,7 @@
 import { FlatList, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { View, Text } from "../Themed";
 import React, { useEffect, useRef } from "react";
-import { NewMatches, PeopleDetailsType } from "../../db/db";
+import { People, PeopleDetailsType } from "../../db/db";
 import { useScrollToTop } from "@react-navigation/native";
 
 const ChatList = () => {
@@ -12,7 +12,7 @@ const ChatList = () => {
     <View style={styles.container}>
       <FlatList
         ref={ref}
-        data={NewMatches}
+        data={People}
         horizontal={true}
         contentContainerStyle={styles.newMatchesListContainer}
         showsHorizontalScrollIndicator={false}
@@ -22,7 +22,7 @@ const ChatList = () => {
             <TouchableOpacity>
               <Image
                 style={styles.profile}
-                source={{ uri: item.image }}
+                source={{ uri: item.profileImage }}
               ></Image>
             </TouchableOpacity>
           );

@@ -4,17 +4,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { RootStackScreenProps } from "../types";
 
 const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
+  const handleDetailsPress = () => {
+    navigation.navigate("PersonDetails");
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Text>You are logged in</Text>
-      <Button
-        title="Log Out"
-        onPress={() => {
-          navigation.navigate("Login");
-        }}
-      >
-        Log Out
-      </Button>
+    <SafeAreaView
+      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+    >
+      <Text onPress={handleDetailsPress}>Sara Banks</Text>
     </SafeAreaView>
   );
 };

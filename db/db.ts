@@ -1,96 +1,144 @@
 export interface PeopleDetailsType {
   id: string;
-  name: string;
-  image: string;
+  firstName: string;
+  lastName: string;
+  age: number;
+  profileImage: string;
   lastMessage: string;
   opened: boolean;
+  bio?: string;
+  city?: string;
+  state?: string;
+  interests?: string[];
+  images?: string[];
 }
 
-export const NewMatches: PeopleDetailsType[] = [
+export const People: PeopleDetailsType[] = [
   {
     id: "1",
-    name: "Anika",
-    image:
-      "https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    lastMessage: "Hey, how are you?",
+    firstName: "Selena",
+    lastName: "Gomez",
+    age: 22,
+    bio: "I like to play video games and go to the gym and go to the movies and eat and watch TV and stuff.",
+    profileImage:
+      "https://api.time.com/wp-content/uploads/2020/09/time-100-Selena-Gomez.jpg",
+    images: [
+      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/actress-singer-selena-gomez-is-seen-arriving-at-the-late-news-photo-1643039576.jpg?crop=0.857xw:1.00xh;0.0721xw,0&resize=640:*",
+      "https://media1.popsugar-assets.com/files/thumbor/dsCqdEx6NSqODU0ihVHSUCDwztk/562x135:2177x1750/fit-in/500x500/filters:format_auto-!!-:strip_icc-!!-/2019/09/09/020/n/1922398/3794d5c55d76e058296c92.97678413_/i/Selena-Gomez.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3c/191125_Selena_Gomez_at_the_2019_American_Music_Awards.png",
+      "https://www.usmagazine.com/wp-content/uploads/2021/04/Whoa-Selena-Gomez-Looks-Like-A-Totally-Different-Person-With-Platinum-Blonde-Hair-Promo.jpg?w=1600&quality=86&strip=all",
+    ],
+    lastMessage: "Hey, how are you I miss you",
+    interests: ["music", "art", "sports"],
+    city: "New York",
+    state: "NY",
     opened: false,
   },
   {
     id: "2",
-    name: "Emily",
-    image:
+    firstName: "Emily",
+    lastName: "Rachel",
+    age: 23,
+    bio: "I like to play video games and go to the gym and go to the movies and eat and watch TV and stuff.",
+    profileImage:
       "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2861&q=80",
     lastMessage: "How was the movie?",
     opened: false,
+    city: "New York",
+    state: "NY",
   },
   {
     id: "3",
-    name: "Timmy",
-    image:
+    firstName: "Timmy",
+    lastName: "Rodriguez",
+    age: 24,
+    bio: "I like to eat cake",
+    profileImage:
       "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
     lastMessage: "We had a good time",
     opened: true,
   },
   {
     id: "4",
-    name: "Tom",
-    image:
+    firstName: "Tom",
+    lastName: "Rachel",
+    age: 25,
+    bio: "I like to eat peanuts",
+    profileImage:
       "https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2230&q=80",
     lastMessage: "I hope to see you again!",
     opened: false,
   },
   {
     id: "5",
-    name: "Jessica",
-    image:
+    firstName: "Jessica",
+    lastName: "Nigri",
+    age: 26,
+    profileImage:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
     lastMessage: "I'm so excited to see you!",
     opened: true,
   },
   {
     id: "6",
-    name: "Sam",
-    image:
+    firstName: "Sam",
+    lastName: "Pepper",
+    age: 27,
+    profileImage:
       "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
     lastMessage: "I'm here",
     opened: true,
   },
   {
     id: "7",
-    name: "Sam",
-    image:
+    firstName: "Sam",
+    lastName: "Houston",
+    age: 27,
+    profileImage:
       "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
     lastMessage: "I'm here",
     opened: true,
   },
   {
     id: "8",
-    name: "Sam",
-    image:
+    firstName: "Sam",
+    lastName: "Rachel",
+
+    age: 27,
+    profileImage:
       "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
     lastMessage: "I'm here",
     opened: true,
   },
   {
     id: "9",
-    name: "Sam",
-    image:
+    firstName: "Sam",
+    lastName: "Rachel",
+
+    age: 28,
+    profileImage:
       "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
     lastMessage: "I'm here",
     opened: true,
   },
   {
     id: "10",
-    name: "Sam",
-    image:
+    firstName: "Sam",
+    lastName: "Rachel",
+
+    age: 29,
+    profileImage:
       "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
     lastMessage: "I'm here",
     opened: true,
   },
   {
     id: "11",
-    name: "Sam",
-    image:
+    firstName: "Sam",
+    lastName: "Rachel",
+
+    age: 30,
+    profileImage:
       "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
     lastMessage: "I'm here",
     opened: true,
