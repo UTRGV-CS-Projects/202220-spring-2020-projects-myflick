@@ -9,7 +9,7 @@ import {
   Alert,
   VirtualizedList,
 } from "react-native";
-import { ScrollView } from 'react-native-virtualized-view';
+import { ScrollView } from "react-native-virtualized-view";
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
 import { themeColor, lightThemeColor } from "../constants/Colors";
@@ -40,7 +40,6 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
   const [timesPressed, setTimesPressed] = useState(0);
   const colorScheme = useColorScheme();
 
-  
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -101,11 +100,10 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
                 {section.horizontal ? (
                   <FlatList
                     horizontal
-                    keyExtractor={(item:any, index) => item.key + index}
+                    keyExtractor={(item: any, index) => item.key + index}
                     data={section.data}
                     renderItem={({ item }) => <ListItem item={item} />}
                     showsHorizontalScrollIndicator={false}
-                   
                   />
                 ) : null}
               </View>
@@ -145,8 +143,8 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
             style={{
               flex: 1,
               flexDirection: "row",
-              flexWrap: "wrap",
               alignItems: "center",
+              flexWrap: "wrap",
             }}
           >
             {myInterests.map((item, index) => {
@@ -177,6 +175,7 @@ export default MyProfile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 10,
   },
   titleBar: {
     flexDirection: "row",
