@@ -22,7 +22,7 @@ const MatchScreen = ({ navigation, route }: RootTabScreenProps<"Match">) => {
         You and {firstName} liked each other.
       </Text>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: personOneImg }} style={styles.person1} />
+        <Image source={{ uri: personOneImg }} style={styles.person} />
         <View style={styles.bubble}>
           <LottieView
             autoPlay
@@ -31,7 +31,7 @@ const MatchScreen = ({ navigation, route }: RootTabScreenProps<"Match">) => {
             style={styles.heart}
           />
         </View>
-        <Image source={{ uri: personTwoImg }} style={styles.person2} />
+        <Image source={{ uri: personTwoImg }} style={styles.person} />
       </View>
 
       <View style={styles.buttonContainer}>
@@ -96,8 +96,7 @@ const styles = StyleSheet.create({
   },
   heart: { width: 70, height: 70, paddingLeft: 2, paddingTop: 3 },
 
-  person1: { borderRadius: 50, width: 100, height: 100 },
-  person2: { borderRadius: 50, width: 100, height: 100 },
+  person: { borderRadius: 100, width: 120, height: 120 },
   buttonContainer: {
     position: "absolute",
     bottom: 50,
