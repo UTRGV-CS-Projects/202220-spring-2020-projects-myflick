@@ -26,6 +26,7 @@ export type RootStackParamList = {
   Messages: NavigatorScreenParams<MessageParamList> | undefined;
   Root: undefined;
   PersonDetails: NavigatorScreenParams<MessageParamList> | undefined;
+  Match: MatchParamList;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
@@ -39,6 +40,7 @@ export type RootTabParamList = {
   MyProfile: undefined;
   PersonDetails: undefined;
   Home: undefined;
+  Match: MatchParamList;
 };
 
 export type LoginParamList = {
@@ -55,6 +57,10 @@ export type MessageParamList = {
 
 export type ImagesSliderParamsList = {
   person: PeopleDetailsType;
+};
+
+export type MatchParamList = {
+  firstName: string;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =

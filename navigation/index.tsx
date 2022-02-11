@@ -19,6 +19,7 @@ import useColorScheme from "../hooks/useColorScheme";
 import Home from "../screens/Home";
 import Introduction from "../screens/Introduction";
 import Login from "../screens/Login";
+import Match from "../screens/Match";
 import Messages from "../screens/Messages";
 import MyProfile from "../screens/MyProfile";
 import PersonDetails from "../screens/PersonDetails";
@@ -57,6 +58,7 @@ function RootNavigator() {
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="PersonDetails" component={PersonDetails} />
       </Stack.Group>
+      <Stack.Screen name="Match" component={Match} />
     </Stack.Navigator>
   );
 }

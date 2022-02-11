@@ -7,11 +7,16 @@ const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
     navigation.navigate("PersonDetails");
   };
 
+  const handleMatch = () => {
+    navigation.navigate("Match", { firstName: "John" });
+  };
+
   return (
     <SafeAreaView
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
       <Text onPress={handleDetailsPress}>Sara Banks</Text>
+      <Text onPress={handleMatch}>Match</Text>
     </SafeAreaView>
   );
 };
