@@ -61,6 +61,8 @@ export type ImagesSliderParamsList = {
 
 export type MatchParamList = {
   firstName: string;
+  personOneImg: string;
+  personTwoImg: string;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
