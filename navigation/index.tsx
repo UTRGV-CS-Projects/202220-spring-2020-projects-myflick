@@ -22,6 +22,7 @@ import Login from "../screens/Login";
 import Messages from "../screens/Messages";
 import MyProfile from "../screens/MyProfile";
 import PersonDetails from "../screens/PersonDetails";
+import MySettings from "../screens/MySettings";
 import {
   RootStackParamList,
   RootTabParamList,
@@ -162,6 +163,28 @@ function BottomTabNavigator() {
           ),
         })}
       />
-    </BottomTab.Navigator>
+    
+    <BottomTab.Screen
+        name="MySettings"
+        component={MySettings}
+        options={({ navigation }: RootTabScreenProps<"MySettings">) => ({
+          title: "",
+          tabBarAccessibilityLabel: "MySettings",
+          tabBarTestID: "MySettingsTab",
+          tabBarIcon: ({ color }) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("MySettings");
+              }}
+              accessibilityRole="button"
+            >
+              <Ionicons name="settings-outline" size={30} color={color} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+
+
+  </BottomTab.Navigator>
   );
 }

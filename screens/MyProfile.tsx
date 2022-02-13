@@ -45,7 +45,9 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.titleBar}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => {
+            
+          }}>
             <Ionicons
               name="settings-outline"
               size={30}
@@ -70,16 +72,6 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
                 uri: "https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXw0ODI5MTZ8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=60",
               }}
             ></Image>
-          </View>
-          <View style={styles.add}>
-            <TouchableOpacity onPress={() => {}}>
-              <Ionicons
-                name="add-circle-sharp"
-                size={30}
-                color={themeColor}
-                style={{ marginTop: 30, marginLeft: 32 }}
-              ></Ionicons>
-            </TouchableOpacity>
           </View>
         </View>
 
@@ -197,17 +189,17 @@ const styles = StyleSheet.create({
     width: undefined,
     height: undefined,
   },
-  add: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "transparent",
-  },
+  //add: {
+    //position: "absolute",
+   // bottom: 0,
+    //right: 0,
+   //width: 60,
+   // height: 60,
+   // borderRadius: 30,
+    //alignItems: "center",
+    //justifyContent: "center",
+    //backgroundColor: "transparent",
+  //},
   wrapperCustom: {
     borderRadius: 8,
     padding: 6,
@@ -245,7 +237,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 10,
     marginBottom: 10,
-    marginLeft: 20,
   },
   item: {
     marginHorizontal: 5,

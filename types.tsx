@@ -39,6 +39,7 @@ export type RootTabParamList = {
   MyProfile: undefined;
   PersonDetails: undefined;
   Home: undefined;
+  MySettings: undefined;
 };
 
 export type LoginParamList = {

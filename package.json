@@ -31,11 +31,13 @@
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
     "react-native-paper": "^4.11.2",
+    "react-native-popup-menu": "^0.15.12",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-swiper": "^1.6.0",
     "react-native-virtualized-view": "^0.1.5",
-    "react-native-web": "0.17.1"
+    "react-native-web": "0.17.1",
+    "react-router-dom": "^6.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
