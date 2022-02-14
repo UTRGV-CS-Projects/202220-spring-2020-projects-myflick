@@ -10,6 +10,7 @@ import {
   VirtualizedList,
   TextInput,
   TextInputProps,
+  Touchable,
 } from "react-native";
 import { ScrollView } from 'react-native-virtualized-view';
 import { Ionicons } from "@expo/vector-icons";
@@ -22,16 +23,8 @@ import Colors from "../constants/Colors";
 import { Chip, DarkTheme } from "react-native-paper";
 import { renderMatches } from "react-router-dom";
 import { black } from "react-native-paper/lib/typescript/styles/colors";
-
-const UselessTextInput = (props: JSX.IntrinsicAttributes & JSX.IntrinsicClassAttributes<TextInput> & Readonly<TextInputProps> & Readonly<{ children?: React.ReactNode; }>) => {
-    return (
-      <TextInput
-        {...props} // Inherit any props passed to it; e.g., multiline, numberOfLines below
-        editable
-        maxLength={40}
-      />
-    );
-  };
+import Icon from "react-native-paper/lib/typescript/components/Icon";
+import { Avatar, Input } from 'react-native-elements';
 
 
 const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
@@ -40,6 +33,9 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
     const [text] = React.useState('Useless Text');
   const [number, onChangeNumber] = React.useState(null);
   const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
+  type AvatarData = {
+    image_url: string;
+  };
     
     return(
     <SafeAreaView style={styles.container}>
@@ -57,7 +53,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
             <Image
               style={styles.image}
               source={{
-                uri: "https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXw0ODI5MTZ8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=60",
+                uri: "https://randomuser.me/api/portraits/women/60.jpg",
               }}
             ></Image>
           </View>
@@ -73,36 +69,47 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
           </View>
         </View>
 
+
         <View style={styles.container}>
-        <View
-      style={{
-        backgroundColor: value,
-        borderBottomColor: 'white',
-        borderBottomWidth: 1,
-      }}>
-      <UselessTextInput
-        multiline
-        numberOfLines={4}
-        onChangeText={(text: React.SetStateAction<string>) => onChangeText(text)}
-        value={value}
-        style={{ padding: 10 }}
-      />
-    </View>
+            <View style={{
+                    borderBottomColor: 'black',
+                    borderBottomWidth: 1,
+                    width:"100%" ,
+            }}></View>
+
+            <View style={styles.viewKs}>
+                <Text style={styles.profileInput}>Name</Text>
+                <Input placeholder="Name"/>
+            </View>
+            
+            <View style={styles.viewKs}>
+                    <Text style={styles.profileInput2}>Pronouns</Text>
+                    <Input placeholder="Pronouns" />
+             </View>
+
+          <View style={styles.viewKs}>
+                <Text style={styles.profileInput3}>Bio</Text> 
+                <Input  placeholder="Bio" multiline={true} /> 
+          </View>
+
+          <View style={styles.viewKs}>
+                <Text style={styles.profileInput4 }>Location</Text>
+                <Input placeholder="Location"/>
+          </View>
+
+          <View style={{
+                    borderBottomColor: 'black',
+                    borderBottomWidth: 1,
+                    width:"100%" 
+                }}></View>
         </View>
-
-
-
-
-
-
-
 
 
         <View style={styles.container}>
             <Text style={styles.sectionHeader}>Photos</Text>
             <View
             style={{
-                borderBottomColor: 'white',
+                borderBottomColor: 'themeColor',
                 borderBottomWidth: 1,
                 marginLeft: 10,
                 marginRight: 10
@@ -110,14 +117,13 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
         
         </View>
 
-        
         <View style={styles.body}>
             <View style={styles.bodyContent}>
 
               <View style={styles.menuBox}>
               <TouchableOpacity  onPress={() => {}}>
                     <Ionicons
-                    name="add-circle"
+                    name="add"
                     size={60}
                     color={"black"}
                     style={styles.icon}></Ionicons>
@@ -127,7 +133,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
               <View style={styles.menuBox}>
               <TouchableOpacity  onPress={() => {}}>
                     <Ionicons
-                    name="add-circle"
+                    name="add"
                     size={60}
                     color={"black"}
                     style={styles.icon}></Ionicons>
@@ -137,7 +143,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
               <View style={styles.menuBox}>
               <TouchableOpacity  onPress={() => {}}>
                     <Ionicons
-                    name="add-circle"
+                    name="add"
                     size={60}
                     color={"black"}
                     style={styles.icon}></Ionicons>
@@ -147,7 +153,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
               <View style={styles.menuBox}>
               <TouchableOpacity  onPress={() => {}}>
                     <Ionicons
-                    name="add-circle"
+                    name="add"
                     size={60}
                     color={"black"}
                     style={styles.icon}></Ionicons>
@@ -157,7 +163,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
               <View style={styles.menuBox}>
               <TouchableOpacity  onPress={() => {}}>
                     <Ionicons
-                    name="add-circle"
+                    name="add"
                     size={60}
                     color={"black"}
                     style={styles.icon}></Ionicons>
@@ -167,7 +173,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
               <View style={styles.menuBox}>
               <TouchableOpacity  onPress={() => {}}>
                     <Ionicons
-                    name="add-circle"
+                    name="add"
                     size={60}
                     color={"black"}
                     style={styles.icon}></Ionicons>
@@ -180,7 +186,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
             <Text style={styles.sectionHeader}>Favorite Movies</Text>
             <View
             style={{
-                borderBottomColor: 'white',
+                borderBottomColor: 'themeColor',
                 borderBottomWidth: 1,
                 marginLeft: 10,
                 marginRight: 10
@@ -193,7 +199,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
               <View style={styles.menuBox}>
                 <TouchableOpacity  onPress={() => {}}>
                 <Ionicons
-                    name="add-circle"
+                    name="add"
                     size={60}
                     color={"black"}
                     style={styles.icon}></Ionicons>
@@ -204,7 +210,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
               <View style={styles.menuBox}>
               <TouchableOpacity  onPress={() => {}}>
                     <Ionicons
-                    name="add-circle"
+                    name="add"
                     size={60}
                     color={"black"}
                     style={styles.icon}></Ionicons>
@@ -215,7 +221,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
               <View style={styles.menuBox}>
               <TouchableOpacity  onPress={() => {}}>
                     <Ionicons
-                    name="add-circle"
+                    name="add"
                     size={60}
                     color={"black"}
                     style={styles.icon}></Ionicons>
@@ -225,7 +231,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
               <View style={styles.menuBox}>
               <TouchableOpacity  onPress={() => {}}>
                     <Ionicons
-                    name="add-circle"
+                    name="add"
                     size={60}
                     color={"black"}
                     style={styles.icon}></Ionicons>
@@ -235,7 +241,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
               <View style={styles.menuBox}>
               <TouchableOpacity  onPress={() => {}}>
                     <Ionicons
-                    name="add-circle"
+                    name="add"
                     size={60}
                     color={"black"}
                     style={styles.icon}></Ionicons>
@@ -245,7 +251,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
               <View style={styles.menuBox}>
               <TouchableOpacity  onPress={() => {}}>
                     <Ionicons
-                    name="add-circle"
+                    name="add"
                     size={60}
                     color={"black"}
                     style={styles.icon}></Ionicons>
@@ -268,6 +274,7 @@ export default MySettings;
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+      marginTop:10,
     },
     titleBar: {
         flexDirection: "row",
@@ -337,7 +344,7 @@ const styles = StyleSheet.create({
         margin:5,
         borderRadius:10,
         //borderStyle: "dashed",
-        //borderColor: "#FD5A60",
+       // borderColor: "#FD5A60",
       },
       icon: {
         width: 55,
@@ -349,10 +356,58 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
       },
-      
+      containerEA: {
+        alignItems: 'center',
+        marginTop: -65,
+      },
+      viewKs: {
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+      },
+      profileInput:{
+        fontSize: 16,
+        marginTop: 20,
+        marginBottom: 10,
+        marginLeft:10,
+        marginRight: 42,
+      },
+      profileInput2:{
+        fontSize: 16,
+        marginTop: 20,
+        marginBottom: 10,
+        marginLeft:10,
+        marginRight: 18,
+      },
+      profileInput3:{
+        fontSize: 16,
+        marginTop: 20,
+        marginBottom: 10,
+        marginLeft:10,
+        marginRight: 60
+      },
+      profileInput4:{
+        fontSize: 16,
+        marginTop: 20,
+        marginBottom: 10,
+        marginLeft:10,
+        marginRight: 25,
+      },
+    
 });
 
 function setText(newText: string): void {
     throw new Error("Function not implemented.");
 }
 
+const genderSelector = [
+    {value: "man", label: "Man"},
+    {value: "woman", label: "Woman"},
+    {value: "other", label: "Other"}
+];
+
+const relationshipStatus = [
+    {value: "single", label: "Single"},
+    {value: "divorced", label: "Divorced"}, 
+    {value: "in a relationship", label: "In a Relationship"},
+    {value: "its complicated", label: "Its Complicated"}
+];
