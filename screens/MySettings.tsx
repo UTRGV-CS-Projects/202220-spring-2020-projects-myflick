@@ -20,24 +20,15 @@ import { themeColor, lightThemeColor } from "../constants/Colors";
 import { MyProfileSections } from "../db/db";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
-import Colors from "../constants/Colors";
-import { Chip, DarkTheme } from "react-native-paper";
-import { renderMatches } from "react-router-dom";
-import { black } from "react-native-paper/lib/typescript/styles/colors";
-import Icon from "react-native-paper/lib/typescript/components/Icon";
 import { Avatar, Input } from 'react-native-elements';
 
 
 const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
-    const colorScheme = useColorScheme();
-    //const [text, setText] = useState('');
-    const [text] = React.useState('Useless Text');
-  const [number, onChangeNumber] = React.useState(null);
-  const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
-  type AvatarData = {
-    image_url: string;
-  };
-    
+const colorScheme = useColorScheme();
+const [text] = React.useState('Useless Text');
+const [number, onChangeNumber] = React.useState(null);
+const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
+  
     return(
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -54,7 +45,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
             <Image
               style={styles.image}
               source={{
-                uri: "https://randomuser.me/api/portraits/men/33.jpg",
+                uri: "https://randomuser.me/api/portraits/men/69.jpg",
               }}
             ></Image>
           </View>
@@ -218,6 +209,13 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
             </View>
             </View>
 
+            <View style={styles.container}>
+                <View>
+                <Text style={styles.chipQuestion}>I am</Text>
+                <Text style={styles.chipQuestion}>Relationship Status</Text>
+                </View>
+            </View>
+
 
        
 
@@ -368,6 +366,11 @@ const styles = StyleSheet.create({
         buttonText: {
         color: "white"
       },
+      chipQuestion:{
+          fontSize: 20,
+          color: themeColor,
+          fontWeight: "bold"
+      }
     
 });
 
