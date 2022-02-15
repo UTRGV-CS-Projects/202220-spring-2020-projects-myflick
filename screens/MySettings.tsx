@@ -11,6 +11,7 @@ import {
   TextInput,
   TextInputProps,
   Touchable,
+  Button,
 } from "react-native";
 import { ScrollView } from 'react-native-virtualized-view';
 import { Ionicons } from "@expo/vector-icons";
@@ -43,7 +44,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
         <View style={styles.titleBar}>
           <TouchableOpacity onPress={() => {}}><Text style={styles.cancelButton}>Cancel</Text>
           </TouchableOpacity>
-          <Text style={styles.title}>Edit Profile</Text> 
+          <Text style={styles.title1}>Edit Profile</Text> 
           <TouchableOpacity onPress={() => {}}>
           <Text style={styles.saveButton}>Save</Text></TouchableOpacity>
         </View>
@@ -53,7 +54,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
             <Image
               style={styles.image}
               source={{
-                uri: "https://randomuser.me/api/portraits/women/60.jpg",
+                uri: "https://randomuser.me/api/portraits/men/33.jpg",
               }}
             ></Image>
           </View>
@@ -71,11 +72,13 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
 
 
         <View style={styles.container}>
+            {/* <View style={styles.line}>
             <View style={{
                     borderBottomColor: 'black',
                     borderBottomWidth: 1,
                     width:"100%" ,
             }}></View>
+            </View> */}
 
             <View style={styles.viewKs}>
                 <Text style={styles.profileInput}>Name</Text>
@@ -97,24 +100,32 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
                 <Input placeholder="Location"/>
           </View>
 
+          {/* <View style={styles.line}>
           <View style={{
                     borderBottomColor: 'black',
                     borderBottomWidth: 1,
                     width:"100%" 
                 }}></View>
+                 </View> */}
         </View>
 
 
         <View style={styles.container}>
+            <View style={styles.photoLine}>
             <Text style={styles.sectionHeader}>Photos</Text>
-            <View
+            <TouchableOpacity onPress={() => {}} style={styles.button}>
+                <Text style={styles.buttonText}>ADD +</Text>
+                </TouchableOpacity>
+            </View>
+             <View
             style={{
                 borderBottomColor: 'themeColor',
                 borderBottomWidth: 1,
                 marginLeft: 10,
                 marginRight: 10
-            }}/>
-        
+            }}>   
+           </View> 
+          
         </View>
 
         <View style={styles.body}>
@@ -140,35 +151,6 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
                 </TouchableOpacity>
               </View>
 
-              <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={() => {}}>
-                    <Ionicons
-                    name="add"
-                    size={60}
-                    color={"black"}
-                    style={styles.icon}></Ionicons>
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={() => {}}>
-                    <Ionicons
-                    name="add"
-                    size={60}
-                    color={"black"}
-                    style={styles.icon}></Ionicons>
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={() => {}}>
-                    <Ionicons
-                    name="add"
-                    size={60}
-                    color={"black"}
-                    style={styles.icon}></Ionicons>
-                </TouchableOpacity>  
-              </View>
 
               <View style={styles.menuBox}>
               <TouchableOpacity  onPress={() => {}}>
@@ -183,7 +165,12 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
             </View>
 
             <View style={styles.container}>
+                <View style={styles.photoLine}> 
             <Text style={styles.sectionHeader}>Favorite Movies</Text>
+            <TouchableOpacity onPress={() => {}} style={styles.button}>
+                <Text style={styles.buttonText}>ADD +</Text>
+                </TouchableOpacity>
+                </View>
             <View
             style={{
                 borderBottomColor: 'themeColor',
@@ -228,35 +215,6 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
                 </TouchableOpacity> 
               </View>
 
-              <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={() => {}}>
-                    <Ionicons
-                    name="add"
-                    size={60}
-                    color={"black"}
-                    style={styles.icon}></Ionicons>
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={() => {}}>
-                    <Ionicons
-                    name="add"
-                    size={60}
-                    color={"black"}
-                    style={styles.icon}></Ionicons>
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={() => {}}>
-                    <Ionicons
-                    name="add"
-                    size={60}
-                    color={"black"}
-                    style={styles.icon}></Ionicons>
-                </TouchableOpacity>
-                </View>
             </View>
             </View>
 
@@ -274,7 +232,7 @@ export default MySettings;
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      marginTop:10,
+      //marginTop:10,
     },
     titleBar: {
         flexDirection: "row",
@@ -282,7 +240,7 @@ const styles = StyleSheet.create({
         marginTop: 7,
         marginHorizontal: 10,
       },
-      title: {
+      title1: {
         fontSize: 20,
         fontWeight: "bold",
         
@@ -336,7 +294,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
       },
       menuBox:{
-        backgroundColor: themeColor,
+        backgroundColor: "#484848",
         width:100,
         height:100,
         alignItems: 'center',
@@ -391,6 +349,24 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginLeft:10,
         marginRight: 25,
+      },
+      //line:{
+         // marginTop: 10,
+          //opacity: .4
+      //},
+      photoLine:{
+          flexDirection: "row",
+          justifyContent: "space-between"
+      },
+      button: {
+        backgroundColor: themeColor,
+        padding: 12,
+        marginRight: 10,
+        marginBottom: 10,
+        borderRadius: 10
+      },
+        buttonText: {
+        color: "white"
       },
     
 });
