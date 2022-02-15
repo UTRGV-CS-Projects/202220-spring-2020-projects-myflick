@@ -9,7 +9,7 @@ import {
   Alert,
   VirtualizedList,
 } from "react-native";
-import { ScrollView } from 'react-native-virtualized-view';
+import { ScrollView } from "react-native-virtualized-view";
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
 import { themeColor, lightThemeColor } from "../constants/Colors";
@@ -40,12 +40,13 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
   const [timesPressed, setTimesPressed] = useState(0);
   const colorScheme = useColorScheme();
 
-  
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.titleBar}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => {
+            
+          }}>
             <Ionicons
               name="settings-outline"
               size={30}
@@ -71,16 +72,6 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
               }}
             ></Image>
           </View>
-          <View style={styles.add}>
-            <TouchableOpacity onPress={() => {}}>
-              <Ionicons
-                name="add-circle-sharp"
-                size={30}
-                color={themeColor}
-                style={{ marginTop: 30, marginLeft: 32 }}
-              ></Ionicons>
-            </TouchableOpacity>
-          </View>
         </View>
 
         <View>
@@ -101,11 +92,10 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
                 {section.horizontal ? (
                   <FlatList
                     horizontal
-                    keyExtractor={(item:any, index) => item.key + index}
+                    keyExtractor={(item: any, index) => item.key + index}
                     data={section.data}
                     renderItem={({ item }) => <ListItem item={item} />}
                     showsHorizontalScrollIndicator={false}
-                   
                   />
                 ) : null}
               </View>
@@ -145,8 +135,8 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
             style={{
               flex: 1,
               flexDirection: "row",
-              flexWrap: "wrap",
               alignItems: "center",
+              flexWrap: "wrap",
             }}
           >
             {myInterests.map((item, index) => {
@@ -177,6 +167,7 @@ export default MyProfile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 10,
   },
   titleBar: {
     flexDirection: "row",
@@ -197,17 +188,17 @@ const styles = StyleSheet.create({
     width: undefined,
     height: undefined,
   },
-  add: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "transparent",
-  },
+  //add: {
+    //position: "absolute",
+   // bottom: 0,
+    //right: 0,
+   //width: 60,
+   // height: 60,
+   // borderRadius: 30,
+    //alignItems: "center",
+    //justifyContent: "center",
+    //backgroundColor: "transparent",
+  //},
   wrapperCustom: {
     borderRadius: 8,
     padding: 6,
@@ -245,7 +236,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 10,
     marginBottom: 10,
-    marginLeft: 20,
   },
   item: {
     marginHorizontal: 5,

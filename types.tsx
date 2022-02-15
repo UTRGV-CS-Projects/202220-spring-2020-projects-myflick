@@ -23,6 +23,8 @@ export type RootStackParamList = {
   Home: undefined;
   Introduction: NavigatorScreenParams<MessageParamList> | undefined;
   Settings: undefined;
+  MySettings: undefined;
+
   Messages: NavigatorScreenParams<MessageParamList> | undefined;
   Root: undefined;
   PersonDetails: NavigatorScreenParams<MessageParamList> | undefined;
@@ -39,6 +41,7 @@ export type RootTabParamList = {
   Introduction: undefined;
   MyProfile: undefined;
   PersonDetails: undefined;
+  MySettings: undefined;
   Home: undefined;
   Match: MatchParamList;
 };
