@@ -21,6 +21,7 @@ import { MyProfileSections } from "../db/db";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import { Avatar, Input } from 'react-native-elements';
+import { Chip } from "react-native-paper";
 
 
 const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
@@ -45,7 +46,7 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
             <Image
               style={styles.image}
               source={{
-                uri: "https://randomuser.me/api/portraits/men/69.jpg",
+                uri: "https://randomuser.me/api/portraits/women/23.jpg",
               }}
             ></Image>
           </View>
@@ -127,7 +128,7 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
                     <Ionicons
                     name="add"
                     size={60}
-                    color={"black"}
+                    color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity>
               </View>
@@ -137,7 +138,7 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
                     <Ionicons
                     name="add"
                     size={60}
-                    color={"black"}
+                    color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity>
               </View>
@@ -148,7 +149,7 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
                     <Ionicons
                     name="add"
                     size={60}
-                    color={"black"}
+                    color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity>
                 </View>
@@ -179,7 +180,7 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
                 <Ionicons
                     name="add"
                     size={60}
-                    color={"black"}
+                    color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity>
                
@@ -190,7 +191,7 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
                     <Ionicons
                     name="add"
                     size={60}
-                    color={"black"}
+                    color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity>
               
@@ -201,7 +202,7 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
                     <Ionicons
                     name="add"
                     size={60}
-                    color={"black"}
+                    color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity> 
               </View>
@@ -209,12 +210,53 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
             </View>
             </View>
 
-            <View style={styles.container}>
-                <View>
-                <Text style={styles.chipQuestion}>I am</Text>
-                <Text style={styles.chipQuestion}>Relationship Status</Text>
+          <View style={styles.container}>
+          <Text style={styles.chipQuestion}>Basic Info</Text>
+          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
+            {basicInfo.map((item, index) => {
+              return (
+                <View key={index} style={{ margin: 5 }}>
+                  <Chip
+                    mode="outlined"
+                    textStyle={{ color: themeColor, fontSize: 15 }}
+                    onPress={() => {
+                         
+                    }}
+                    style={{
+                      borderColor: themeColor,
+                    }}
+                  >
+                    {item}
+                  </Chip>
                 </View>
-            </View>
+              );
+            })}
+          </View>
+
+          <Text style={styles.chipQuestion}>Hobbies & Interests</Text>
+          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap"}}>
+            {myInterests.map((item, index) => {
+              return (
+                <View key={index} style={{ margin: 5 }}>
+                  <Chip
+                    mode="outlined"
+                    textStyle={{ color: themeColor, fontSize: 15 }}
+                    onPress={() => {}}
+                    style={{
+                      borderColor: themeColor,
+                    }}
+                  >
+                    {item}
+                  </Chip>
+                </View>
+              );
+            })}
+          </View>
+
+
+
+
+          </View>
 
 
        
@@ -292,7 +334,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
       },
       menuBox:{
-        backgroundColor: "#484848",
+        backgroundColor: "#D3D3D3",
         width:100,
         height:100,
         alignItems: 'center',
@@ -348,10 +390,6 @@ const styles = StyleSheet.create({
         marginLeft:10,
         marginRight: 25,
       },
-      //line:{
-         // marginTop: 10,
-          //opacity: .4
-      //},
       photoLine:{
           flexDirection: "row",
           justifyContent: "space-between"
@@ -367,9 +405,11 @@ const styles = StyleSheet.create({
         color: "white"
       },
       chipQuestion:{
-          fontSize: 20,
+          fontSize: 15,
           color: themeColor,
-          fontWeight: "bold"
+          fontWeight: "bold",
+          marginLeft: 10,
+          marginTop: 10
       }
     
 });
@@ -378,15 +418,25 @@ function setText(newText: string): void {
     throw new Error("Function not implemented.");
 }
 
-const genderSelector = [
-    {value: "man", label: "Man"},
-    {value: "woman", label: "Woman"},
-    {value: "other", label: "Other"}
+
+const basicInfo = [
+    "Single",
+    "Spiritual",
+    "Voter",
+    "Libra",
+    "Vaccinated",
+    "Mother",
+    "Dog Lover",
+    "ADD +"
 ];
 
-const relationshipStatus = [
-    {value: "single", label: "Single"},
-    {value: "divorced", label: "Divorced"}, 
-    {value: "in a relationship", label: "In a Relationship"},
-    {value: "its complicated", label: "Its Complicated"}
-];
+const myInterests = [
+    "Photography",
+    "Modeling",
+    "Hiking",
+    "Foodie",
+    "Reading",
+    "Wine",
+    "Baking",
+    "ADD +"
+  ];
