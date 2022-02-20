@@ -13,6 +13,48 @@ export interface PeopleDetailsType {
   images?: string[];
 }
 
+export interface MoviesType {
+  id: string;
+  title: string;
+  year: number;
+  image: string;
+  actors: string[];
+  directors: string[];
+  genres: string[];
+  plot: string;
+  rating: number;
+}
+export interface MovieCardType {
+  id: string;
+  title: string;
+  year: number;
+  image: string;
+}
+
+export const MOVIE_CARDS: MovieCardType[] = [
+  {
+    id: "1",
+    title: "Monster House",
+    year: 1994,
+    image:
+      "https://m.media-amazon.com/images/M/MV5BMTIzNjE1NDg1N15BMl5BanBnXkFtZTcwOTg2NTMzMQ@@._V1_FMjpg_UX1000_.jpg",
+  },
+
+  {
+    id: "2",
+    title: "The Matrix",
+    year: 1999,
+    image:
+      "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+  },
+  {
+    id: "3",
+    title: "The Matrix Reloaded",
+    year: 2003,
+    image:
+      "https://m.media-amazon.com/images/M/MV5BODE0MzZhZTgtYzkwYi00YmI5LThlZWYtOWRmNWE5ODk0NzMxXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg",
+  },
+];
 export const People: PeopleDetailsType[] = [
   {
     id: "1",
