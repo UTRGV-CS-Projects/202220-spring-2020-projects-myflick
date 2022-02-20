@@ -109,7 +109,7 @@ export default class MovieSwiping extends React.Component {
 				if (gestureState.dx > 120) {
 					Animated.spring(this.position, {
 						toValue: { x: SCREEN_WIDTH + 100, y: gestureState.dy },
-						useNativeDriver: true,
+						useNativeDriver: false,
 					}).start(() => {
 						this.setState({ currentIndex: this.state.currentIndex + 1 }, () => {
 							this.position.setValue({ x: 0, y: 0 });
@@ -118,7 +118,7 @@ export default class MovieSwiping extends React.Component {
 				} else if (gestureState.dx < -120) {
 					Animated.spring(this.position, {
 						toValue: { x: -SCREEN_WIDTH - 100, y: gestureState.dy },
-						useNativeDriver: true,
+						useNativeDriver: false,
 					}).start(() => {
 						this.setState({ currentIndex: this.state.currentIndex + 1 }, () => {
 							this.position.setValue({ x: 0, y: 0 });
@@ -127,7 +127,7 @@ export default class MovieSwiping extends React.Component {
 				} else if (gestureState.dy < -420) {
 					Animated.spring(this.position, {
 						toValue: { x: gestureState.dx, y: gestureState.dy - 420 },
-						useNativeDriver: true,
+						useNativeDriver: false,
 					}).start(() => {
 						this.setState({ currentIndex: this.state.currentIndex + 1 }, () => {
 							this.position.setValue({ x: 0, y: 0 });
@@ -137,7 +137,7 @@ export default class MovieSwiping extends React.Component {
 					Animated.spring(this.position, {
 						toValue: { x: 0, y: 0 },
 						friction: 4,
-						useNativeDriver: true,
+						useNativeDriver: false,
 					}).start();
 				}
 			},
@@ -220,12 +220,13 @@ export default class MovieSwiping extends React.Component {
 				}
 			}
 		};
+
 		return Users.map((item, i) => {
 			if (i < this.state.currentIndex) {
 				return null;
 			} else if (i == this.state.currentIndex) {
 				return (
-					<View key={"main" + item.i}>
+					<View key={item.id}>
 						<Animated.View
 							{...this.PanResponder.panHandlers}
 							key={item.id}
@@ -366,6 +367,7 @@ export default class MovieSwiping extends React.Component {
 								borderColorx="#FF1D1D"
 								heightx={35}
 								onClick={reject}
+								opacityx={1}
 							/>
 							<Buttonx
 								key={29}
@@ -373,6 +375,7 @@ export default class MovieSwiping extends React.Component {
 								borderColorx="#00A8FF"
 								heightx={25}
 								onClick={maybe}
+								opacityx={1}
 							/>
 							<Buttonx
 								key={30}
@@ -380,6 +383,7 @@ export default class MovieSwiping extends React.Component {
 								borderColorx="#4BDE86"
 								heightx={35}
 								onClick={like}
+								opacityx={1}
 							/>
 						</View>
 					</View>
@@ -390,9 +394,8 @@ export default class MovieSwiping extends React.Component {
 						<Animated.View
 							key={item.id}
 							style={[
+								this.nextCardOpacity,
 								{
-									opacity: this.nextCardOpacity,
-									transform: [{ scale: this.nextCardScale }],
 									height: SCREEN_HEIGHT - 150,
 									width: SCREEN_WIDTH,
 									padding: 10,
@@ -436,8 +439,6 @@ export default class MovieSwiping extends React.Component {
 									})}
 								</View>
 							</View>
-							{/*
-
 							<Animated.View
 								style={{
 									opacity: 0,
@@ -450,7 +451,7 @@ export default class MovieSwiping extends React.Component {
 							>
 								<Text
 									style={{
-										borderWidth: 1,
+										borderWidth: 2,
 										borderColor: "#1CE108",
 										color: "#1CE108",
 										fontSize: 32,
@@ -474,7 +475,7 @@ export default class MovieSwiping extends React.Component {
 							>
 								<Text
 									style={{
-										borderWidth: 1,
+										borderWidth: 2,
 										borderColor: "#00A8FF",
 										color: "#00A8FF",
 										fontSize: 32,
@@ -498,7 +499,7 @@ export default class MovieSwiping extends React.Component {
 							>
 								<Text
 									style={{
-										borderWidth: 1,
+										borderWidth: 2,
 										borderColor: "red",
 										color: "red",
 										fontSize: 32,
@@ -509,7 +510,6 @@ export default class MovieSwiping extends React.Component {
 									NOPE
 								</Text>
 							</Animated.View>
-							*/}
 
 							<Image
 								style={{
@@ -523,30 +523,32 @@ export default class MovieSwiping extends React.Component {
 							/>
 						</Animated.View>
 
-						{/*<View style={styles.buttonsRow} key={"button" + item.id}>
+						<View style={styles.buttonsRow} key={"button" + item.id}>
 							<Buttonx
 								key={98}
-								imgSrc={require("../components/swipingComponents/Image/red-x.png")}
+								imgSrc={require("../components/swipingComponents/Image/red-x.webp")}
 								borderColorx="#FF1D1D"
 								heightx={35}
 								onClick={reject}
+								opacityx={0}
 							/>
 							<Buttonx
 								key={29}
-								imgSrc={require("../components/swipingComponents/Image/blue-star.png")}
+								imgSrc={require("../components/swipingComponents/Image/blue-star.webp")}
 								borderColorx="#00A8FF"
 								heightx={25}
 								onClick={maybe}
+								opacityx={0}
 							/>
 							<Buttonx
 								key={30}
-								imgSrc={require("../components/swipingComponents/Image/green-heart.png")}
+								imgSrc={require("../components/swipingComponents/Image/green-heart.webp")}
 								borderColorx="#4BDE86"
 								heightx={35}
 								onClick={like}
+								opacityx={0}
 							/>
 						</View>
-							*/}
 					</View>
 				);
 			}

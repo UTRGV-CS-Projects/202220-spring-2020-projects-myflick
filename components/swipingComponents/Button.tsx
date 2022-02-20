@@ -9,14 +9,19 @@ import {
 } from "react-native";
 import { View } from "react-native";
 
-const Buttonx = ({ imgSrc, borderColorx, heightx, onClick }) => {
+const Buttonx = ({ imgSrc, borderColorx, heightx, onClick, opacityx }) => {
 	//color: require()
 	return (
 		<TouchableOpacity
 			onPressIn={onClick}
 			style={{ paddingLeft: 30, zIndex: 51 }}
 		>
-			<View style={[styles.buttonBorder, { borderColor: borderColorx }]}>
+			<View
+				style={[
+					styles.buttonBorder,
+					{ borderColor: borderColorx, opacity: opacityx },
+				]}
+			>
 				<Image
 					style={([styles.image], { height: heightx, width: heightx })}
 					source={imgSrc}
