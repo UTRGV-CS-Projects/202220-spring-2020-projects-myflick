@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Image,
-  Pressable,
   TouchableOpacity,
   FlatList,
   SectionList,
-  Alert,
-  VirtualizedList,
 } from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
 import { Ionicons } from "@expo/vector-icons";
@@ -44,9 +41,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.titleBar}>
-          <TouchableOpacity onPress={() => {
-            
-          }}>
+          <TouchableOpacity onPress={() => {}}>
             <Ionicons
               name="settings-outline"
               size={30}
@@ -189,15 +184,15 @@ const styles = StyleSheet.create({
     height: undefined,
   },
   //add: {
-    //position: "absolute",
-   // bottom: 0,
-    //right: 0,
-   //width: 60,
-   // height: 60,
-   // borderRadius: 30,
-    //alignItems: "center",
-    //justifyContent: "center",
-    //backgroundColor: "transparent",
+  //position: "absolute",
+  // bottom: 0,
+  //right: 0,
+  //width: 60,
+  // height: 60,
+  // borderRadius: 30,
+  //alignItems: "center",
+  //justifyContent: "center",
+  //backgroundColor: "transparent",
   //},
   wrapperCustom: {
     borderRadius: 8,
