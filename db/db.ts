@@ -27,6 +27,7 @@ export interface MoviesType {
 export interface MovieCardType {
   id: string;
   title: string;
+  genres: string[];
   year: number;
   image: string;
 }
@@ -36,6 +37,7 @@ export const MOVIE_CARDS: MovieCardType[] = [
     id: "1",
     title: "Monster House",
     year: 1994,
+    genres: ["Comedy", "Horror"],
     image:
       "https://m.media-amazon.com/images/M/MV5BMTIzNjE1NDg1N15BMl5BanBnXkFtZTcwOTg2NTMzMQ@@._V1_FMjpg_UX1000_.jpg",
   },
@@ -44,6 +46,7 @@ export const MOVIE_CARDS: MovieCardType[] = [
     id: "2",
     title: "The Matrix",
     year: 1999,
+    genres: ["Action", "Sci-Fi"],
     image:
       "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
   },
@@ -51,8 +54,17 @@ export const MOVIE_CARDS: MovieCardType[] = [
     id: "3",
     title: "The Matrix Reloaded",
     year: 2003,
+    genres: ["Action", "Sci-Fi"],
     image:
       "https://m.media-amazon.com/images/M/MV5BODE0MzZhZTgtYzkwYi00YmI5LThlZWYtOWRmNWE5ODk0NzMxXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg",
+  },
+  {
+    id: "4",
+    title: "The Matrix Revolutions",
+    year: 2003,
+    genres: ["Action", "Sci-Fi"],
+    image:
+      "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
   },
 ];
 export const People: PeopleDetailsType[] = [
