@@ -29,6 +29,7 @@ export type RootStackParamList = {
   Root: undefined;
   PersonDetails: NavigatorScreenParams<MessageParamList> | undefined;
   Match: MatchParamList;
+  MovieDetails: MatchParamList;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
@@ -44,6 +45,7 @@ export type RootTabParamList = {
   MySettings: undefined;
   Home: undefined;
   Match: MatchParamList;
+  MovieDetails: undefined;
 };
 
 export type LoginParamList = {
