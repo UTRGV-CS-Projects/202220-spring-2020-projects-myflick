@@ -29,7 +29,7 @@ export type RootStackParamList = {
   Root: undefined;
   PersonDetails: NavigatorScreenParams<MessageParamList> | undefined;
   Match: MatchParamList;
-  MovieDetails: MatchParamList;
+  MovieDetails: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

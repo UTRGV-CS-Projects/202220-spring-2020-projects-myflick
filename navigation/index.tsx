@@ -30,6 +30,7 @@ import {
   RootTabScreenProps,
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
+import MovieDetails from "../screens/MovieDetails";
 
 export default function Navigation({
   colorScheme,
@@ -165,8 +166,28 @@ function BottomTabNavigator() {
           ),
         })}
       />
-    
-    <BottomTab.Screen
+
+      <BottomTab.Screen
+        name="MovieDetails"
+        component={MovieDetails}
+        options={({ navigation }: RootTabScreenProps<"MovieDetails">) => ({
+          title: "",
+          tabBarAccessibilityLabel: "MovieDetails",
+          tabBarTestID: "MovieDetails",
+          tabBarIcon: ({ color }) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("MovieDetails");
+              }}
+              accessibilityRole="button"
+            >
+              <Ionicons name="person-outline" size={30} color={color} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+
+      <BottomTab.Screen
         name="MySettings"
         component={MySettings}
         options={({ navigation }: RootTabScreenProps<"MySettings">) => ({
@@ -185,8 +206,6 @@ function BottomTabNavigator() {
           ),
         })}
       />
-
-
-  </BottomTab.Navigator>
+    </BottomTab.Navigator>
   );
 }
