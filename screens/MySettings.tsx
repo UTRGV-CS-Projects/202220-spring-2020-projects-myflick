@@ -46,7 +46,7 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
             <Image
               style={styles.image}
               source={{
-                uri: "https://randomuser.me/api/portraits/women/23.jpg",
+                uri: "https://randomuser.me/api/portraits/women/50.jpg",
               }}
             ></Image>
           </View>

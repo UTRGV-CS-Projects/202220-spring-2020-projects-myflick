@@ -68,7 +68,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
             <Image
               style={styles.image}
               source={{
-                uri: "https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXw0ODI5MTZ8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=60",
+                uri: "https://randomuser.me/api/portraits/women/50.jpg",
               }}
             ></Image>
           </View>
