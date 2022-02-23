@@ -26,16 +26,25 @@ export type RootStackParamList = {
 	Settings: undefined;
 	MySettings: undefined;
 
+<<<<<<< HEAD
 	Messages: NavigatorScreenParams<MessageParamList> | undefined;
 	Root: undefined;
 	PersonDetails: NavigatorScreenParams<MessageParamList> | undefined;
 	Match: MatchParamList;
+=======
+  Messages: NavigatorScreenParams<MessageParamList> | undefined;
+  Root: undefined;
+  PersonDetails: NavigatorScreenParams<MessageParamList> | undefined;
+  Match: MatchParamList;
+  MovieDetails: undefined;
+>>>>>>> MovieDetails
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
 	NativeStackScreenProps<RootStackParamList, Screen>;
 
 export type RootTabParamList = {
+<<<<<<< HEAD
 	TabOne: { id: string };
 	TabTwo: undefined;
 	Messages: undefined;
@@ -46,6 +55,18 @@ export type RootTabParamList = {
 	MySettings: undefined;
 	Home: undefined;
 	Match: MatchParamList;
+=======
+  TabOne: { id: string };
+  TabTwo: undefined;
+  Messages: undefined;
+  Introduction: undefined;
+  MyProfile: undefined;
+  PersonDetails: undefined;
+  MySettings: undefined;
+  Home: undefined;
+  Match: MatchParamList;
+  MovieDetails: undefined;
+>>>>>>> MovieDetails
 };
 
 export type LoginParamList = {

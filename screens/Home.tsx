@@ -1,8 +1,14 @@
 import { StyleSheet } from "react-native";
 import React from "react";
 import { RootStackScreenProps } from "../types";
+<<<<<<< HEAD
 import { Text, SafeAreaView } from "../components/Themed";
+=======
+import { View, Text, SafeAreaView } from "../components/Themed";
+
+>>>>>>> MovieDetails
 const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
+
   const handleDetailsPress = () => {
     navigation.navigate("PersonDetails");
   };
@@ -17,12 +23,17 @@ const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
     });
   };
 
-  return (
+  const handleMovieDetails = () => {
+    navigation.navigate("MovieDetails");
+  }
+
+  return ( 
     <SafeAreaView
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
       <Text onPress={handleDetailsPress}>Sara Banks</Text>
       <Text onPress={handleMatch}>Match</Text>
+      <Text onPress={handleMovieDetails}>Movie Details</Text>
     </SafeAreaView>
   );
 };

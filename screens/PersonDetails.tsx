@@ -8,6 +8,8 @@ import { EvilIcons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
 import LottieView from "lottie-react-native";
 import ImagesSlider from "../components/PersonDetails/ImagesSlider";
+
+
 const PersonDetails = ({
   navigation,
 }: RootStackScreenProps<"PersonDetails">) => {
