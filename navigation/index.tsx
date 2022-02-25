@@ -13,7 +13,7 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { ColorSchemeName, Pressable, TouchableOpacity } from "react-native";
-
+import { useState, useEffect } from "react";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import Home from "../screens/Home";
@@ -33,6 +33,7 @@ import {
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
 import MovieSwiping2 from "../screens/MovieSwiping2";
+import { Auth, Hub } from "aws-amplify";
 
 export default function Navigation({
   colorScheme,
@@ -71,9 +72,35 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
+      switch (event) {
+        case "signIn":
+          setUser(data);
+          break;
+        case "signOut":
+          setUser(null);
+          break;
+        default:
+      }
+    });
+
+    Auth.currentAuthenticatedUser()
+      .then((currentUser) => setUser(currentUser))
+      .catch(() => console.log("Not signed in"));
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    console.log("User: ", user);
+  }, [user]);
 
   return (
     <BottomTab.Navigator
+      initialRouteName="Introduction"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: Colors[colorScheme].lightTint,

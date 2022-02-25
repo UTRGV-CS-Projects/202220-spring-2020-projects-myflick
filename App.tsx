@@ -5,11 +5,11 @@ import awsconfig from "./src/aws-exports";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
-Amplify.configure(awsconfig);
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
+  Amplify.configure(awsconfig);
 
   if (!isLoadingComplete) {
     return null;
