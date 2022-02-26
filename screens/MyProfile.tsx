@@ -21,6 +21,7 @@ import { Chip } from "react-native-paper";
 import { Auth, Hub } from "aws-amplify";
 import { AuthContext } from "../store/AuthContext";
 import { UserActionTypes } from "../store/actions/actionTypes";
+import { handleLogOut } from "../store/actions/userActions";
 
 const ListItem = ({ item }: { item: any }) => {
   return (
@@ -42,16 +43,7 @@ const ListItem = ({ item }: { item: any }) => {
 const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
   const [timesPressed, setTimesPressed] = useState(0);
   const colorScheme = useColorScheme();
-  const user = useContext(AuthContext);
-
-  async function signOut() {
-    try {
-      await Auth.signOut();
-      user.dispatch({ type: UserActionTypes.LOG_OUT });
-    } catch (error) {
-      console.log("error signing out: ", error);
-    }
-  }
+  const { user, dispatch } = useContext(AuthContext);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -65,7 +57,11 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
             ></Ionicons>
           </TouchableOpacity>
           <Text style={styles.title}>Profile</Text>
-          <TouchableOpacity onPress={signOut}>
+          <TouchableOpacity
+            onPress={() => {
+              handleLogOut(dispatch);
+            }}
+          >
             <Ionicons
               name="share-outline"
               size={30}

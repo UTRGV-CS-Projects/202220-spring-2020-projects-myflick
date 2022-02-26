@@ -39,3 +39,12 @@ export const setUser = async (dispatch: Dispatch<UserAction>) => {
     console.log(error);
   }
 };
+
+export const handleLogOut = async (dispatch: Dispatch<UserAction>) => {
+  try {
+    await Auth.signOut();
+    dispatch({ type: UserActionTypes.LOG_OUT });
+  } catch (error) {
+    console.log(error);
+  }
+};

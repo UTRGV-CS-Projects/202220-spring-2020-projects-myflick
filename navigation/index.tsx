@@ -60,9 +60,19 @@ export default function Navigation({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const { user, dispatch } = useContext(AuthContext);
+
+  useEffect(() => {
+    console.log("UserState: ", user);
+  }, [user]);
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
+      {user.loggedIn ? (
+        <Stack.Screen name="Root" component={BottomTabNavigator} />
+      ) : (
+        <Stack.Screen name="Introduction" component={Introduction} />
+      )}
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="PersonDetails" component={PersonDetails} />
       </Stack.Group>
@@ -104,21 +114,8 @@ function BottomTabNavigator() {
       }
     });
 
-    userInfo();
-
     return unsubscribe;
   }, []);
-
-  const userInfo = async () => {
-    try {
-      /* let userInfo = await Auth.currentAuthenticatedUser();
-      console.log("userrr", userInfo);
-      const { attributes } = userInfo;
-      console.log("Amplify Attributes: ", attributes); */
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
     console.log("UserState: ", user);
@@ -126,7 +123,7 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Introduction"
+      initialRouteName="MyProfile"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: Colors[colorScheme].lightTint,
@@ -160,25 +157,6 @@ function BottomTabNavigator() {
               />
             </Pressable>
           ), */
-        })}
-      />
-      <BottomTab.Screen
-        name="Introduction"
-        component={Introduction}
-        options={({ navigation }: RootTabScreenProps<"Introduction">) => ({
-          title: "",
-          tabBarAccessibilityLabel: "Introduction",
-          tabBarTestID: "IntroductionTab",
-          tabBarIcon: ({ color }) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Introduction");
-              }}
-              accessibilityRole="button"
-            >
-              <Ionicons name="logo-ionic" size={30} color={color} />
-            </TouchableOpacity>
-          ),
         })}
       />
 

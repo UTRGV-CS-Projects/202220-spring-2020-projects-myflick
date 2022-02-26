@@ -55,6 +55,7 @@ const reducer = (user: ProfileType = initialState, action: UserAction) => {
       const newUser = action.payload as ProfileType;
       return {
         ...newUser,
+        loggedIn: true,
       };
     default:
       return user;
