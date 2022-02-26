@@ -5,6 +5,7 @@
  */
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useContext } from "react";
 import {
   NavigationContainer,
   DefaultTheme,
@@ -25,7 +26,7 @@ import MyProfile from "../screens/MyProfile";
 import PersonDetails from "../screens/PersonDetails";
 import MySettings from "../screens/MySettings";
 import MovieSwiping from "../screens/MovieSwiping";
-
+import { UserActionTypes } from "../context/AuthContext";
 import {
   RootStackParamList,
   RootTabParamList,
@@ -34,6 +35,7 @@ import {
 import LinkingConfiguration from "./LinkingConfiguration";
 import MovieSwiping2 from "../screens/MovieSwiping2";
 import { Auth, Hub } from "aws-amplify";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Navigation({
   colorScheme,
@@ -72,7 +74,7 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-  const [user, setUser] = useState(null);
+  const user = useContext(AuthContext);
 
   useEffect(() => {
     const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
@@ -107,9 +109,11 @@ function BottomTabNavigator() {
 
   const userInfo = async () => {
     try {
-      let user = await Auth.currentAuthenticatedUser();
-      console.log("user", user);
-      const { attributes } = user;
+      let userInfo = await Auth.currentAuthenticatedUser();
+      console.log("user", userInfo);
+      const { attributes } = userInfo;
+
+      user.dispatch({ type: UserActionTypes.LOG_IN });
 
       console.log("attributes", attributes);
     } catch (error) {
@@ -118,8 +122,12 @@ function BottomTabNavigator() {
   };
 
   useEffect(() => {
-    console.log("User: ", user);
+    console.log("Amplify User: ", user);
   }, [user]);
+
+  useEffect(() => {
+    console.log("UserState: ", user.state);
+  }, [user.state]);
 
   return (
     <BottomTab.Navigator

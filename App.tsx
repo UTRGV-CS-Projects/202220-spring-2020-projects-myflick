@@ -5,6 +5,7 @@ import awsconfig from "./src/aws-exports";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
+import { AuthContextProvider } from "./context/AuthContext";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -16,8 +17,10 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <StatusBar />
-        <Navigation colorScheme={colorScheme} />
+        <AuthContextProvider>
+          <StatusBar />
+          <Navigation colorScheme={colorScheme} />
+        </AuthContextProvider>
       </SafeAreaProvider>
     );
   }

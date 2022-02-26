@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   StyleSheet,
   Image,
@@ -19,6 +19,7 @@ import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import { Chip } from "react-native-paper";
 import { Auth, Hub } from "aws-amplify";
+import { AuthContext, UserActionTypes } from "../context/AuthContext";
 
 const ListItem = ({ item }: { item: any }) => {
   return (
@@ -40,10 +41,12 @@ const ListItem = ({ item }: { item: any }) => {
 const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
   const [timesPressed, setTimesPressed] = useState(0);
   const colorScheme = useColorScheme();
+  const user = useContext(AuthContext);
 
   async function signOut() {
     try {
       await Auth.signOut();
+      user.dispatch({ type: UserActionTypes.LOG_OUT });
     } catch (error) {
       console.log("error signing out: ", error);
     }
