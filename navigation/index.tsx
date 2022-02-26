@@ -26,7 +26,7 @@ import MyProfile from "../screens/MyProfile";
 import PersonDetails from "../screens/PersonDetails";
 import MySettings from "../screens/MySettings";
 import MovieSwiping from "../screens/MovieSwiping";
-import { UserActionTypes } from "../context/AuthContext";
+import { UserActionTypes } from "../store/actions/actionTypes";
 import {
   RootStackParamList,
   RootTabParamList,
@@ -35,7 +35,8 @@ import {
 import LinkingConfiguration from "./LinkingConfiguration";
 import MovieSwiping2 from "../screens/MovieSwiping2";
 import { Auth, Hub } from "aws-amplify";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../store/AuthContext";
+import { setUser } from "../store/actions/userActions";
 
 export default function Navigation({
   colorScheme,
@@ -74,13 +75,14 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-  const user = useContext(AuthContext);
+  const { user, dispatch } = useContext(AuthContext);
 
   useEffect(() => {
     const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
       switch (event) {
         case "signIn":
           console.log("user signed in");
+          setUser(dispatch);
           break;
         case "signUp":
           console.log("user signed up");
@@ -109,25 +111,18 @@ function BottomTabNavigator() {
 
   const userInfo = async () => {
     try {
-      let userInfo = await Auth.currentAuthenticatedUser();
-      console.log("user", userInfo);
+      /* let userInfo = await Auth.currentAuthenticatedUser();
+      console.log("userrr", userInfo);
       const { attributes } = userInfo;
-
-      user.dispatch({ type: UserActionTypes.LOG_IN });
-
-      console.log("attributes", attributes);
+      console.log("Amplify Attributes: ", attributes); */
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    console.log("Amplify User: ", user);
+    console.log("UserState: ", user);
   }, [user]);
-
-  useEffect(() => {
-    console.log("UserState: ", user.state);
-  }, [user.state]);
 
   return (
     <BottomTab.Navigator

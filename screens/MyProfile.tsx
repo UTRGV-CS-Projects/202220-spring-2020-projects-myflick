@@ -19,7 +19,8 @@ import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import { Chip } from "react-native-paper";
 import { Auth, Hub } from "aws-amplify";
-import { AuthContext, UserActionTypes } from "../context/AuthContext";
+import { AuthContext } from "../store/AuthContext";
+import { UserActionTypes } from "../store/actions/actionTypes";
 
 const ListItem = ({ item }: { item: any }) => {
   return (
