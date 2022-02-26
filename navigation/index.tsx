@@ -78,21 +78,44 @@ function BottomTabNavigator() {
     const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
       switch (event) {
         case "signIn":
-          setUser(data);
+          console.log("user signed in");
+          break;
+        case "signUp":
+          console.log("user signed up");
           break;
         case "signOut":
-          setUser(null);
+          console.log("user signed out");
           break;
-        default:
+        case "signIn_failure":
+          console.log("user sign in failed");
+          break;
+        case "tokenRefresh":
+          console.log("token refresh succeeded");
+          break;
+        case "tokenRefresh_failure":
+          console.log("token refresh failed");
+          break;
+        case "configured":
+          console.log("the Auth module is configured");
       }
     });
 
-    Auth.currentAuthenticatedUser()
-      .then((currentUser) => setUser(currentUser))
-      .catch(() => console.log("Not signed in"));
+    userInfo();
 
     return unsubscribe;
   }, []);
+
+  const userInfo = async () => {
+    try {
+      let user = await Auth.currentAuthenticatedUser();
+      console.log("user", user);
+      const { attributes } = user;
+
+      console.log("attributes", attributes);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     console.log("User: ", user);

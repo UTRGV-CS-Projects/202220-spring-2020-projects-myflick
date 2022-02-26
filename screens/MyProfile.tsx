@@ -18,6 +18,7 @@ import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import { Chip } from "react-native-paper";
+import { Auth, Hub } from "aws-amplify";
 
 const ListItem = ({ item }: { item: any }) => {
   return (
@@ -40,13 +41,19 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
   const [timesPressed, setTimesPressed] = useState(0);
   const colorScheme = useColorScheme();
 
+  async function signOut() {
+    try {
+      await Auth.signOut();
+    } catch (error) {
+      console.log("error signing out: ", error);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.titleBar}>
-          <TouchableOpacity onPress={() => {
-            
-          }}>
+          <TouchableOpacity onPress={() => {}}>
             <Ionicons
               name="settings-outline"
               size={30}
@@ -54,7 +61,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
             ></Ionicons>
           </TouchableOpacity>
           <Text style={styles.title}>Profile</Text>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={signOut}>
             <Ionicons
               name="share-outline"
               size={30}
@@ -189,15 +196,15 @@ const styles = StyleSheet.create({
     height: undefined,
   },
   //add: {
-    //position: "absolute",
-   // bottom: 0,
-    //right: 0,
-   //width: 60,
-   // height: 60,
-   // borderRadius: 30,
-    //alignItems: "center",
-    //justifyContent: "center",
-    //backgroundColor: "transparent",
+  //position: "absolute",
+  // bottom: 0,
+  //right: 0,
+  //width: 60,
+  // height: 60,
+  // borderRadius: 30,
+  //alignItems: "center",
+  //justifyContent: "center",
+  //backgroundColor: "transparent",
   //},
   wrapperCustom: {
     borderRadius: 8,
