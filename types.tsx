@@ -28,6 +28,7 @@ export type RootStackParamList = {
   MySettings: undefined;
   Messages: NavigatorScreenParams<MessageParamList> | undefined;
   Root: undefined;
+  MovieDetails: undefined;
   PersonDetails: NavigatorScreenParams<PersonDetailsParamsList> | undefined;
   Match: MatchParamList;
 };
