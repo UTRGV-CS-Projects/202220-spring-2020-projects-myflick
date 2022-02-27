@@ -47,6 +47,7 @@ export type RootTabParamList = {
   MySettings: undefined;
   Home: undefined;
   Match: MatchParamList;
+  MovieDetails: undefined;
 };
 
 export type LoginParamList = {

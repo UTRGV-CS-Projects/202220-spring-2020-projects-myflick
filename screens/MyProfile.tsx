@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Image,
-  Pressable,
   TouchableOpacity,
   FlatList,
   SectionList,
-  Alert,
-  VirtualizedList,
 } from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
 import { Ionicons } from "@expo/vector-icons";
