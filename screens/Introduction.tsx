@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useContext, useEffect, useState } from "react";
 import {
   Platform,
   Image,
@@ -15,17 +15,15 @@ import Swiper from "react-native-swiper";
 import Amplify, { Auth, Hub } from "aws-amplify";
 import * as WebBrowser from "expo-web-browser";
 import awsconfig from "../src/aws-exports";
-
-import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
 import { RootStackScreenProps } from "../types";
-
+import {
+  handleLogInFaceBook,
+  handleLogInGoogle,
+} from "../store/actions/userActions";
+import { AuthContext } from "../store/AuthContext";
 const Introduction = ({ navigation }: RootStackScreenProps<"Introduction">) => {
-  const handleFacebookLogin = async () => {};
-  const handleGoogleLogin = async () => {
-    return Auth.federatedSignIn({
-      provider: CognitoHostedUIIdentityProvider.Google,
-    });
-  };
+  const { dispatch } = useContext(AuthContext);
+
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.header}>
@@ -86,11 +84,18 @@ const Introduction = ({ navigation }: RootStackScreenProps<"Introduction">) => {
         <MaterialCommunityIcons.Button
           name="facebook"
           backgroundColor="#3b5998"
-          onPress={handleFacebookLogin}
+          onPress={() => {
+            handleLogInFaceBook(dispatch);
+          }}
         >
           Login with Facebook
         </MaterialCommunityIcons.Button>
-        <FontAwesome5.Button name="google" onPress={handleGoogleLogin}>
+        <FontAwesome5.Button
+          name="google"
+          onPress={() => {
+            handleLogInGoogle(dispatch);
+          }}
+        >
           Login with Google
         </FontAwesome5.Button>
       </View>

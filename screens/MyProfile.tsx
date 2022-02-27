@@ -16,7 +16,9 @@ import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import { Chip } from "react-native-paper";
 import { Auth, Hub } from "aws-amplify";
-import { AuthContext, UserActionTypes } from "../context/AuthContext";
+import { AuthContext } from "../store/AuthContext";
+import { UserActionTypes } from "../store/actions/actionTypes";
+import { handleLogOut } from "../store/actions/userActions";
 
 const ListItem = ({ item }: { item: any }) => {
   return (
@@ -38,16 +40,7 @@ const ListItem = ({ item }: { item: any }) => {
 const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
   const [timesPressed, setTimesPressed] = useState(0);
   const colorScheme = useColorScheme();
-  const user = useContext(AuthContext);
-
-  async function signOut() {
-    try {
-      await Auth.signOut();
-      user.dispatch({ type: UserActionTypes.LOG_OUT });
-    } catch (error) {
-      console.log("error signing out: ", error);
-    }
-  }
+  const { user, dispatch } = useContext(AuthContext);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,7 +54,11 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
             ></Ionicons>
           </TouchableOpacity>
           <Text style={styles.title}>Profile</Text>
-          <TouchableOpacity onPress={signOut}>
+          <TouchableOpacity
+            onPress={() => {
+              handleLogOut(dispatch);
+            }}
+          >
             <Ionicons
               name="share-outline"
               size={30}
@@ -75,14 +72,14 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
             <Image
               style={styles.image}
               source={{
-                uri: "https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXw0ODI5MTZ8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=60",
+                uri: user.picture,
               }}
             ></Image>
           </View>
         </View>
 
         <View>
-          <Text style={styles.name}>Ashley Nicole</Text>
+          <Text style={styles.name}>{user.name}</Text>
           <Text style={styles.bio}>Quantico, VA | 23 | Film Maker</Text>
         </View>
 

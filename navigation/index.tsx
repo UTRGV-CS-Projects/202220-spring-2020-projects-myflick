@@ -26,7 +26,7 @@ import MyProfile from "../screens/MyProfile";
 import PersonDetails from "../screens/PersonDetails";
 import MySettings from "../screens/MySettings";
 import MovieSwiping from "../screens/MovieSwiping";
-import { UserActionTypes } from "../context/AuthContext";
+import { UserActionTypes } from "../store/actions/actionTypes";
 import {
   RootStackParamList,
   RootTabParamList,
@@ -35,7 +35,8 @@ import {
 import LinkingConfiguration from "./LinkingConfiguration";
 import MovieSwiping2 from "../screens/MovieSwiping2";
 import { Auth, Hub } from "aws-amplify";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../store/AuthContext";
+import { setUser } from "../store/actions/userActions";
 
 export default function Navigation({
   colorScheme,
@@ -59,9 +60,19 @@ export default function Navigation({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const { user, dispatch } = useContext(AuthContext);
+
+  useEffect(() => {
+    console.log("UserState: ", user);
+  }, [user]);
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
+      {user.loggedIn ? (
+        <Stack.Screen name="Root" component={BottomTabNavigator} />
+      ) : (
+        <Stack.Screen name="Introduction" component={Introduction} />
+      )}
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="PersonDetails" component={PersonDetails} />
       </Stack.Group>
@@ -74,13 +85,14 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-  const user = useContext(AuthContext);
+  const { user, dispatch } = useContext(AuthContext);
 
   useEffect(() => {
     const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
       switch (event) {
         case "signIn":
           console.log("user signed in");
+          setUser(dispatch);
           break;
         case "signUp":
           console.log("user signed up");
@@ -102,36 +114,16 @@ function BottomTabNavigator() {
       }
     });
 
-    userInfo();
-
     return unsubscribe;
   }, []);
 
-  const userInfo = async () => {
-    try {
-      let userInfo = await Auth.currentAuthenticatedUser();
-      console.log("user", userInfo);
-      const { attributes } = userInfo;
-
-      user.dispatch({ type: UserActionTypes.LOG_IN });
-
-      console.log("attributes", attributes);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    console.log("Amplify User: ", user);
+    console.log("UserState: ", user);
   }, [user]);
-
-  useEffect(() => {
-    console.log("UserState: ", user.state);
-  }, [user.state]);
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Introduction"
+      initialRouteName="MyProfile"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: Colors[colorScheme].lightTint,
@@ -165,25 +157,6 @@ function BottomTabNavigator() {
               />
             </Pressable>
           ), */
-        })}
-      />
-      <BottomTab.Screen
-        name="Introduction"
-        component={Introduction}
-        options={({ navigation }: RootTabScreenProps<"Introduction">) => ({
-          title: "",
-          tabBarAccessibilityLabel: "Introduction",
-          tabBarTestID: "IntroductionTab",
-          tabBarIcon: ({ color }) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Introduction");
-              }}
-              accessibilityRole="button"
-            >
-              <Ionicons name="logo-ionic" size={30} color={color} />
-            </TouchableOpacity>
-          ),
         })}
       />
 
