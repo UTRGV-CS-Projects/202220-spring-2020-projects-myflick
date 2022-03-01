@@ -252,15 +252,7 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
               );
             })}
           </View>
-
-
-
-
           </View>
-
-
-       
-
       </ScrollView>
       </SafeAreaView>
     );

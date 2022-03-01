@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Component } from "react";
 import {
   StyleSheet,
   Image,
@@ -36,6 +36,7 @@ const ListItem = ({ item }: { item: any }) => {
   );
 };
 
+
 const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
   const [timesPressed, setTimesPressed] = useState(0);
   const colorScheme = useColorScheme();
@@ -53,7 +54,9 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
               color={Colors[colorScheme].opposite}
             ></Ionicons>
           </TouchableOpacity>
+
           <Text style={styles.title}>Profile</Text>
+
           <TouchableOpacity onPress={() => {}}>
             <Ionicons
               name="share-outline"
@@ -266,7 +269,14 @@ const styles = StyleSheet.create({
   location:{
     flexDirection: "row",
     justifyContent: "center"
-  }
+  },
+  menuContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 50,
+    backgroundColor: '#ecf0f1',
+  },
 });
 
 const myInterests = [
@@ -288,3 +298,7 @@ const basicInfo = [
   "Mother",
   "Dog Lover",
 ];
+function render() {
+  throw new Error("Function not implemented.");
+}
+
