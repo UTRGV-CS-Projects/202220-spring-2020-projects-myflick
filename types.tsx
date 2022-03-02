@@ -21,13 +21,15 @@ export type RootStackParamList = {
   Login: NavigatorScreenParams<LoginParamList> | undefined;
   MyProfile: NavigatorScreenParams<MyProfileList> | undefined;
   Home: undefined;
-  Introduction: NavigatorScreenParams<MessageParamList> | undefined;
+  Introduction: NavigatorScreenParams<IntroductionParamsList> | undefined;
+  MovieSwiping: undefined;
+  MovieSwiping2: NavigatorScreenParams<MovieParamsList> | undefined;
   Settings: undefined;
   MySettings: undefined;
-
   Messages: NavigatorScreenParams<MessageParamList> | undefined;
   Root: undefined;
-  PersonDetails: NavigatorScreenParams<MessageParamList> | undefined;
+  MovieDetails: undefined;
+  PersonDetails: NavigatorScreenParams<PersonDetailsParamsList> | undefined;
   Match: MatchParamList;
 };
 
@@ -40,10 +42,13 @@ export type RootTabParamList = {
   Messages: undefined;
   Introduction: undefined;
   MyProfile: undefined;
+  MovieSwiping: undefined;
+  MovieSwiping2: undefined;
   PersonDetails: undefined;
   MySettings: undefined;
   Home: undefined;
   Match: MatchParamList;
+  MovieDetails: undefined;
 };
 
 export type LoginParamList = {
@@ -54,9 +59,13 @@ export type MyProfileList = {
   test: string;
 };
 
+export type MovieParamsList = {};
+export type IntroductionParamsList = {};
 export type MessageParamList = {
   item: PeopleDetailsType;
 };
+
+export type PersonDetailsParamsList = {};
 
 export type ImagesSliderParamsList = {
   person: PeopleDetailsType;

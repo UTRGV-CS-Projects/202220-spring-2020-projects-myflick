@@ -2,12 +2,9 @@ import React, { useEffect, useState, Component } from "react";
 import {
   StyleSheet,
   Image,
-  Pressable,
   TouchableOpacity,
   FlatList,
   SectionList,
-  Alert,
-  VirtualizedList,
 } from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
 import { Ionicons } from "@expo/vector-icons";
@@ -18,6 +15,10 @@ import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import { Chip } from "react-native-paper";
+import { Auth, Hub } from "aws-amplify";
+import { AuthContext } from "../store/AuthContext";
+import { UserActionTypes } from "../store/actions/actionTypes";
+import { handleLogOut } from "../store/actions/userActions";
 
 const ListItem = ({ item }: { item: any }) => {
   return (
@@ -45,9 +46,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.titleBar}>
-          <TouchableOpacity onPress={() => {
-            
-          }}>
+          <TouchableOpacity onPress={() => {}}>
             <Ionicons
               name="settings-outline"
               size={30}
