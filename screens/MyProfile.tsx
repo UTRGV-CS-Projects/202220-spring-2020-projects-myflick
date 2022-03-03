@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Component } from "react";
 import {
   StyleSheet,
   Image,
-  Pressable,
   TouchableOpacity,
   FlatList,
   SectionList,
-  Alert,
-  VirtualizedList,
 } from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
 import { Ionicons } from "@expo/vector-icons";
@@ -18,6 +15,10 @@ import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import { Chip } from "react-native-paper";
+import { Auth, Hub } from "aws-amplify";
+import { AuthContext } from "../store/AuthContext";
+import { UserActionTypes } from "../store/actions/actionTypes";
+import { handleLogOut } from "../store/actions/userActions";
 
 const ListItem = ({ item }: { item: any }) => {
   return (
@@ -36,6 +37,7 @@ const ListItem = ({ item }: { item: any }) => {
   );
 };
 
+
 const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
   const [timesPressed, setTimesPressed] = useState(0);
   const colorScheme = useColorScheme();
@@ -44,16 +46,16 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.titleBar}>
-          <TouchableOpacity onPress={() => {
-            
-          }}>
+          <TouchableOpacity onPress={() => {}}>
             <Ionicons
               name="settings-outline"
               size={30}
               color={Colors[colorScheme].opposite}
             ></Ionicons>
           </TouchableOpacity>
+
           <Text style={styles.title}>Profile</Text>
+
           <TouchableOpacity onPress={() => {}}>
             <Ionicons
               name="share-outline"
@@ -185,6 +187,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    
   },
   titleBar: {
     flexDirection: "row",
@@ -266,7 +269,14 @@ const styles = StyleSheet.create({
   location:{
     flexDirection: "row",
     justifyContent: "center"
-  }
+  },
+  menuContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 50,
+    backgroundColor: '#ecf0f1',
+  },
 });
 
 const myInterests = [
@@ -288,3 +298,7 @@ const basicInfo = [
   "Mother",
   "Dog Lover",
 ];
+function render() {
+  throw new Error("Function not implemented.");
+}
+

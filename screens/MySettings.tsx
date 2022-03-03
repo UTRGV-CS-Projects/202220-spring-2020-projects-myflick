@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, Component } from "react";
 import {
   StyleSheet,
@@ -252,15 +253,7 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
               );
             })}
           </View>
-
-
-
-
           </View>
-
-
-       
-
       </ScrollView>
       </SafeAreaView>
     );
@@ -272,6 +265,7 @@ export default MySettings;
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+      marginRight: 12
       //marginTop:10,
     },
     titleBar: {
@@ -279,34 +273,34 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginTop: 7,
         marginHorizontal: 10,
-      },
-      title1: {
+    },
+    title1: {
         fontSize: 20,
         fontWeight: "bold",
         
-      },
-      cancelButton:{
+    },
+    cancelButton:{
           fontSize: 18,
           
-      },
-      saveButton:{
+    },
+    saveButton:{
           fontSize: 18,
           color: themeColor,
-      },
-      profileImage: {
+    },
+    profileImage: {
         width: 100,
         height: 100,
         borderRadius: 50,
         marginTop: 10,
         marginLeft: 15,
         overflow: "hidden",
-      },
-      image: {
+    },
+    image: {
         flex: 1,
         width: undefined,
         height: undefined,
-      },
-      add: {
+    },
+    add: {
         position: "absolute",
         bottom: 0,
         right: 0,
@@ -316,24 +310,24 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "transparent",
-      },
-      sectionHeader: {
+    },
+    sectionHeader: {
         fontWeight: "bold",
         fontSize: 20,
         marginTop: 20,
         marginBottom: 10,
         marginLeft:10,
-      },
-      body: {
+    },
+    body: {
         flex: 1,
         alignItems: 'center',
         padding:20,
-      },
-      bodyContent:{
+    },
+    bodyContent:{
         flexDirection: 'row',
         flexWrap: 'wrap'
-      },
-      menuBox:{
+    },
+    menuBox:{
         backgroundColor: "#D3D3D3",
         width:100,
         height:100,
@@ -341,82 +335,77 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         margin:5,
         borderRadius:10,
-        //borderStyle: "dashed",
-       // borderColor: "#FD5A60",
-      },
-      icon: {
+    },
+    icon: {
         width: 55,
         height:65,
-      },
-      input: {
+    },
+    input: {
         height: 40,
         margin: 12,
         borderWidth: 1,
         padding: 10,
-      },
-      containerEA: {
+    },
+    containerEA: {
         alignItems: 'center',
         marginTop: -65,
-      },
-      viewKs: {
+    },
+    viewKs: {
         justifyContent: 'space-between',
-        flexDirection: 'row',
-      },
-      profileInput:{
+        flexDirection: 'row', 
+    },
+    profileInput:{
         fontSize: 16,
         marginTop: 20,
         marginBottom: 10,
         marginLeft:10,
         marginRight: 42,
-      },
-      profileInput2:{
+    },
+    profileInput2:{
         fontSize: 16,
         marginTop: 20,
         marginBottom: 10,
         marginLeft:10,
         marginRight: 18,
-      },
-      profileInput3:{
+    },
+    profileInput3:{
         fontSize: 16,
         marginTop: 20,
         marginBottom: 10,
         marginLeft:10,
         marginRight: 60
-      },
-      profileInput4:{
+    },
+    profileInput4:{
         fontSize: 16,
         marginTop: 20,
         marginBottom: 10,
         marginLeft:10,
         marginRight: 25,
-      },
-      photoLine:{
+    },
+    photoLine:{
           flexDirection: "row",
           justifyContent: "space-between"
-      },
-      button: {
+    },
+    button: {
         backgroundColor: themeColor,
         padding: 12,
-        marginRight: 10,
         marginBottom: 10,
         borderRadius: 10
-      },
-        buttonText: {
+    },
+    buttonText: {
         color: "white"
-      },
-      chipQuestion:{
+    },
+    chipQuestion:{
           fontSize: 15,
           color: themeColor,
           fontWeight: "bold",
           marginLeft: 10,
           marginTop: 10
-      }
+    }
     
 });
 
-function setText(newText: string): void {
-    throw new Error("Function not implemented.");
-}
+
 
 
 const basicInfo = [

@@ -1,6 +1,5 @@
-import { Image, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import React from "react";
-import { Text, View } from "../components/Themed";
 import NewMatchesList from "../components/Messages/NewMatchesList";
 import NewMessagesList from "../components/Messages/NewMessagesList";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
