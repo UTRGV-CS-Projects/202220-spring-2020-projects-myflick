@@ -33,9 +33,9 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
   
     return(
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.titleBar}>
-          <TouchableOpacity onPress={() => {}}><Text style={styles.cancelButton}>Cancel</Text>
+          <TouchableOpacity onPress={() => { navigation.navigate("MyProfile")}}><Text style={styles.cancelButton}>Cancel</Text>
           </TouchableOpacity>
           <Text style={styles.title1}>Edit Profile</Text> 
           <TouchableOpacity onPress={() => {}}>
@@ -106,13 +106,11 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
         <View style={styles.container}>
             <View style={styles.photoLine}>
             <Text style={styles.sectionHeader}>Photos</Text>
-            <TouchableOpacity onPress={() => {}} style={styles.button}>
-                <Text style={styles.buttonText}>ADD +</Text>
-                </TouchableOpacity>
+            
             </View>
              <View
             style={{
-                borderBottomColor: 'themeColor',
+                borderBottomColor:"white",
                 borderBottomWidth: 1,
                 marginLeft: 10,
                 marginRight: 10
@@ -160,13 +158,11 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
             <View style={styles.container}>
                 <View style={styles.photoLine}> 
             <Text style={styles.sectionHeader}>Favorite Movies</Text>
-            <TouchableOpacity onPress={() => {}} style={styles.button}>
-                <Text style={styles.buttonText}>ADD +</Text>
-                </TouchableOpacity>
+           
                 </View>
             <View
             style={{
-                borderBottomColor: 'themeColor',
+                borderBottomColor: "white",
                 borderBottomWidth: 1,
                 marginLeft: 10,
                 marginRight: 10
@@ -212,7 +208,7 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
             </View>
 
           <View style={styles.container}>
-          <Text style={styles.chipQuestion}>Basic Info</Text>
+          <Text style={styles.sectionHeader}>Basic Info</Text>
           <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
             {basicInfo.map((item, index) => {
               return (
@@ -234,7 +230,7 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
             })}
           </View>
 
-          <Text style={styles.chipQuestion}>Hobbies & Interests</Text>
+          <Text style={styles.sectionHeader}>Hobbies & Interests</Text>
           <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap"}}>
             {myInterests.map((item, index) => {
               return (

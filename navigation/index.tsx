@@ -26,6 +26,7 @@ import MyProfile from "../screens/MyProfile";
 import PersonDetails from "../screens/PersonDetails";
 import MySettings from "../screens/MySettings";
 import MovieSwiping from "../screens/MovieSwiping";
+import SettingsMenu from "../screens/SettingsMenu";
 import { UserActionTypes } from "../store/actions/actionTypes";
 import {
   RootStackParamList,
@@ -73,13 +74,21 @@ function RootNavigator() {
       ) : (
         <Stack.Screen name="Introduction" component={Introduction} />
       )}
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
+      <Stack.Group screenOptions={{ presentation: "modal"}}>
         <Stack.Screen name="PersonDetails" component={PersonDetails} />
       </Stack.Group>
       <Stack.Screen name="Match" component={Match} />
+
+      <Stack.Group screenOptions={{presentation: "modal"}}>
+      <Stack.Screen name ="SettingsMenu" component={SettingsMenu} />
+      </Stack.Group>
+      <Stack.Screen name="MySettings" component={MySettings} />
+        
     </Stack.Navigator>
   );
 }
+
+
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
@@ -240,7 +249,7 @@ function BottomTabNavigator() {
         })}
       />
 
-      <BottomTab.Screen
+      {/* <BottomTab.Screen
         name="MySettings"
         component={MySettings}
         options={({ navigation }: RootTabScreenProps<"MySettings">) => ({
@@ -258,7 +267,7 @@ function BottomTabNavigator() {
             </TouchableOpacity>
           ),
         })}
-      />
+      /> */}
     </BottomTab.Navigator>
   );
 }

@@ -42,11 +42,15 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
   const [timesPressed, setTimesPressed] = useState(0);
   const colorScheme = useColorScheme();
 
+  const handleSettingsMenu = () => {
+    navigation.navigate("SettingsMenu");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.titleBar}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={handleSettingsMenu}>
             <Ionicons
               name="settings-outline"
               size={30}
