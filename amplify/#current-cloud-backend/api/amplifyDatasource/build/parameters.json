@@ -1,0 +1,7 @@
+{
+    "AppSyncApiName": "amplifyDatasource",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "S3DeploymentBucket": "amplify-myflick-dev-143947-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/7312975a1f352802630a606738a70ff1b0b5514b"
+}
