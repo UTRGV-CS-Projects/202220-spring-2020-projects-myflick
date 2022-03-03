@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState, Component } from "react";
 import {
   StyleSheet,
   Image,
@@ -37,10 +37,10 @@ const ListItem = ({ item }: { item: any }) => {
   );
 };
 
+
 const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
   const [timesPressed, setTimesPressed] = useState(0);
   const colorScheme = useColorScheme();
-  const { user, dispatch } = useContext(AuthContext);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -53,12 +53,10 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
               color={Colors[colorScheme].opposite}
             ></Ionicons>
           </TouchableOpacity>
+
           <Text style={styles.title}>Profile</Text>
-          <TouchableOpacity
-            onPress={() => {
-              handleLogOut(dispatch);
-            }}
-          >
+
+          <TouchableOpacity onPress={() => {}}>
             <Ionicons
               name="share-outline"
               size={30}
@@ -72,16 +70,33 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
             <Image
               style={styles.image}
               source={{
-                uri: user.picture,
+                uri: "https://randomuser.me/api/portraits/women/50.jpg",
               }}
             ></Image>
           </View>
         </View>
 
-        <View>
-          <Text style={styles.name}>{user.name}</Text>
-          <Text style={styles.bio}>Quantico, VA | 23 | Film Maker</Text>
-        </View>
+    <View style={styles.container}>
+          <View style={styles.nameAndPronouns}>
+              <Text style={styles.name}>Ashley Nicole,</Text>
+              <Text style={styles.name}>24</Text>
+              <Text style={styles.pronouns}>She/Her</Text>
+          </View>
+
+
+            <View style={styles.location}>
+              <Ionicons
+                name="location-outline"
+                size={15}
+                color={Colors[colorScheme].opposite}
+                ></Ionicons>
+              <Text>Quantico, VA</Text>
+            </View>
+
+            <View>
+              <Text style={styles.bio}>I love modeling, watching movies, and having fun.</Text>
+            </View>
+      </View>
 
         <View style={styles.container}>
           <SectionList
@@ -172,6 +187,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    
   },
   titleBar: {
     flexDirection: "row",
@@ -192,26 +208,14 @@ const styles = StyleSheet.create({
     width: undefined,
     height: undefined,
   },
-  //add: {
-  //position: "absolute",
-  // bottom: 0,
-  //right: 0,
-  //width: 60,
-  // height: 60,
-  // borderRadius: 30,
-  //alignItems: "center",
-  //justifyContent: "center",
-  //backgroundColor: "transparent",
-  //},
   wrapperCustom: {
     borderRadius: 8,
     padding: 6,
   },
   name: {
     fontWeight: "bold",
-    textAlign: "center",
     fontSize: 20,
-    marginTop: 20,
+    marginRight: 5,
   },
   title: {
     fontSize: 20,
@@ -222,9 +226,9 @@ const styles = StyleSheet.create({
     left: 78,
   },
   bio: {
-    marginTop: 10,
     textAlign: "center",
     color: themeColor,
+    fontSize: 15
   },
   photosContainer: {
     flex: 1,
@@ -253,6 +257,26 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     paddingHorizontal: 15,
   },
+  pronouns: {
+    fontSize: 15,
+    opacity: .4,
+  },
+  nameAndPronouns:{
+    flexDirection:"row",
+    justifyContent: "center"
+    
+  },
+  location:{
+    flexDirection: "row",
+    justifyContent: "center"
+  },
+  menuContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 50,
+    backgroundColor: '#ecf0f1',
+  },
 });
 
 const myInterests = [
@@ -274,3 +298,7 @@ const basicInfo = [
   "Mother",
   "Dog Lover",
 ];
+function render() {
+  throw new Error("Function not implemented.");
+}
+
