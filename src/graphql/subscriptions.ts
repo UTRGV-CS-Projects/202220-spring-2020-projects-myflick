@@ -2,54 +2,114 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateProfile = /* GraphQL */ `
-  subscription OnCreateProfile {
-    onCreateProfile {
-      id
-      name
-      bio
-      gender
-      age
-      images
+export const subscribeToNewMessage = /* GraphQL */ `
+  subscription SubscribeToNewMessage($conversationId: ID!) {
+    subscribeToNewMessage(conversationId: $conversationId) {
+      author {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        registered
+        username
+      }
+      content
+      conversationId
       createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
+      id
+      isSent
+      recipient {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        registered
+        username
+      }
+      sender
     }
   }
 `;
-export const onUpdateProfile = /* GraphQL */ `
-  subscription OnUpdateProfile {
-    onUpdateProfile {
-      id
-      name
-      bio
-      gender
-      age
-      images
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
+export const subscribeToNewUCs = /* GraphQL */ `
+  subscription SubscribeToNewUCs($userId: ID!) {
+    subscribeToNewUCs(userId: $userId) {
+      associated {
+        associated {
+          conversationId
+          userId
+        }
+        conversation {
+          createdAt
+          id
+          name
+        }
+        conversationId
+        user {
+          cognitoId
+          id
+          registered
+          username
+        }
+        userId
+      }
+      conversation {
+        createdAt
+        id
+        messages {
+          nextToken
+        }
+        name
+      }
+      conversationId
+      user {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        registered
+        username
+      }
+      userId
     }
   }
 `;
-export const onDeleteProfile = /* GraphQL */ `
-  subscription OnDeleteProfile {
-    onDeleteProfile {
+export const subscribeToNewUsers = /* GraphQL */ `
+  subscription SubscribeToNewUsers {
+    subscribeToNewUsers {
+      cognitoId
+      conversations {
+        nextToken
+        userConversations {
+          conversationId
+          userId
+        }
+      }
       id
-      name
-      bio
-      gender
-      age
-      images
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
+      messages {
+        messages {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      registered
+      username
     }
   }
 `;
