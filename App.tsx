@@ -8,20 +8,20 @@ import Navigation from "./navigation";
 import { AuthContextProvider } from "./store/AuthContext";
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
-  Amplify.configure(awsconfig);
+	const isLoadingComplete = useCachedResources();
+	const colorScheme = useColorScheme();
+	Amplify.configure(awsconfig);
 
-  if (!isLoadingComplete) {
-    return null;
-  } else {
-    return (
-      <SafeAreaProvider>
-        <AuthContextProvider>
-          <StatusBar />
-          <Navigation colorScheme={colorScheme} />
-        </AuthContextProvider>
-      </SafeAreaProvider>
-    );
-  }
+	if (!isLoadingComplete) {
+		return null;
+	} else {
+		return (
+			<SafeAreaProvider>
+				<AuthContextProvider>
+					<StatusBar />
+					<Navigation colorScheme={colorScheme} />
+				</AuthContextProvider>
+			</SafeAreaProvider>
+		);
+	}
 }
