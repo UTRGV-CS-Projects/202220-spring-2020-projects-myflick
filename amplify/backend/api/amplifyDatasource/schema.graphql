@@ -1,8 +1,0 @@
-type Profile @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  name: String
-  bio: String
-  gender: String
-  age: String
-  images: [String]!
-}
