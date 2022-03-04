@@ -2,7 +2,7 @@ import { Button, StyleSheet } from "react-native";
 import React from "react";
 import { RootStackScreenProps } from "../types";
 import { View, Text, SafeAreaView } from "../components/Themed";
-import SwipingComponent from "./SwipingComponent";
+import SwipingComponent from "../components/SwipingComponent/SwipingComponent";
 import { MOVIE_CARDS, People } from "../db/db";
 
 const Home = ({ navigation }: RootStackScreenProps<"Home">) => {

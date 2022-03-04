@@ -11,6 +11,7 @@ export interface PeopleDetailsType {
 	state?: string;
 	interests?: string[];
 	images?: string[];
+	isLoggedIn?: boolean;
 }
 
 export interface MoviesType {

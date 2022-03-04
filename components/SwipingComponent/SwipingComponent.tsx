@@ -389,7 +389,7 @@ const SwipingComponent = ({ useMovie, usePerson }: props) => {
 						<LottieView
 							ref={star}
 							loop={false}
-							source={require("../assets/lotties/star.json")}
+							source={require("../../assets/lotties/star.json")}
 							style={styles.star}
 						/>
 					</View>
@@ -399,7 +399,7 @@ const SwipingComponent = ({ useMovie, usePerson }: props) => {
 						<LottieView
 							ref={heart}
 							loop={false}
-							source={require("../assets/lotties/heart.json")}
+							source={require("../../assets/lotties/heart.json")}
 							style={styles.heart}
 						/>
 					</View>

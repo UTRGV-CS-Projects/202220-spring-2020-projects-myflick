@@ -1,9 +1,9 @@
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
-import { View, Text, SafeAreaView } from "../components/Themed";
+import { View, Text } from "../components/Themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { themeColor } from "../constants/Colors";
-import { MatchParamList, RootTabScreenProps } from "../types";
+import { RootTabScreenProps } from "../types";
 import Background from "../components/Match/Background";
 import LottieView from "lottie-react-native";
 

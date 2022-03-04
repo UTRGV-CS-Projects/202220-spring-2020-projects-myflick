@@ -1,6 +1,6 @@
-import { StyleSheet, Image, TouchableOpacity, FlatList } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { SafeAreaView, Text, View } from "../components/Themed";
+import { Text, View } from "../components/Themed";
 import { People } from "../db/db";
 import { Chip } from "react-native-paper";
 import { lightThemeColor, themeColor } from "../constants/Colors";
@@ -8,6 +8,8 @@ import { EvilIcons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
 import LottieView from "lottie-react-native";
 import ImagesSlider from "../components/PersonDetails/ImagesSlider";
+
+
 const PersonDetails = ({
   navigation,
 }: RootStackScreenProps<"PersonDetails">) => {

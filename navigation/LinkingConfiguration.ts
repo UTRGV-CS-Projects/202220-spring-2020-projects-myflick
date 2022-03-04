@@ -8,15 +8,16 @@ import { LinkingOptions } from "@react-navigation/native";
 import * as Linking from "expo-linking";
 
 import { RootStackParamList } from "../types";
-
+//add host/domain names here later
+const prefix = Linking.createURL("/");
+console.log(prefix);
 const linking: LinkingOptions<RootStackParamList> = {
-  prefixes: [Linking.makeUrl("/")],
+  prefixes: [prefix],
   config: {
     screens: {
       Home: {
         path: "home",
         screens: {
-          Feed: "feed",
           Profile: "profile",
         },
       },

@@ -33,7 +33,7 @@ import {
 	RootTabScreenProps,
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
-import SwipingComponent from "../screens/SwipingComponent";
+import SwipingComponent from "../components/SwipingComponent/SwipingComponent";
 
 export default function Navigation({
 	colorScheme,
