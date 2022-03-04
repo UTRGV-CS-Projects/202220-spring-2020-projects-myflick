@@ -1,0 +1,14 @@
+{
+    "AppSyncApiName": "myflick",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authmyflick40433765",
+            "Outputs.UserPoolId"
+        ]
+    },
+    "AuthModeLastUpdated": "2022-03-03T19:41:29.382Z",
+    "S3DeploymentBucket": "amplify-myflick-dev-143947-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/c666a2047744580e7fffb89fdf59f27c605ca603"
+}
