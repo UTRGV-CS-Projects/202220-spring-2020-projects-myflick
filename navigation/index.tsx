@@ -6,9 +6,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
-	NavigationContainer,
-	DefaultTheme,
-	DarkTheme,
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
@@ -18,7 +18,6 @@ import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import Home from "../screens/Home";
 import Introduction from "../screens/Introduction";
-import Login from "../screens/Login";
 import Match from "../screens/Match";
 import Messages from "../screens/Messages";
 import MyProfile from "../screens/MyProfile";
@@ -26,28 +25,29 @@ import PersonDetails from "../screens/PersonDetails";
 import MySettings from "../screens/MySettings";
 import MovieSwiping from "../screens/MovieSwiping";
 import PeopleSwiping from "../screens/PeopleSwiping";
-
 import {
-	RootStackParamList,
-	RootTabParamList,
-	RootTabScreenProps,
+  RootStackParamList,
+  RootTabParamList,
+  RootTabScreenProps,
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
 import SwipingComponent from "../components/SwipingComponent/SwipingComponent";
+import { AuthContext } from "../store/AuthContext";
+import SignUp from "../screens/SignUp";
 
 export default function Navigation({
-	colorScheme,
+  colorScheme,
 }: {
-	colorScheme: ColorSchemeName;
+  colorScheme: ColorSchemeName;
 }) {
-	return (
-		<NavigationContainer
-			linking={LinkingConfiguration}
-			theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-		>
-			<RootNavigator />
-		</NavigationContainer>
-	);
+  return (
+    <NavigationContainer
+      linking={LinkingConfiguration}
+      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+    >
+      <RootNavigator />
+    </NavigationContainer>
+  );
 }
 
 /**
@@ -57,43 +57,57 @@ export default function Navigation({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-	return (
-		<Stack.Navigator screenOptions={{ headerShown: false }}>
-			<Stack.Screen name="Root" component={BottomTabNavigator} />
-			<Stack.Group screenOptions={{ presentation: "modal" }}>
-				<Stack.Screen name="PersonDetails" component={PersonDetails} />
-			</Stack.Group>
-			<Stack.Screen name="Match" component={Match} />
-		</Stack.Navigator>
-	);
+  const { user, dispatch } = React.useContext(AuthContext);
+
+  React.useEffect(() => {
+    console.log(user);
+  }, [user]);
+
+  return (
+    <Stack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName={user.loggedIn ? "Root" : "Introduction"}
+    >
+      <Stack.Screen name="Root" component={BottomTabNavigator} />
+      <Stack.Screen name="Introduction" component={Introduction} />
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Screen name="PersonDetails" component={PersonDetails} />
+      </Stack.Group>
+      <Stack.Screen name="Match" component={Match} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+    </Stack.Navigator>
+  );
 }
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-function BottomTabNavigator() {
-	const colorScheme = useColorScheme();
+export function BottomTabNavigator() {
+  const colorScheme = useColorScheme();
+  const { user, dispatch } = React.useContext(AuthContext);
 
-	return (
-		<BottomTab.Navigator
-			screenOptions={{
-				headerShown: false,
-				tabBarActiveTintColor: Colors[colorScheme].lightTint,
-				tabBarInactiveTintColor: Colors[colorScheme].darkTint,
-				tabBarShowLabel: false,
-			}}
-		>
-			<BottomTab.Screen
-				name="Messages"
-				component={Messages}
-				options={({ navigation }: RootTabScreenProps<"Messages">) => ({
-					title: "",
-					tabBarAccessibilityLabel: "Messages",
-					tabBarTestID: "MessagesTab",
-					tabBarIcon: ({ color }) => (
-						<Ionicons name="chatbubbles-outline" size={30} color={color} />
-					),
-					//We can use this to add a badge to the top part later on if we want
-					/* headerRight: () => (
+  return (
+    <BottomTab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: Colors[colorScheme].lightTint,
+        tabBarInactiveTintColor: Colors[colorScheme].darkTint,
+
+        tabBarShowLabel: false,
+      }}
+      initialRouteName="MyProfile"
+    >
+      <BottomTab.Screen
+        name="Messages"
+        component={Messages}
+        options={({ navigation }: RootTabScreenProps<"Messages">) => ({
+          title: "",
+          tabBarAccessibilityLabel: "Messages",
+          tabBarTestID: "MessagesTab",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="chatbubbles-outline" size={30} color={color} />
+          ),
+          //We can use this to add a badge to the top part later on if we want
+          /* headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate("Home")}
               style={({ pressed }) => ({
@@ -108,127 +122,108 @@ function BottomTabNavigator() {
               />
             </Pressable>
           ), */
-				})}
-			/>
-			<BottomTab.Screen
-				name="Introduction"
-				component={Introduction}
-				options={({ navigation }: RootTabScreenProps<"Introduction">) => ({
-					title: "",
-					tabBarAccessibilityLabel: "Introduction",
-					tabBarTestID: "IntroductionTab",
-					tabBarIcon: ({ color }) => (
-						<TouchableOpacity
-							onPress={() => {
-								navigation.navigate("Introduction");
-							}}
-							accessibilityRole="button"
-						>
-							<Ionicons name="logo-ionic" size={30} color={color} />
-						</TouchableOpacity>
-					),
-				})}
-			/>
+        })}
+      />
 
-			<BottomTab.Screen
-				name="Home"
-				component={Home}
-				options={({ navigation }: RootTabScreenProps<"Home">) => ({
-					title: "",
-					tabBarAccessibilityLabel: "Home",
-					tabBarTestID: "HomeTab",
-					tabBarIcon: ({ color }) => (
-						<TouchableOpacity
-							onPress={() => {
-								navigation.navigate("Home");
-							}}
-							accessibilityRole="button"
-						>
-							<Ionicons name="logo-ionic" size={30} color={color} />
-						</TouchableOpacity>
-					),
-				})}
-			/>
+      <BottomTab.Screen
+        name="Home"
+        component={Home}
+        options={({ navigation }: RootTabScreenProps<"Home">) => ({
+          title: "",
+          tabBarAccessibilityLabel: "Home",
+          tabBarTestID: "HomeTab",
+          tabBarIcon: ({ color }) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Home");
+              }}
+              accessibilityRole="button"
+            >
+              <Ionicons name="logo-ionic" size={30} color={color} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
 
-			<BottomTab.Screen
-				name="MyProfile"
-				component={MyProfile}
-				options={({ navigation }: RootTabScreenProps<"MyProfile">) => ({
-					title: "",
-					tabBarAccessibilityLabel: "MyProfile",
-					tabBarTestID: "MyProfileTab",
-					tabBarIcon: ({ color }) => (
-						<TouchableOpacity
-							onPress={() => {
-								navigation.navigate("MyProfile");
-							}}
-							accessibilityRole="button"
-						>
-							<Ionicons name="person-outline" size={30} color={color} />
-						</TouchableOpacity>
-					),
-				})}
-			/>
+      <BottomTab.Screen
+        name="MyProfile"
+        component={MyProfile}
+        options={({ navigation }: RootTabScreenProps<"MyProfile">) => ({
+          title: "",
+          tabBarAccessibilityLabel: "MyProfile",
+          tabBarTestID: "MyProfileTab",
+          tabBarIcon: ({ color }) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("MyProfile");
+              }}
+              accessibilityRole="button"
+            >
+              <Ionicons name="person-outline" size={30} color={color} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
 
-			<BottomTab.Screen
-				name="MovieSwiping"
-				component={MovieSwiping}
-				options={({ navigation }: RootTabScreenProps<"MovieSwiping">) => ({
-					title: "",
-					tabBarAccessibilityLabel: "MovieSwiping",
-					tabBarTestID: "MovieSwipingTab",
-					tabBarIcon: ({ color }) => (
-						<TouchableOpacity
-							onPress={() => {
-								navigation.navigate("MovieSwiping");
-							}}
-							accessibilityRole="button"
-						>
-							<Ionicons name="film" size={30} color={color} />
-						</TouchableOpacity>
-					),
-				})}
-			/>
+      <BottomTab.Screen
+        name="MovieSwiping"
+        component={MovieSwiping}
+        options={({ navigation }: RootTabScreenProps<"MovieSwiping">) => ({
+          title: "",
+          tabBarAccessibilityLabel: "MovieSwiping",
+          tabBarTestID: "MovieSwipingTab",
+          tabBarIcon: ({ color }) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("MovieSwiping");
+              }}
+              accessibilityRole="button"
+            >
+              <Ionicons name="film" size={30} color={color} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
 
-			<BottomTab.Screen
-				name="PeopleSwiping"
-				component={PeopleSwiping}
-				options={({ navigation }: RootTabScreenProps<"PeopleSwiping">) => ({
-					title: "",
-					tabBarAccessibilityLabel: "PeopleSwiping",
-					tabBarTestID: "PeopleSwipingTab",
-					tabBarIcon: ({ color }) => (
-						<TouchableOpacity
-							onPress={() => {
-								navigation.navigate("PeopleSwiping");
-							}}
-							accessibilityRole="button"
-						>
-							<Ionicons name="flame" size={30} color={color} />
-						</TouchableOpacity>
-					),
-				})}
-			/>
+      <BottomTab.Screen
+        name="PeopleSwiping"
+        component={PeopleSwiping}
+        options={({ navigation }: RootTabScreenProps<"PeopleSwiping">) => ({
+          title: "",
+          tabBarAccessibilityLabel: "PeopleSwiping",
+          tabBarTestID: "PeopleSwipingTab",
+          tabBarIcon: ({ color }) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("PeopleSwiping");
+              }}
+              accessibilityRole="button"
+            >
+              <Ionicons name="flame" size={30} color={color} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
 
-			<BottomTab.Screen
-				name="MySettings"
-				component={MySettings}
-				options={({ navigation }: RootTabScreenProps<"MySettings">) => ({
-					title: "",
-					tabBarAccessibilityLabel: "MySettings",
-					tabBarTestID: "MySettingsTab",
-					tabBarIcon: ({ color }) => (
-						<TouchableOpacity
-							onPress={() => {
-								navigation.navigate("MySettings");
-							}}
-							accessibilityRole="button"
-						>
-							<Ionicons name="settings-outline" size={30} color={color} />
-						</TouchableOpacity>
-					),
-				})}
-			/>
-		</BottomTab.Navigator>
-	);
+      <BottomTab.Screen
+        name="MySettings"
+        component={MySettings}
+        options={({ navigation }: RootTabScreenProps<"MySettings">) => ({
+          title: "",
+          tabBarAccessibilityLabel: "MySettings",
+          tabBarTestID: "MySettingsTab",
+          tabBarIcon: ({ color }) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("MySettings");
+              }}
+              accessibilityRole="button"
+            >
+              <Ionicons name="settings-outline" size={30} color={color} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+    </BottomTab.Navigator>
+  );
 }

@@ -16,6 +16,7 @@ import Amplify, { Auth, Hub } from "aws-amplify";
 import * as WebBrowser from "expo-web-browser";
 import awsconfig from "../src/aws-exports";
 import { RootStackScreenProps } from "../types";
+import { BottomTabNavigator } from "../navigation";
 import {
   handleLogInFaceBook,
   handleLogInGoogle,
@@ -98,6 +99,14 @@ const Introduction = ({ navigation }: RootStackScreenProps<"Introduction">) => {
         >
           Login with Google
         </FontAwesome5.Button>
+        <TouchableOpacity
+          style={styles.signInButton}
+          onPress={() => {
+            navigation.navigate("SignUp");
+          }}
+        >
+          <Text style={styles.signInText}>Sign Up</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.footer}>
         <Text>By signing in you agree with our</Text>
@@ -156,6 +165,17 @@ const styles = StyleSheet.create({
   captionIcon: {
     marginBottom: 20,
   },
+  signInButton: {
+    paddingVertical: 13,
+    paddingHorizontal: 30,
+    backgroundColor: themeColor,
+    borderRadius: 10,
+  },
+  signInText: {
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
   subCaption: {
     paddingVertical: 10,
     paddingHorizontal: 35,
@@ -165,7 +185,7 @@ const styles = StyleSheet.create({
   },
   buttons: {
     width: 200,
-    height: 150,
+    height: 180,
     justifyContent: "space-evenly",
     alignItems: "center",
   },

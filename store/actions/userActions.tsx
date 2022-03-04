@@ -3,11 +3,11 @@ import { UserActionTypes } from "./actionTypes";
 import { Dispatch, useContext } from "react";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
 import { AuthContext, ProfileType } from "../AuthContext";
-
 export interface UserAction {
   type: UserActionTypes;
   payload?: any;
 }
+import { SignUpType } from "../../types";
 export const handleLogInGoogle = async (dispatch: Dispatch<UserAction>) => {
   try {
     await Auth.federatedSignIn({
@@ -30,11 +30,14 @@ export const handleLogInFaceBook = async (dispatch: Dispatch<UserAction>) => {
   }
 };
 
-export const setUser = async (dispatch: Dispatch<UserAction>) => {
+export const handleSignUp = async (
+  dispatch: Dispatch<UserAction>,
+  info: SignUpType
+) => {
   try {
-    let userInfo = await Auth.currentAuthenticatedUser();
-    const { attributes } = userInfo;
-    dispatch({ type: UserActionTypes.SET_USER, payload: attributes });
+    //let userInfo = await Auth.currentAuthenticatedUser();
+    //console.log("userInfo: ", userInfo);
+    dispatch({ type: UserActionTypes.SIGN_UP, payload: info });
   } catch (error) {
     console.log(error);
   }

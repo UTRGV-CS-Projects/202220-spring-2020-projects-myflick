@@ -15,6 +15,7 @@ const initialState: ProfileType = {
   email_verified: false,
   give_name: "",
   identities: "",
+  password: "",
   name: "",
   picture: "",
   sub: "",
@@ -32,6 +33,7 @@ export type ProfileType = {
   give_name: string;
   identities: string;
   name: string;
+  password: string;
   picture: string;
   sub: string;
   loggedIn?: boolean;
@@ -41,6 +43,12 @@ const reducer = (user: ProfileType = initialState, action: UserAction) => {
   const { type, payload } = action;
 
   switch (action.type) {
+    case UserActionTypes.SIGN_UP:
+      return {
+        ...user,
+        email: action.payload.email,
+        password: action.payload.password,
+      };
     case UserActionTypes.LOG_IN:
       return {
         ...user,
@@ -57,6 +65,7 @@ const reducer = (user: ProfileType = initialState, action: UserAction) => {
         ...newUser,
         loggedIn: true,
       };
+
     default:
       return user;
   }
