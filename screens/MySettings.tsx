@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, Component } from "react";
+import React, { useEffect, useState, Component, useRef, useMemo, useCallback } from "react";
 import {
   StyleSheet,
   Image,
@@ -23,16 +23,71 @@ import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import { Avatar, Input } from 'react-native-elements';
 import { Chip } from "react-native-paper";
-import ImagePickerExample from "../components/profileComponents/imageAdding";
-
+import * as ImagePicker from 'expo-image-picker';
+import { Constants } from "@aws-amplify/core";
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet';
+import 'react-native-gesture-handler'
 
 const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
 const colorScheme = useColorScheme();
-const [text] = React.useState('Useless Text');
-const [number, onChangeNumber] = React.useState(null);
-const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
-  
+const [image, setImage] = useState<any | null>(null); 
+const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+const snapPoints = useMemo(() => ['25%', '50%'], []);
+
+  // callbacks
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+  }, []);
+
+useEffect(() => {
+  (async () => {
+      const cameraRollStatus =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
+      if (
+        cameraRollStatus.status !== "granted" ||
+        cameraStatus.status !== "granted"
+      ) {
+        alert("Sorry, we need these permissions to make this work!");
+      }
+    
+  })();
+}, []);
+
+
+const pickImage = async () => {
+  // No permissions request is necessary for launching the image library
+  let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 1,
+  });
+  console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
+  const takePhoto = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      aspect: [4, 3],
+    });
+
+    console.log(result);
+  };
+
+
     return(
+      <BottomSheetModalProvider>
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.titleBar}>
@@ -53,7 +108,7 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
             ></Image>
           </View>
           <View style={styles.add}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={pickImage}>
               <Ionicons
                 name="add-circle-sharp"
                 size={30}
@@ -61,6 +116,7 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
                 style={{ marginTop: 30, marginLeft: 32 }}
               ></Ionicons>
             </TouchableOpacity>
+            
           </View>
         </View>
 
@@ -124,34 +180,38 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
             <View style={styles.bodyContent}>
 
               <View style={styles.menuBox}>
-              <TouchableOpacity onPress={() => {ImagePickerExample}}>
+              <TouchableOpacity onPress={handlePresentModalPress}
+              >
                     <Ionicons
                     name="add"
                     size={60}
                     color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity>
+                {/* {image && <Image source={{ uri: image }} style={styles.menuBox} />} */}
               </View>
 
               <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={() => {}}>
+              <TouchableOpacity  onPress={handlePresentModalPress}>
                     <Ionicons
                     name="add"
                     size={60}
                     color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity>
+                {/* {image && <Image source={{ uri: image }} style={styles.menuBox} />} */}
               </View>
 
 
               <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={() => {}}>
+              <TouchableOpacity  onPress={handlePresentModalPress}>
                     <Ionicons
                     name="add"
                     size={60}
                     color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity>
+                {/* {image && <Image source={{ uri: image }} style={styles.menuBox} />} */}
                 </View>
             </View>
             </View>
@@ -251,8 +311,31 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
             })}
           </View>
           </View>
+          <BottomSheetModal
+              style={{shadowOpacity: 0.5}}
+              ref={bottomSheetModalRef}
+              index={1}
+              snapPoints={snapPoints}
+              onChange={handleSheetChanges}>
+                <Text style={styles.headerText}>Upload Photo</Text>
+                <Text style={styles.headerSubText}>Add Images for Others to See</Text>
+                <View style={{
+                    borderBottomColor: 'black',
+                    borderBottomWidth: 1,
+                    width:"100%" ,
+                    opacity: 0.2
+                }}></View>
+                <TouchableOpacity onPress={takePhoto} style={styles.appButtonContainer}>
+                <Text style={styles.appButtonText}>Take Photo</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={pickImage} style={styles.appButtonContainer}>
+                    <Text style={styles.appButtonText}>Choose from Library</Text>
+                </TouchableOpacity>
+                
+              </BottomSheetModal>
       </ScrollView>
       </SafeAreaView>
+      </BottomSheetModalProvider>
     );
 
 };
@@ -398,7 +481,39 @@ const styles = StyleSheet.create({
           fontWeight: "bold",
           marginLeft: 10,
           marginTop: 10
-    }
+    },
+    appButtonContainer: {
+      elevation: 8,
+      backgroundColor: themeColor,
+      borderRadius: 10,
+      paddingVertical: 10,
+      paddingHorizontal: 12,
+      marginLeft: 20,
+      marginRight: 20,
+      marginTop: 20,
+      //marginBottom: 10
+  },
+  appButtonText: {
+      fontSize: 18,
+      color: "white",
+      fontWeight: "bold",
+      textTransform: "uppercase",
+      textAlign: "center"
+  },
+  headerText: {
+    color: 'black',
+    fontSize: 25,
+    paddingLeft: 20,
+    paddingTop: 15,
+    paddingBottom: 10,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  headerSubText:{
+    textAlign: "center",
+    opacity: 0.6,
+    marginBottom: 20
+  }
     
 });
 
@@ -426,3 +541,7 @@ const myInterests = [
     "Baking",
     "ADD +"
   ];
+function setImage(uri: string) {
+  throw new Error("Function not implemented.");
+}
+

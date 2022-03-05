@@ -202,6 +202,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
           </View>
         </View>
         <BottomSheetModal
+        style={{shadowOpacity: 0.5}}
           ref={bottomSheetModalRef}
           index={1}
           snapPoints={snapPoints}
