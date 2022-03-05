@@ -29,11 +29,18 @@ import { handleLogOut } from "../store/actions/userActions";
 
 const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
   const colorScheme = useColorScheme();
-  const [text] = useState("Useless Text");
-  const [number, onChangeNumber] = useState(null);
-  const [value, onChangeText] = useState("Useless Multiline Placeholder");
+
   const { user, dispatch } = useContext(AuthContext);
   const [authCode, setAuthCode] = useState("");
+
+  async function resendConfirmationCode() {
+    try {
+      await Auth.resendSignUp(user.email);
+      console.log("code resent successfully");
+    } catch (err) {
+      console.log("error resending code: ", err);
+    }
+  }
 
   const handleSaveChanges = async () => {
     if (!user.email_verified) {
@@ -61,15 +68,22 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
   return (
     <SafeAreaView style={styles.container}>
       {!user.email_verified ? (
-        <View style={styles.viewKs}>
-          <Text style={styles.profileInput4}>Auth Code: </Text>
-          <TextInput
-            placeholder="Auth Code"
-            value={authCode}
-            onChange={(value) => {
-              setAuthCode(value.nativeEvent.text);
-            }}
-          ></TextInput>
+        <View>
+          <View style={styles.viewKs}>
+            <Input
+              placeholder="Auth Code"
+              value={authCode}
+              onChange={(value) => {
+                setAuthCode(value.nativeEvent.text);
+              }}
+            ></Input>
+          </View>
+          <TouchableOpacity
+            onPress={resendConfirmationCode}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Resend Auth Code</Text>
+          </TouchableOpacity>
         </View>
       ) : null}
 

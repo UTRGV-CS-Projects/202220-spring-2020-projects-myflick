@@ -32,7 +32,7 @@ export type RootStackParamList = {
   Match: MatchParamList;
   SignUp: NavigatorScreenParams<MessageParamList> | undefined;
   SignIn: NavigatorScreenParams<MessageParamList> | undefined;
-  Personalize: NavigatorScreenParams<MessageParamList> | undefined;
+  Personalize: PersonalizeParamList;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
@@ -52,7 +52,7 @@ export type RootTabParamList = {
   Match: MatchParamList;
   SignUp: undefined;
   SignIn: undefined;
-  Personalize: undefined;
+  Personalize: { email: string };
 };
 
 export type LoginParamList = {
@@ -71,6 +71,11 @@ export type MovieParamsList = {};
 export type IntroductionParamsList = {};
 export type MessageParamList = {
   item: PeopleDetailsType;
+};
+
+export type PersonalizeParamList = {
+  email: string;
+  password: string;
 };
 
 export type PersonDetailsParamsList = {};

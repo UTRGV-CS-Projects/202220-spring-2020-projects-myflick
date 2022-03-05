@@ -30,7 +30,7 @@ const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
         alert("Please enter email and password");
         return;
       }
-      const { user } = await Auth.signUp({
+      /* const { user } = await Auth.signUp({
         username: userEmail,
         password,
       });
@@ -41,9 +41,9 @@ const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
         email: userEmail,
         password,
       };
-      await handleSignUp(dispatch, signUpObj);
+      await handleSignUp(dispatch, signUpObj); */
 
-      navigation.replace("Personalize");
+      navigation.navigate("Personalize", { email: userEmail, password });
     } catch (error) {
       alert(error);
     }

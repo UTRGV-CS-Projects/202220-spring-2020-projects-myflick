@@ -25,15 +25,53 @@ import { Chip } from "react-native-paper";
 import { UserActionTypes } from "../store/actions/actionTypes";
 import { AuthContext } from "../store/AuthContext";
 import { Auth } from "aws-amplify";
-import { handleLogOut } from "../store/actions/userActions";
-
-const Personalize = ({ navigation }: RootStackScreenProps<"Personalize">) => {
+import {
+  handleLogOut,
+  handleProfileComplete,
+} from "../store/actions/userActions";
+import { ProfileCompleteType } from "../types";
+import * as ImagePicker from "expo-image-picker";
+import { transferKeyToUpperCase } from "@aws-amplify/core";
+const Personalize = ({
+  navigation,
+  route,
+}: RootStackScreenProps<"Personalize">) => {
   const colorScheme = useColorScheme();
-  const [text] = useState("Useless Text");
-  const [number, onChangeNumber] = useState(null);
-  const [value, onChangeText] = useState("Useless Multiline Placeholder");
+
   const { user, dispatch } = useContext(AuthContext);
   const [authCode, setAuthCode] = useState("");
+  const [images, setImages] = useState<ImagePicker.ImageInfo[]>([]);
+  const [imageStatus, requestPermission] =
+    ImagePicker.useMediaLibraryPermissions();
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    requestPermission();
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImages([...images, result]);
+    }
+  };
+
+  const [completeProfile, setCompleteProfile] = useState<ProfileCompleteType>({
+    email: route.params.email,
+    password: route.params.password,
+    interests: ["eating", "chewing"],
+    firstName: "",
+    photos: [],
+    bio: "",
+    location: "",
+    pronouns: "",
+    picture: "",
+  });
 
   const handleSaveChanges = async () => {
     if (!user.email_verified) {
@@ -41,12 +79,24 @@ const Personalize = ({ navigation }: RootStackScreenProps<"Personalize">) => {
       console.log("auth code: ", authCode);
       try {
         await Auth.confirmSignUp(user.email, authCode);
-        const authUser = await Auth.signIn(user.email, user.password);
-        console.log(authUser);
       } catch (error) {
         console.log("error confirming sign up", error);
       }
     }
+
+    Auth.signUp({
+      username: completeProfile.email,
+      password: completeProfile.password,
+      attributes: {
+        firstName: completeProfile.firstName,
+        bio: completeProfile.bio,
+        location: completeProfile.location,
+        picture: completeProfile.picture,
+      },
+    });
+
+    const authUser = await Auth.signIn(user.email, user.password);
+    console.log(authUser);
   };
 
   const logOut = () => {
@@ -57,39 +107,14 @@ const Personalize = ({ navigation }: RootStackScreenProps<"Personalize">) => {
   useEffect(() => {
     console.log(authCode);
   }, [authCode]);
-  async function resendConfirmationCode() {
-    try {
-      await Auth.resendSignUp(user.email);
-      console.log("code resent successfully");
-    } catch (err) {
-      console.log("error resending code: ", err);
-    }
-  }
+
+  useEffect(() => {
+    console.log(completeProfile);
+  }, [completeProfile]);
 
   return (
     <SafeAreaView style={styles.container}>
-      {!user.email_verified ? (
-        <View>
-          <View style={styles.viewKs}>
-            <Text style={styles.profileInput4}>Auth Code: </Text>
-            <TextInput
-              placeholder="Auth Code"
-              value={authCode}
-              onChange={(value) => {
-                setAuthCode(value.nativeEvent.text);
-              }}
-            ></TextInput>
-          </View>
-          <TouchableOpacity
-            onPress={resendConfirmationCode}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Resend Auth Code</Text>
-          </TouchableOpacity>
-        </View>
-      ) : null}
-
-      <ScrollView>
+      <View>
         <View style={styles.titleBar}>
           <TouchableOpacity onPress={() => {}}>
             <Text style={styles.cancelButton}>Cancel</Text>
@@ -119,33 +144,46 @@ const Personalize = ({ navigation }: RootStackScreenProps<"Personalize">) => {
           </View>
         </View>
 
-        <View style={styles.container}>
-          {/* <View style={styles.line}>
-            <View style={{
-                    borderBottomColor: 'black',
-                    borderBottomWidth: 1,
-                    width:"100%" ,
-            }}></View>
-            </View> */}
-
+        <View>
           <View style={styles.viewKs}>
-            <Text style={styles.profileInput}>Name</Text>
-            <Input placeholder="Name" />
+            <Input
+              placeholder="Name"
+              value={completeProfile.firstName}
+              onChangeText={(value) => {
+                setCompleteProfile({ ...completeProfile, firstName: value });
+              }}
+            />
           </View>
 
           <View style={styles.viewKs}>
-            <Text style={styles.profileInput2}>Pronouns</Text>
-            <Input placeholder="Pronouns" />
+            <Input
+              value={completeProfile.pronouns}
+              onChangeText={(value) => {
+                setCompleteProfile({ ...completeProfile, pronouns: value });
+              }}
+              placeholder="Pronouns"
+            />
           </View>
 
           <View style={styles.viewKs}>
-            <Text style={styles.profileInput3}>Bio</Text>
-            <Input placeholder="Bio" multiline={true} />
+            <Input
+              value={completeProfile.bio}
+              onChangeText={(value) => {
+                setCompleteProfile({ ...completeProfile, bio: value });
+              }}
+              placeholder="Bio"
+              multiline={true}
+            />
           </View>
 
           <View style={styles.viewKs}>
-            <Text style={styles.profileInput4}>Location</Text>
-            <Input placeholder="Location" />
+            <Input
+              value={completeProfile.location}
+              onChangeText={(value) => {
+                setCompleteProfile({ ...completeProfile, location: value });
+              }}
+              placeholder="Location"
+            />
           </View>
 
           {/* <View style={styles.line}>
@@ -157,138 +195,75 @@ const Personalize = ({ navigation }: RootStackScreenProps<"Personalize">) => {
                  </View> */}
         </View>
 
-        <View style={styles.container}>
-          <View style={styles.photoLine}>
-            <Text style={styles.sectionHeader}>Photos</Text>
-            <TouchableOpacity onPress={() => {}} style={styles.button}>
-              <Text style={styles.buttonText}>ADD +</Text>
+        <View></View>
+
+        <View>
+          <Text style={styles.sectionHeader}>Photos</Text>
+          <View style={styles.bodyContent}>
+            {images.length > 0 ? (
+              <FlatList
+                horizontal={true}
+                keyExtractor={(data) => {
+                  return data.uri;
+                }}
+                data={images}
+                renderItem={(item) => {
+                  return (
+                    <Image
+                      key={item.index}
+                      source={{ uri: item.item.uri }}
+                      style={{ width: 150, height: 150 }}
+                    />
+                  );
+                }}
+              />
+            ) : null}
+            <TouchableOpacity onPress={pickImage}>
+              <View style={styles.menuBox}>
+                <Ionicons
+                  name="add"
+                  size={60}
+                  color={themeColor}
+                  style={styles.icon}
+                ></Ionicons>
+              </View>
             </TouchableOpacity>
           </View>
+        </View>
+
+        <View>
+          <Text style={styles.chipQuestion}>Interests</Text>
           <View
             style={{
-              borderBottomColor: "themeColor",
-              borderBottomWidth: 1,
-              marginLeft: 10,
-              marginRight: 10,
+              justifyContent: "flex-start",
+              flexDirection: "row",
+              alignItems: "center",
+              flexWrap: "wrap",
+              padding: 0,
             }}
-          ></View>
-        </View>
-
-        <View style={styles.body}>
-          <View style={styles.bodyContent}>
-            <View style={styles.menuBox}>
-              <TouchableOpacity onPress={() => {}}>
-                <Ionicons
-                  name="add"
-                  size={60}
-                  color={themeColor}
-                  style={styles.icon}
-                ></Ionicons>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.menuBox}>
-              <TouchableOpacity onPress={() => {}}>
-                <Ionicons
-                  name="add"
-                  size={60}
-                  color={themeColor}
-                  style={styles.icon}
-                ></Ionicons>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.menuBox}>
-              <TouchableOpacity onPress={() => {}}>
-                <Ionicons
-                  name="add"
-                  size={60}
-                  color={themeColor}
-                  style={styles.icon}
-                ></Ionicons>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.body}>
-          <View style={styles.bodyContent}>
-            <View style={styles.menuBox}>
-              <TouchableOpacity onPress={() => {}}>
-                <Ionicons
-                  name="add"
-                  size={60}
-                  color={themeColor}
-                  style={styles.icon}
-                ></Ionicons>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.menuBox}>
-              <TouchableOpacity onPress={() => {}}>
-                <Ionicons
-                  name="add"
-                  size={60}
-                  color={themeColor}
-                  style={styles.icon}
-                ></Ionicons>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.menuBox}>
-              <TouchableOpacity onPress={() => {}}>
-                <Ionicons
-                  name="add"
-                  size={60}
-                  color={themeColor}
-                  style={styles.icon}
-                ></Ionicons>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.container}>
-          <Text style={styles.chipQuestion}>Basic Info</Text>
-          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
-            {basicInfo.map((item, index) => {
+          >
+            {user.interests.map((item, index) => {
               return (
-                <View key={index} style={{ margin: 5 }}>
-                  <Chip
-                    mode="outlined"
-                    textStyle={{ color: themeColor, fontSize: 15 }}
-                    onPress={() => {}}
-                    style={{
-                      borderColor: themeColor,
-                    }}
-                  >
-                    {item}
-                  </Chip>
-                </View>
-              );
-            })}
-          </View>
-
-          <Text style={styles.chipQuestion}>Hobbies & Interests</Text>
-          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
-            {myInterests.map((item, index) => {
-              return (
-                <View key={index} style={{ margin: 5 }}>
-                  <Chip
-                    mode="outlined"
-                    textStyle={{ color: themeColor, fontSize: 15 }}
-                    onPress={() => {}}
-                    style={{
-                      borderColor: themeColor,
-                    }}
-                  >
-                    {item}
-                  </Chip>
-                </View>
+                <Chip
+                  mode="flat"
+                  textStyle={{
+                    color: themeColor,
+                    fontSize: 15,
+                    fontWeight: "bold",
+                  }}
+                  onPress={() => {}}
+                  style={{
+                    margin: 5,
+                    borderColor: themeColor,
+                  }}
+                >
+                  {item}
+                </Chip>
               );
             })}
           </View>
         </View>
+
         <TouchableOpacity
           onPress={() => {
             handleSaveChanges();
@@ -305,7 +280,7 @@ const Personalize = ({ navigation }: RootStackScreenProps<"Personalize">) => {
         >
           <Text style={styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -399,37 +374,18 @@ const styles = StyleSheet.create({
     marginTop: -65,
   },
   viewKs: {
-    justifyContent: "space-between",
+    alignItems: "center",
+    justifyContent: "flex-start",
     flexDirection: "row",
   },
   profileInput: {
     fontSize: 16,
-    marginTop: 20,
-    marginBottom: 10,
+    marginTop: 10,
+    marginBottom: 5,
     marginLeft: 10,
     marginRight: 42,
   },
-  profileInput2: {
-    fontSize: 16,
-    marginTop: 20,
-    marginBottom: 10,
-    marginLeft: 10,
-    marginRight: 18,
-  },
-  profileInput3: {
-    fontSize: 16,
-    marginTop: 20,
-    marginBottom: 10,
-    marginLeft: 10,
-    marginRight: 60,
-  },
-  profileInput4: {
-    fontSize: 16,
-    marginTop: 20,
-    marginBottom: 10,
-    marginLeft: 10,
-    marginRight: 25,
-  },
+
   photoLine: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -452,25 +408,3 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-
-const basicInfo = [
-  "Single",
-  "Spiritual",
-  "Voter",
-  "Libra",
-  "Vaccinated",
-  "Mother",
-  "Dog Lover",
-  "ADD +",
-];
-
-const myInterests = [
-  "Photography",
-  "Modeling",
-  "Hiking",
-  "Foodie",
-  "Reading",
-  "Wine",
-  "Baking",
-  "ADD +",
-];
