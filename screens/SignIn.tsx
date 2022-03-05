@@ -14,36 +14,59 @@ import { TextInput } from "react-native-paper";
 import Colors, { themeColor } from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import { Auth } from "aws-amplify";
-import { RootStackScreenProps, SignUpType } from "../types";
+import { RootStackScreenProps, SignInType, SignUpType } from "../types";
 import { AuthContext } from "../store/AuthContext";
-import { handleSignUp } from "../store/actions/userActions";
+import { handleSignIn, handleSignUp } from "../store/actions/userActions";
 
-const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
+const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
   const colorScheme = useColorScheme();
   const [userEmail, setUserEmail] = useState("");
+  const [authCode, setAuthCode] = useState("");
+
   const [password, setPassword] = useState("");
   const { user, dispatch } = useContext(AuthContext);
 
-  async function signUp() {
+  async function resendConfirmationCode() {
+    try {
+      await Auth.resendSignUp(userEmail);
+      console.log("code resent successfully");
+    } catch (err) {
+      console.log("error resending code: ", err);
+    }
+  }
+
+  const handleConfirmUser = async () => {
+    try {
+      await Auth.confirmSignUp(userEmail, authCode);
+      console.log("user confirmed successfully");
+    } catch (error) {
+      console.log("error confirming sign up", error);
+    }
+  };
+
+  async function signIn() {
     try {
       if (userEmail.length === 0 || password.length === 0) {
         alert("Please enter email and password");
         return;
       }
-      const { user } = await Auth.signUp({
+      if (authCode.length > 0) {
+        await handleConfirmUser();
+      }
+      const user = await Auth.signIn({
         username: userEmail,
         password,
       });
 
-      console.log("sign up user: ", user);
+      console.log("signed in user: ", user);
 
-      const signUpObj: SignUpType = {
+      const signInObj: SignInType = {
         email: userEmail,
         password,
       };
-      await handleSignUp(dispatch, signUpObj);
+      await handleSignIn(dispatch, signInObj);
 
-      navigation.replace("Personalize");
+      navigation.replace("Root", { screen: "MyProfile" });
     } catch (error) {
       alert(error);
     }
@@ -62,7 +85,7 @@ const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.inner}>
           <Text style={[styles.header, { color: Colors[colorScheme].primary }]}>
-            Sign Up
+            Sign In
           </Text>
           <View
             style={[
@@ -98,8 +121,28 @@ const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
               style={[styles.textInput]}
               left={<TextInput.Icon name="eye" />}
             />
-            <TouchableOpacity style={styles.signInButton} onPress={signUp}>
-              <Text style={styles.signInText}>Sign Up</Text>
+
+            <TextInput
+              label="Auth Code (optional)"
+              autoComplete={false}
+              mode="outlined"
+              autoCapitalize="none"
+              secureTextEntry={true}
+              activeOutlineColor={Colors[colorScheme].opposite}
+              onSubmitEditing={(value) =>
+                setAuthCode(value.nativeEvent.text.trim())
+              }
+              style={[styles.textInput]}
+              left={<TextInput.Icon name="eye" />}
+            />
+            <TouchableOpacity
+              style={styles.authCode}
+              onPress={resendConfirmationCode}
+            >
+              <Text style={styles.authCodeText}>Resend Authorization Code</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.signInButton} onPress={signIn}>
+              <Text style={styles.signInText}>Sign In</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -108,13 +151,14 @@ const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
   );
 };
 
-export default SignUp;
+export default SignIn;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: themeColor,
   },
+
   background: {
     position: "absolute",
     left: 0,
@@ -137,6 +181,13 @@ const styles = StyleSheet.create({
     width: "90%",
     marginBottom: 36,
     borderRadius: 20,
+  },
+  authCode: {
+    marginTop: 5,
+    marginBottom: 25,
+  },
+  authCodeText: {
+    color: "white",
   },
   fieldContainer: {
     height: 400,

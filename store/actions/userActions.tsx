@@ -7,7 +7,7 @@ export interface UserAction {
   type: UserActionTypes;
   payload?: any;
 }
-import { SignUpType } from "../../types";
+import { ProfileCompleteType, SignUpType } from "../../types";
 export const handleLogInGoogle = async (dispatch: Dispatch<UserAction>) => {
   try {
     await Auth.federatedSignIn({
@@ -43,10 +43,34 @@ export const handleSignUp = async (
   }
 };
 
+export const handleSignIn = async (
+  dispatch: Dispatch<UserAction>,
+  data: SignUpType
+) => {
+  try {
+    //let userInfo = await Auth.currentAuthenticatedUser();
+    //console.log("userInfo: ", userInfo);
+    dispatch({ type: UserActionTypes.LOG_IN, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const handleLogOut = async (dispatch: Dispatch<UserAction>) => {
   try {
     await Auth.signOut();
     dispatch({ type: UserActionTypes.LOG_OUT });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const handleProfileComplete = async (
+  dispatch: Dispatch<UserAction>,
+  data: ProfileCompleteType
+) => {
+  try {
+    dispatch({ type: UserActionTypes.PROFILE_COMPLETE, payload: data });
   } catch (error) {
     console.log(error);
   }

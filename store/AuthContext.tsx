@@ -13,13 +13,19 @@ import { UserAction } from "./actions/userActions";
 const initialState: ProfileType = {
   email: "",
   email_verified: false,
-  give_name: "",
+  firstName: "",
   identities: "",
   password: "",
   name: "",
   picture: "",
+  location: "",
+  bio: "",
   sub: "",
   loggedIn: false,
+  pronouns: "",
+  photos: [],
+  interests: [],
+  profileComplete: false,
 };
 
 export const AuthContext = createContext<{
@@ -30,13 +36,19 @@ export const AuthContext = createContext<{
 export type ProfileType = {
   email: string;
   email_verified: boolean;
-  give_name: string;
+  firstName: string;
   identities: string;
   name: string;
   password: string;
   picture: string;
+  pronouns: string;
+  bio: string;
+  location: string;
+  photos: string[];
+  interests: string[];
   sub: string;
   loggedIn?: boolean;
+  profileComplete: boolean;
 };
 
 const reducer = (user: ProfileType = initialState, action: UserAction) => {
@@ -52,18 +64,35 @@ const reducer = (user: ProfileType = initialState, action: UserAction) => {
     case UserActionTypes.LOG_IN:
       return {
         ...user,
+        email: action.payload.email,
+        password: action.payload.password,
+        email_verified: true,
         loggedIn: true,
       };
     case UserActionTypes.LOG_OUT:
       return {
-        ...user,
-        loggedIn: false,
+        ...initialState,
       };
     case UserActionTypes.SET_USER:
       const newUser = action.payload as ProfileType;
       return {
         ...newUser,
         loggedIn: true,
+      };
+
+    case UserActionTypes.PROFILE_COMPLETE:
+      return {
+        ...user,
+        picture: payload.picture,
+        firstName: payload.firstName,
+        interests: payload.interests,
+        bio: payload.bio,
+        location: payload.location,
+        email: payload.email,
+        pronouns: payload.pronouns,
+        photos: payload.photos,
+        password: payload.password,
+        profileComplete: true,
       };
 
     default:

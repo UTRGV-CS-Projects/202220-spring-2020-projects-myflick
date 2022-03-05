@@ -9,6 +9,7 @@ import {
   NavigationContainer,
   DefaultTheme,
   DarkTheme,
+  useNavigation,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
@@ -34,6 +35,9 @@ import LinkingConfiguration from "./LinkingConfiguration";
 import SwipingComponent from "../components/SwipingComponent/SwipingComponent";
 import { AuthContext } from "../store/AuthContext";
 import SignUp from "../screens/SignUp";
+import SignIn from "../screens/SignIn";
+import { Auth } from "aws-amplify";
+import Personalize from "../screens/Personalize";
 
 export default function Navigation({
   colorScheme,
@@ -58,9 +62,16 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const { user, dispatch } = React.useContext(AuthContext);
+  const navigation = useNavigation();
 
   React.useEffect(() => {
+    if (user.loggedIn && !user.profileComplete) {
+      navigation.navigate("Personalize");
+    }
     console.log(user);
+
+    if (user) {
+    }
   }, [user]);
 
   return (
@@ -75,6 +86,8 @@ function RootNavigator() {
       </Stack.Group>
       <Stack.Screen name="Match" component={Match} />
       <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="Personalize" component={Personalize} />
     </Stack.Navigator>
   );
 }
@@ -84,6 +97,20 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 export function BottomTabNavigator() {
   const colorScheme = useColorScheme();
   const { user, dispatch } = React.useContext(AuthContext);
+
+  const getAuthUser = async () => {
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      console.log("Auth User", user.attributes);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  React.useEffect(() => {
+    getAuthUser();
+    console.log("State User: ", user);
+  }, [user]);
 
   return (
     <BottomTab.Navigator

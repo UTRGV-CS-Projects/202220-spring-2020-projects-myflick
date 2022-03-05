@@ -107,6 +107,14 @@ const Introduction = ({ navigation }: RootStackScreenProps<"Introduction">) => {
         >
           <Text style={styles.signInText}>Sign Up</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.signInButton}
+          onPress={() => {
+            navigation.navigate("SignIn");
+          }}
+        >
+          <Text style={styles.signInText}>Sign In</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.footer}>
         <Text>By signing in you agree with our</Text>
@@ -185,7 +193,7 @@ const styles = StyleSheet.create({
   },
   buttons: {
     width: 200,
-    height: 180,
+    height: 230,
     justifyContent: "space-evenly",
     alignItems: "center",
   },

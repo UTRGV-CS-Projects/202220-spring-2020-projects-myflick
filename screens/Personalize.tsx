@@ -27,7 +27,7 @@ import { AuthContext } from "../store/AuthContext";
 import { Auth } from "aws-amplify";
 import { handleLogOut } from "../store/actions/userActions";
 
-const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
+const Personalize = ({ navigation }: RootStackScreenProps<"Personalize">) => {
   const colorScheme = useColorScheme();
   const [text] = useState("Useless Text");
   const [number, onChangeNumber] = useState(null);
@@ -57,19 +57,35 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
   useEffect(() => {
     console.log(authCode);
   }, [authCode]);
+  async function resendConfirmationCode() {
+    try {
+      await Auth.resendSignUp(user.email);
+      console.log("code resent successfully");
+    } catch (err) {
+      console.log("error resending code: ", err);
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       {!user.email_verified ? (
-        <View style={styles.viewKs}>
-          <Text style={styles.profileInput4}>Auth Code: </Text>
-          <TextInput
-            placeholder="Auth Code"
-            value={authCode}
-            onChange={(value) => {
-              setAuthCode(value.nativeEvent.text);
-            }}
-          ></TextInput>
+        <View>
+          <View style={styles.viewKs}>
+            <Text style={styles.profileInput4}>Auth Code: </Text>
+            <TextInput
+              placeholder="Auth Code"
+              value={authCode}
+              onChange={(value) => {
+                setAuthCode(value.nativeEvent.text);
+              }}
+            ></TextInput>
+          </View>
+          <TouchableOpacity
+            onPress={resendConfirmationCode}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Resend Auth Code</Text>
+          </TouchableOpacity>
         </View>
       ) : null}
 
@@ -88,9 +104,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
           <View style={styles.profileImage}>
             <Image
               style={styles.image}
-              source={{
-                uri: "https://randomuser.me/api/portraits/women/50.jpg",
-              }}
+              source={require("../assets/images/default-user-image.png")}
             ></Image>
           </View>
           <View style={styles.add}>
@@ -197,23 +211,6 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
           </View>
         </View>
 
-        <View style={styles.container}>
-          <View style={styles.photoLine}>
-            <Text style={styles.sectionHeader}>Favorite Movies</Text>
-            <TouchableOpacity onPress={() => {}} style={styles.button}>
-              <Text style={styles.buttonText}>ADD +</Text>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              borderBottomColor: "themeColor",
-              borderBottomWidth: 1,
-              marginLeft: 10,
-              marginRight: 10,
-            }}
-          />
-        </View>
-
         <View style={styles.body}>
           <View style={styles.bodyContent}>
             <View style={styles.menuBox}>
@@ -313,7 +310,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
   );
 };
 
-export default MySettings;
+export default Personalize;
 
 const styles = StyleSheet.create({
   container: {
