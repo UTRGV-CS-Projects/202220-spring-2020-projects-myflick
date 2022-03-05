@@ -26,7 +26,7 @@ import MyProfile from "../screens/MyProfile";
 import PersonDetails from "../screens/PersonDetails";
 import MySettings from "../screens/MySettings";
 import MovieSwiping from "../screens/MovieSwiping";
-import SettingsMenu from "../screens/SettingsMenu";
+// import SettingsMenu from "../screens/SettingsMenu";
 import MyDiscoverySettings from "../screens/MyDiscoverySettings";
 import { UserActionTypes } from "../store/actions/actionTypes";
 import {
@@ -80,10 +80,12 @@ function RootNavigator() {
       </Stack.Group>
       <Stack.Screen name="Match" component={Match} />
 
-      <Stack.Group screenOptions={{presentation: "modal"}}>
-      <Stack.Screen name ="SettingsMenu" component={SettingsMenu} />
-      </Stack.Group>
-      <Stack.Screen name="MySettings" component={MySettings} />
+      {/* //<Stack.Group screenOptions={{presentation: "modal"}}> */}
+      {/* <Stack.Screen name ="SettingsMenu" component={SettingsMenu} /> */}
+      {/* </Stack.Group> */}
+     
+       <Stack.Screen name="MySettings" component={MySettings} /> 
+      
       <Stack.Screen name="MyDiscoverySettings" component={MyDiscoverySettings} />
     </Stack.Navigator>
   );
