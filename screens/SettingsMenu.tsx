@@ -15,8 +15,13 @@ const SettingsMenu = ({
     const handleMySettings = () => {
         navigation.navigate("MySettings");
       };
+
+    const handleMyDiscoverySettings = () => {
+      navigation.navigate("MyDiscoverySettings");
+    }
     return( 
     <View style={styles.container}>
+        <View style={styles.overlay}>
                 <Text style={styles.headerText}>Settings</Text>
                 <View style={{
                     borderBottomColor: 'black',
@@ -46,10 +51,10 @@ const SettingsMenu = ({
                     name="person-add-outline"
                     size={35}
                     ></Ionicons>
-             <TouchableOpacity onPress={() => {}}>
+             <TouchableOpacity onPress={handleMyDiscoverySettings}>
              <Text style={styles.optionsText}>Edit Discovery</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={handleMyDiscoverySettings}>
                 <Ionicons
                     name="chevron-forward"
                     size={35}
@@ -88,7 +93,7 @@ const SettingsMenu = ({
                     ></Ionicons>
                     </TouchableOpacity>
              </View>
-            
+             </View> 
                 </View>
 
     );
@@ -98,7 +103,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
-        
+        justifyContent: "center", 
+        marginTop: 570
       },
       headerText: {
         color: 'black',
@@ -125,7 +131,15 @@ const styles = StyleSheet.create({
           justifyContent: "space-between",
           paddingTop: 12,
           paddingLeft: 10
-      }
+      },
+      overlay: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        marginTop: 5,
+      },
 
 })
 

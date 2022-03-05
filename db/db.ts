@@ -33,6 +33,11 @@ export interface MovieCardType {
   image: string;
 }
 
+export interface ImagePikerType{
+  id: string;
+  url: string;
+}
+
 export const MOVIE_CARDS: MovieCardType[] = [
   {
     id: "1",

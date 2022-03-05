@@ -23,6 +23,7 @@ import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import { Avatar, Input } from 'react-native-elements';
 import { Chip } from "react-native-paper";
+import ImagePickerExample from "../components/profileComponents/imageAdding";
 
 
 const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
@@ -123,7 +124,7 @@ const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
             <View style={styles.bodyContent}>
 
               <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={() => {}}>
+              <TouchableOpacity onPress={() => {ImagePickerExample}}>
                     <Ionicons
                     name="add"
                     size={60}

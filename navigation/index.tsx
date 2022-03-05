@@ -27,6 +27,7 @@ import PersonDetails from "../screens/PersonDetails";
 import MySettings from "../screens/MySettings";
 import MovieSwiping from "../screens/MovieSwiping";
 import SettingsMenu from "../screens/SettingsMenu";
+import MyDiscoverySettings from "../screens/MyDiscoverySettings";
 import { UserActionTypes } from "../store/actions/actionTypes";
 import {
   RootStackParamList,
@@ -83,7 +84,7 @@ function RootNavigator() {
       <Stack.Screen name ="SettingsMenu" component={SettingsMenu} />
       </Stack.Group>
       <Stack.Screen name="MySettings" component={MySettings} />
-        
+      <Stack.Screen name="MyDiscoverySettings" component={MyDiscoverySettings} />
     </Stack.Navigator>
   );
 }

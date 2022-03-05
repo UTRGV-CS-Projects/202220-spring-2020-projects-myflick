@@ -32,6 +32,7 @@ export type RootStackParamList = {
   PersonDetails: NavigatorScreenParams<PersonDetailsParamsList> | undefined;
   Match: MatchParamList;
   SettingsMenu: NavigatorScreenParams<SettingsMenuParamsList> | undefined;
+  MyDiscoverySettings: NavigatorScreenParams<MyDiscoverySettingsParamsList> | undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
@@ -51,6 +52,7 @@ export type RootTabParamList = {
   Match: MatchParamList;
   MovieDetails: undefined;
   SettingsMenu: undefined;
+  MyDiscoverySettings: undefined;
 };
 
 export type LoginParamList = {
@@ -69,6 +71,7 @@ export type MessageParamList = {
 
 export type PersonDetailsParamsList = {};
 export type SettingsMenuParamsList = {};
+export type MyDiscoverySettingsParamsList = {};
 
 export type ImagesSliderParamsList = {
   person: PeopleDetailsType;
