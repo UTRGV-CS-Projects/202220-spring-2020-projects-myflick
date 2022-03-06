@@ -191,6 +191,7 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginTop: 5,
         opacity: 0.6,
+        color: "black",
         fontSize: 16.5,
         
     },

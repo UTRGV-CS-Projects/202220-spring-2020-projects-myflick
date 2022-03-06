@@ -5,20 +5,11 @@ import {
   Image,
   Pressable,
   TouchableOpacity,
-  FlatList,
-  SectionList,
-  Alert,
-  VirtualizedList,
-  TextInput,
-  TextInputProps,
-  Touchable,
-  Button,
 } from "react-native";
 import { ScrollView } from 'react-native-virtualized-view';
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
 import { themeColor, lightThemeColor } from "../constants/Colors";
-import { MyProfileSections } from "../db/db";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import { Avatar, Input } from 'react-native-elements';
@@ -30,12 +21,20 @@ import {
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
 import 'react-native-gesture-handler'
+import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import { actionButton } from "aws-amplify";
 
 const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
 const colorScheme = useColorScheme();
 const [image, setImage] = useState<any | null>(null); 
 const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+const bottomSheetModalRef2 = useRef<BottomSheetModal>(null);
+const bottomSheetModalRef3 = useRef<BottomSheetModal>(null);
+const bottomSheetModalRef4 = useRef<BottomSheetModal>(null);
 const snapPoints = useMemo(() => ['25%', '50%'], []);
+const snapPoints2 = useMemo(() => ["25%"], []);
+const bottomSheetRef = useRef<BottomSheet>(null);
+
 
   // callbacks
   const handlePresentModalPress = useCallback(() => {
@@ -43,6 +42,15 @@ const snapPoints = useMemo(() => ['25%', '50%'], []);
   }, []);
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
+  }, []);
+  const handleSearchModalPress = useCallback(() => {
+    bottomSheetModalRef2.current?.present();
+  }, []);
+  const handleSearchBasicInfoModalPress = useCallback(() => {
+    bottomSheetModalRef3.current?.present();
+  }, []);
+  const handleSearchHobbiesModalPress = useCallback(() => {
+    bottomSheetModalRef4.current?.present();
   }, []);
 
 useEffect(() => {
@@ -90,6 +98,7 @@ const pickImage = async () => {
       <BottomSheetModalProvider>
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
+     
         <View style={styles.titleBar}>
           <TouchableOpacity onPress={() => { navigation.navigate("MyProfile")}}><Text style={styles.cancelButton}>Cancel</Text>
           </TouchableOpacity>
@@ -107,7 +116,7 @@ const pickImage = async () => {
               }}
             ></Image>
           </View>
-          <View style={styles.add}>
+          {/* <View style={styles.add}>
             <TouchableOpacity onPress={pickImage}>
               <Ionicons
                 name="add-circle-sharp"
@@ -117,7 +126,7 @@ const pickImage = async () => {
               ></Ionicons>
             </TouchableOpacity>
             
-          </View>
+          </View> */}
         </View>
 
 
@@ -175,7 +184,7 @@ const pickImage = async () => {
            </View> 
           
         </View>
-
+        
         <View style={styles.body}>
             <View style={styles.bodyContent}>
 
@@ -234,7 +243,7 @@ const pickImage = async () => {
             <View style={styles.bodyContent}>
             
               <View style={styles.menuBox}>
-                <TouchableOpacity  onPress={() => {}}>
+                <TouchableOpacity  onPress={handleSearchModalPress}>
                 <Ionicons
                     name="add"
                     size={60}
@@ -245,7 +254,7 @@ const pickImage = async () => {
               </View>
 
               <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={() => {}}>
+              <TouchableOpacity  onPress={handleSearchModalPress}>
                     <Ionicons
                     name="add"
                     size={60}
@@ -256,7 +265,7 @@ const pickImage = async () => {
               </View>
 
               <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={() => {}}>
+              <TouchableOpacity  onPress={handleSearchModalPress}>
                     <Ionicons
                     name="add"
                     size={60}
@@ -271,7 +280,7 @@ const pickImage = async () => {
           <View style={styles.container}>
           <Text style={styles.sectionHeader}>Basic Info</Text>
           <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
-            {basicInfo.map((item, index) => {
+            {/* {basicInfo.map((item, index) => {
               return (
                 <View key={index} style={{ margin: 5 }}>
                   <Chip
@@ -288,12 +297,24 @@ const pickImage = async () => {
                   </Chip>
                 </View>
               );
-            })}
+            })} */}
+            <Chip
+                    mode="outlined"
+                    textStyle={{ color: themeColor, fontSize: 15 }}
+                    onPress={handleSearchBasicInfoModalPress}
+                    style={{
+                      marginLeft: 5,
+                      borderColor: themeColor,
+                    }}
+                  > Add +
+                  </Chip>
+
+          </View>
           </View>
 
           <Text style={styles.sectionHeader}>Hobbies & Interests</Text>
           <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap"}}>
-            {myInterests.map((item, index) => {
+            {/* {myInterests.map((item, index) => {
               return (
                 <View key={index} style={{ margin: 5 }}>
                   <Chip
@@ -306,17 +327,29 @@ const pickImage = async () => {
                   >
                     {item}
                   </Chip>
-                </View>
-              );
-            })}
+                  </View>
+                   );
+                  })} */}
+                  <Chip
+                    mode="outlined"
+                    textStyle={{ color: themeColor, fontSize: 15 }}
+                    onPress={handleSearchHobbiesModalPress}
+                    style={{
+                      marginLeft: 5,
+                      borderColor: themeColor,
+                    }}
+                  > Add +
+                  </Chip>
+                  
           </View>
-          </View>
+          <View style={styles.contentContainer}>
           <BottomSheetModal
               style={{shadowOpacity: 0.5}}
               ref={bottomSheetModalRef}
               index={1}
               snapPoints={snapPoints}
               onChange={handleSheetChanges}>
+                <View> 
                 <Text style={styles.headerText}>Upload Photo</Text>
                 <Text style={styles.headerSubText}>Add Images for Others to See</Text>
                 <View style={{
@@ -331,8 +364,79 @@ const pickImage = async () => {
                 <TouchableOpacity onPress={pickImage} style={styles.appButtonContainer}>
                     <Text style={styles.appButtonText}>Choose from Library</Text>
                 </TouchableOpacity>
+                </View> 
+            </BottomSheetModal>
+
+            <BottomSheetModal
+            style={{shadowOpacity: 0.5}}
+            ref={bottomSheetModalRef2}
+            index={1}
+            snapPoints={snapPoints}
+            onChange={handleSheetChanges}
+            keyboardBehavior={"fillParent"}
+            >
+               <View> 
+                <Text style={styles.headerText}>Select a Film</Text>
+                <View style={{
+                    borderBottomColor: 'black',
+                    borderBottomWidth: 1,
+                    width:"100%" ,
+                    opacity: 0.2
+                }}></View>
                 
-              </BottomSheetModal>
+
+                 <BottomSheetTextInput placeholder="Search" style={styles.inputModal}/>
+                 </View> 
+            </BottomSheetModal>
+
+
+            <BottomSheetModal
+            style={{shadowOpacity: 0.5}}
+            ref={bottomSheetModalRef3}
+            index={1}
+            snapPoints={snapPoints}
+            onChange={handleSheetChanges}
+            keyboardBehavior={"fillParent"}
+            >
+               <View> 
+                <Text style={styles.headerText}>Basic Info</Text>
+                <View style={{
+                    borderBottomColor: 'black',
+                    borderBottomWidth: 1,
+                    width:"100%" ,
+                    opacity: 0.2
+                }}></View>
+
+                 <BottomSheetTextInput placeholder="Search" style={styles.inputModal}/>
+                 </View>
+                
+            </BottomSheetModal>
+
+            <BottomSheetModal
+            style={{shadowOpacity: 0.5}}
+            ref={bottomSheetModalRef4}
+            index={1}
+            snapPoints={snapPoints}
+            onChange={handleSheetChanges}
+            keyboardBehavior={"fillParent"}
+            >
+               <View> 
+                <Text style={styles.headerText}>Hobbies & Interests</Text>
+                <View style={{
+                    borderBottomColor: 'black',
+                    borderBottomWidth: 1,
+                    width:"100%" ,
+                    opacity: 0.2
+                }}></View>
+
+                 <BottomSheetTextInput placeholder="Search" style={styles.inputModal}/>
+                 </View>
+                
+            </BottomSheetModal>
+           
+            
+
+    </View>      
       </ScrollView>
       </SafeAreaView>
       </BottomSheetModalProvider>
@@ -512,8 +616,35 @@ const styles = StyleSheet.create({
   headerSubText:{
     textAlign: "center",
     opacity: 0.6,
-    marginBottom: 20
-  }
+    marginBottom: 20,
+    color: "black"
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  textInput: {
+    alignSelf: "stretch",
+    marginHorizontal: 12,
+    marginBottom: 12,
+    padding: 12,
+    borderRadius: 12,
+    //backgroundColor: "blue",
+    color: "red",
+    textAlign: "center",
+  },
+  inputModal: {
+    marginTop: 8,
+    marginBottom: 10,
+    borderRadius: 10,
+    fontSize: 16,
+    lineHeight: 20,
+    padding: 8,
+    backgroundColor: "#808080",
+    marginLeft: 10,
+    marginRight: 10
+  },
     
 });
 
