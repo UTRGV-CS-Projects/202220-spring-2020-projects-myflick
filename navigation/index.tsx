@@ -26,6 +26,7 @@ import PersonDetails from "../screens/PersonDetails";
 import MySettings from "../screens/MySettings";
 import MovieSwiping from "../screens/MovieSwiping";
 import PeopleSwiping from "../screens/PeopleSwiping";
+import MovieDetails from "../screens/MovieDetails";
 
 import {
 	RootStackParamList,
@@ -149,6 +150,65 @@ function BottomTabNavigator() {
 					),
 				})}
 			/>
+      <BottomTab.Screen
+        name="MyProfile"
+        component={MyProfile}
+        options={({ navigation }: RootTabScreenProps<"MyProfile">) => ({
+          title: "",
+          tabBarAccessibilityLabel: "MyProfile",
+          tabBarTestID: "MyProfileTab",
+          tabBarIcon: ({ color }) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("MyProfile");
+              }}
+              accessibilityRole="button"
+            >
+              <Ionicons name="person-outline" size={30} color={color} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+
+      <BottomTab.Screen
+        name="MovieDetails"
+        component={MovieDetails}
+        options={({ navigation }: RootTabScreenProps<"MovieDetails">) => ({
+          title: "",
+          tabBarAccessibilityLabel: "MovieDetails",
+          tabBarTestID: "MovieDetails",
+          tabBarIcon: ({ color }) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("MovieDetails");
+              }}
+              accessibilityRole="button"
+            >
+              <Ionicons name="person-outline" size={30} color={color} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+
+      <BottomTab.Screen
+        name="MySettings"
+        component={MySettings}
+        options={({ navigation }: RootTabScreenProps<"MySettings">) => ({
+          title: "",
+          tabBarAccessibilityLabel: "MySettings",
+          tabBarTestID: "MySettingsTab",
+          tabBarIcon: ({ color }) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("MySettings");
+              }}
+              accessibilityRole="button"
+            >
+              <Ionicons name="settings-outline" size={30} color={color} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
 
 			<BottomTab.Screen
 				name="MyProfile"
@@ -190,7 +250,7 @@ function BottomTabNavigator() {
 				})}
 			/>
 
-			<BottomTab.Screen
+			{/* <BottomTab.Screen
 				name="PeopleSwiping"
 				component={PeopleSwiping}
 				options={({ navigation }: RootTabScreenProps<"PeopleSwiping">) => ({
@@ -208,7 +268,7 @@ function BottomTabNavigator() {
 						</TouchableOpacity>
 					),
 				})}
-			/>
+			/> */}
 
 			<BottomTab.Screen
 				name="MySettings"
@@ -231,4 +291,5 @@ function BottomTabNavigator() {
 			/>
 		</BottomTab.Navigator>
 	);
+
 }

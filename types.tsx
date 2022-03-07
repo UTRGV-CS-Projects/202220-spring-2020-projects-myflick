@@ -18,7 +18,6 @@ declare global {
 }
 
 export type RootStackParamList = {
-<<<<<<< HEAD
 	Login: NavigatorScreenParams<LoginParamList> | undefined;
 	MyProfile: NavigatorScreenParams<MyProfileList> | undefined;
 	Home: undefined;
@@ -27,32 +26,22 @@ export type RootStackParamList = {
 	PeopleSwiping: NavigatorScreenParams<MovieParamsList> | undefined;
 	Settings: undefined;
 	MySettings: undefined;
+
 	Messages: NavigatorScreenParams<MessageParamList> | undefined;
 	Root: undefined;
 	PersonDetails: NavigatorScreenParams<MessageParamList> | undefined;
 	Match: MatchParamList;
-=======
-  Login: NavigatorScreenParams<LoginParamList> | undefined;
-  MyProfile: NavigatorScreenParams<MyProfileList> | undefined;
-  Home: undefined;
-  Introduction: NavigatorScreenParams<IntroductionParamsList> | undefined;
-  MovieSwiping: undefined;
-  MovieSwiping2: NavigatorScreenParams<MovieParamsList> | undefined;
-  Settings: undefined;
-  MySettings: undefined;
-  Messages: NavigatorScreenParams<MessageParamList> | undefined;
-  Root: undefined;
+
   MovieDetails: undefined;
-  PersonDetails: NavigatorScreenParams<PersonDetailsParamsList> | undefined;
-  Match: MatchParamList;
->>>>>>> master
+
+
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
 	NativeStackScreenProps<RootStackParamList, Screen>;
 
 export type RootTabParamList = {
-<<<<<<< HEAD
+
 	TabOne: { id: string };
 	TabTwo: undefined;
 	Messages: undefined;
@@ -64,20 +53,8 @@ export type RootTabParamList = {
 	MySettings: undefined;
 	Home: undefined;
 	Match: MatchParamList;
-=======
-  TabOne: { id: string };
-  TabTwo: undefined;
-  Messages: undefined;
-  Introduction: undefined;
-  MyProfile: undefined;
-  MovieSwiping: undefined;
-  MovieSwiping2: undefined;
-  PersonDetails: undefined;
-  MySettings: undefined;
-  Home: undefined;
-  Match: MatchParamList;
   MovieDetails: undefined;
->>>>>>> master
+
 };
 
 export type LoginParamList = {
