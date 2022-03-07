@@ -99,7 +99,7 @@ const [isEnabled, setIsEnabled] = useState(false);
                     minimumTrackTintColor="#FD484F"
                     maximumTrackTintColor= "#FFFFFF"
                     value={50}
-                    onValueChange={ (range) => setRange(range.toFixed())}
+                    onValueChange={ (range: number) => setRange(range.toFixed())}
                 />
 
      

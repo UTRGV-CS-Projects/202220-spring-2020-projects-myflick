@@ -26,9 +26,6 @@ import MyProfile from "../screens/MyProfile";
 import PersonDetails from "../screens/PersonDetails";
 import MySettings from "../screens/MySettings";
 import MovieSwiping from "../screens/MovieSwiping";
-// import SettingsMenu from "../screens/SettingsMenu";
-import MyDiscoverySettings from "../screens/MyDiscoverySettings";
-import { UserActionTypes } from "../store/actions/actionTypes";
 import {
   RootStackParamList,
   RootTabParamList,
@@ -39,6 +36,7 @@ import MovieSwiping2 from "../screens/MovieSwiping2";
 import { Auth, Hub } from "aws-amplify";
 import { AuthContext } from "../store/AuthContext";
 import { setUser } from "../store/actions/userActions";
+import MyDiscoverySettings from "../screens/MyDiscoverySettings";
 
 export default function Navigation({
   colorScheme,
