@@ -25,6 +25,7 @@ import MyProfile from "../screens/MyProfile";
 import PersonDetails from "../screens/PersonDetails";
 import MySettings from "../screens/MySettings";
 import MovieSwiping from "../screens/MovieSwiping";
+import PeopleSwiping from "../screens/PeopleSwiping";
 
 import {
 	RootStackParamList,
@@ -32,7 +33,7 @@ import {
 	RootTabScreenProps,
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
-import MovieDetails from "../screens/MovieDetails";
+import SwipingComponent from "../components/SwipingComponent/SwipingComponent";
 
 export default function Navigation({
 	colorScheme,
@@ -76,8 +77,8 @@ function BottomTabNavigator() {
 		<BottomTab.Navigator
 			screenOptions={{
 				headerShown: false,
-				tabBarActiveTintColor: Colors[colorScheme].tabIconSelected,
-				tabBarInactiveTintColor: Colors[colorScheme].tabIconDefault,
+				tabBarActiveTintColor: Colors[colorScheme].lightTint,
+				tabBarInactiveTintColor: Colors[colorScheme].darkTint,
 				tabBarShowLabel: false,
 			}}
 		>
@@ -149,6 +150,7 @@ function BottomTabNavigator() {
 				})}
 			/>
 
+<<<<<<< HEAD
       <BottomTab.Screen
         name="MyProfile"
         component={MyProfile}
@@ -210,4 +212,87 @@ function BottomTabNavigator() {
       />
     </BottomTab.Navigator>
   );
+=======
+			<BottomTab.Screen
+				name="MyProfile"
+				component={MyProfile}
+				options={({ navigation }: RootTabScreenProps<"MyProfile">) => ({
+					title: "",
+					tabBarAccessibilityLabel: "MyProfile",
+					tabBarTestID: "MyProfileTab",
+					tabBarIcon: ({ color }) => (
+						<TouchableOpacity
+							onPress={() => {
+								navigation.navigate("MyProfile");
+							}}
+							accessibilityRole="button"
+						>
+							<Ionicons name="person-outline" size={30} color={color} />
+						</TouchableOpacity>
+					),
+				})}
+			/>
+
+			<BottomTab.Screen
+				name="MovieSwiping"
+				component={MovieSwiping}
+				options={({ navigation }: RootTabScreenProps<"MovieSwiping">) => ({
+					title: "",
+					tabBarAccessibilityLabel: "MovieSwiping",
+					tabBarTestID: "MovieSwipingTab",
+					tabBarIcon: ({ color }) => (
+						<TouchableOpacity
+							onPress={() => {
+								navigation.navigate("MovieSwiping");
+							}}
+							accessibilityRole="button"
+						>
+							<Ionicons name="film" size={30} color={color} />
+						</TouchableOpacity>
+					),
+				})}
+			/>
+
+			<BottomTab.Screen
+				name="PeopleSwiping"
+				component={PeopleSwiping}
+				options={({ navigation }: RootTabScreenProps<"PeopleSwiping">) => ({
+					title: "",
+					tabBarAccessibilityLabel: "PeopleSwiping",
+					tabBarTestID: "PeopleSwipingTab",
+					tabBarIcon: ({ color }) => (
+						<TouchableOpacity
+							onPress={() => {
+								navigation.navigate("PeopleSwiping");
+							}}
+							accessibilityRole="button"
+						>
+							<Ionicons name="flame" size={30} color={color} />
+						</TouchableOpacity>
+					),
+				})}
+			/>
+
+			<BottomTab.Screen
+				name="MySettings"
+				component={MySettings}
+				options={({ navigation }: RootTabScreenProps<"MySettings">) => ({
+					title: "",
+					tabBarAccessibilityLabel: "MySettings",
+					tabBarTestID: "MySettingsTab",
+					tabBarIcon: ({ color }) => (
+						<TouchableOpacity
+							onPress={() => {
+								navigation.navigate("MySettings");
+							}}
+							accessibilityRole="button"
+						>
+							<Ionicons name="settings-outline" size={30} color={color} />
+						</TouchableOpacity>
+					),
+				})}
+			/>
+		</BottomTab.Navigator>
+	);
+>>>>>>> 3da72a6bdfeea0445466f865dcd7d1fce3ea59a8
 }

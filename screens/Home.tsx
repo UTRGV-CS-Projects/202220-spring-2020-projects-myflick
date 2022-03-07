@@ -5,7 +5,6 @@ import { View, Text, SafeAreaView } from "../components/Themed";
 import Movies from "../components/MovieDetails/Movies";
 
 const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
-
   const handleDetailsPress = () => {
     navigation.navigate("PersonDetails");
   };
@@ -22,9 +21,9 @@ const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
 
   const handleMovieDetails = () => {
     navigation.navigate("MovieDetails");
-  }
+  };
 
-  return ( 
+  return (
     <SafeAreaView
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
