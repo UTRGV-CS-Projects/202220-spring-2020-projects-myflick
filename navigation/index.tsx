@@ -190,45 +190,6 @@ function BottomTabNavigator() {
         })}
       />
 
-      <BottomTab.Screen
-        name="MySettings"
-        component={MySettings}
-        options={({ navigation }: RootTabScreenProps<"MySettings">) => ({
-          title: "",
-          tabBarAccessibilityLabel: "MySettings",
-          tabBarTestID: "MySettingsTab",
-          tabBarIcon: ({ color }) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("MySettings");
-              }}
-              accessibilityRole="button"
-            >
-              <Ionicons name="settings-outline" size={30} color={color} />
-            </TouchableOpacity>
-          ),
-        })}
-      />
-
-			<BottomTab.Screen
-				name="MyProfile"
-				component={MyProfile}
-				options={({ navigation }: RootTabScreenProps<"MyProfile">) => ({
-					title: "",
-					tabBarAccessibilityLabel: "MyProfile",
-					tabBarTestID: "MyProfileTab",
-					tabBarIcon: ({ color }) => (
-						<TouchableOpacity
-							onPress={() => {
-								navigation.navigate("MyProfile");
-							}}
-							accessibilityRole="button"
-						>
-							<Ionicons name="person-outline" size={30} color={color} />
-						</TouchableOpacity>
-					),
-				})}
-			/>
 
 			<BottomTab.Screen
 				name="MovieSwiping"
