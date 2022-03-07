@@ -150,46 +150,45 @@ function BottomTabNavigator() {
 					),
 				})}
 			/>
-      <BottomTab.Screen
-        name="MyProfile"
-        component={MyProfile}
-        options={({ navigation }: RootTabScreenProps<"MyProfile">) => ({
-          title: "",
-          tabBarAccessibilityLabel: "MyProfile",
-          tabBarTestID: "MyProfileTab",
-          tabBarIcon: ({ color }) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("MyProfile");
-              }}
-              accessibilityRole="button"
-            >
-              <Ionicons name="person-outline" size={30} color={color} />
-            </TouchableOpacity>
-          ),
-        })}
-      />
+			<BottomTab.Screen
+				name="MyProfile"
+				component={MyProfile}
+				options={({ navigation }: RootTabScreenProps<"MyProfile">) => ({
+					title: "",
+					tabBarAccessibilityLabel: "MyProfile",
+					tabBarTestID: "MyProfileTab",
+					tabBarIcon: ({ color }) => (
+						<TouchableOpacity
+							onPress={() => {
+								navigation.navigate("MyProfile");
+							}}
+							accessibilityRole="button"
+						>
+							<Ionicons name="person-outline" size={30} color={color} />
+						</TouchableOpacity>
+					),
+				})}
+			/>
 
-      <BottomTab.Screen
-        name="MovieDetails"
-        component={MovieDetails}
-        options={({ navigation }: RootTabScreenProps<"MovieDetails">) => ({
-          title: "",
-          tabBarAccessibilityLabel: "MovieDetails",
-          tabBarTestID: "MovieDetails",
-          tabBarIcon: ({ color }) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("MovieDetails");
-              }}
-              accessibilityRole="button"
-            >
-              <Ionicons name="person-outline" size={30} color={color} />
-            </TouchableOpacity>
-          ),
-        })}
-      />
-
+			<BottomTab.Screen
+				name="MovieDetails"
+				component={MovieDetails}
+				options={({ navigation }: RootTabScreenProps<"MovieDetails">) => ({
+					title: "",
+					tabBarAccessibilityLabel: "MovieDetails",
+					tabBarTestID: "MovieDetails",
+					tabBarIcon: ({ color }) => (
+						<TouchableOpacity
+							onPress={() => {
+								navigation.navigate("MovieDetails");
+							}}
+							accessibilityRole="button"
+						>
+							<Ionicons name="person-outline" size={30} color={color} />
+						</TouchableOpacity>
+					),
+				})}
+			/>
 
 			<BottomTab.Screen
 				name="MovieSwiping"
@@ -211,7 +210,7 @@ function BottomTabNavigator() {
 				})}
 			/>
 
-			{/* <BottomTab.Screen
+			<BottomTab.Screen
 				name="PeopleSwiping"
 				component={PeopleSwiping}
 				options={({ navigation }: RootTabScreenProps<"PeopleSwiping">) => ({
@@ -229,7 +228,7 @@ function BottomTabNavigator() {
 						</TouchableOpacity>
 					),
 				})}
-			/> */}
+			/>
 
 			<BottomTab.Screen
 				name="MySettings"
@@ -252,5 +251,4 @@ function BottomTabNavigator() {
 			/>
 		</BottomTab.Navigator>
 	);
-
 }
