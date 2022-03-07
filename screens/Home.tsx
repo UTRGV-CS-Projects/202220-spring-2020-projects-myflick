@@ -1,12 +1,9 @@
 import { StyleSheet } from "react-native";
 import React from "react";
 import { RootStackScreenProps } from "../types";
-<<<<<<< HEAD
-import { Text, SafeAreaView } from "../components/Themed";
-=======
 import { View, Text, SafeAreaView } from "../components/Themed";
+import Movies from "../components/MovieDetails/Movies";
 
->>>>>>> MovieDetails
 const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
 
   const handleDetailsPress = () => {

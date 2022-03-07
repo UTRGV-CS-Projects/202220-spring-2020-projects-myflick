@@ -149,69 +149,6 @@ function BottomTabNavigator() {
 				})}
 			/>
 
-<<<<<<< HEAD
-			<BottomTab.Screen
-				name="MyProfile"
-				component={MyProfile}
-				options={({ navigation }: RootTabScreenProps<"MyProfile">) => ({
-					title: "",
-					tabBarAccessibilityLabel: "MyProfile",
-					tabBarTestID: "MyProfileTab",
-					tabBarIcon: ({ color }) => (
-						<TouchableOpacity
-							onPress={() => {
-								navigation.navigate("MyProfile");
-							}}
-							accessibilityRole="button"
-						>
-							<Ionicons name="person-outline" size={30} color={color} />
-						</TouchableOpacity>
-					),
-				})}
-			/>
-
-			<BottomTab.Screen
-				name="MovieSwiping"
-				component={MovieSwiping}
-				options={({ navigation }: RootTabScreenProps<"MovieSwiping">) => ({
-					title: "",
-					tabBarAccessibilityLabel: "MovieSwiping",
-					tabBarTestID: "MovieSwipingTab",
-					tabBarIcon: ({ color }) => (
-						<TouchableOpacity
-							onPress={() => {
-								navigation.navigate("MovieSwiping");
-							}}
-							accessibilityRole="button"
-						>
-							<Ionicons name="film" size={30} color={color} />
-						</TouchableOpacity>
-					),
-				})}
-			/>
-
-			<BottomTab.Screen
-				name="MySettings"
-				component={MySettings}
-				options={({ navigation }: RootTabScreenProps<"MySettings">) => ({
-					title: "",
-					tabBarAccessibilityLabel: "MySettings",
-					tabBarTestID: "MySettingsTab",
-					tabBarIcon: ({ color }) => (
-						<TouchableOpacity
-							onPress={() => {
-								navigation.navigate("MySettings");
-							}}
-							accessibilityRole="button"
-						>
-							<Ionicons name="settings-outline" size={30} color={color} />
-						</TouchableOpacity>
-					),
-				})}
-			/>
-		</BottomTab.Navigator>
-	);
-=======
       <BottomTab.Screen
         name="MyProfile"
         component={MyProfile}
@@ -273,5 +210,4 @@ function BottomTabNavigator() {
       />
     </BottomTab.Navigator>
   );
->>>>>>> MovieDetails
 }
