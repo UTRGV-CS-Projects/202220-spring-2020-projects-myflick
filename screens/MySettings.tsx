@@ -197,7 +197,7 @@ const pickImage = async () => {
                     color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity>
-                {/* {image && <Image source={{ uri: image }} style={styles.menuBox} />} */}
+                 {/* {image && <Image source={{ uri: image }} style={styles.menuBox} />}  */}
               </View>
 
               <View style={styles.menuBox}>
@@ -648,9 +648,6 @@ const styles = StyleSheet.create({
     
 });
 
-
-
-
 const basicInfo = [
     "Single",
     "Spiritual",
@@ -672,7 +669,5 @@ const myInterests = [
     "Baking",
     "ADD +"
   ];
-function setImage(uri: string) {
-  throw new Error("Function not implemented.");
-}
+
 
