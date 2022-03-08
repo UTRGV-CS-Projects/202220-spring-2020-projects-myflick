@@ -5,10 +5,8 @@
     "serviceName": "AppSync",
     "gqlSchemaPath": "/Users/jordanmolina/Projects/MyFlick/amplify/backend/api/myflick/schema.graphql",
     "defaultAuthType": {
-      "mode": "AMAZON_COGNITO_USER_POOLS",
-      "cognitoUserPoolId": "authmyflick40433765"
-    },
-    "conflictResolution": {},
-    "additionalAuthTypes": []
+      "mode": "API_KEY",
+      "expirationTime": 7
+    }
   }
 }

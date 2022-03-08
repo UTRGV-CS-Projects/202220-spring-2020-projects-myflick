@@ -10,6 +10,7 @@ import {
 } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { PeopleDetailsType } from "./db/db";
+import * as ImagePicker from "expo-image-picker";
 
 declare global {
   namespace ReactNavigation {

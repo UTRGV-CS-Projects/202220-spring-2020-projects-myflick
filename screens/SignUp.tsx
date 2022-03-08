@@ -22,8 +22,6 @@ const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
   const colorScheme = useColorScheme();
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user, dispatch } = useContext(AuthContext);
-
   async function signUp() {
     try {
       if (userEmail.length === 0 || password.length === 0) {

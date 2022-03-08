@@ -70,7 +70,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
             <Image
               style={styles.image}
               source={{
-                uri: "https://randomuser.me/api/portraits/women/50.jpg",
+                uri: user.picture,
               }}
             ></Image>
           </View>
@@ -78,9 +78,9 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
 
         <View style={styles.container}>
           <View style={styles.nameAndPronouns}>
-            <Text style={styles.name}>Ashley Nicole,</Text>
+            <Text style={styles.name}>{user.firstName}</Text>
             <Text style={styles.name}>24</Text>
-            <Text style={styles.pronouns}>She/Her</Text>
+            <Text style={styles.pronouns}>{user.pronouns}</Text>
           </View>
 
           <View style={styles.location}>
@@ -93,9 +93,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
           </View>
 
           <View>
-            <Text style={styles.bio}>
-              I love modeling, watching movies, and having fun.
-            </Text>
+            <Text style={styles.bio}>{user.bio}</Text>
           </View>
         </View>
 

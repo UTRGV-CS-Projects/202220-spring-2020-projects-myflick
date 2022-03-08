@@ -8,13 +8,13 @@ import React, {
   FC,
   Dispatch,
 } from "react";
+import { ProfileCompleteType } from "../types";
 import { UserActionTypes } from "./actions/actionTypes";
 import { UserAction } from "./actions/userActions";
 const initialState: ProfileType = {
   email: "",
   email_verified: false,
   firstName: "",
-  identities: "",
   password: "",
   name: "",
   picture: "",
@@ -37,7 +37,6 @@ export type ProfileType = {
   email: string;
   email_verified: boolean;
   firstName: string;
-  identities: string;
   name: string;
   password: string;
   picture: string;
@@ -56,10 +55,17 @@ const reducer = (user: ProfileType = initialState, action: UserAction) => {
 
   switch (action.type) {
     case UserActionTypes.SIGN_UP:
+      const signUpUser: ProfileCompleteType = action.payload;
       return {
         ...user,
-        email: action.payload.email,
-        password: action.payload.password,
+        interests: signUpUser.interests,
+        firstName: signUpUser.firstName,
+        photos: signUpUser.photos,
+        bio: signUpUser.bio,
+        location: signUpUser.location,
+        pronouns: signUpUser.pronouns,
+        picture: signUpUser.picture,
+        profileComplete: true,
       };
     case UserActionTypes.LOG_IN:
       return {
@@ -78,21 +84,6 @@ const reducer = (user: ProfileType = initialState, action: UserAction) => {
       return {
         ...newUser,
         loggedIn: true,
-      };
-
-    case UserActionTypes.PROFILE_COMPLETE:
-      return {
-        ...user,
-        picture: payload.picture,
-        firstName: payload.firstName,
-        interests: payload.interests,
-        bio: payload.bio,
-        location: payload.location,
-        email: payload.email,
-        pronouns: payload.pronouns,
-        photos: payload.photos,
-        password: payload.password,
-        profileComplete: true,
       };
 
     default:

@@ -28,6 +28,7 @@ import { Auth } from "aws-amplify";
 import {
   handleLogOut,
   handleProfileComplete,
+  handleSignUp,
 } from "../store/actions/userActions";
 import { ProfileCompleteType } from "../types";
 import * as ImagePicker from "expo-image-picker";
@@ -44,6 +45,18 @@ const Personalize = ({
   const [imageStatus, requestPermission] =
     ImagePicker.useMediaLibraryPermissions();
 
+  const [completeProfile, setCompleteProfile] = useState<ProfileCompleteType>({
+    email: route.params.email,
+    password: route.params.password,
+    interests: ["eating", "chewing"],
+    firstName: "",
+    photos: [],
+    bio: "",
+    location: "",
+    pronouns: "",
+    picture: "https://www.booksie.com/files/profiles/22/mr-anonymous.png",
+  });
+
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     requestPermission();
@@ -57,24 +70,15 @@ const Personalize = ({
     console.log(result);
 
     if (!result.cancelled) {
-      setImages([...images, result]);
+      setCompleteProfile({
+        ...completeProfile,
+        photos: [...completeProfile.photos, result.uri],
+      });
     }
   };
 
-  const [completeProfile, setCompleteProfile] = useState<ProfileCompleteType>({
-    email: route.params.email,
-    password: route.params.password,
-    interests: ["eating", "chewing"],
-    firstName: "",
-    photos: [],
-    bio: "",
-    location: "",
-    pronouns: "",
-    picture: "",
-  });
-
   const handleSaveChanges = async () => {
-    if (!user.email_verified) {
+    /* if (!user.email_verified) {
       console.log("user email: ", user.email);
       console.log("auth code: ", authCode);
       try {
@@ -83,20 +87,17 @@ const Personalize = ({
         console.log("error confirming sign up", error);
       }
     }
-
+ */
     Auth.signUp({
       username: completeProfile.email,
       password: completeProfile.password,
-      attributes: {
-        firstName: completeProfile.firstName,
-        bio: completeProfile.bio,
-        location: completeProfile.location,
-        picture: completeProfile.picture,
-      },
     });
+    handleSignUp(dispatch, completeProfile);
 
-    const authUser = await Auth.signIn(user.email, user.password);
-    console.log(authUser);
+    navigation.navigate("Introduction");
+
+    // const authUser = await Auth.signIn(user.email, user.password);
+    //console.log(authUser);
   };
 
   const logOut = () => {
@@ -200,7 +201,7 @@ const Personalize = ({
         <View>
           <Text style={styles.sectionHeader}>Photos</Text>
           <View style={styles.bodyContent}>
-            {images.length > 0 ? (
+            {completeProfile.photos.length > 0 ? (
               <FlatList
                 horizontal={true}
                 keyExtractor={(data) => {
@@ -246,6 +247,7 @@ const Personalize = ({
               return (
                 <Chip
                   mode="flat"
+                  key={index}
                   textStyle={{
                     color: themeColor,
                     fontSize: 15,

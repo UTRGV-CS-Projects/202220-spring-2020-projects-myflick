@@ -65,13 +65,19 @@ function RootNavigator() {
   const navigation = useNavigation();
 
   React.useEffect(() => {
-    if (user.loggedIn && !user.profileComplete) {
-      navigation.navigate("Personalize");
-    }
-    console.log(user);
+    /* if (user.loggedIn && !user.profileComplete) {
+      navigation.navigate("Personalize", {
+        email: user.email,
+        password: user.password,
+      });
+    } */
+    //console.log(user);
 
-    if (user) {
+    if (!user.loggedIn && user.profileComplete) {
+      navigation.navigate("Root", { screen: "MyProfile" });
     }
+
+    console.log(user);
   }, [user]);
 
   return (

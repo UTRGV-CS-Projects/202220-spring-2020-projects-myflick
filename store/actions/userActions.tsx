@@ -32,12 +32,12 @@ export const handleLogInFaceBook = async (dispatch: Dispatch<UserAction>) => {
 
 export const handleSignUp = async (
   dispatch: Dispatch<UserAction>,
-  info: SignUpType
+  data: ProfileCompleteType
 ) => {
   try {
     //let userInfo = await Auth.currentAuthenticatedUser();
     //console.log("userInfo: ", userInfo);
-    dispatch({ type: UserActionTypes.SIGN_UP, payload: info });
+    dispatch({ type: UserActionTypes.SIGN_UP, payload: data });
   } catch (error) {
     console.log(error);
   }
@@ -59,6 +59,7 @@ export const handleSignIn = async (
 export const handleLogOut = async (dispatch: Dispatch<UserAction>) => {
   try {
     await Auth.signOut();
+    console.log("user logged out");
     dispatch({ type: UserActionTypes.LOG_OUT });
   } catch (error) {
     console.log(error);

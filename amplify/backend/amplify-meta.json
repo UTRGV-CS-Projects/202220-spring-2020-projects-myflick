@@ -1,15 +1,15 @@
 {
   "providers": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-myflick-dev-143947-authRole",
-      "UnauthRoleArn": "arn:aws:iam::580400142841:role/amplify-myflick-dev-143947-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::580400142841:role/amplify-myflick-dev-143947-authRole",
+      "AuthRoleName": "amplify-myflick-dev-145327-authRole",
+      "UnauthRoleArn": "arn:aws:iam::580400142841:role/amplify-myflick-dev-145327-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::580400142841:role/amplify-myflick-dev-145327-authRole",
       "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-myflick-dev-143947-deployment",
-      "UnauthRoleName": "amplify-myflick-dev-143947-unauthRole",
-      "StackName": "amplify-myflick-dev-143947",
-      "StackId": "arn:aws:cloudformation:us-east-2:580400142841:stack/amplify-myflick-dev-143947/ec1f7f80-95b1-11ec-bee8-06621b4535b0",
-      "AmplifyAppId": "dxkajzvj66wu3"
+      "DeploymentBucketName": "amplify-myflick-dev-145327-deployment",
+      "UnauthRoleName": "amplify-myflick-dev-145327-unauthRole",
+      "StackName": "amplify-myflick-dev-145327",
+      "StackId": "arn:aws:cloudformation:us-east-2:580400142841:stack/amplify-myflick-dev-145327/a4e2a430-9e58-11ec-8b1c-0a649f7b48fe",
+      "AmplifyAppId": "dmjzto04g5gsu"
     }
   },
   "api": {
@@ -19,34 +19,33 @@
       "output": {
         "authConfig": {
           "defaultAuthentication": {
-            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-            "userPoolConfig": {
-              "userPoolId": "authmyflick40433765"
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7
             }
           },
           "additionalAuthenticationProviders": []
         },
-        "GraphQLAPIIdOutput": "jevhaq42urfvlaxcxqjo3ufqyq",
-        "GraphQLAPIEndpointOutput": "https://kqazfyc6v5dmvl2dpycw2vexhi.appsync-api.us-east-2.amazonaws.com/graphql"
+        "GraphQLAPIIdOutput": "qdctw7gojzca5g573bj4umojiq",
+        "GraphQLAPIEndpointOutput": "https://utjoesyvkfct3e6ckxz43olike.appsync-api.us-east-2.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-x6v3wyqmgbd4xda3bocj3ptgnm"
       },
       "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-myflick-dev-143947-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-myflick-dev-145327-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apimyflick"
       },
-      "lastPushTimeStamp": "2022-03-04T08:44:50.985Z",
-      "lastPushDirHash": "vaYw0baKfYLAAtQXTAKDxQoAP6Y="
+      "lastPushTimeStamp": "2022-03-08T00:34:23.391Z",
+      "lastPushDirHash": "SI6jobOf2U6Bhzi9KjrxVn2nFsk="
     }
   },
   "auth": {
-    "myflick40433765": {
+    "myflick6eddbe9a": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false,
       "frontendAuthConfig": {
-        "socialProviders": [
-          "GOOGLE"
-        ],
+        "socialProviders": [],
         "usernameAttributes": [
           "EMAIL"
         ],
@@ -66,22 +65,20 @@
         ]
       },
       "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-myflick-dev-143947-deployment/amplify-cfn-templates/auth/myflick40433765-cloudformation-template.json",
-        "logicalId": "authmyflick40433765"
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-myflick-dev-145327-deployment/amplify-cfn-templates/auth/myflick6eddbe9a-cloudformation-template.json",
+        "logicalId": "authmyflick6eddbe9a"
       },
-      "lastPushTimeStamp": "2022-03-04T08:44:50.987Z",
+      "lastPushTimeStamp": "2022-03-08T00:34:21.470Z",
       "output": {
-        "UserPoolId": "us-east-2_pZOlJ7h1S",
-        "AppClientIDWeb": "66jmhakckaq5vi6sepean7q1i4",
-        "AppClientID": "2n652jak9ih5atnsvh9pc8sasl",
-        "IdentityPoolId": "us-east-2:c9803b21-92c8-4df2-8eee-353977cf6fdb",
-        "UserPoolArn": "arn:aws:cognito-idp:us-east-2:580400142841:userpool/us-east-2_pZOlJ7h1S",
-        "IdentityPoolName": "myflick40433765_identitypool_40433765__dev",
-        "UserPoolName": "myflick40433765_userpool_40433765",
-        "HostedUIDomain": "myflicka45d4d89-a45d4d89-dev",
-        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"exp://127.0.0.1:19000/--/\"],\"LogoutURLs\":[\"exp://127.0.0.1:19000/--/\"]}"
+        "UserPoolId": "us-east-2_lnEW7xAlk",
+        "AppClientIDWeb": "6tkvuingignt3u8j6684n802ee",
+        "AppClientID": "541cte3gufc7lki2shjdd36f5r",
+        "IdentityPoolId": "us-east-2:3cf9fa86-68c7-4a2e-b1c4-5bd6b4e982bf",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-2:580400142841:userpool/us-east-2_lnEW7xAlk",
+        "IdentityPoolName": "myflick6eddbe9a_identitypool_6eddbe9a__dev",
+        "UserPoolName": "myflick6eddbe9a_userpool_6eddbe9a"
       },
-      "lastPushDirHash": "OWO6IlQqN21Uvm8asCqFYR0c8qA="
+      "lastPushDirHash": "kyzyp08S+riFVwVDXchmVmFhNEg="
     }
   }
 }
