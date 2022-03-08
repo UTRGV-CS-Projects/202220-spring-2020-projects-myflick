@@ -1,12 +1,5 @@
 {
   "AppSyncApiName": "myflick",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
-  "DynamoDBEnableServerSideEncryption": false,
-  "AuthCognitoUserPoolId": {
-    "Fn::GetAtt": [
-      "authmyflick40433765",
-      "Outputs.UserPoolId"
-    ]
-  },
-  "AuthModeLastUpdated": "2022-03-03T19:41:29.382Z"
+  "DynamoDBEnableServerSideEncryption": false
 }

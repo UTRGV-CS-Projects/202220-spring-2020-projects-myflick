@@ -155,32 +155,26 @@
     "apimyflick": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/amplify-myflick-dev-143947-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "TemplateURL": "https://s3.amazonaws.com/amplify-myflick-dev-145327-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "Parameters": {
           "AppSyncApiName": "myflick",
           "DynamoDBBillingMode": "PAY_PER_REQUEST",
           "DynamoDBEnableServerSideEncryption": false,
-          "AuthCognitoUserPoolId": {
-            "Fn::GetAtt": [
-              "authmyflick40433765",
-              "Outputs.UserPoolId"
-            ]
-          },
-          "S3DeploymentBucket": "amplify-myflick-dev-143947-deployment",
-          "S3DeploymentRootKey": "amplify-appsync-files/c666a2047744580e7fffb89fdf59f27c605ca603",
+          "S3DeploymentBucket": "amplify-myflick-dev-145327-deployment",
+          "S3DeploymentRootKey": "amplify-appsync-files/e6c0a2da51e7154384f2bc72318714893b6fdfe0",
           "env": "dev"
         }
       }
     },
-    "authmyflick40433765": {
+    "authmyflick6eddbe9a": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/amplify-myflick-dev-143947-deployment/amplify-cfn-templates/auth/myflick40433765-cloudformation-template.json",
+        "TemplateURL": "https://s3.amazonaws.com/amplify-myflick-dev-145327-deployment/amplify-cfn-templates/auth/myflick6eddbe9a-cloudformation-template.json",
         "Parameters": {
-          "identityPoolName": "myflick40433765_identitypool_40433765",
+          "identityPoolName": "myflick6eddbe9a_identitypool_6eddbe9a",
           "allowUnauthenticatedIdentities": false,
-          "resourceNameTruncated": "myflic40433765",
-          "userPoolName": "myflick40433765_userpool_40433765",
+          "resourceNameTruncated": "myflic6eddbe9a",
+          "userPoolName": "myflick6eddbe9a_userpool_6eddbe9a",
           "autoVerifiedAttributes": "email",
           "mfaConfiguration": "OFF",
           "mfaTypes": "SMS Text Message",
@@ -197,12 +191,12 @@
           "userpoolClientRefreshTokenValidity": 30,
           "userpoolClientWriteAttributes": "email",
           "userpoolClientReadAttributes": "email",
-          "userpoolClientLambdaRole": "myflic40433765_userpoolclient_lambda_role",
+          "userpoolClientLambdaRole": "myflic6eddbe9a_userpoolclient_lambda_role",
           "userpoolClientSetAttributes": false,
-          "sharedId": "40433765",
-          "resourceName": "myflick40433765",
+          "sharedId": "6eddbe9a",
+          "resourceName": "myflick6eddbe9a",
           "authSelections": "identityPoolAndUserPool",
-          "useDefault": "defaultSocial",
+          "useDefault": "default",
           "usernameAttributes": "email",
           "userPoolGroupList": "",
           "serviceName": "Cognito",
@@ -222,13 +216,6 @@
           },
           "breakCircularDependency": true,
           "dependsOn": "",
-          "hostedUI": true,
-          "hostedUIDomainName": "myflicka45d4d89-a45d4d89",
-          "authProvidersUserPool": "Google",
-          "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
-          "authProviders": "",
-          "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\"}]",
-          "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"exp://127.0.0.1:19000/--/\"],\"LogoutURLs\":[\"exp://127.0.0.1:19000/--/\"]}",
           "env": "dev"
         }
       }
@@ -237,7 +224,7 @@
       "DependsOn": [
         "AuthRole",
         "UnauthRole",
-        "authmyflick40433765"
+        "authmyflick6eddbe9a"
       ],
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -332,7 +319,7 @@
         },
         "idpId": {
           "Fn::GetAtt": [
-            "authmyflick40433765",
+            "authmyflick6eddbe9a",
             "Outputs.IdentityPoolId"
           ]
         },

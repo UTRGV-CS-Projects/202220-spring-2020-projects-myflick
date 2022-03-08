@@ -37,10 +37,10 @@ const ListItem = ({ item }: { item: any }) => {
   );
 };
 
-
 const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
   const [timesPressed, setTimesPressed] = useState(0);
   const colorScheme = useColorScheme();
+  const { user, dispatch } = React.useContext(AuthContext);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -70,33 +70,32 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
             <Image
               style={styles.image}
               source={{
-                uri: "https://randomuser.me/api/portraits/women/50.jpg",
+                uri: user.picture,
               }}
             ></Image>
           </View>
         </View>
 
-    <View style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.nameAndPronouns}>
-              <Text style={styles.name}>Ashley Nicole,</Text>
-              <Text style={styles.name}>24</Text>
-              <Text style={styles.pronouns}>She/Her</Text>
+            <Text style={styles.name}>{user.firstName}</Text>
+            <Text style={styles.name}>24</Text>
+            <Text style={styles.pronouns}>{user.pronouns}</Text>
           </View>
 
+          <View style={styles.location}>
+            <Ionicons
+              name="location-outline"
+              size={15}
+              color={Colors[colorScheme].opposite}
+            ></Ionicons>
+            <Text>Quantico, VA</Text>
+          </View>
 
-            <View style={styles.location}>
-              <Ionicons
-                name="location-outline"
-                size={15}
-                color={Colors[colorScheme].opposite}
-                ></Ionicons>
-              <Text>Quantico, VA</Text>
-            </View>
-
-            <View>
-              <Text style={styles.bio}>I love modeling, watching movies, and having fun.</Text>
-            </View>
-      </View>
+          <View>
+            <Text style={styles.bio}>{user.bio}</Text>
+          </View>
+        </View>
 
         <View style={styles.container}>
           <SectionList
@@ -187,7 +186,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    
   },
   titleBar: {
     flexDirection: "row",
@@ -228,7 +226,7 @@ const styles = StyleSheet.create({
   bio: {
     textAlign: "center",
     color: themeColor,
-    fontSize: 15
+    fontSize: 15,
   },
   photosContainer: {
     flex: 1,
@@ -259,23 +257,22 @@ const styles = StyleSheet.create({
   },
   pronouns: {
     fontSize: 15,
-    opacity: .4,
+    opacity: 0.4,
   },
-  nameAndPronouns:{
-    flexDirection:"row",
-    justifyContent: "center"
-    
-  },
-  location:{
+  nameAndPronouns: {
     flexDirection: "row",
-    justifyContent: "center"
+    justifyContent: "center",
+  },
+  location: {
+    flexDirection: "row",
+    justifyContent: "center",
   },
   menuContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingTop: 50,
-    backgroundColor: '#ecf0f1',
+    backgroundColor: "#ecf0f1",
   },
 });
 
@@ -301,4 +298,3 @@ const basicInfo = [
 function render() {
   throw new Error("Function not implemented.");
 }
-

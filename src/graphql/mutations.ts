@@ -2,63 +2,189 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createProfile = /* GraphQL */ `
-  mutation CreateProfile(
-    $input: CreateProfileInput!
-    $condition: ModelProfileConditionInput
-  ) {
-    createProfile(input: $input, condition: $condition) {
-      id
-      name
-      bio
-      gender
-      age
-      images
+export const createConversation = /* GraphQL */ `
+  mutation CreateConversation($createdAt: String, $id: ID!, $name: String!) {
+    createConversation(createdAt: $createdAt, id: $id, name: $name) {
       createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
+      id
+      messages {
+        messages {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      name
     }
   }
 `;
-export const updateProfile = /* GraphQL */ `
-  mutation UpdateProfile(
-    $input: UpdateProfileInput!
-    $condition: ModelProfileConditionInput
+export const createMessage = /* GraphQL */ `
+  mutation CreateMessage(
+    $content: String
+    $conversationId: ID!
+    $createdAt: String!
+    $id: ID!
   ) {
-    updateProfile(input: $input, condition: $condition) {
-      id
-      name
-      bio
-      gender
-      age
-      images
+    createMessage(
+      content: $content
+      conversationId: $conversationId
+      createdAt: $createdAt
+      id: $id
+    ) {
+      author {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      content
+      conversationId
       createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
+      id
+      isSent
+      recipient {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      sender
     }
   }
 `;
-export const deleteProfile = /* GraphQL */ `
-  mutation DeleteProfile(
-    $input: DeleteProfileInput!
-    $condition: ModelProfileConditionInput
-  ) {
-    deleteProfile(input: $input, condition: $condition) {
+export const createUser = /* GraphQL */ `
+  mutation CreateUser($username: String!) {
+    createUser(username: $username) {
+      cognitoId
+      conversations {
+        nextToken
+        userConversations {
+          conversationId
+          userId
+        }
+      }
       id
-      name
+      messages {
+        messages {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      email
+      email_verified
+      firstName
+      picture
+      pronouns
       bio
-      gender
-      age
-      images
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
+      location
+      photos
+      interests
+      loggedIn
+      profileComplete
+    }
+  }
+`;
+export const createUserConversations = /* GraphQL */ `
+  mutation CreateUserConversations($conversationId: ID!, $userId: ID!) {
+    createUserConversations(conversationId: $conversationId, userId: $userId) {
+      associated {
+        associated {
+          conversationId
+          userId
+        }
+        conversation {
+          createdAt
+          id
+          name
+        }
+        conversationId
+        user {
+          cognitoId
+          id
+          email
+          email_verified
+          firstName
+          picture
+          pronouns
+          bio
+          location
+          photos
+          interests
+          loggedIn
+          profileComplete
+        }
+        userId
+      }
+      conversation {
+        createdAt
+        id
+        messages {
+          nextToken
+        }
+        name
+      }
+      conversationId
+      user {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      userId
     }
   }
 `;

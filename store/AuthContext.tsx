@@ -8,17 +8,24 @@ import React, {
   FC,
   Dispatch,
 } from "react";
+import { ProfileCompleteType } from "../types";
 import { UserActionTypes } from "./actions/actionTypes";
 import { UserAction } from "./actions/userActions";
 const initialState: ProfileType = {
   email: "",
   email_verified: false,
-  give_name: "",
-  identities: "",
+  firstName: "",
+  password: "",
   name: "",
   picture: "",
+  location: "",
+  bio: "",
   sub: "",
   loggedIn: false,
+  pronouns: "",
+  photos: [],
+  interests: [],
+  profileComplete: false,
 };
 
 export const AuthContext = createContext<{
@@ -29,27 +36,48 @@ export const AuthContext = createContext<{
 export type ProfileType = {
   email: string;
   email_verified: boolean;
-  give_name: string;
-  identities: string;
+  firstName: string;
   name: string;
+  password: string;
   picture: string;
+  pronouns: string;
+  bio: string;
+  location: string;
+  photos: string[];
+  interests: string[];
   sub: string;
   loggedIn?: boolean;
+  profileComplete: boolean;
 };
 
 const reducer = (user: ProfileType = initialState, action: UserAction) => {
   const { type, payload } = action;
 
   switch (action.type) {
+    case UserActionTypes.SIGN_UP:
+      const signUpUser: ProfileCompleteType = action.payload;
+      return {
+        ...user,
+        interests: signUpUser.interests,
+        firstName: signUpUser.firstName,
+        photos: signUpUser.photos,
+        bio: signUpUser.bio,
+        location: signUpUser.location,
+        pronouns: signUpUser.pronouns,
+        picture: signUpUser.picture,
+        profileComplete: true,
+      };
     case UserActionTypes.LOG_IN:
       return {
         ...user,
+        email: action.payload.email,
+        password: action.payload.password,
+        email_verified: true,
         loggedIn: true,
       };
     case UserActionTypes.LOG_OUT:
       return {
-        ...user,
-        loggedIn: false,
+        ...initialState,
       };
     case UserActionTypes.SET_USER:
       const newUser = action.payload as ProfileType;
@@ -57,6 +85,7 @@ const reducer = (user: ProfileType = initialState, action: UserAction) => {
         ...newUser,
         loggedIn: true,
       };
+
     default:
       return user;
   }
