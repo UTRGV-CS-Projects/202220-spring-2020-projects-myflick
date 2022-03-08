@@ -55,17 +55,10 @@ const reducer = (user: ProfileType = initialState, action: UserAction) => {
 
   switch (action.type) {
     case UserActionTypes.SIGN_UP:
-      const signUpUser: ProfileCompleteType = action.payload;
       return {
         ...user,
-        interests: signUpUser.interests,
-        firstName: signUpUser.firstName,
-        photos: signUpUser.photos,
-        bio: signUpUser.bio,
-        location: signUpUser.location,
-        pronouns: signUpUser.pronouns,
-        picture: signUpUser.picture,
-        profileComplete: true,
+        email: action.payload.email,
+        password: action.payload.password,
       };
     case UserActionTypes.LOG_IN:
       return {
@@ -84,6 +77,19 @@ const reducer = (user: ProfileType = initialState, action: UserAction) => {
       return {
         ...newUser,
         loggedIn: true,
+      };
+    case UserActionTypes.PROFILE_COMPLETE:
+      const signUpUser: ProfileCompleteType = action.payload;
+      return {
+        ...user,
+        interests: signUpUser.interests,
+        firstName: signUpUser.firstName,
+        photos: signUpUser.photos,
+        bio: signUpUser.bio,
+        location: signUpUser.location,
+        pronouns: signUpUser.pronouns,
+        picture: signUpUser.picture,
+        profileComplete: true,
       };
 
     default:

@@ -92,12 +92,10 @@ const Personalize = ({
       username: completeProfile.email,
       password: completeProfile.password,
     });
-    handleSignUp(dispatch, completeProfile);
+
+    handleProfileComplete(dispatch, completeProfile);
 
     navigation.navigate("Introduction");
-
-    // const authUser = await Auth.signIn(user.email, user.password);
-    //console.log(authUser);
   };
 
   const logOut = () => {

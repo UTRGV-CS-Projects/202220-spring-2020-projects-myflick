@@ -32,7 +32,7 @@ export const handleLogInFaceBook = async (dispatch: Dispatch<UserAction>) => {
 
 export const handleSignUp = async (
   dispatch: Dispatch<UserAction>,
-  data: ProfileCompleteType
+  data: SignUpType
 ) => {
   try {
     //let userInfo = await Auth.currentAuthenticatedUser();

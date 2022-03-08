@@ -19,20 +19,21 @@ declare global {
 }
 
 export type RootStackParamList = {
-  Login: NavigatorScreenParams<LoginParamList> | undefined;
+  ogin: NavigatorScreenParams<LoginParamList> | undefined;
   MyProfile: NavigatorScreenParams<MyProfileList> | undefined;
   Home: undefined;
   Introduction: NavigatorScreenParams<MessageParamList> | undefined;
   MovieSwiping: NavigatorScreenParams<MovieParamsList> | undefined;
   PeopleSwiping: NavigatorScreenParams<MovieParamsList> | undefined;
   Settings: undefined;
-  MySettings: undefined;
-
+  MySettings: NavigatorScreenParams<MovieParamsList> | undefined;
   Messages: NavigatorScreenParams<MessageParamList> | undefined;
-  Root: undefined;
+  Root: NavigatorScreenParams<RootTabParamList> | undefined;
   PersonDetails: NavigatorScreenParams<MessageParamList> | undefined;
   Match: MatchParamList;
-
+  SignUp: NavigatorScreenParams<MessageParamList> | undefined;
+  SignIn: NavigatorScreenParams<MessageParamList> | undefined;
+  Personalize: PersonalizeParamList;
   MovieDetails: undefined;
 };
 
@@ -48,10 +49,13 @@ export type RootTabParamList = {
   MovieSwiping: undefined;
   PeopleSwiping: undefined;
   PersonDetails: undefined;
+  MovieDetails: undefined;
   MySettings: undefined;
   Home: undefined;
   Match: MatchParamList;
-  MovieDetails: undefined;
+  SignUp: undefined;
+  SignIn: undefined;
+  Personalize: { email: string };
 };
 
 export type LoginParamList = {
