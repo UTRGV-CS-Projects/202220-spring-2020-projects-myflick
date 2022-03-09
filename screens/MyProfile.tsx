@@ -1,10 +1,11 @@
-import React, { useEffect, useState, Component } from "react";
+import React, { useEffect, useState, Component, useMemo, useRef, useCallback } from "react";
 import {
   StyleSheet,
   Image,
   TouchableOpacity,
   FlatList,
   SectionList,
+  Button,
 } from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
 import { Ionicons } from "@expo/vector-icons";
@@ -15,10 +16,11 @@ import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import { Chip } from "react-native-paper";
-import { Auth, Hub } from "aws-amplify";
-import { AuthContext } from "../store/AuthContext";
-import { UserActionTypes } from "../store/actions/actionTypes";
-import { handleLogOut } from "../store/actions/userActions";
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet';
+import 'react-native-gesture-handler'
 
 const ListItem = ({ item }: { item: any }) => {
   return (
@@ -38,15 +40,38 @@ const ListItem = ({ item }: { item: any }) => {
 };
 
 const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
-  const [timesPressed, setTimesPressed] = useState(0);
   const colorScheme = useColorScheme();
-  const { user, dispatch } = React.useContext(AuthContext);
 
+  /* const handleSettingsMenu = () => {
+    navigation.navigate("SettingsMenu");
+  }; */
+  const handleMyDiscoverySettings = () => {
+    navigation.navigate("MyDiscoverySettings");
+  }
+  const handleMySettings = () => {
+    navigation.navigate("MySettings");
+};
+  
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  // variables
+  const snapPoints = useMemo(() => ['25%', '50%'], []);
+
+  // callbacks
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+  }, []);
+  
   return (
+    <BottomSheetModalProvider>
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
+
         <View style={styles.titleBar}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={handlePresentModalPress}>
             <Ionicons
               name="settings-outline"
               size={30}
@@ -70,32 +95,33 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
             <Image
               style={styles.image}
               source={{
-                uri: user.picture,
+                uri: "https://randomuser.me/api/portraits/women/50.jpg",
               }}
             ></Image>
           </View>
         </View>
 
-        <View style={styles.container}>
+    <View style={styles.container}>
           <View style={styles.nameAndPronouns}>
-            <Text style={styles.name}>{user.firstName}</Text>
-            <Text style={styles.name}>24</Text>
-            <Text style={styles.pronouns}>{user.pronouns}</Text>
+              <Text style={styles.name}>Ashley Nicole,</Text>
+              <Text style={styles.name}>24</Text>
+              <Text style={styles.pronouns}>She/Her</Text>
           </View>
 
-          <View style={styles.location}>
-            <Ionicons
-              name="location-outline"
-              size={15}
-              color={Colors[colorScheme].opposite}
-            ></Ionicons>
-            <Text>Quantico, VA</Text>
-          </View>
 
-          <View>
-            <Text style={styles.bio}>{user.bio}</Text>
-          </View>
-        </View>
+            <View style={styles.location}>
+              <Ionicons
+                name="location-outline"
+                size={15}
+                color={Colors[colorScheme].opposite}
+                ></Ionicons>
+              <Text>Quantico, VA</Text>
+            </View>
+
+            <View>
+              <Text style={styles.bio}>I love modeling, watching movies, and having fun.</Text>
+            </View>
+      </View>
 
         <View style={styles.container}>
           <SectionList
@@ -175,8 +201,91 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
             })}
           </View>
         </View>
+        <BottomSheetModal
+        style={{shadowOpacity: 0.5}}
+          ref={bottomSheetModalRef}
+          index={1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+        >
+          <View style={styles.contentContainer}>
+                <Text style={styles.headerText}>Settings</Text>
+                <View style={{
+                    borderBottomColor: 'black',
+                    borderBottomWidth: 1,
+                    width:"100%" ,
+                    opacity: 0.2
+                }}></View>
+            
+             <View style={styles.rows}>
+                    <Ionicons
+                    name="person-circle-outline"
+                    size={35}
+                    ></Ionicons>
+             <TouchableOpacity onPress={handleMySettings}>
+                <Text style={styles.optionsText}>Edit Profile</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handleMySettings}>
+                <Ionicons
+                    name="chevron-forward"
+                    size={35}
+                    ></Ionicons>
+                    </TouchableOpacity>
+             </View>
+
+             <View style={styles.rows}>
+                    <Ionicons
+                    name="person-add-outline"
+                    size={35}
+                    ></Ionicons>
+             <TouchableOpacity onPress={handleMyDiscoverySettings}>
+             <Text style={styles.optionsText}>Edit Discovery</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handleMyDiscoverySettings}>
+                <Ionicons
+                    name="chevron-forward"
+                    size={35}
+                    ></Ionicons>
+                    </TouchableOpacity>
+             </View>
+
+             <View style={styles.rows}>
+                    <Ionicons
+                    name="lock-closed-outline"
+                    size={35}
+                    ></Ionicons>
+             <TouchableOpacity onPress={() => {}}>
+             <Text style={styles.optionsText}>Privacy & Security</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {}}>
+                <Ionicons
+                    name="chevron-forward"
+                    size={35}
+                    ></Ionicons>
+                    </TouchableOpacity>
+             </View>
+
+             <View style={styles.rows}>
+                    <Ionicons
+                    name="log-out-outline"
+                    size={35}
+                    ></Ionicons>
+             <TouchableOpacity onPress={() => {}}>
+             <Text style={styles.logoutText}>Logout</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {}}>
+                <Ionicons
+                    name="chevron-forward"
+                    size={35}
+                    ></Ionicons>
+                    </TouchableOpacity>
+             </View>
+             </View> 
+
+        </BottomSheetModal>
       </ScrollView>
     </SafeAreaView>
+    </BottomSheetModalProvider>
   );
 };
 
@@ -186,6 +295,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    
   },
   titleBar: {
     flexDirection: "row",
@@ -226,7 +336,7 @@ const styles = StyleSheet.create({
   bio: {
     textAlign: "center",
     color: themeColor,
-    fontSize: 15,
+    fontSize: 15
   },
   photosContainer: {
     flex: 1,
@@ -257,23 +367,48 @@ const styles = StyleSheet.create({
   },
   pronouns: {
     fontSize: 15,
-    opacity: 0.4,
+    opacity: .4,
   },
-  nameAndPronouns: {
+  nameAndPronouns:{
+    flexDirection:"row",
+    justifyContent: "center"
+    
+  },
+  location:{
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "center"
   },
-  location: {
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  menuContainer: {
+  contentContainer: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 50,
-    backgroundColor: "#ecf0f1",
+  
   },
+  headerText: {
+    color: 'black',
+    fontSize: 25,
+    paddingLeft: 20,
+    paddingTop: 15,
+    paddingBottom: 15,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  optionsText: {
+    color: 'black',
+    fontSize: 20,
+    paddingLeft: 20,
+  },
+  logoutText:{
+      color: 'red',
+      fontSize: 20,
+    paddingLeft: 20
+  },
+  rows:{
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingTop: 15,
+      paddingLeft: 10
+  },
+
+  
 });
 
 const myInterests = [
@@ -295,6 +430,3 @@ const basicInfo = [
   "Mother",
   "Dog Lover",
 ];
-function render() {
-  throw new Error("Function not implemented.");
-}
