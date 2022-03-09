@@ -35,6 +35,7 @@ export type RootStackParamList = {
   SignIn: NavigatorScreenParams<MessageParamList> | undefined;
   Personalize: PersonalizeParamList;
   MovieDetails: undefined;
+  MyDiscoverySettings: NavigatorScreenParams<MyDiscoverySettingsParamList> | undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
@@ -56,6 +57,7 @@ export type RootTabParamList = {
   SignUp: undefined;
   SignIn: undefined;
   Personalize: { email: string };
+  MyDiscoverySettings: undefined;
 };
 
 export type LoginParamList = {
@@ -69,6 +71,8 @@ export type RootParamList = {
 export type MyProfileList = {
   test: string;
 };
+
+export type MyDiscoverySettingsParamList = {};
 
 export type MovieParamsList = {};
 export type IntroductionParamsList = {};
