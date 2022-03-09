@@ -88,10 +88,6 @@ const Personalize = ({
       }
     }
  */
-    Auth.signUp({
-      username: completeProfile.email,
-      password: completeProfile.password,
-    });
 
     handleProfileComplete(dispatch, completeProfile);
 
@@ -128,7 +124,7 @@ const Personalize = ({
           <View style={styles.profileImage}>
             <Image
               style={styles.image}
-              source={require("../assets/images/default-user-image.png")}
+              source={{ uri: completeProfile.picture }}
             ></Image>
           </View>
           <View style={styles.add}>

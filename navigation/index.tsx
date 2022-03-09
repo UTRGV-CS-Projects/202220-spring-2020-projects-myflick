@@ -85,7 +85,7 @@ function RootNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName={user.loggedIn ? "Root" : "Introduction"}
+      // initialRouteName={user.loggedIn ? "Root" : "Introduction"}
     >
       <Stack.Screen name="Root" component={BottomTabNavigator} />
       <Stack.Screen name="Introduction" component={Introduction} />

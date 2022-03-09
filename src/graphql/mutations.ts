@@ -87,8 +87,36 @@ export const createMessage = /* GraphQL */ `
   }
 `;
 export const createUser = /* GraphQL */ `
-  mutation CreateUser($username: String!) {
-    createUser(username: $username) {
+  mutation CreateUser(
+    $cognitoId: ID!
+    $id: ID!
+    $email: String!
+    $email_verified: Boolean!
+    $firstName: String!
+    $picture: String!
+    $pronouns: String!
+    $bio: String
+    $location: String!
+    $photos: [String!]!
+    $interests: [String!]!
+    $loggedIn: Boolean!
+    $profileComplete: Boolean!
+  ) {
+    createUser(
+      cognitoId: $cognitoId
+      id: $id
+      email: $email
+      email_verified: $email_verified
+      firstName: $firstName
+      picture: $picture
+      pronouns: $pronouns
+      bio: $bio
+      location: $location
+      photos: $photos
+      interests: $interests
+      loggedIn: $loggedIn
+      profileComplete: $profileComplete
+    ) {
       cognitoId
       conversations {
         nextToken

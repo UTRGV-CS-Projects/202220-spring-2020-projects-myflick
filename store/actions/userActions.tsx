@@ -3,6 +3,9 @@ import { UserActionTypes } from "./actionTypes";
 import { Dispatch, useContext } from "react";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
 import { AuthContext, ProfileType } from "../AuthContext";
+import Amplify, { API, graphqlOperation } from "aws-amplify";
+import { createUser } from "../../src/graphql/mutations";
+
 export interface UserAction {
   type: UserActionTypes;
   payload?: any;
@@ -71,8 +74,35 @@ export const handleProfileComplete = async (
   data: ProfileCompleteType
 ) => {
   try {
+    const { userSub } = await Auth.signUp({
+      username: data.email,
+      password: data.password,
+    });
+
+    const info = await API.graphql(
+      graphqlOperation(createUser, {
+        cognitoId: userSub,
+        id: 1,
+        email: data.email,
+        firstName: data.firstName,
+        email_verified: false,
+        picture: data.picture,
+        pronouns: data.pronouns,
+        bio: data.bio,
+        location: data.location,
+        photos: data.photos,
+        interests: data.interests,
+        sub: userSub,
+        loggedIn: false,
+        profileComplete: true,
+      })
+    );
+
+    console.log(info);
+
     dispatch({ type: UserActionTypes.PROFILE_COMPLETE, payload: data });
   } catch (error) {
+    console.log("Error in handleProfileComplete: ");
     console.log(error);
   }
 };

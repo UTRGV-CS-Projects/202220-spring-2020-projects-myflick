@@ -116,7 +116,7 @@ input ModelStringInput {
 type Mutation {
   createConversation(createdAt: String, id: ID!, name: String!): Conversation
   createMessage(content: String, conversationId: ID!, createdAt: String!, id: ID!): Message
-  createUser(username: String!): User
+  createUser(cognitoId: ID!, id: ID!, email: String!, email_verified: Boolean!, firstName: String!, picture: String!, pronouns: String!, bio: String, location: String!, photos: [String!]!, interests: [String!]!, loggedIn: Boolean!, profileComplete: Boolean!): User
   createUserConversations(conversationId: ID!, userId: ID!): UserConversations
 }
 
