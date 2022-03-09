@@ -125,7 +125,21 @@ type Mutation {
     createdAt: String!
     id: ID!
   ): Message
-  createUser(username: String!): User
+  createUser(
+    cognitoId: ID!
+    id: ID!
+    email: String!
+    email_verified: Boolean!
+    firstName: String!
+    picture: String!
+    pronouns: String!
+    bio: String
+    location: String!
+    photos: [String!]!
+    interests: [String!]!
+    loggedIn: Boolean!
+    profileComplete: Boolean!
+  ): User
   createUserConversations(conversationId: ID!, userId: ID!): UserConversations
 }
 
@@ -159,7 +173,6 @@ type User {
   conversations(after: String, first: Int): UserConverstationsConnection
   id: ID!
   messages(after: String, first: Int): MessageConnection
-
   email: String!
   email_verified: Boolean!
   firstName: String!

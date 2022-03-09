@@ -158,7 +158,19 @@ export type CreateMessageMutation = {
 };
 
 export type CreateUserMutationVariables = {
-  username: string,
+  cognitoId: string,
+  id: string,
+  email: string,
+  email_verified: boolean,
+  firstName: string,
+  picture: string,
+  pronouns: string,
+  bio?: string | null,
+  location: string,
+  photos: Array< string >,
+  interests: Array< string >,
+  loggedIn: boolean,
+  profileComplete: boolean,
 };
 
 export type CreateUserMutation = {
