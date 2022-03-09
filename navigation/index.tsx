@@ -27,7 +27,7 @@ import MySettings from "../screens/MySettings";
 import MovieSwiping from "../screens/MovieSwiping";
 import PeopleSwiping from "../screens/PeopleSwiping";
 import MovieDetails from "../screens/MovieDetails";
-
+import MyDiscoverySettings from "../screens/MyDiscoverySettings";
 import {
   RootStackParamList,
   RootTabParamList,
@@ -96,6 +96,8 @@ function RootNavigator() {
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="Personalize" component={Personalize} />
+      <Stack.Screen name="MySettings" component={MySettings} />
+      <Stack.Screen name="MyDiscoverySettings" component={MyDiscoverySettings} />
     </Stack.Navigator>
   );
 }
@@ -278,25 +280,7 @@ export function BottomTabNavigator() {
         })}
       />
 
-      <BottomTab.Screen
-        name="MySettings"
-        component={MySettings}
-        options={({ navigation }: RootTabScreenProps<"MySettings">) => ({
-          title: "",
-          tabBarAccessibilityLabel: "MySettings",
-          tabBarTestID: "MySettingsTab",
-          tabBarIcon: ({ color }) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("MySettings");
-              }}
-              accessibilityRole="button"
-            >
-              <Ionicons name="settings-outline" size={30} color={color} />
-            </TouchableOpacity>
-          ),
-        })}
-      />
+
     </BottomTab.Navigator>
   );
 }
