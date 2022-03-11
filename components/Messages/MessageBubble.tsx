@@ -2,6 +2,7 @@ import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { View, Text } from "../Themed";
 import Colors, { themeColor } from "../../constants/Colors";
+import { Ionicons } from "@expo/vector-icons";
 
 interface props {
 	received: boolean;
@@ -35,9 +36,17 @@ const MessageBubble = ({ received, sent }: props) => {
 			<View style={styles.messageContainer}>
 				<View>
 					<View style={styles.messageSentBubble}>
-						<Text style={styles.messageText}>Sorry :(</Text>
+						<Text style={styles.messageText}>honestly</Text>
 					</View>
-					<Text style={styles.receivedTime}>11:59 pm</Text>
+					<View style={styles.messageInfo}>
+						<Ionicons
+							name="checkmark-done-outline"
+							color={"white"}
+							size={15}
+							style={{ paddingRight: 3 }}
+						/>
+						<Text style={styles.receivedTime}>11:59 pm</Text>
+					</View>
 				</View>
 			</View>
 		);
@@ -73,15 +82,17 @@ const styles = StyleSheet.create({
 		alignContent: "center",
 		alignItems: "center",
 		alignSelf: "center",
+		maxWidth: 290,
 	},
 	messageSentBubble: {
 		backgroundColor: "#B6B6B6",
-		padding: 12,
+		padding: 11,
 		borderRadius: 15,
 		borderBottomRightRadius: 0,
 		alignContent: "center",
 		alignItems: "center",
 		alignSelf: "flex-end",
+		maxWidth: 300,
 	},
 	messageContainer: {
 		flexDirection: "column",
@@ -92,11 +103,15 @@ const styles = StyleSheet.create({
 	receivedTime: {
 		alignSelf: "flex-end",
 		fontSize: 10,
-		padding: 2,
 		color: "#B6B6B6",
 	},
 	fairSpacing: {
 		padding: 10,
 	},
 	messageBubbleContainer: {},
+	messageInfo: {
+		paddingTop: 3,
+		flexDirection: "row",
+		alignSelf: "flex-end",
+	},
 });
