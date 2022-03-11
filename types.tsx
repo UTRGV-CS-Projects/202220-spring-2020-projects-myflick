@@ -82,6 +82,7 @@ export type MovieParamsList = {};
 export type IntroductionParamsList = {};
 export type MessageParamList = {
 	item: PeopleDetailsType;
+	navigation: any;
 };
 
 export type PersonalizeParamList = {

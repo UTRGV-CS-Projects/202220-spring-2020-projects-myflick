@@ -2,10 +2,12 @@ import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { View, Text } from "../Themed";
 import { MessageParamList } from "../../types";
-const Message = ({ item }: MessageParamList) => {
+const Message = ({ item, navigation }: MessageParamList) => {
 	const MAX_MESSAGE_LENGTH = 25;
 
-	const handleOpenMessage = () => {};
+	const handleOpenMessage = () => {
+		navigation.navigate("OpenChat");
+	};
 
 	const formatMessage = (message: string): string => {
 		const trimmedMessage = item.lastMessage.trim();
