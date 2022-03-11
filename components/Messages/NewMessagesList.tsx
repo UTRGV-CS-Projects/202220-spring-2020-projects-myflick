@@ -5,7 +5,7 @@ import { People, PeopleDetailsType } from "../../db/db";
 import Message from "./Message";
 import { useScrollToTop } from "@react-navigation/native";
 
-const NewMessagesList = () => {
+const NewMessagesList = ({ navigationProp }: any) => {
 	const ref = React.useRef(null);
 	useScrollToTop(ref);
 
@@ -19,7 +19,7 @@ const NewMessagesList = () => {
 				showsVerticalScrollIndicator={false}
 				keyExtractor={(item: PeopleDetailsType) => item.id}
 				renderItem={({ item }: { item: PeopleDetailsType }) => {
-					return <Message item={item} />;
+					return <Message item={item} navigation={navigationProp} />;
 				}}
 			/>
 		</View>

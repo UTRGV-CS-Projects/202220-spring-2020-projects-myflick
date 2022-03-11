@@ -98,6 +98,7 @@ function RootNavigator() {
 			<Stack.Screen name="SignIn" component={SignIn} />
 			<Stack.Screen name="Personalize" component={Personalize} />
 			<Stack.Screen name="MySettings" component={MySettings} />
+
 			<Stack.Screen
 				name="MyDiscoverySettings"
 				component={MyDiscoverySettings}
