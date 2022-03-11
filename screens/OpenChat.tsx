@@ -16,6 +16,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import MessageBubble from "../components/Messages/MessageBubble";
 import { TextInput } from "react-native-paper";
 
+import { ScrollView } from "react-native-virtualized-view";
+
 import useColorScheme from "../hooks/useColorScheme";
 
 import Colors, { themeColor } from "../constants/Colors";
@@ -50,12 +52,87 @@ const OpenChat = ({ navigation }: RootStackScreenProps<"Messages">) => {
 					</TouchableOpacity>
 				</View>
 
-				<View style={styles.fairSpacing} />
-				<MessageBubble received={true} sent={false} />
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					style={styles.scrollView}
+					scrollsToTop={true}
+				>
+					<MessageBubble
+						received={false}
+						sent={true}
+						textInput={"Omg a girl!"}
+						timeStamp={"10:48 pm"}
+					/>
+					<MessageBubble
+						received={true}
+						sent={false}
+						textInput={"Down bad bro"}
+						timeStamp={"11:50 pm"}
+					/>
 
-				<View style={styles.fairSpacing} />
-				<MessageBubble received={false} sent={true} />
+					<MessageBubble
+						received={false}
+						sent={true}
+						textInput={"Sorry :("}
+						timeStamp={"11:59 pm"}
+					/>
 
+					<MessageBubble
+						received={true}
+						sent={false}
+						textInput={"that's fine"}
+						timeStamp={"1:00 am"}
+					/>
+
+					<MessageBubble
+						received={false}
+						sent={true}
+						textInput={"hey lol"}
+						timeStamp={"11:59 pm"}
+					/>
+					<MessageBubble
+						received={false}
+						sent={true}
+						textInput={"You forgot to answer"}
+						timeStamp={"11:59 pm"}
+					/>
+					<MessageBubble
+						received={false}
+						sent={true}
+						textInput={"texted you on whatsapp"}
+						timeStamp={"11:59 pm"}
+					/>
+					<MessageBubble
+						received={false}
+						sent={true}
+						textInput={"hey"}
+						timeStamp={"11:59 pm"}
+					/>
+					<MessageBubble
+						received={false}
+						sent={true}
+						textInput={"hi"}
+						timeStamp={"11:59 pm"}
+					/>
+					<MessageBubble
+						received={false}
+						sent={true}
+						textInput={"hey"}
+						timeStamp={"11:59 pm"}
+					/>
+					<MessageBubble
+						received={true}
+						sent={false}
+						textInput={"LEAVE ME ALONE"}
+						timeStamp={"11:50 pm"}
+					/>
+					<MessageBubble
+						received={false}
+						sent={true}
+						textInput={"Sorry :("}
+						timeStamp={"11:59 pm"}
+					/>
+				</ScrollView>
 				<View style={styles.bottomBarContainer}>
 					<View style={styles.bottomBar}>
 						<TextInput
@@ -175,4 +252,5 @@ const styles = StyleSheet.create({
 		marginRight: 10,
 	},
 	bottomBarContainer: { flex: 1, justifyContent: "flex-end", marginBottom: 5 },
+	scrollView: { height: 615 },
 });

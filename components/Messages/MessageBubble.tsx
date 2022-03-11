@@ -7,9 +7,11 @@ import { Ionicons } from "@expo/vector-icons";
 interface props {
 	received: boolean;
 	sent: boolean;
+	textInput: string;
+	timeStamp: string;
 }
 
-const MessageBubble = ({ received, sent }: props) => {
+const MessageBubble = ({ received, sent, textInput, timeStamp }: props) => {
 	const renderReceivedMessage = () => {
 		return (
 			<View style={styles.messageContainer}>
@@ -22,9 +24,9 @@ const MessageBubble = ({ received, sent }: props) => {
 					/>
 					<View style={styles.messageBubbleContainer}>
 						<View style={styles.messageBubble}>
-							<Text style={styles.messageText}>Down bad bro</Text>
+							<Text style={styles.messageText}>{textInput}</Text>
 						</View>
-						<Text style={styles.receivedTime}>11:59 pm</Text>
+						<Text style={styles.receivedTime}>{timeStamp}</Text>
 					</View>
 				</View>
 			</View>
@@ -36,7 +38,7 @@ const MessageBubble = ({ received, sent }: props) => {
 			<View style={styles.messageContainer}>
 				<View>
 					<View style={styles.messageSentBubble}>
-						<Text style={styles.messageText}>honestly</Text>
+						<Text style={styles.messageText}>{textInput}</Text>
 					</View>
 					<View style={styles.messageInfo}>
 						<Ionicons
@@ -45,7 +47,7 @@ const MessageBubble = ({ received, sent }: props) => {
 							size={15}
 							style={{ paddingRight: 3 }}
 						/>
-						<Text style={styles.receivedTime}>11:59 pm</Text>
+						<Text style={styles.receivedTime}>{timeStamp}</Text>
 					</View>
 				</View>
 			</View>
@@ -98,6 +100,7 @@ const styles = StyleSheet.create({
 		flexDirection: "column",
 		flex: 0,
 		paddingHorizontal: 10,
+		paddingTop: 10,
 	},
 
 	receivedTime: {
