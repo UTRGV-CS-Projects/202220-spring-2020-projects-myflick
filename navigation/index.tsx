@@ -75,11 +75,9 @@ function RootNavigator() {
       });
     } */
     //console.log(user);
-
-    if (!user.loggedIn && user.profileComplete) {
+    /* if (!user.loggedIn && user.profileComplete) {
       navigation.navigate("Root", { screen: "MyProfile" });
-    }
-
+    } */
     //console.log(user);
   }, [user]);
 
