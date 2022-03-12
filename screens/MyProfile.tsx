@@ -28,6 +28,9 @@ import {
 	BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
 import "react-native-gesture-handler";
+import { color, JumpingTransition } from "react-native-reanimated";
+import Background from "../components/Match/Background";
+import RBSheet from "react-native-raw-bottom-sheet";
 
 const ListItem = ({ item }: { item: any }) => {
 	return (
@@ -71,13 +74,13 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
 	const handleSheetChanges = useCallback((index: number) => {
 		console.log("handleSheetChanges", index);
 	}, []);
-
+	const refRBSheet = useRef<any| null>(null);
 	return (
-		<BottomSheetModalProvider>
+		// <BottomSheetModalProvider>
 			<SafeAreaView style={styles.container}>
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<View style={styles.titleBar}>
-						<TouchableOpacity onPress={handlePresentModalPress}>
+						<TouchableOpacity onPress={() =>{refRBSheet.current.open()}}>
 							<Ionicons
 								name="settings-outline"
 								size={30}
@@ -208,15 +211,33 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
 							})}
 						</View>
 					</View>
-					<BottomSheetModal
-						style={{ shadowOpacity: 0.5 }}
-						ref={bottomSheetModalRef}
-						index={1}
-						snapPoints={snapPoints}
-						onChange={handleSheetChanges}
-					>
-						<View style={styles.contentContainer}>
-							<Text style={styles.headerText}>Settings</Text>
+					<View
+			style={{
+				flex: 1,
+				justifyContent: "center",
+				alignItems: "center",
+				backgroundColor: "#000"
+			}}
+			>
+			<RBSheet
+				ref={refRBSheet}
+				animationType={"slide"}
+				closeOnDragDown={true}
+				closeOnPressMask={true}
+				customStyles={{
+				wrapper: {
+						backgroundColor: "transparent",
+						
+				},
+				draggableIcon: {
+					backgroundColor: "grey"
+				},
+				container: {
+					backgroundColor: 'white',
+					borderRadius: 10
+				}
+				}}>
+			<Text style={styles.headerText}>Settings</Text>
 							<View
 								style={{
 									borderBottomColor: "black",
@@ -227,49 +248,35 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
 							></View>
 
 							<View style={styles.rows}>
-								<Ionicons name="person-circle-outline" size={35}></Ionicons>
-								<TouchableOpacity onPress={handleMySettings}>
+							<TouchableOpacity onPress={handleMySettings} style={styles.clickRow}>
+								<Ionicons name="person-circle-outline" size={35} ></Ionicons>
 									<Text style={styles.optionsText}>Edit Profile</Text>
-								</TouchableOpacity>
-								<TouchableOpacity onPress={handleMySettings}>
-									<Ionicons name="chevron-forward" size={35}></Ionicons>
+									<Ionicons name="chevron-forward" size={35} ></Ionicons>
 								</TouchableOpacity>
 							</View>
 
 							<View style={styles.rows}>
+							<TouchableOpacity onPress={handleMyDiscoverySettings} style={styles.clickRow}>
 								<Ionicons name="person-add-outline" size={35}></Ionicons>
-								<TouchableOpacity onPress={handleMyDiscoverySettings}>
 									<Text style={styles.optionsText}>Edit Discovery</Text>
-								</TouchableOpacity>
-								<TouchableOpacity onPress={handleMyDiscoverySettings}>
 									<Ionicons name="chevron-forward" size={35}></Ionicons>
 								</TouchableOpacity>
 							</View>
 
 							<View style={styles.rows}>
-								<Ionicons name="lock-closed-outline" size={35}></Ionicons>
-								<TouchableOpacity onPress={() => {}}>
-									<Text style={styles.optionsText}>Privacy & Security</Text>
-								</TouchableOpacity>
-								<TouchableOpacity onPress={() => {}}>
-									<Ionicons name="chevron-forward" size={35}></Ionicons>
-								</TouchableOpacity>
-							</View>
-
-							<View style={styles.rows}>
-								<Ionicons name="log-out-outline" size={35}></Ionicons>
-								<TouchableOpacity onPress={() => {}}>
+							<TouchableOpacity onPress={() => {}} style={styles.clickRow}>
+								<Ionicons name="log-out-outline" size={35} ></Ionicons>
 									<Text style={styles.logoutText}>Logout</Text>
-								</TouchableOpacity>
-								<TouchableOpacity onPress={() => {}}>
 									<Ionicons name="chevron-forward" size={35}></Ionicons>
 								</TouchableOpacity>
 							</View>
-						</View>
-					</BottomSheetModal>
+      </RBSheet>
+    </View>
+					
+     
 				</ScrollView>
 			</SafeAreaView>
-		</BottomSheetModalProvider>
+		// </BottomSheetModalProvider>
 	);
 };
 
@@ -360,9 +367,9 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "center",
 	},
-	contentContainer: {
+	/* contentContainer: {
 		flex: 1,
-	},
+	}, */
 	headerText: {
 		color: "black",
 		fontSize: 25,
@@ -375,19 +382,24 @@ const styles = StyleSheet.create({
 	optionsText: {
 		color: "black",
 		fontSize: 20,
-		paddingLeft: 20,
+		//paddingLeft: 20,
 	},
 	logoutText: {
 		color: "red",
 		fontSize: 20,
-		paddingLeft: 20,
+		//paddingLeft: 20,
 	},
 	rows: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		paddingTop: 15,
+		//flexDirection: "row",
+		//justifyContent: "space-between",
+		paddingTop: 10,
 		paddingLeft: 10,
 	},
+	clickRow:{
+		flexDirection: "row",
+		justifyContent: "space-between",
+		paddingLeft: 10
+	}
 });
 
 const myInterests = [

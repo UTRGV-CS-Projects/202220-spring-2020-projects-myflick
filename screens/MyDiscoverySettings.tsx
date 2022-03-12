@@ -21,7 +21,6 @@ import { themeColor, lightThemeColor } from "../constants/Colors";
 import { MyProfileSections } from "../db/db";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
-import Slider from '@react-native-community/slider';
 import { parseSync } from "@babel/core";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import { red200 } from "react-native-paper/lib/typescript/styles/colors";
@@ -31,9 +30,13 @@ import Background from "../components/Match/Background";
 const MyDiscoverySettings = ({ 
     navigation, }: RootStackScreenProps<"MyDiscoverySettings">) => {
 
-const [range, setRange] = useState<any |null>(null);
+//const [range, setRange] = useState(0);
 const [multiSliderValue, setMultiSliderValue] = useState([0, 1])
 const multiSliderValuesChange = (values:any) => setMultiSliderValue(values)
+
+const [range, setRange] = useState(1);
+const singleSliderValueChange = (values2: any) => setRange(values2)
+
 const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     return( 
@@ -93,14 +96,20 @@ const [isEnabled, setIsEnabled] = useState(false);
                 <View style= {styles.ageAndDistance}>
                 <Text style={styles.questions}>Distance...</Text>
                 <Text style={styles.questions}>{range} Miles Away</Text></View>
-                <Slider style={styles.slider}
-                    minimumValue={0}
-                    maximumValue={80}
-                    minimumTrackTintColor="#FD484F"
-                    maximumTrackTintColor= "#FFFFFF"
-                    value={50}
-                    onValueChange={ (range: number) => setRange(range.toFixed())}
-                />
+                <MultiSlider
+                    values={[0]}
+                    sliderLength={370}
+                    onValuesChange={singleSliderValueChange}
+                    min={0}
+                    max={50}
+                    allowOverlap={false}
+                    minMarkerOverlapDistance={20}
+                    selectedStyle={{backgroundColor: themeColor}}
+                    unselectedStyle={{backgroundColor: "white"}}
+                    trackStyle={{height: 3.5 }}
+                    containerStyle={{marginLeft: 20, marginRight: 20}}
+                /> 
+                
 
      
 
