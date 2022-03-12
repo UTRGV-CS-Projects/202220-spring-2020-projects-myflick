@@ -32,7 +32,6 @@ export type User = {
   __typename: "User",
   cognitoId: string,
   conversations?: UserConverstationsConnection | null,
-  id: string,
   messages?: MessageConnection | null,
   email: string,
   email_verified: boolean,
@@ -60,6 +59,80 @@ export type UserConversations = {
   conversationId: string,
   user?: User | null,
   userId: string,
+};
+
+export type CreateUserInput = {
+  cognitoId: string,
+  email: string,
+  email_verified: boolean,
+  firstName: string,
+  picture: string,
+  pronouns: string,
+  bio?: string | null,
+  location: string,
+  photos: Array< string >,
+  interests: Array< string >,
+  loggedIn: boolean,
+  profileComplete: boolean,
+};
+
+export type UpdateUserInput = {
+  cognitoId: string,
+  email: string,
+  email_verified?: boolean | null,
+  firstName?: string | null,
+  picture?: string | null,
+  pronouns?: string | null,
+  bio?: string | null,
+  location?: string | null,
+  photos?: Array< string > | null,
+  interests?: Array< string > | null,
+  loggedIn?: boolean | null,
+  profileComplete?: boolean | null,
+};
+
+export type DeleteUserInput = {
+  cognitoId: string,
+  email: string,
+};
+
+export type TableUserFilterInput = {
+  cognitoId?: TableStringFilterInput | null,
+  email?: TableStringFilterInput | null,
+  email_verified?: TableBooleanFilterInput | null,
+  firstName?: TableStringFilterInput | null,
+  picture?: TableStringFilterInput | null,
+  pronouns?: TableStringFilterInput | null,
+  bio?: TableStringFilterInput | null,
+  location?: TableStringFilterInput | null,
+  photos?: TableStringFilterInput | null,
+  interests?: TableStringFilterInput | null,
+  loggedIn?: TableBooleanFilterInput | null,
+  profileComplete?: TableBooleanFilterInput | null,
+};
+
+export type TableStringFilterInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+};
+
+export type TableBooleanFilterInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+};
+
+export type UserConnection = {
+  __typename: "UserConnection",
+  items?:  Array<User | null > | null,
+  nextToken?: string | null,
 };
 
 export type CreateConversationMutationVariables = {
@@ -107,7 +180,6 @@ export type CreateMessageMutation = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -136,7 +208,6 @@ export type CreateMessageMutation = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -158,19 +229,7 @@ export type CreateMessageMutation = {
 };
 
 export type CreateUserMutationVariables = {
-  cognitoId: string,
-  id: string,
-  email: string,
-  email_verified: boolean,
-  firstName: string,
-  picture: string,
-  pronouns: string,
-  bio?: string | null,
-  location: string,
-  photos: Array< string >,
-  interests: Array< string >,
-  loggedIn: boolean,
-  profileComplete: boolean,
+  input: CreateUserInput,
 };
 
 export type CreateUserMutation = {
@@ -186,7 +245,6 @@ export type CreateUserMutation = {
         userId: string,
       } | null > | null,
     } | null,
-    id: string,
     messages?:  {
       __typename: "MessageConnection",
       messages?:  Array< {
@@ -214,82 +272,91 @@ export type CreateUserMutation = {
   } | null,
 };
 
-export type CreateUserConversationsMutationVariables = {
-  conversationId: string,
-  userId: string,
+export type UpdateUserMutationVariables = {
+  input: UpdateUserInput,
 };
 
-export type CreateUserConversationsMutation = {
-  createUserConversations?:  {
-    __typename: "UserConversations",
-    associated?:  Array< {
-      __typename: "UserConversations",
-      associated?:  Array< {
+export type UpdateUserMutation = {
+  updateUser?:  {
+    __typename: "User",
+    cognitoId: string,
+    conversations?:  {
+      __typename: "UserConverstationsConnection",
+      nextToken?: string | null,
+      userConversations?:  Array< {
         __typename: "UserConversations",
         conversationId: string,
         userId: string,
       } | null > | null,
-      conversation?:  {
-        __typename: "Conversation",
+    } | null,
+    messages?:  {
+      __typename: "MessageConnection",
+      messages?:  Array< {
+        __typename: "Message",
+        content: string,
+        conversationId: string,
         createdAt?: string | null,
         id: string,
-        name: string,
-      } | null,
-      conversationId: string,
-      user?:  {
-        __typename: "User",
-        cognitoId: string,
+        isSent?: boolean | null,
+        sender?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    email: string,
+    email_verified: boolean,
+    firstName: string,
+    picture: string,
+    pronouns: string,
+    bio?: string | null,
+    location: string,
+    photos: Array< string >,
+    interests: Array< string >,
+    loggedIn: boolean,
+    profileComplete: boolean,
+  } | null,
+};
+
+export type DeleteUserMutationVariables = {
+  input: DeleteUserInput,
+};
+
+export type DeleteUserMutation = {
+  deleteUser?:  {
+    __typename: "User",
+    cognitoId: string,
+    conversations?:  {
+      __typename: "UserConverstationsConnection",
+      nextToken?: string | null,
+      userConversations?:  Array< {
+        __typename: "UserConversations",
+        conversationId: string,
+        userId: string,
+      } | null > | null,
+    } | null,
+    messages?:  {
+      __typename: "MessageConnection",
+      messages?:  Array< {
+        __typename: "Message",
+        content: string,
+        conversationId: string,
+        createdAt?: string | null,
         id: string,
-        email: string,
-        email_verified: boolean,
-        firstName: string,
-        picture: string,
-        pronouns: string,
-        bio?: string | null,
-        location: string,
-        photos: Array< string >,
-        interests: Array< string >,
-        loggedIn: boolean,
-        profileComplete: boolean,
-      } | null,
-      userId: string,
-    } | null > | null,
-    conversation?:  {
-      __typename: "Conversation",
-      createdAt?: string | null,
-      id: string,
-      messages?:  {
-        __typename: "MessageConnection",
-        nextToken?: string | null,
-      } | null,
-      name: string,
+        isSent?: boolean | null,
+        sender?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
     } | null,
-    conversationId: string,
-    user?:  {
-      __typename: "User",
-      cognitoId: string,
-      conversations?:  {
-        __typename: "UserConverstationsConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      messages?:  {
-        __typename: "MessageConnection",
-        nextToken?: string | null,
-      } | null,
-      email: string,
-      email_verified: boolean,
-      firstName: string,
-      picture: string,
-      pronouns: string,
-      bio?: string | null,
-      location: string,
-      photos: Array< string >,
-      interests: Array< string >,
-      loggedIn: boolean,
-      profileComplete: boolean,
-    } | null,
-    userId: string,
+    email: string,
+    email_verified: boolean,
+    firstName: string,
+    picture: string,
+    pronouns: string,
+    bio?: string | null,
+    location: string,
+    photos: Array< string >,
+    interests: Array< string >,
+    loggedIn: boolean,
+    profileComplete: boolean,
   } | null,
 };
 
@@ -309,7 +376,6 @@ export type AllMessageQuery = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -338,7 +404,6 @@ export type AllMessageQuery = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -373,7 +438,6 @@ export type AllMessageConnectionQuery = {
       author?:  {
         __typename: "User",
         cognitoId: string,
-        id: string,
         email: string,
         email_verified: boolean,
         firstName: string,
@@ -394,7 +458,6 @@ export type AllMessageConnectionQuery = {
       recipient?:  {
         __typename: "User",
         cognitoId: string,
-        id: string,
         email: string,
         email_verified: boolean,
         firstName: string,
@@ -430,7 +493,6 @@ export type AllMessageFromQuery = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -459,7 +521,6 @@ export type AllMessageFromQuery = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -480,52 +541,6 @@ export type AllMessageFromQuery = {
   } | null > | null,
 };
 
-export type AllUserQueryVariables = {
-  after?: string | null,
-  first?: number | null,
-};
-
-export type AllUserQuery = {
-  allUser?:  Array< {
-    __typename: "User",
-    cognitoId: string,
-    conversations?:  {
-      __typename: "UserConverstationsConnection",
-      nextToken?: string | null,
-      userConversations?:  Array< {
-        __typename: "UserConversations",
-        conversationId: string,
-        userId: string,
-      } | null > | null,
-    } | null,
-    id: string,
-    messages?:  {
-      __typename: "MessageConnection",
-      messages?:  Array< {
-        __typename: "Message",
-        content: string,
-        conversationId: string,
-        createdAt?: string | null,
-        id: string,
-        isSent?: boolean | null,
-        sender?: string | null,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    email: string,
-    email_verified: boolean,
-    firstName: string,
-    picture: string,
-    pronouns: string,
-    bio?: string | null,
-    location: string,
-    photos: Array< string >,
-    interests: Array< string >,
-    loggedIn: boolean,
-    profileComplete: boolean,
-  } | null > | null,
-};
-
 export type MeQuery = {
   me?:  {
     __typename: "User",
@@ -539,7 +554,6 @@ export type MeQuery = {
         userId: string,
       } | null > | null,
     } | null,
-    id: string,
     messages?:  {
       __typename: "MessageConnection",
       messages?:  Array< {
@@ -564,6 +578,87 @@ export type MeQuery = {
     interests: Array< string >,
     loggedIn: boolean,
     profileComplete: boolean,
+  } | null,
+};
+
+export type GetUserQueryVariables = {
+  cognitoId: string,
+  email: string,
+};
+
+export type GetUserQuery = {
+  getUser?:  {
+    __typename: "User",
+    cognitoId: string,
+    conversations?:  {
+      __typename: "UserConverstationsConnection",
+      nextToken?: string | null,
+      userConversations?:  Array< {
+        __typename: "UserConversations",
+        conversationId: string,
+        userId: string,
+      } | null > | null,
+    } | null,
+    messages?:  {
+      __typename: "MessageConnection",
+      messages?:  Array< {
+        __typename: "Message",
+        content: string,
+        conversationId: string,
+        createdAt?: string | null,
+        id: string,
+        isSent?: boolean | null,
+        sender?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    email: string,
+    email_verified: boolean,
+    firstName: string,
+    picture: string,
+    pronouns: string,
+    bio?: string | null,
+    location: string,
+    photos: Array< string >,
+    interests: Array< string >,
+    loggedIn: boolean,
+    profileComplete: boolean,
+  } | null,
+};
+
+export type ListUsersQueryVariables = {
+  filter?: TableUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUsersQuery = {
+  listUsers?:  {
+    __typename: "UserConnection",
+    items?:  Array< {
+      __typename: "User",
+      cognitoId: string,
+      conversations?:  {
+        __typename: "UserConverstationsConnection",
+        nextToken?: string | null,
+      } | null,
+      messages?:  {
+        __typename: "MessageConnection",
+        nextToken?: string | null,
+      } | null,
+      email: string,
+      email_verified: boolean,
+      firstName: string,
+      picture: string,
+      pronouns: string,
+      bio?: string | null,
+      location: string,
+      photos: Array< string >,
+      interests: Array< string >,
+      loggedIn: boolean,
+      profileComplete: boolean,
+    } | null > | null,
+    nextToken?: string | null,
   } | null,
 };
 
@@ -581,7 +676,6 @@ export type SubscribeToNewMessageSubscription = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -610,7 +704,6 @@ export type SubscribeToNewMessageSubscription = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -631,86 +724,16 @@ export type SubscribeToNewMessageSubscription = {
   } | null,
 };
 
-export type SubscribeToNewUCsSubscriptionVariables = {
-  userId: string,
+export type OnCreateUserSubscriptionVariables = {
+  cognitoId?: string | null,
+  email?: string | null,
+  email_verified?: boolean | null,
+  firstName?: string | null,
+  picture?: string | null,
 };
 
-export type SubscribeToNewUCsSubscription = {
-  subscribeToNewUCs?:  {
-    __typename: "UserConversations",
-    associated?:  Array< {
-      __typename: "UserConversations",
-      associated?:  Array< {
-        __typename: "UserConversations",
-        conversationId: string,
-        userId: string,
-      } | null > | null,
-      conversation?:  {
-        __typename: "Conversation",
-        createdAt?: string | null,
-        id: string,
-        name: string,
-      } | null,
-      conversationId: string,
-      user?:  {
-        __typename: "User",
-        cognitoId: string,
-        id: string,
-        email: string,
-        email_verified: boolean,
-        firstName: string,
-        picture: string,
-        pronouns: string,
-        bio?: string | null,
-        location: string,
-        photos: Array< string >,
-        interests: Array< string >,
-        loggedIn: boolean,
-        profileComplete: boolean,
-      } | null,
-      userId: string,
-    } | null > | null,
-    conversation?:  {
-      __typename: "Conversation",
-      createdAt?: string | null,
-      id: string,
-      messages?:  {
-        __typename: "MessageConnection",
-        nextToken?: string | null,
-      } | null,
-      name: string,
-    } | null,
-    conversationId: string,
-    user?:  {
-      __typename: "User",
-      cognitoId: string,
-      conversations?:  {
-        __typename: "UserConverstationsConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      messages?:  {
-        __typename: "MessageConnection",
-        nextToken?: string | null,
-      } | null,
-      email: string,
-      email_verified: boolean,
-      firstName: string,
-      picture: string,
-      pronouns: string,
-      bio?: string | null,
-      location: string,
-      photos: Array< string >,
-      interests: Array< string >,
-      loggedIn: boolean,
-      profileComplete: boolean,
-    } | null,
-    userId: string,
-  } | null,
-};
-
-export type SubscribeToNewUsersSubscription = {
-  subscribeToNewUsers?:  {
+export type OnCreateUserSubscription = {
+  onCreateUser?:  {
     __typename: "User",
     cognitoId: string,
     conversations?:  {
@@ -722,7 +745,102 @@ export type SubscribeToNewUsersSubscription = {
         userId: string,
       } | null > | null,
     } | null,
-    id: string,
+    messages?:  {
+      __typename: "MessageConnection",
+      messages?:  Array< {
+        __typename: "Message",
+        content: string,
+        conversationId: string,
+        createdAt?: string | null,
+        id: string,
+        isSent?: boolean | null,
+        sender?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    email: string,
+    email_verified: boolean,
+    firstName: string,
+    picture: string,
+    pronouns: string,
+    bio?: string | null,
+    location: string,
+    photos: Array< string >,
+    interests: Array< string >,
+    loggedIn: boolean,
+    profileComplete: boolean,
+  } | null,
+};
+
+export type OnUpdateUserSubscriptionVariables = {
+  cognitoId?: string | null,
+  email?: string | null,
+  email_verified?: boolean | null,
+  firstName?: string | null,
+  picture?: string | null,
+};
+
+export type OnUpdateUserSubscription = {
+  onUpdateUser?:  {
+    __typename: "User",
+    cognitoId: string,
+    conversations?:  {
+      __typename: "UserConverstationsConnection",
+      nextToken?: string | null,
+      userConversations?:  Array< {
+        __typename: "UserConversations",
+        conversationId: string,
+        userId: string,
+      } | null > | null,
+    } | null,
+    messages?:  {
+      __typename: "MessageConnection",
+      messages?:  Array< {
+        __typename: "Message",
+        content: string,
+        conversationId: string,
+        createdAt?: string | null,
+        id: string,
+        isSent?: boolean | null,
+        sender?: string | null,
+      } | null > | null,
+      nextToken?: string | null,
+    } | null,
+    email: string,
+    email_verified: boolean,
+    firstName: string,
+    picture: string,
+    pronouns: string,
+    bio?: string | null,
+    location: string,
+    photos: Array< string >,
+    interests: Array< string >,
+    loggedIn: boolean,
+    profileComplete: boolean,
+  } | null,
+};
+
+export type OnDeleteUserSubscriptionVariables = {
+  cognitoId?: string | null,
+  email?: string | null,
+  email_verified?: boolean | null,
+  firstName?: string | null,
+  picture?: string | null,
+};
+
+export type OnDeleteUserSubscription = {
+  onDeleteUser?:  {
+    __typename: "User",
+    cognitoId: string,
+    conversations?:  {
+      __typename: "UserConverstationsConnection",
+      nextToken?: string | null,
+      userConversations?:  Array< {
+        __typename: "UserConversations",
+        conversationId: string,
+        userId: string,
+      } | null > | null,
+    } | null,
     messages?:  {
       __typename: "MessageConnection",
       messages?:  Array< {

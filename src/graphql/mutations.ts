@@ -40,7 +40,6 @@ export const createMessage = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -66,7 +65,6 @@ export const createMessage = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -87,36 +85,8 @@ export const createMessage = /* GraphQL */ `
   }
 `;
 export const createUser = /* GraphQL */ `
-  mutation CreateUser(
-    $cognitoId: ID!
-    $id: ID!
-    $email: String!
-    $email_verified: Boolean!
-    $firstName: String!
-    $picture: String!
-    $pronouns: String!
-    $bio: String
-    $location: String!
-    $photos: [String!]!
-    $interests: [String!]!
-    $loggedIn: Boolean!
-    $profileComplete: Boolean!
-  ) {
-    createUser(
-      cognitoId: $cognitoId
-      id: $id
-      email: $email
-      email_verified: $email_verified
-      firstName: $firstName
-      picture: $picture
-      pronouns: $pronouns
-      bio: $bio
-      location: $location
-      photos: $photos
-      interests: $interests
-      loggedIn: $loggedIn
-      profileComplete: $profileComplete
-    ) {
+  mutation CreateUser($input: CreateUserInput!) {
+    createUser(input: $input) {
       cognitoId
       conversations {
         nextToken
@@ -125,7 +95,6 @@ export const createUser = /* GraphQL */ `
           userId
         }
       }
-      id
       messages {
         messages {
           content
@@ -151,68 +120,75 @@ export const createUser = /* GraphQL */ `
     }
   }
 `;
-export const createUserConversations = /* GraphQL */ `
-  mutation CreateUserConversations($conversationId: ID!, $userId: ID!) {
-    createUserConversations(conversationId: $conversationId, userId: $userId) {
-      associated {
-        associated {
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser($input: UpdateUserInput!) {
+    updateUser(input: $input) {
+      cognitoId
+      conversations {
+        nextToken
+        userConversations {
           conversationId
           userId
         }
-        conversation {
+      }
+      messages {
+        messages {
+          content
+          conversationId
           createdAt
           id
-          name
+          isSent
+          sender
         }
-        conversationId
-        user {
-          cognitoId
+        nextToken
+      }
+      email
+      email_verified
+      firstName
+      picture
+      pronouns
+      bio
+      location
+      photos
+      interests
+      loggedIn
+      profileComplete
+    }
+  }
+`;
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser($input: DeleteUserInput!) {
+    deleteUser(input: $input) {
+      cognitoId
+      conversations {
+        nextToken
+        userConversations {
+          conversationId
+          userId
+        }
+      }
+      messages {
+        messages {
+          content
+          conversationId
+          createdAt
           id
-          email
-          email_verified
-          firstName
-          picture
-          pronouns
-          bio
-          location
-          photos
-          interests
-          loggedIn
-          profileComplete
+          isSent
+          sender
         }
-        userId
+        nextToken
       }
-      conversation {
-        createdAt
-        id
-        messages {
-          nextToken
-        }
-        name
-      }
-      conversationId
-      user {
-        cognitoId
-        conversations {
-          nextToken
-        }
-        id
-        messages {
-          nextToken
-        }
-        email
-        email_verified
-        firstName
-        picture
-        pronouns
-        bio
-        location
-        photos
-        interests
-        loggedIn
-        profileComplete
-      }
-      userId
+      email
+      email_verified
+      firstName
+      picture
+      pronouns
+      bio
+      location
+      photos
+      interests
+      loggedIn
+      profileComplete
     }
   }
 `;

@@ -10,7 +10,6 @@ export const allMessage = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -36,7 +35,6 @@ export const allMessage = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -70,7 +68,6 @@ export const allMessageConnection = /* GraphQL */ `
       messages {
         author {
           cognitoId
-          id
           email
           email_verified
           firstName
@@ -90,7 +87,6 @@ export const allMessageConnection = /* GraphQL */ `
         isSent
         recipient {
           cognitoId
-          id
           email
           email_verified
           firstName
@@ -127,7 +123,6 @@ export const allMessageFrom = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -153,7 +148,6 @@ export const allMessageFrom = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -173,9 +167,9 @@ export const allMessageFrom = /* GraphQL */ `
     }
   }
 `;
-export const allUser = /* GraphQL */ `
-  query AllUser($after: String, $first: Int) {
-    allUser(after: $after, first: $first) {
+export const me = /* GraphQL */ `
+  query Me {
+    me {
       cognitoId
       conversations {
         nextToken
@@ -184,7 +178,6 @@ export const allUser = /* GraphQL */ `
           userId
         }
       }
-      id
       messages {
         messages {
           content
@@ -210,9 +203,9 @@ export const allUser = /* GraphQL */ `
     }
   }
 `;
-export const me = /* GraphQL */ `
-  query Me {
-    me {
+export const getUser = /* GraphQL */ `
+  query GetUser($cognitoId: String!, $email: String!) {
+    getUser(cognitoId: $cognitoId, email: $email) {
       cognitoId
       conversations {
         nextToken
@@ -221,7 +214,6 @@ export const me = /* GraphQL */ `
           userId
         }
       }
-      id
       messages {
         messages {
           content
@@ -244,6 +236,37 @@ export const me = /* GraphQL */ `
       interests
       loggedIn
       profileComplete
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: TableUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        messages {
+          nextToken
+        }
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      nextToken
     }
   }
 `;

@@ -62,10 +62,7 @@ const reducer = (user: ProfileType = initialState, action: UserAction) => {
       };
     case UserActionTypes.LOG_IN:
       return {
-        ...user,
-        email: action.payload.email,
-        password: action.payload.password,
-        email_verified: true,
+        ...action.payload.data.getUser,
         loggedIn: true,
       };
     case UserActionTypes.LOG_OUT:
