@@ -10,7 +10,6 @@ export const allMessage = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -36,7 +35,6 @@ export const allMessage = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -70,7 +68,6 @@ export const allMessageConnection = /* GraphQL */ `
       messages {
         author {
           cognitoId
-          id
           email
           email_verified
           firstName
@@ -90,7 +87,6 @@ export const allMessageConnection = /* GraphQL */ `
         isSent
         recipient {
           cognitoId
-          id
           email
           email_verified
           firstName
@@ -127,7 +123,6 @@ export const allMessageFrom = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -153,7 +148,6 @@ export const allMessageFrom = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -184,7 +178,6 @@ export const me = /* GraphQL */ `
           userId
         }
       }
-      id
       messages {
         messages {
           content
@@ -211,8 +204,8 @@ export const me = /* GraphQL */ `
   }
 `;
 export const getUser = /* GraphQL */ `
-  query GetUser($cognitoId: String!) {
-    getUser(cognitoId: $cognitoId) {
+  query GetUser($cognitoId: String!, $email: String!) {
+    getUser(cognitoId: $cognitoId, email: $email) {
       cognitoId
       conversations {
         nextToken
@@ -221,7 +214,6 @@ export const getUser = /* GraphQL */ `
           userId
         }
       }
-      id
       messages {
         messages {
           content
@@ -259,7 +251,6 @@ export const listUsers = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }

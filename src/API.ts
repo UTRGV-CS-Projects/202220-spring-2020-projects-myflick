@@ -32,7 +32,6 @@ export type User = {
   __typename: "User",
   cognitoId: string,
   conversations?: UserConverstationsConnection | null,
-  id: string,
   messages?: MessageConnection | null,
   email: string,
   email_verified: boolean,
@@ -64,7 +63,6 @@ export type UserConversations = {
 
 export type CreateUserInput = {
   cognitoId: string,
-  id: string,
   email: string,
   email_verified: boolean,
   firstName: string,
@@ -80,10 +78,9 @@ export type CreateUserInput = {
 
 export type UpdateUserInput = {
   cognitoId: string,
-  id?: string | null,
-  email?: string | null,
+  email: string,
   email_verified?: boolean | null,
-  firstName: string,
+  firstName?: string | null,
   picture?: string | null,
   pronouns?: string | null,
   bio?: string | null,
@@ -96,12 +93,11 @@ export type UpdateUserInput = {
 
 export type DeleteUserInput = {
   cognitoId: string,
-  firstName: string,
+  email: string,
 };
 
 export type TableUserFilterInput = {
   cognitoId?: TableStringFilterInput | null,
-  id?: TableIDFilterInput | null,
   email?: TableStringFilterInput | null,
   email_verified?: TableBooleanFilterInput | null,
   firstName?: TableStringFilterInput | null,
@@ -116,19 +112,6 @@ export type TableUserFilterInput = {
 };
 
 export type TableStringFilterInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-};
-
-export type TableIDFilterInput = {
   ne?: string | null,
   eq?: string | null,
   le?: string | null,
@@ -197,7 +180,6 @@ export type CreateMessageMutation = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -226,7 +208,6 @@ export type CreateMessageMutation = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -247,85 +228,6 @@ export type CreateMessageMutation = {
   } | null,
 };
 
-export type CreateUserConversationsMutationVariables = {
-  conversationId: string,
-  userId: string,
-};
-
-export type CreateUserConversationsMutation = {
-  createUserConversations?:  {
-    __typename: "UserConversations",
-    associated?:  Array< {
-      __typename: "UserConversations",
-      associated?:  Array< {
-        __typename: "UserConversations",
-        conversationId: string,
-        userId: string,
-      } | null > | null,
-      conversation?:  {
-        __typename: "Conversation",
-        createdAt?: string | null,
-        id: string,
-        name: string,
-      } | null,
-      conversationId: string,
-      user?:  {
-        __typename: "User",
-        cognitoId: string,
-        id: string,
-        email: string,
-        email_verified: boolean,
-        firstName: string,
-        picture: string,
-        pronouns: string,
-        bio?: string | null,
-        location: string,
-        photos: Array< string >,
-        interests: Array< string >,
-        loggedIn: boolean,
-        profileComplete: boolean,
-      } | null,
-      userId: string,
-    } | null > | null,
-    conversation?:  {
-      __typename: "Conversation",
-      createdAt?: string | null,
-      id: string,
-      messages?:  {
-        __typename: "MessageConnection",
-        nextToken?: string | null,
-      } | null,
-      name: string,
-    } | null,
-    conversationId: string,
-    user?:  {
-      __typename: "User",
-      cognitoId: string,
-      conversations?:  {
-        __typename: "UserConverstationsConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      messages?:  {
-        __typename: "MessageConnection",
-        nextToken?: string | null,
-      } | null,
-      email: string,
-      email_verified: boolean,
-      firstName: string,
-      picture: string,
-      pronouns: string,
-      bio?: string | null,
-      location: string,
-      photos: Array< string >,
-      interests: Array< string >,
-      loggedIn: boolean,
-      profileComplete: boolean,
-    } | null,
-    userId: string,
-  } | null,
-};
-
 export type CreateUserMutationVariables = {
   input: CreateUserInput,
 };
@@ -343,7 +245,6 @@ export type CreateUserMutation = {
         userId: string,
       } | null > | null,
     } | null,
-    id: string,
     messages?:  {
       __typename: "MessageConnection",
       messages?:  Array< {
@@ -388,7 +289,6 @@ export type UpdateUserMutation = {
         userId: string,
       } | null > | null,
     } | null,
-    id: string,
     messages?:  {
       __typename: "MessageConnection",
       messages?:  Array< {
@@ -433,7 +333,6 @@ export type DeleteUserMutation = {
         userId: string,
       } | null > | null,
     } | null,
-    id: string,
     messages?:  {
       __typename: "MessageConnection",
       messages?:  Array< {
@@ -477,7 +376,6 @@ export type AllMessageQuery = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -506,7 +404,6 @@ export type AllMessageQuery = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -541,7 +438,6 @@ export type AllMessageConnectionQuery = {
       author?:  {
         __typename: "User",
         cognitoId: string,
-        id: string,
         email: string,
         email_verified: boolean,
         firstName: string,
@@ -562,7 +458,6 @@ export type AllMessageConnectionQuery = {
       recipient?:  {
         __typename: "User",
         cognitoId: string,
-        id: string,
         email: string,
         email_verified: boolean,
         firstName: string,
@@ -598,7 +493,6 @@ export type AllMessageFromQuery = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -627,7 +521,6 @@ export type AllMessageFromQuery = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -661,7 +554,6 @@ export type MeQuery = {
         userId: string,
       } | null > | null,
     } | null,
-    id: string,
     messages?:  {
       __typename: "MessageConnection",
       messages?:  Array< {
@@ -691,6 +583,7 @@ export type MeQuery = {
 
 export type GetUserQueryVariables = {
   cognitoId: string,
+  email: string,
 };
 
 export type GetUserQuery = {
@@ -706,7 +599,6 @@ export type GetUserQuery = {
         userId: string,
       } | null > | null,
     } | null,
-    id: string,
     messages?:  {
       __typename: "MessageConnection",
       messages?:  Array< {
@@ -750,7 +642,6 @@ export type ListUsersQuery = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -785,7 +676,6 @@ export type SubscribeToNewMessageSubscription = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -814,7 +704,6 @@ export type SubscribeToNewMessageSubscription = {
         __typename: "UserConverstationsConnection",
         nextToken?: string | null,
       } | null,
-      id: string,
       messages?:  {
         __typename: "MessageConnection",
         nextToken?: string | null,
@@ -835,90 +724,12 @@ export type SubscribeToNewMessageSubscription = {
   } | null,
 };
 
-export type SubscribeToNewUCsSubscriptionVariables = {
-  userId: string,
-};
-
-export type SubscribeToNewUCsSubscription = {
-  subscribeToNewUCs?:  {
-    __typename: "UserConversations",
-    associated?:  Array< {
-      __typename: "UserConversations",
-      associated?:  Array< {
-        __typename: "UserConversations",
-        conversationId: string,
-        userId: string,
-      } | null > | null,
-      conversation?:  {
-        __typename: "Conversation",
-        createdAt?: string | null,
-        id: string,
-        name: string,
-      } | null,
-      conversationId: string,
-      user?:  {
-        __typename: "User",
-        cognitoId: string,
-        id: string,
-        email: string,
-        email_verified: boolean,
-        firstName: string,
-        picture: string,
-        pronouns: string,
-        bio?: string | null,
-        location: string,
-        photos: Array< string >,
-        interests: Array< string >,
-        loggedIn: boolean,
-        profileComplete: boolean,
-      } | null,
-      userId: string,
-    } | null > | null,
-    conversation?:  {
-      __typename: "Conversation",
-      createdAt?: string | null,
-      id: string,
-      messages?:  {
-        __typename: "MessageConnection",
-        nextToken?: string | null,
-      } | null,
-      name: string,
-    } | null,
-    conversationId: string,
-    user?:  {
-      __typename: "User",
-      cognitoId: string,
-      conversations?:  {
-        __typename: "UserConverstationsConnection",
-        nextToken?: string | null,
-      } | null,
-      id: string,
-      messages?:  {
-        __typename: "MessageConnection",
-        nextToken?: string | null,
-      } | null,
-      email: string,
-      email_verified: boolean,
-      firstName: string,
-      picture: string,
-      pronouns: string,
-      bio?: string | null,
-      location: string,
-      photos: Array< string >,
-      interests: Array< string >,
-      loggedIn: boolean,
-      profileComplete: boolean,
-    } | null,
-    userId: string,
-  } | null,
-};
-
 export type OnCreateUserSubscriptionVariables = {
   cognitoId?: string | null,
-  id?: string | null,
   email?: string | null,
   email_verified?: boolean | null,
   firstName?: string | null,
+  picture?: string | null,
 };
 
 export type OnCreateUserSubscription = {
@@ -934,7 +745,6 @@ export type OnCreateUserSubscription = {
         userId: string,
       } | null > | null,
     } | null,
-    id: string,
     messages?:  {
       __typename: "MessageConnection",
       messages?:  Array< {
@@ -964,10 +774,10 @@ export type OnCreateUserSubscription = {
 
 export type OnUpdateUserSubscriptionVariables = {
   cognitoId?: string | null,
-  id?: string | null,
   email?: string | null,
   email_verified?: boolean | null,
   firstName?: string | null,
+  picture?: string | null,
 };
 
 export type OnUpdateUserSubscription = {
@@ -983,7 +793,6 @@ export type OnUpdateUserSubscription = {
         userId: string,
       } | null > | null,
     } | null,
-    id: string,
     messages?:  {
       __typename: "MessageConnection",
       messages?:  Array< {
@@ -1013,10 +822,10 @@ export type OnUpdateUserSubscription = {
 
 export type OnDeleteUserSubscriptionVariables = {
   cognitoId?: string | null,
-  id?: string | null,
   email?: string | null,
   email_verified?: boolean | null,
   firstName?: string | null,
+  picture?: string | null,
 };
 
 export type OnDeleteUserSubscription = {
@@ -1032,7 +841,6 @@ export type OnDeleteUserSubscription = {
         userId: string,
       } | null > | null,
     } | null,
-    id: string,
     messages?:  {
       __typename: "MessageConnection",
       messages?:  Array< {

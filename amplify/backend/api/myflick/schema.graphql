@@ -12,7 +12,6 @@ type Conversation {
 
 input CreateUserInput {
   cognitoId: String!
-  id: ID!
   email: String!
   email_verified: Boolean!
   firstName: String!
@@ -28,7 +27,7 @@ input CreateUserInput {
 
 input DeleteUserInput {
   cognitoId: String!
-  firstName: String!
+  email: String!
 }
 
 type Message {
@@ -146,7 +145,6 @@ type Mutation {
     createdAt: String!
     id: ID!
   ): Message
-  createUserConversations(conversationId: ID!, userId: ID!): UserConversations
   createUser(input: CreateUserInput!): User
   updateUser(input: UpdateUserInput!): User
   deleteUser(input: DeleteUserInput!): User
@@ -166,7 +164,7 @@ type Query {
     sender: String!
   ): [Message]
   me: User
-  getUser(cognitoId: String!): User
+  getUser(cognitoId: String!, email: String!): User
   listUsers(
     filter: TableUserFilterInput
     limit: Int
@@ -174,31 +172,36 @@ type Query {
   ): UserConnection
 }
 
+type RandomInfo {
+  randomString: String
+  randomInt: Int
+  randomFloat: Float
+  randomBoolean: Boolean
+}
+
 type Subscription {
   subscribeToNewMessage(conversationId: ID!): Message
     @aws_subscribe(mutations: ["createMessage"])
-  subscribeToNewUCs(userId: ID!): UserConversations
-    @aws_subscribe(mutations: ["createUserConversations"])
   onCreateUser(
     cognitoId: String
-    id: ID
     email: String
     email_verified: Boolean
     firstName: String
+    picture: String
   ): User @aws_subscribe(mutations: ["createUser"])
   onUpdateUser(
     cognitoId: String
-    id: ID
     email: String
     email_verified: Boolean
     firstName: String
+    picture: String
   ): User @aws_subscribe(mutations: ["updateUser"])
   onDeleteUser(
     cognitoId: String
-    id: ID
     email: String
     email_verified: Boolean
     firstName: String
+    picture: String
   ): User @aws_subscribe(mutations: ["deleteUser"])
 }
 
@@ -259,7 +262,6 @@ input TableStringFilterInput {
 
 input TableUserFilterInput {
   cognitoId: TableStringFilterInput
-  id: TableIDFilterInput
   email: TableStringFilterInput
   email_verified: TableBooleanFilterInput
   firstName: TableStringFilterInput
@@ -275,10 +277,9 @@ input TableUserFilterInput {
 
 input UpdateUserInput {
   cognitoId: String!
-  id: ID
-  email: String
+  email: String!
   email_verified: Boolean
-  firstName: String!
+  firstName: String
   picture: String
   pronouns: String
   bio: String
@@ -292,7 +293,6 @@ input UpdateUserInput {
 type User {
   cognitoId: String!
   conversations(after: String, first: Int): UserConverstationsConnection
-  id: ID!
   messages(after: String, first: Int): MessageConnection
   email: String!
   email_verified: Boolean!

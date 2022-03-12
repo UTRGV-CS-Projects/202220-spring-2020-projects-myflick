@@ -59,7 +59,7 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
       }).then((response) => {
         //console.log("response", response);
         //console.log("response.sub", response.attributes.sub);
-        dispatchSignIn(response.attributes.sub);
+        dispatchSignIn(response.attributes.sub, userEmail);
         //console.log("signed in user: ", response);
       });
 
@@ -68,8 +68,8 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
       alert(error);
     }
   }
-  const dispatchSignIn = async (username: string) => {
-    handleSignIn(dispatch, username);
+  const dispatchSignIn = async (username: string, email: string) => {
+    handleSignIn(dispatch, username, email);
   };
   return (
     <KeyboardAvoidingView

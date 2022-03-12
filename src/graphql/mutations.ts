@@ -40,7 +40,6 @@ export const createMessage = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -66,7 +65,6 @@ export const createMessage = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -86,71 +84,6 @@ export const createMessage = /* GraphQL */ `
     }
   }
 `;
-export const createUserConversations = /* GraphQL */ `
-  mutation CreateUserConversations($conversationId: ID!, $userId: ID!) {
-    createUserConversations(conversationId: $conversationId, userId: $userId) {
-      associated {
-        associated {
-          conversationId
-          userId
-        }
-        conversation {
-          createdAt
-          id
-          name
-        }
-        conversationId
-        user {
-          cognitoId
-          id
-          email
-          email_verified
-          firstName
-          picture
-          pronouns
-          bio
-          location
-          photos
-          interests
-          loggedIn
-          profileComplete
-        }
-        userId
-      }
-      conversation {
-        createdAt
-        id
-        messages {
-          nextToken
-        }
-        name
-      }
-      conversationId
-      user {
-        cognitoId
-        conversations {
-          nextToken
-        }
-        id
-        messages {
-          nextToken
-        }
-        email
-        email_verified
-        firstName
-        picture
-        pronouns
-        bio
-        location
-        photos
-        interests
-        loggedIn
-        profileComplete
-      }
-      userId
-    }
-  }
-`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser($input: CreateUserInput!) {
     createUser(input: $input) {
@@ -162,7 +95,6 @@ export const createUser = /* GraphQL */ `
           userId
         }
       }
-      id
       messages {
         messages {
           content
@@ -199,7 +131,6 @@ export const updateUser = /* GraphQL */ `
           userId
         }
       }
-      id
       messages {
         messages {
           content
@@ -236,7 +167,6 @@ export const deleteUser = /* GraphQL */ `
           userId
         }
       }
-      id
       messages {
         messages {
           content

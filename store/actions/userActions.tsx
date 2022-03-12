@@ -50,7 +50,8 @@ export const handleSignUp = async (
 
 export const handleSignIn = async (
   dispatch: Dispatch<UserAction>,
-  username: string
+  username: string,
+  email: string
 ) => {
   try {
     //returns email, email_verified, and sub (cognitoId)
@@ -59,10 +60,11 @@ export const handleSignIn = async (
     const info = await API.graphql(
       graphqlOperation(getUser, {
         cognitoId: username,
+        email,
       })
     );
 
-    console.log(info);
+    console.log("infooo", info);
 
     //let userInfo = await Auth.currentAuthenticatedUser();
     //console.log("userInfo: ", userInfo);
@@ -95,7 +97,6 @@ export const handleProfileComplete = async (
     const info = await API.graphql(
       graphqlOperation(createUser, {
         input: {
-          id: 1,
           cognitoId: userSub,
           email: data.email,
           firstName: data.firstName,

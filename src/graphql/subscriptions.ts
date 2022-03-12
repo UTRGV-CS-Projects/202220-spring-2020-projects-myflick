@@ -10,7 +10,6 @@ export const subscribeToNewMessage = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -36,7 +35,6 @@ export const subscribeToNewMessage = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -56,85 +54,20 @@ export const subscribeToNewMessage = /* GraphQL */ `
     }
   }
 `;
-export const subscribeToNewUCs = /* GraphQL */ `
-  subscription SubscribeToNewUCs($userId: ID!) {
-    subscribeToNewUCs(userId: $userId) {
-      associated {
-        associated {
-          conversationId
-          userId
-        }
-        conversation {
-          createdAt
-          id
-          name
-        }
-        conversationId
-        user {
-          cognitoId
-          id
-          email
-          email_verified
-          firstName
-          picture
-          pronouns
-          bio
-          location
-          photos
-          interests
-          loggedIn
-          profileComplete
-        }
-        userId
-      }
-      conversation {
-        createdAt
-        id
-        messages {
-          nextToken
-        }
-        name
-      }
-      conversationId
-      user {
-        cognitoId
-        conversations {
-          nextToken
-        }
-        id
-        messages {
-          nextToken
-        }
-        email
-        email_verified
-        firstName
-        picture
-        pronouns
-        bio
-        location
-        photos
-        interests
-        loggedIn
-        profileComplete
-      }
-      userId
-    }
-  }
-`;
 export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser(
     $cognitoId: String
-    $id: ID
     $email: String
     $email_verified: Boolean
     $firstName: String
+    $picture: String
   ) {
     onCreateUser(
       cognitoId: $cognitoId
-      id: $id
       email: $email
       email_verified: $email_verified
       firstName: $firstName
+      picture: $picture
     ) {
       cognitoId
       conversations {
@@ -144,7 +77,6 @@ export const onCreateUser = /* GraphQL */ `
           userId
         }
       }
-      id
       messages {
         messages {
           content
@@ -173,17 +105,17 @@ export const onCreateUser = /* GraphQL */ `
 export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser(
     $cognitoId: String
-    $id: ID
     $email: String
     $email_verified: Boolean
     $firstName: String
+    $picture: String
   ) {
     onUpdateUser(
       cognitoId: $cognitoId
-      id: $id
       email: $email
       email_verified: $email_verified
       firstName: $firstName
+      picture: $picture
     ) {
       cognitoId
       conversations {
@@ -193,7 +125,6 @@ export const onUpdateUser = /* GraphQL */ `
           userId
         }
       }
-      id
       messages {
         messages {
           content
@@ -222,17 +153,17 @@ export const onUpdateUser = /* GraphQL */ `
 export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser(
     $cognitoId: String
-    $id: ID
     $email: String
     $email_verified: Boolean
     $firstName: String
+    $picture: String
   ) {
     onDeleteUser(
       cognitoId: $cognitoId
-      id: $id
       email: $email
       email_verified: $email_verified
       firstName: $firstName
+      picture: $picture
     ) {
       cognitoId
       conversations {
@@ -242,7 +173,6 @@ export const onDeleteUser = /* GraphQL */ `
           userId
         }
       }
-      id
       messages {
         messages {
           content
