@@ -199,14 +199,14 @@ const Personalize = ({
               <FlatList
                 horizontal={true}
                 keyExtractor={(data) => {
-                  return data.uri;
+                  return data;
                 }}
-                data={images}
+                data={completeProfile.photos}
                 renderItem={(item) => {
                   return (
                     <Image
                       key={item.index}
-                      source={{ uri: item.item.uri }}
+                      source={{ uri: item.item }}
                       style={{ width: 150, height: 150 }}
                     />
                   );
@@ -348,11 +348,10 @@ const styles = StyleSheet.create({
   },
   menuBox: {
     backgroundColor: "#D3D3D3",
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
     alignItems: "center",
     justifyContent: "center",
-    margin: 5,
     borderRadius: 10,
   },
   icon: {

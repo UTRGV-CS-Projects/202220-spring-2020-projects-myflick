@@ -173,43 +173,6 @@ export const allMessageFrom = /* GraphQL */ `
     }
   }
 `;
-export const allUser = /* GraphQL */ `
-  query AllUser($after: String, $first: Int) {
-    allUser(after: $after, first: $first) {
-      cognitoId
-      conversations {
-        nextToken
-        userConversations {
-          conversationId
-          userId
-        }
-      }
-      id
-      messages {
-        messages {
-          content
-          conversationId
-          createdAt
-          id
-          isSent
-          sender
-        }
-        nextToken
-      }
-      email
-      email_verified
-      firstName
-      picture
-      pronouns
-      bio
-      location
-      photos
-      interests
-      loggedIn
-      profileComplete
-    }
-  }
-`;
 export const me = /* GraphQL */ `
   query Me {
     me {
@@ -244,6 +207,75 @@ export const me = /* GraphQL */ `
       interests
       loggedIn
       profileComplete
+    }
+  }
+`;
+export const getUser = /* GraphQL */ `
+  query GetUser($cognitoId: String!) {
+    getUser(cognitoId: $cognitoId) {
+      cognitoId
+      conversations {
+        nextToken
+        userConversations {
+          conversationId
+          userId
+        }
+      }
+      id
+      messages {
+        messages {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      email
+      email_verified
+      firstName
+      picture
+      pronouns
+      bio
+      location
+      photos
+      interests
+      loggedIn
+      profileComplete
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: TableUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      nextToken
     }
   }
 `;

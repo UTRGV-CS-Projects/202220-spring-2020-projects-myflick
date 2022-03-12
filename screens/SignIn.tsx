@@ -56,22 +56,21 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
       const user = await Auth.signIn({
         username: userEmail,
         password,
+      }).then((response) => {
+        //console.log("response", response);
+        //console.log("response.sub", response.attributes.sub);
+        dispatchSignIn(response.attributes.sub);
+        //console.log("signed in user: ", response);
       });
-
-      console.log("signed in user: ", user);
-
-      const signInObj: SignInType = {
-        email: userEmail,
-        password,
-      };
-      await handleSignIn(dispatch, signInObj);
 
       navigation.replace("Root", { screen: "MyProfile" });
     } catch (error) {
       alert(error);
     }
   }
-
+  const dispatchSignIn = async (username: string) => {
+    handleSignIn(dispatch, username);
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
