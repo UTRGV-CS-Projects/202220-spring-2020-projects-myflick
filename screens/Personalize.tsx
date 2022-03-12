@@ -1,38 +1,31 @@
-import React, { useEffect, useState, Component, useContext } from "react";
+import React, {
+  useEffect,
+  useState,
+  Component,
+  useContext,
+  useRef,
+} from "react";
 import {
   StyleSheet,
   Image,
-  Pressable,
   TouchableOpacity,
   FlatList,
-  SectionList,
-  Alert,
-  VirtualizedList,
-  TextInput,
-  TextInputProps,
-  Touchable,
-  Button,
+  ScrollView,
 } from "react-native";
-import { ScrollView } from "react-native-virtualized-view";
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
 import { themeColor, lightThemeColor } from "../constants/Colors";
-import { MyProfileSections } from "../db/db";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import { Avatar, Input } from "react-native-elements";
 import { Chip } from "react-native-paper";
 import { UserActionTypes } from "../store/actions/actionTypes";
 import { AuthContext } from "../store/AuthContext";
-import { Auth } from "aws-amplify";
-import {
-  handleLogOut,
-  handleProfileComplete,
-  handleSignUp,
-} from "../store/actions/userActions";
+import { handleProfileComplete } from "../store/actions/userActions";
 import { ProfileCompleteType } from "../types";
 import * as ImagePicker from "expo-image-picker";
-import { transferKeyToUpperCase } from "@aws-amplify/core";
+import LottieView from "lottie-react-native";
+
 const Personalize = ({
   navigation,
   route,
@@ -78,25 +71,13 @@ const Personalize = ({
   };
 
   const handleSaveChanges = async () => {
-    /* if (!user.email_verified) {
-      console.log("user email: ", user.email);
-      console.log("auth code: ", authCode);
-      try {
-        await Auth.confirmSignUp(user.email, authCode);
-      } catch (error) {
-        console.log("error confirming sign up", error);
-      }
-    }
- */
-
-    handleProfileComplete(dispatch, completeProfile);
-
-    navigation.navigate("Introduction");
-  };
-
-  const logOut = () => {
-    handleLogOut(dispatch);
-    navigation.navigate("Introduction");
+    handleProfileComplete(dispatch, completeProfile)
+      .then((response) => {
+        checkRef.current?.play();
+      })
+      .catch(() => {
+        alert("error saving profile");
+      });
   };
 
   useEffect(() => {
@@ -107,15 +88,21 @@ const Personalize = ({
     console.log(completeProfile);
   }, [completeProfile]);
 
+  const checkRef = useRef<LottieView>(null);
+
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      <ScrollView>
         <View style={styles.titleBar}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
             <Text style={styles.cancelButton}>Cancel</Text>
           </TouchableOpacity>
-          <Text style={styles.title1}>Edit Profile</Text>
-          <TouchableOpacity onPress={() => {}}>
+          <Text style={styles.title1}>Create Profile</Text>
+          <TouchableOpacity onPress={handleSaveChanges}>
             <Text style={styles.saveButton}>Save</Text>
           </TouchableOpacity>
         </View>
@@ -180,14 +167,6 @@ const Personalize = ({
               placeholder="Location"
             />
           </View>
-
-          {/* <View style={styles.line}>
-          <View style={{
-                    borderBottomColor: 'black',
-                    borderBottomWidth: 1,
-                    width:"100%" 
-                }}></View>
-                 </View> */}
         </View>
 
         <View></View>
@@ -237,7 +216,7 @@ const Personalize = ({
               padding: 0,
             }}
           >
-            {user.interests.map((item, index) => {
+            {user.interests?.map((item, index) => {
               return (
                 <Chip
                   mode="flat"
@@ -268,15 +247,17 @@ const Personalize = ({
         >
           <Text style={styles.buttonText}>Save Changes</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            logOut();
+        <LottieView
+          loop={false}
+          autoPlay={false}
+          ref={checkRef}
+          onAnimationFinish={() => {
+            navigation.navigate("Introduction");
           }}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Log Out</Text>
-        </TouchableOpacity>
-      </View>
+          source={require("../assets/lotties/checkmark.json")}
+          style={styles.check}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -313,6 +294,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 15,
     overflow: "hidden",
+  },
+  check: {
+    width: 150,
+    height: 150,
+    alignSelf: "center",
   },
   image: {
     flex: 1,
@@ -358,12 +344,7 @@ const styles = StyleSheet.create({
     width: 55,
     height: 65,
   },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
+
   containerEA: {
     alignItems: "center",
     marginTop: -65,
@@ -388,7 +369,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: themeColor,
     padding: 12,
-    marginBottom: 10,
+    marginVertical: 10,
     borderRadius: 10,
     alignSelf: "center",
   },
