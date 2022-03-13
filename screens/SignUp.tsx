@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Text, useThemeColor, View } from "../components/Themed";
+import { Text, useThemeColor } from "../components/Themed";
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Button,
   Keyboard,
+  View,
   TouchableOpacity,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";

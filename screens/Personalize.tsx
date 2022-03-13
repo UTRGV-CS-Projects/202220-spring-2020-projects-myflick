@@ -11,6 +11,9 @@ import {
   TouchableOpacity,
   FlatList,
   ScrollView,
+  TextInput,
+  Modal,
+  Pressable,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
@@ -34,40 +37,75 @@ const Personalize = ({
 
   const { user, dispatch } = useContext(AuthContext);
   const [authCode, setAuthCode] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
   const [images, setImages] = useState<ImagePicker.ImageInfo[]>([]);
   const [imageStatus, requestPermission] =
     ImagePicker.useMediaLibraryPermissions();
+  const [interest, setInterest] = useState("");
 
   const [completeProfile, setCompleteProfile] = useState<ProfileCompleteType>({
     email: route.params.email,
     password: route.params.password,
-    interests: ["eating", "chewing"],
+    interests: [],
     firstName: "",
     photos: [],
     bio: "",
     location: "",
     pronouns: "",
-    picture: "https://www.booksie.com/files/profiles/22/mr-anonymous.png",
+    picture: "",
   });
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
-    requestPermission();
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+    try {
+      requestPermission();
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
 
-    console.log(result);
+      //console.log(result);
 
-    if (!result.cancelled) {
+      return result;
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const handlePhotos = async () => {
+    const result = await pickImage();
+    if (!result?.cancelled) {
       setCompleteProfile({
         ...completeProfile,
-        photos: [...completeProfile.photos, result.uri],
+        photos: [...completeProfile.photos, result!.uri],
       });
     }
+  };
+
+  const handleProfilePicture = async () => {
+    const result = await pickImage();
+    if (!result?.cancelled) {
+      setCompleteProfile({
+        ...completeProfile,
+        picture: result!.uri,
+      });
+    }
+  };
+
+  const handleAddInterest = () => {
+    if (!interest) {
+      alert("Please enter an interest");
+      return;
+    }
+
+    setCompleteProfile({
+      ...completeProfile,
+      interests: [...completeProfile.interests, interest],
+    });
+    setModalVisible(!modalVisible);
+    setInterest("");
   };
 
   const handleSaveChanges = async () => {
@@ -92,6 +130,35 @@ const Personalize = ({
 
   return (
     <SafeAreaView style={styles.container}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          //alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TextInput
+              onChangeText={setInterest}
+              value={interest}
+              placeholder="Enter interest here"
+              multiline={false}
+              style={styles.textInput}
+              autoCorrect={false}
+            />
+            <Pressable
+              style={[styles.button1, { backgroundColor: themeColor }]}
+              onPress={handleAddInterest}
+            >
+              <Text style={styles.textStyle}>Done</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
       <ScrollView>
         <View style={styles.titleBar}>
           <TouchableOpacity
@@ -111,11 +178,15 @@ const Personalize = ({
           <View style={styles.profileImage}>
             <Image
               style={styles.image}
-              source={{ uri: completeProfile.picture }}
+              source={
+                completeProfile.picture
+                  ? { uri: completeProfile.picture }
+                  : require("../assets/images/defaultProfile.png")
+              }
             ></Image>
           </View>
           <View style={styles.add}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={handleProfilePicture}>
               <Ionicons
                 name="add-circle-sharp"
                 size={30}
@@ -171,12 +242,19 @@ const Personalize = ({
 
         <View></View>
 
-        <View>
+        <View
+          style={{
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "flex-start",
+          }}
+        >
           <Text style={styles.sectionHeader}>Photos</Text>
           <View style={styles.bodyContent}>
             {completeProfile.photos.length > 0 ? (
               <FlatList
                 horizontal={true}
+                contentContainerStyle={{}}
                 keyExtractor={(data) => {
                   return data;
                 }}
@@ -186,13 +264,13 @@ const Personalize = ({
                     <Image
                       key={item.index}
                       source={{ uri: item.item }}
-                      style={{ width: 150, height: 150 }}
+                      style={{ width: 200, height: 200 }}
                     />
                   );
                 }}
               />
             ) : null}
-            <TouchableOpacity onPress={pickImage}>
+            <TouchableOpacity onPress={handlePhotos}>
               <View style={styles.menuBox}>
                 <Ionicons
                   name="add"
@@ -216,7 +294,7 @@ const Personalize = ({
               padding: 0,
             }}
           >
-            {user.interests?.map((item, index) => {
+            {completeProfile.interests?.map((item, index) => {
               return (
                 <Chip
                   mode="flat"
@@ -236,6 +314,19 @@ const Personalize = ({
                 </Chip>
               );
             })}
+            <Chip
+              mode="flat"
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+              style={{
+                margin: 5,
+                borderColor: themeColor,
+                alignSelf: "center",
+              }}
+            >
+              <Ionicons name="add" size={20} color={themeColor}></Ionicons>
+            </Chip>
           </View>
         </View>
 
@@ -267,7 +358,6 @@ export default Personalize;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginRight: 12,
     //marginTop:10,
   },
   titleBar: {
@@ -329,16 +419,14 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   bodyContent: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flex: 1,
   },
   menuBox: {
     backgroundColor: "#D3D3D3",
-    width: 150,
-    height: 150,
+    width: 200,
+    height: 200,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 10,
   },
   icon: {
     width: 55,
@@ -382,5 +470,51 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: 10,
     marginTop: 10,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalView: {
+    width: 250,
+    height: 200,
+    justifyContent: "center",
+    margin: 20,
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button1: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  textInput: {
+    height: 40,
+    margin: 12,
+    padding: 10,
+  },
+
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
   },
 });
