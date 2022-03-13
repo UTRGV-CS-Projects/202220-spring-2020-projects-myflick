@@ -4,6 +4,7 @@ import {
   Image,
   Pressable,
   TouchableOpacity,
+  Button, TextInput
 } from "react-native";
 import { ScrollView } from 'react-native-virtualized-view';
 import { Ionicons } from "@expo/vector-icons";
@@ -12,7 +13,7 @@ import { themeColor, lightThemeColor } from "../constants/Colors";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import { Avatar, Input } from 'react-native-elements';
-import { Chip } from "react-native-paper";
+import { Chip, } from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
 import { Constants } from "@aws-amplify/core";
 import {
@@ -22,6 +23,8 @@ import {
 import 'react-native-gesture-handler'
 import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { actionButton } from "aws-amplify";
+import DatePicker from 'react-native-datepicker';
+import Colors from "../constants/Colors";
 
 const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
 const colorScheme = useColorScheme();
@@ -31,10 +34,8 @@ const bottomSheetModalRef2 = useRef<BottomSheetModal>(null);
 const bottomSheetModalRef3 = useRef<BottomSheetModal>(null);
 const bottomSheetModalRef4 = useRef<BottomSheetModal>(null);
 const snapPoints = useMemo(() => ['25%', '50%'], []);
-const snapPoints2 = useMemo(() => ["25%"], []);
-const bottomSheetRef = useRef<BottomSheet>(null);
 
-
+const [number, onChangeNumber] = React.useState(null);
   // callbacks
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
@@ -51,7 +52,7 @@ const bottomSheetRef = useRef<BottomSheet>(null);
   const handleSearchHobbiesModalPress = useCallback(() => {
     bottomSheetModalRef4.current?.present();
   }, []);
-
+  //const setDate = (event, date) => {};
 useEffect(() => {
   (async () => {
       const cameraRollStatus =
@@ -91,8 +92,10 @@ const pickImage = async () => {
 
     console.log(result);
   };
-
-
+  
+  const [date, setDate] = useState('09-10-2020');
+  const [text, onChangeText] = React.useState("Useless Text");
+  
     return(
       <BottomSheetModalProvider>
     <SafeAreaView style={styles.container}>
@@ -106,7 +109,7 @@ const pickImage = async () => {
           <Text style={styles.saveButton}>Save</Text></TouchableOpacity>
         </View>
         
-        <View style={{ alignSelf: "center" }}>
+        {/* <View style={{ alignSelf: "center" }}>
           <View style={styles.profileImage}>
             <Image
               style={styles.image}
@@ -114,7 +117,7 @@ const pickImage = async () => {
                 uri: "https://randomuser.me/api/portraits/women/50.jpg",
               }}
             ></Image>
-          </View>
+          </View> */}
           {/* <View style={styles.add}>
             <TouchableOpacity onPress={pickImage}>
               <Ionicons
@@ -126,10 +129,10 @@ const pickImage = async () => {
             </TouchableOpacity>
             
           </View> */}
-        </View>
+        {/* </View> */}
 
 
-        <View style={styles.container}>
+        {/* <View style={styles.container}> */}
             {/* <View style={styles.line}>
             <View style={{
                     borderBottomColor: 'black',
@@ -138,35 +141,80 @@ const pickImage = async () => {
             }}></View>
             </View> */}
 
-            <View style={styles.viewKs}>
-                <Text style={styles.profileInput}>Name</Text>
-                <Input placeholder="Name"/>
-            </View>
+      <View style={styles.container2}>
+      <Text style={styles.addName}>Name</Text>
+					<TextInput
+            style={styles.inputName}
+            placeholder="Add your name"
+            multiline
+            numberOfLines={1}
+          />
+				</View>
+
+        <View style={styles.container2}>
+      <Text style={styles.addName}>Pronouns</Text>
+					<TextInput
+            style={styles.inputName}
+            placeholder="Add your pronouns"
+            multiline
+            numberOfLines={1}
+          />
+				</View>
+
+        <View style={styles.container2}>
+      <Text style={styles.addName}>Bio</Text>
+					<TextInput
+            style={styles.inputName}
+            placeholder="Add your Bio"
+            multiline
+            numberOfLines={2}
+          />
+				</View>
+
+        <View style={styles.container2}>
+      <Text style={styles.addName}>Location</Text>
+					<TextInput
+            style={styles.inputName}
+            placeholder="Add your Location"
+            multiline
+            numberOfLines={1}
+          />
+				</View>
             
-            <View style={styles.viewKs}>
-                    <Text style={styles.profileInput2}>Pronouns</Text>
-                    <Input placeholder="Pronouns" />
-             </View>
-
-          <View style={styles.viewKs}>
-                <Text style={styles.profileInput3}>Bio</Text> 
-                <Input  placeholder="Bio" multiline={true} /> 
-          </View>
-
-          <View style={styles.viewKs}>
-                <Text style={styles.profileInput4 }>Location</Text>
-                <Input placeholder="Location"/>
-          </View>
-
-          {/* <View style={styles.line}>
-          <View style={{
-                    borderBottomColor: 'black',
-                    borderBottomWidth: 1,
-                    width:"100%" 
-                }}></View>
-                 </View> */}
-        </View>
-
+        <View style={styles.container2}>
+      <Text style={styles.addName}>Birthday</Text>
+          <DatePicker
+          style={styles.datePickerStyle}
+          date={date} //initial date from state
+          mode="date" //The enum of date, datetime and time
+          placeholder="select date"
+          format="DD-MM-YYYY"
+          minDate="12-01-1960"
+          maxDate="12-12-2003"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateInput: {
+              marginLeft: 12,
+              marginRight: 20,
+              opacity:0.7
+            
+            },
+            dateIcon: {
+              //display: 'none',
+              position: 'absolute',
+              //left: 0,
+              right: -18,
+              top: 4,
+              marginLeft: 0,
+            },
+          }}
+          onDateChange={(date) => {
+            setDate(date);
+          }}
+        />
+				</View>
+        
 
         <View style={styles.container}>
             <View style={styles.photoLine}>
@@ -343,7 +391,7 @@ const pickImage = async () => {
           </View>
           <View style={styles.contentContainer}>
           <BottomSheetModal
-              style={{shadowOpacity: 0.5}}
+              style={{shadowOpacity: 0.5, }}
               ref={bottomSheetModalRef}
               index={1}
               snapPoints={snapPoints}
@@ -533,10 +581,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: -65,
     },
-    viewKs: {
-        justifyContent: 'space-between',
-        flexDirection: 'row', 
-    },
     profileInput:{
         fontSize: 16,
         marginTop: 20,
@@ -644,6 +688,39 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10
   },
+  datePickerStyle: {
+    width: 200,
+    marginTop: 5,
+    marginRight: 130, 
+  },
+  container2: {
+		//flex: 1,
+		//flexDirection: "row",
+		//alignItems: 'center',
+		//justifyContent: "space-between",
+		marginLeft: 20,
+		marginRight: 11,
+		marginTop: 15,
+		backgroundColor: "white",
+		borderRadius: 10,
+		paddingVertical: 15,
+	},
+  addName:{
+    fontSize: 17,
+    color: themeColor,
+    fontWeight: "bold",
+    marginLeft: 10,  
+  },
+  inputName: {
+    height: 40,
+    //margin: 12,
+    //borderWidth: 1,
+    padding: 10,
+    fontSize: 17, 
+    color: "grey"
+  },
+  
+
     
 });
 

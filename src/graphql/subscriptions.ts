@@ -10,7 +10,6 @@ export const subscribeToNewMessage = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -36,7 +35,6 @@ export const subscribeToNewMessage = /* GraphQL */ `
         conversations {
           nextToken
         }
-        id
         messages {
           nextToken
         }
@@ -56,74 +54,21 @@ export const subscribeToNewMessage = /* GraphQL */ `
     }
   }
 `;
-export const subscribeToNewUCs = /* GraphQL */ `
-  subscription SubscribeToNewUCs($userId: ID!) {
-    subscribeToNewUCs(userId: $userId) {
-      associated {
-        associated {
-          conversationId
-          userId
-        }
-        conversation {
-          createdAt
-          id
-          name
-        }
-        conversationId
-        user {
-          cognitoId
-          id
-          email
-          email_verified
-          firstName
-          picture
-          pronouns
-          bio
-          location
-          photos
-          interests
-          loggedIn
-          profileComplete
-        }
-        userId
-      }
-      conversation {
-        createdAt
-        id
-        messages {
-          nextToken
-        }
-        name
-      }
-      conversationId
-      user {
-        cognitoId
-        conversations {
-          nextToken
-        }
-        id
-        messages {
-          nextToken
-        }
-        email
-        email_verified
-        firstName
-        picture
-        pronouns
-        bio
-        location
-        photos
-        interests
-        loggedIn
-        profileComplete
-      }
-      userId
-    }
-  }
-`;
-export const subscribeToNewUsers = /* GraphQL */ `
-  subscription SubscribeToNewUsers {
-    subscribeToNewUsers {
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser(
+    $cognitoId: String
+    $email: String
+    $email_verified: Boolean
+    $firstName: String
+    $picture: String
+  ) {
+    onCreateUser(
+      cognitoId: $cognitoId
+      email: $email
+      email_verified: $email_verified
+      firstName: $firstName
+      picture: $picture
+    ) {
       cognitoId
       conversations {
         nextToken
@@ -132,7 +77,102 @@ export const subscribeToNewUsers = /* GraphQL */ `
           userId
         }
       }
-      id
+      messages {
+        messages {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      email
+      email_verified
+      firstName
+      picture
+      pronouns
+      bio
+      location
+      photos
+      interests
+      loggedIn
+      profileComplete
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser(
+    $cognitoId: String
+    $email: String
+    $email_verified: Boolean
+    $firstName: String
+    $picture: String
+  ) {
+    onUpdateUser(
+      cognitoId: $cognitoId
+      email: $email
+      email_verified: $email_verified
+      firstName: $firstName
+      picture: $picture
+    ) {
+      cognitoId
+      conversations {
+        nextToken
+        userConversations {
+          conversationId
+          userId
+        }
+      }
+      messages {
+        messages {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      email
+      email_verified
+      firstName
+      picture
+      pronouns
+      bio
+      location
+      photos
+      interests
+      loggedIn
+      profileComplete
+    }
+  }
+`;
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser(
+    $cognitoId: String
+    $email: String
+    $email_verified: Boolean
+    $firstName: String
+    $picture: String
+  ) {
+    onDeleteUser(
+      cognitoId: $cognitoId
+      email: $email
+      email_verified: $email_verified
+      firstName: $firstName
+      picture: $picture
+    ) {
+      cognitoId
+      conversations {
+        nextToken
+        userConversations {
+          conversationId
+          userId
+        }
+      }
       messages {
         messages {
           content

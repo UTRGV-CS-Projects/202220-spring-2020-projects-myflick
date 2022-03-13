@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Text, useThemeColor, View } from "../components/Themed";
 import {
   KeyboardAvoidingView,
@@ -8,6 +8,7 @@ import {
   Button,
   Keyboard,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { TextInput } from "react-native-paper";
@@ -22,9 +23,16 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
   const colorScheme = useColorScheme();
   const [userEmail, setUserEmail] = useState("");
   const [authCode, setAuthCode] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const { user, dispatch } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user.loggedIn) {
+      setLoading(false);
+      navigation.replace("Root", { screen: "MyProfile" });
+    }
+  }, [user]);
 
   async function resendConfirmationCode() {
     try {
@@ -46,8 +54,11 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
 
   async function signIn() {
     try {
+      setLoading(true);
+
       if (userEmail.length === 0 || password.length === 0) {
         alert("Please enter email and password");
+        setLoading(false);
         return;
       }
       if (authCode.length > 0) {
@@ -56,22 +67,19 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
       const user = await Auth.signIn({
         username: userEmail,
         password,
+      }).then((response) => {
+        //console.log("response", response);
+        //console.log("response.sub", response.attributes.sub);
+        dispatchSignIn(response.attributes.sub, userEmail);
+        //console.log("signed in user: ", response);
       });
-
-      console.log("signed in user: ", user);
-
-      const signInObj: SignInType = {
-        email: userEmail,
-        password,
-      };
-      await handleSignIn(dispatch, signInObj);
-
-      navigation.replace("Root", { screen: "MyProfile" });
     } catch (error) {
       alert(error);
     }
   }
-
+  const dispatchSignIn = async (username: string, email: string) => {
+    handleSignIn(dispatch, username, email);
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -144,6 +152,11 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
             <TouchableOpacity style={styles.signInButton} onPress={signIn}>
               <Text style={styles.signInText}>Sign In</Text>
             </TouchableOpacity>
+            <ActivityIndicator
+              size="large"
+              color="#ffffff"
+              animating={loading}
+            />
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -169,12 +182,11 @@ const styles = StyleSheet.create({
   inner: {
     padding: 24,
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
   },
   header: {
     fontSize: 36,
-    marginBottom: 48,
     alignSelf: "flex-start",
   },
   textInput: {
@@ -202,6 +214,7 @@ const styles = StyleSheet.create({
   signInButton: {
     paddingVertical: 13,
     paddingHorizontal: 30,
+    marginBottom: 30,
     backgroundColor: themeColor,
     borderRadius: 10,
   },
