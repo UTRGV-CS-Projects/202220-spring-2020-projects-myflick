@@ -10,14 +10,11 @@ import Swiper from "react-native-deck-swiper";
 import { Button } from "react-native-elements";
 import Colors, { themeColor } from "../../constants/Colors";
 import useColorScheme from "../../hooks/useColorScheme";
-
 import { EvilIcons } from "@expo/vector-icons";
-
 import LottieView from "lottie-react-native";
 import MovieCard from "./MovieCard";
 import { overlay } from "react-native-paper";
 import { MovieCardType, PeopleDetailsType } from "../../db/db";
-
 import PeopleCard from "./PeopleCard";
 import { People } from "../../db/db";
 import { fetchDiscovery, fetchGenres } from "../../apis/movies";

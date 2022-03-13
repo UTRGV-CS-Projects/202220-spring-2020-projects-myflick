@@ -73,10 +73,17 @@ const MovieCard = ({ card, genres }: MovieCardProps) => {
         <View style={styles.chipsContainer}>
           {currentGenres?.map((genre, index) => {
             return (
-              <TouchableOpacity style={styles.chip} key={index}>
-                <View>
-                  <Text style={styles.chipText}>{genre}</Text>
-                </View>
+              <TouchableOpacity key={index}>
+                <Chip
+                  mode="flat"
+                  textStyle={{ color: "white", fontSize: 15 }}
+                  style={{
+                    backgroundColor: themeColor,
+                    margin: 5,
+                  }}
+                >
+                  {genre}
+                </Chip>
               </TouchableOpacity>
             );
           })}
