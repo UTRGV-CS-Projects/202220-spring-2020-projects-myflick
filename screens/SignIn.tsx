@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Text, useThemeColor, View } from "../components/Themed";
+import { Text, useThemeColor } from "../components/Themed";
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   Button,
   Keyboard,
   TouchableOpacity,
+  View,
   ActivityIndicator,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -43,6 +44,10 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
     }
   }
 
+  useEffect(() => {
+    console.log(authCode);
+  }, [authCode]);
+
   const handleConfirmUser = async () => {
     try {
       await Auth.confirmSignUp(userEmail, authCode);
@@ -62,18 +67,31 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
         return;
       }
       if (authCode.length > 0) {
-        await handleConfirmUser();
+        console.log("here");
+        await handleConfirmUser().then(async () => {
+          const user = await Auth.signIn({
+            username: userEmail,
+            password,
+          }).then((response) => {
+            //console.log("response", response);
+            //console.log("response.sub", response.attributes.sub);
+            dispatchSignIn(response.attributes.sub, userEmail);
+            //console.log("signed in user: ", response);
+          });
+        });
+      } else {
+        const user = await Auth.signIn({
+          username: userEmail,
+          password,
+        }).then((response) => {
+          //console.log("response", response);
+          //console.log("response.sub", response.attributes.sub);
+          dispatchSignIn(response.attributes.sub, userEmail);
+          //console.log("signed in user: ", response);
+        });
       }
-      const user = await Auth.signIn({
-        username: userEmail,
-        password,
-      }).then((response) => {
-        //console.log("response", response);
-        //console.log("response.sub", response.attributes.sub);
-        dispatchSignIn(response.attributes.sub, userEmail);
-        //console.log("signed in user: ", response);
-      });
     } catch (error) {
+      setLoading(false);
       alert(error);
     }
   }
@@ -137,9 +155,7 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
               autoCapitalize="none"
               secureTextEntry={true}
               activeOutlineColor={Colors[colorScheme].opposite}
-              onSubmitEditing={(value) =>
-                setAuthCode(value.nativeEvent.text.trim())
-              }
+              onSubmitEditing={(value) => setAuthCode(value.nativeEvent.text)}
               style={[styles.textInput]}
               left={<TextInput.Icon name="eye" />}
             />
