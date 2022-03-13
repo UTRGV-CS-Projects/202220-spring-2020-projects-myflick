@@ -1,14 +1,11 @@
 import {
 	StyleSheet,
 	Text,
-	Image,
 	KeyboardAvoidingView,
 	Platform,
 	FlatList,
 } from "react-native";
 import React, { useState, useRef } from "react";
-import NewMatchesList from "../components/Messages/NewMatchesList";
-import NewMessagesList from "../components/Messages/NewMessagesList";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RootStackScreenProps } from "../types";
 import { SafeAreaView, View } from "../components/Themed";
@@ -17,13 +14,12 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import MessageBubble from "../components/Messages/MessageBubble";
 import { TextInput } from "react-native-paper";
 
-import { ScrollView } from "react-native-virtualized-view";
-
+//styling
 import useColorScheme from "../hooks/useColorScheme";
-
 import Colors, { themeColor } from "../constants/Colors";
 
 const OpenChat = ({ navigation }: RootStackScreenProps<"Messages">) => {
+	//hardcoded data for testing purpouses delete when finsihed - follows Message type from types.tsx
 	let hardcodedChat = [
 		{ id: "1", senderId: "1", content: "hey (msg1)", timeStamp: "3:00 pm" },
 		{
@@ -91,32 +87,39 @@ const OpenChat = ({ navigation }: RootStackScreenProps<"Messages">) => {
 		},
 	];
 
-	const insets = useSafeAreaInsets();
 	const colorScheme = useColorScheme();
-	const textInputRef = useRef();
+
+	//dependent variables
 	const [hardcodedChatEditable, setHardcodedChatEditable] =
 		useState(hardcodedChat);
-
 	const [textBarInput, setTextBarInput] = useState("");
 
+	//methods (triggers)
 	const handleGoBack = () => {
 		navigation.navigate("Messages");
 	};
 
 	const sendBtnTrigger = () => {
-		if (textBarInput != "") {
-			setHardcodedChatEditable([
-				...hardcodedChatEditable,
-				{
-					id: "99",
-					senderId: "1",
-					content: textBarInput,
-					timeStamp: "3:00 pm",
-				}, //HARDCODED DATA CHANGE THIS
-			]);
-		}
+		//if textBarInput is empty, do nothing
+		if (textBarInput === "") return;
 
-		setTextBarInput(""); //reset value
+		//else, add new message input to the chat
+		setHardcodedChatEditable([
+			...hardcodedChatEditable,
+			{
+				id: "99", //HARDCODED DATA CHANGE THIS
+				senderId: "1", //HARDCODED DATA CHANGE THIS
+				content: textBarInput,
+				timeStamp: "3:00 pm", //HARDCODED DATA CHANGE THIS
+			},
+		]);
+
+		//once submitted, reset textBarInput
+		setTextBarInput("");
+	};
+
+	const handleOpenChatSettings = () => {
+		console.warn("open chat settings button triggered");
 	};
 
 	return (
@@ -130,10 +133,14 @@ const OpenChat = ({ navigation }: RootStackScreenProps<"Messages">) => {
 						<Ionicons name="chevron-back-outline" size={30} color={"white"} />
 					</TouchableOpacity>
 
-					<Text style={styles.name}>Ashley</Text>
-					{/* HARDCODED DATA, CHANGE THIS */}
+					<Text style={styles.name}>
+						Ashley {/* HARDCODED DATA, CHANGE THIS */}
+					</Text>
 
-					<TouchableOpacity style={styles.ellipsis}>
+					<TouchableOpacity
+						style={styles.ellipsis}
+						onPress={handleOpenChatSettings}
+					>
 						<Ionicons
 							name="ellipsis-vertical-outline"
 							size={30}
@@ -145,7 +152,11 @@ const OpenChat = ({ navigation }: RootStackScreenProps<"Messages">) => {
 				<FlatList
 					data={hardcodedChatEditable}
 					renderItem={({ item }) => (
-						<MessageBubble messages={item} currentUserId={"1"} key={item.id} />
+						<MessageBubble
+							messages={item}
+							currentUserId={"1" /* HARDCODED DATA CHANGE THIS*/}
+							key={item.id}
+						/>
 					)}
 				/>
 
