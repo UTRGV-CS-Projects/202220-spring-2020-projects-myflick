@@ -24,6 +24,7 @@ import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { actionButton } from "aws-amplify";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RBSheet from "react-native-raw-bottom-sheet";
+import SearchBar from "react-native-dynamic-search-bar";
 
 const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
 const colorScheme = useColorScheme();
@@ -34,23 +35,9 @@ const bottomSheetModalRef3 = useRef<BottomSheetModal>(null);
 const bottomSheetModalRef4 = useRef<BottomSheetModal>(null);
 const snapPoints = useMemo(() => ['25%', '50%'], []);
 const refRBSheet = useRef<any| null>(null);
-  // callbacks
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
-  const handleSearchModalPress = useCallback(() => {
-    bottomSheetModalRef2.current?.present();
-  }, []);
-  const handleSearchBasicInfoModalPress = useCallback(() => {
-    bottomSheetModalRef3.current?.present();
-  }, []);
-  const handleSearchHobbiesModalPress = useCallback(() => {
-    bottomSheetModalRef4.current?.present();
-  }, []);
-  //const setDate = (event, date) => {};
+const refRBSheet2 = useRef<any| null>(null);
+const refRBSheet3 = useRef<any| null>(null);
+const refRBSheet4 = useRef<any| null>(null);
   
 
 useEffect(() => {
@@ -111,6 +98,7 @@ const pickImage = async () => {
   const showDatepicker = () => {
     showMode('date');
   }; 
+
 
 
  
@@ -186,7 +174,7 @@ const pickImage = async () => {
             <View style={styles.bodyContent}>
             
               <View style={styles.menuBox}>
-                <TouchableOpacity  onPress={handleSearchModalPress}>
+                <TouchableOpacity  onPress={() => {refRBSheet2.current.open()}}>
                 <Ionicons
                     name="add"
                     size={40}
@@ -197,7 +185,7 @@ const pickImage = async () => {
               </View>
 
               <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={handleSearchModalPress}>
+              <TouchableOpacity  onPress={() => {refRBSheet2.current.open()}}>
                     <Ionicons
                     name="add"
                     size={40}
@@ -208,7 +196,7 @@ const pickImage = async () => {
               </View>
 
               <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={handleSearchModalPress}>
+              <TouchableOpacity  onPress={() => {refRBSheet2.current.open()}}>
                     <Ionicons
                     name="add"
                     size={40}
@@ -239,7 +227,7 @@ const pickImage = async () => {
               placeholder="Add your Birthday"
               multiline
               numberOfLines={1}>
-             <Text style={styles.inputName}>{date ? date.toLocaleDateString() : "Select date..."}</Text>
+             <Text style={styles.inputName}>{ date.toLocaleDateString()}</Text>
         </TextInput>
               {show && (
             <DateTimePicker
@@ -307,11 +295,12 @@ const pickImage = async () => {
             })} */}
             <Chip
               mode="outlined"
-              textStyle={{ color: themeColor, fontSize: 15, fontWeight:"bold" }}
-              onPress={handleSearchBasicInfoModalPress}
+              textStyle={{ color: "white", fontSize: 15, fontWeight:"bold" }}
+              onPress={() => {refRBSheet3.current.open()}}
               style={{
                 marginLeft: 5,
                 borderColor: themeColor,
+                backgroundColor: themeColor
               }}
             > Add +
             </Chip>
@@ -338,12 +327,12 @@ const pickImage = async () => {
                    );
                   })} */}
                   <Chip
-                    mode="outlined"
-                    textStyle={{ color: themeColor, fontSize: 15, fontWeight:"bold" }}
-                    onPress={handleSearchHobbiesModalPress}
+                    textStyle={{ color: "white", fontSize: 15, fontWeight:"bold",  }}
+                    onPress={() => {refRBSheet4.current.open()}}
                     style={{
                       marginLeft: 5,
                       borderColor: themeColor,
+                      backgroundColor: themeColor
                     }}
                   > Add +
                   </Chip>
@@ -375,7 +364,8 @@ const pickImage = async () => {
                     borderBottomColor: 'black',
                     borderBottomWidth: 1,
                     width:"100%" ,
-                    opacity: 0.2
+                    opacity: 0.2, 
+                    
                 }}></View>
                 <TouchableOpacity onPress={takePhoto} style={styles.appButtonContainer}>
                 <Text style={styles.appButtonText}>Take Photo</Text>
@@ -386,72 +376,115 @@ const pickImage = async () => {
                 </View> 
               </RBSheet>
 
-            <BottomSheetModal
-            style={{shadowOpacity: 0.5, backgroundColor: "green"}}
-            ref={bottomSheetModalRef2}
-            index={1}
-            snapPoints={snapPoints}
-            onChange={handleSheetChanges}
-            keyboardBehavior={"fillParent"}
-            >
+              <RBSheet
+              ref={refRBSheet2}
+              animationType={"slide"}
+              closeOnDragDown={true}
+              closeOnPressMask={true}
+              customStyles={{
+              wrapper: {
+                  backgroundColor: "transparent",
+                  
+              },
+              draggableIcon: {
+                backgroundColor: "grey"
+              },
+               container: {
+                backgroundColor: Colors[colorScheme].primary,
+                borderRadius: 20,
+              } 
+              }}>
                
                 <Text style={styles.headerText}>Select a Film</Text>
                 <View style={{
                     borderBottomColor: 'black',
                     borderBottomWidth: 1,
                     width:"100%" ,
-                    opacity: 0.2
+                    opacity: 0.2, 
+                    marginBottom: 5
                 }}></View>
-                
+               <SearchBar
+                  placeholder="Search here"
+                  //onPress={() => alert("onPress")}
+                  onChangeText={(text) => console.log(text)}
+                />
+  
+            </RBSheet>
 
-                 <BottomSheetTextInput placeholder="Search" style={styles.inputModal}/>
-                 
-            </BottomSheetModal>
 
-
-            <BottomSheetModal
-            style={{shadowOpacity: 0.5}}
-            ref={bottomSheetModalRef3}
-            index={1}
-            snapPoints={snapPoints}
-            onChange={handleSheetChanges}
-            keyboardBehavior={"fillParent"}
-            >
+            <RBSheet
+              ref={refRBSheet3}
+              animationType={"slide"}
+              closeOnDragDown={true}
+              closeOnPressMask={true}
+              customStyles={{
+              wrapper: {
+                  backgroundColor: "transparent",
+                  
+              },
+              draggableIcon: {
+                backgroundColor: "grey"
+              },
+               container: {
+                backgroundColor: Colors[colorScheme].primary,
+                borderRadius: 20,
+              } 
+              }}>
                <View> 
                 <Text style={styles.headerText}>Basic Info</Text>
                 <View style={{
                     borderBottomColor: 'black',
                     borderBottomWidth: 1,
                     width:"100%" ,
-                    opacity: 0.2
+                    opacity: 0.2,
+                    marginBottom: 5
                 }}></View>
 
-                 <BottomSheetTextInput placeholder="Search" style={styles.inputModal}/>
+                <SearchBar
+                  placeholder="Search here"
+                  //onPress={() => alert("onPress")}
+                  onChangeText={(text) => console.log(text)}
+                />
                  </View>
                 
-            </BottomSheetModal>
+                 </RBSheet>
 
-            <BottomSheetModal
-            style={{shadowOpacity: 0.5}}
-            ref={bottomSheetModalRef4}
-            index={1}
-            snapPoints={snapPoints}
-            onChange={handleSheetChanges}
-            keyboardBehavior={"fillParent"}
-            >
+                 <RBSheet
+              ref={refRBSheet4}
+              animationType={"slide"}
+              closeOnDragDown={true}
+              closeOnPressMask={true}
+              customStyles={{
+              wrapper: {
+                  backgroundColor: "transparent",
+                  
+              },
+              draggableIcon: {
+                backgroundColor: "grey"
+              },
+               container: {
+                backgroundColor: Colors[colorScheme].primary,
+                borderRadius: 20,
+              } 
+              }}>
                <View> 
                 <Text style={styles.headerText}>Hobbies & Interests</Text>
                 <View style={{
                     borderBottomColor: 'black',
                     borderBottomWidth: 1,
                     width:"100%" ,
-                    opacity: 0.2
+                    opacity: 0.2,
+                    marginBottom: 5
                 }}></View>
 
-                 <BottomSheetTextInput placeholder="Search" style={styles.inputModal}/>
+                  <SearchBar
+                  placeholder="Search here"
+                  //onPress={() => alert("onPress")}
+                  onChangeText={(text) => console.log(text)}
+                />
                  </View>
                 
-            </BottomSheetModal>
+            </RBSheet>
             
 
     </View>      
@@ -502,17 +535,6 @@ const styles = StyleSheet.create({
         width: undefined,
         height: undefined,
     },
-    add: {
-        position: "absolute",
-        bottom: 0,
-        right: 0,
-        width: 60,
-        height: 60,
-        borderRadius: 30,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "transparent",
-    },
     sectionHeader: {
         fontWeight: "bold",
         fontSize: 20,
@@ -530,7 +552,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
     },
     menuBox:{
-        backgroundColor: "#D3D3D3",
+        backgroundColor: "#d0d0d0",
         width:100,
         height:100,
         alignItems: 'center',
@@ -543,12 +565,6 @@ const styles = StyleSheet.create({
         height:50,
         fontWeight: "bold"
     },
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-    },
     containerEA: {
         alignItems: 'center',
         marginTop: -65,
@@ -556,16 +572,6 @@ const styles = StyleSheet.create({
     photoLine:{
           flexDirection: "row",
           justifyContent: "space-between"
-    },
-    buttonText: {
-        color: "white"
-    },
-    chipQuestion:{
-          fontSize: 15,
-          color: themeColor,
-          fontWeight: "bold",
-          marginLeft: 10,
-          marginTop: 10
     },
     appButtonContainer: {
       elevation: 8,
@@ -612,29 +618,13 @@ const styles = StyleSheet.create({
     color: "red",
     textAlign: "center",
   },
-  inputModal: {
-    marginTop: 8,
-    marginBottom: 10,
-    borderRadius: 10,
-    fontSize: 16,
-    lineHeight: 20,
-    padding: 8,
-    backgroundColor: "#D3D3D3",
-    marginLeft: 10,
-    marginRight: 10
-  },
-  datePickerStyle: {
-    width: 200,
-    marginTop: 5,
-    marginRight: 130, 
-  },
   container2: {
 		marginLeft: 20,
 		marginRight: 11,
 		marginTop: 15,
 		borderRadius: 10,
 		paddingVertical: 15,
-    backgroundColor: '#dadada'
+    backgroundColor: '#d0d0d0'
 	},
   addName:{
     fontSize: 17,
@@ -644,8 +634,6 @@ const styles = StyleSheet.create({
   },
   inputName: {
     height: 40,
-    //margin: 12,
-    //borderWidth: 1,
     padding: 10,
     fontSize: 17, 
     color: "grey"
@@ -670,7 +658,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
-  
+  itemStyle: {
+    padding: 10,
+  }
 
     
 });
