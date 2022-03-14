@@ -3,15 +3,16 @@ import React, { useState } from "react";
 import { View, Text } from "../Themed";
 import Colors, { themeColor } from "../../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
+import { Message } from "../../types";
 
-interface props {
-	received: boolean;
-	sent: boolean;
-	textInput: string;
-	timeStamp: string;
+interface ChatMsgprops {
+	currentUserId: string;
+	messages: Message;
 }
 
-const MessageBubble = ({ received, sent, textInput, timeStamp }: props) => {
+const MessageBubble = (props: ChatMsgprops) => {
+	const { messages, currentUserId } = props; //de-structure props
+
 	const renderReceivedMessage = () => {
 		return (
 			<View style={styles.messageContainer}>
@@ -19,14 +20,14 @@ const MessageBubble = ({ received, sent, textInput, timeStamp }: props) => {
 					<Image
 						style={styles.profile}
 						source={{
-							uri: "https://i.pinimg.com/originals/9b/65/89/9b6589897ea022400280d26dcfd3efce.jpg",
+							uri: "https://i.pinimg.com/originals/9b/65/89/9b6589897ea022400280d26dcfd3efce.jpg", //HARDCODED DATA CHANGE THIS
 						}}
 					/>
 					<View style={styles.messageBubbleContainer}>
 						<View style={styles.messageBubble}>
-							<Text style={styles.messageText}>{textInput}</Text>
+							<Text style={styles.messageText}>{messages.content}</Text>
 						</View>
-						<Text style={styles.receivedTime}>{timeStamp}</Text>
+						<Text style={styles.receivedTime}>{messages.timeStamp}</Text>
 					</View>
 				</View>
 			</View>
@@ -38,7 +39,7 @@ const MessageBubble = ({ received, sent, textInput, timeStamp }: props) => {
 			<View style={styles.messageContainer}>
 				<View>
 					<View style={styles.messageSentBubble}>
-						<Text style={styles.messageText}>{textInput}</Text>
+						<Text style={styles.messageText}>{messages.content}</Text>
 					</View>
 					<View style={styles.messageInfo}>
 						<Ionicons
@@ -47,7 +48,7 @@ const MessageBubble = ({ received, sent, textInput, timeStamp }: props) => {
 							size={15}
 							style={{ paddingRight: 3 }}
 						/>
-						<Text style={styles.receivedTime}>{timeStamp}</Text>
+						<Text style={styles.receivedTime}>{messages.timeStamp}</Text>
 					</View>
 				</View>
 			</View>
@@ -55,7 +56,11 @@ const MessageBubble = ({ received, sent, textInput, timeStamp }: props) => {
 	};
 
 	return (
-		<View>{received ? renderReceivedMessage() : renderSentMessage()}</View>
+		<View>
+			{currentUserId === messages.senderId
+				? renderSentMessage()
+				: renderReceivedMessage()}
+		</View>
 	);
 };
 
@@ -74,7 +79,7 @@ const styles = StyleSheet.create({
 	messageText: {
 		color: "white",
 
-		fontSize: 17,
+		fontSize: 16,
 	},
 	messageBubble: {
 		backgroundColor: themeColor,

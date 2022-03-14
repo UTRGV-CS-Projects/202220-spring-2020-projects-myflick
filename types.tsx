@@ -129,3 +129,21 @@ export type ProfileCompleteType = {
 	pronouns: string;
 	picture: string;
 };
+
+export type GenresType = {
+	id: number;
+	name: string;
+};
+
+export type Message = {
+	id: String;
+	senderId: String;
+	content: string;
+	timeStamp: string;
+};
+
+export type ChatRoom = {
+	id: String;
+	users: string[]; //users array
+	lastMessage: Message;
+};

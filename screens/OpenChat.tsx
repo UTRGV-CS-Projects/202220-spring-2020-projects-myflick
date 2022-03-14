@@ -1,13 +1,11 @@
 import {
 	StyleSheet,
 	Text,
-	Image,
 	KeyboardAvoidingView,
 	Platform,
+	FlatList,
 } from "react-native";
-import React from "react";
-import NewMatchesList from "../components/Messages/NewMatchesList";
-import NewMessagesList from "../components/Messages/NewMessagesList";
+import React, { useState, useRef } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RootStackScreenProps } from "../types";
 import { SafeAreaView, View } from "../components/Themed";
@@ -16,18 +14,112 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import MessageBubble from "../components/Messages/MessageBubble";
 import { TextInput } from "react-native-paper";
 
-import { ScrollView } from "react-native-virtualized-view";
-
+//styling
 import useColorScheme from "../hooks/useColorScheme";
-
 import Colors, { themeColor } from "../constants/Colors";
 
 const OpenChat = ({ navigation }: RootStackScreenProps<"Messages">) => {
-	const insets = useSafeAreaInsets();
+	//hardcoded data for testing purpouses delete when finsihed - follows Message type from types.tsx
+	let hardcodedChat = [
+		{ id: "1", senderId: "1", content: "hey (msg1)", timeStamp: "3:00 pm" },
+		{
+			id: "2",
+			senderId: "2",
+			content: "Testing (msg2)",
+			timeStamp: "3:02 pm",
+		},
+		{
+			id: "10",
+			senderId: "2",
+			content: "Do double messages look bad? (msg2)",
+			timeStamp: "3:02 pm",
+		},
+		{
+			id: "11",
+			senderId: "2",
+			content:
+				"Working on making the profile icon bubble only appear on the first msg, and then after another one is added, it's added (double) without bubble",
+			timeStamp: "3:02 pm",
+		},
+		{
+			id: "3",
+			senderId: "1",
+			content:
+				"new message is added when typed and 'sent' (random gibberish just to see how a lonmg message would look like on the openchat screen) (msg3)",
+			timeStamp: "3:05 pm",
+		},
+		{
+			id: "4",
+			senderId: "2",
+			content: "working on rendering flatlist from the bottom up (msg4)",
+			timeStamp: "3:07 pm",
+		},
+		{
+			id: "5",
+			senderId: "1",
+			content:
+				"Also working on making flatlist smaller when safeAreaKeyword is triggered (msg5)",
+			timeStamp: "3:10 pm",
+		},
+		{
+			id: "6",
+			senderId: "2",
+			content: "test (msg6)",
+			timeStamp: "3:11 pm",
+		},
+		{
+			id: "7",
+			senderId: "1",
+			content: "test (msg7)",
+			timeStamp: "3:15 pm",
+		},
+		{
+			id: "8",
+			senderId: "2",
+			content: "Damn (msg8)",
+			timeStamp: "3:17 pm",
+		},
+		{
+			id: "9",
+			senderId: "1",
+			content: "IK, very unexpected; she was only 101 years old (msg9 LAST)",
+			timeStamp: "3:20 pm",
+		},
+	];
+
 	const colorScheme = useColorScheme();
 
+	//dependent variables
+	const [hardcodedChatEditable, setHardcodedChatEditable] =
+		useState(hardcodedChat);
+	const [textBarInput, setTextBarInput] = useState("");
+
+	//methods (triggers)
 	const handleGoBack = () => {
 		navigation.navigate("Messages");
+	};
+
+	const sendBtnTrigger = () => {
+		//if textBarInput is empty, do nothing
+		if (textBarInput === "") return;
+
+		//else, add new message input to the chat
+		setHardcodedChatEditable([
+			...hardcodedChatEditable,
+			{
+				id: "99", //HARDCODED DATA CHANGE THIS
+				senderId: "1", //HARDCODED DATA CHANGE THIS
+				content: textBarInput,
+				timeStamp: "3:00 pm", //HARDCODED DATA CHANGE THIS
+			},
+		]);
+
+		//once submitted, reset textBarInput
+		setTextBarInput("");
+	};
+
+	const handleOpenChatSettings = () => {
+		console.warn("open chat settings button triggered");
 	};
 
 	return (
@@ -41,9 +133,14 @@ const OpenChat = ({ navigation }: RootStackScreenProps<"Messages">) => {
 						<Ionicons name="chevron-back-outline" size={30} color={"white"} />
 					</TouchableOpacity>
 
-					<Text style={styles.name}>Ashley</Text>
+					<Text style={styles.name}>
+						Ashley {/* HARDCODED DATA, CHANGE THIS */}
+					</Text>
 
-					<TouchableOpacity style={styles.ellipsis}>
+					<TouchableOpacity
+						style={styles.ellipsis}
+						onPress={handleOpenChatSettings}
+					>
 						<Ionicons
 							name="ellipsis-vertical-outline"
 							size={30}
@@ -52,87 +149,17 @@ const OpenChat = ({ navigation }: RootStackScreenProps<"Messages">) => {
 					</TouchableOpacity>
 				</View>
 
-				<ScrollView
-					showsVerticalScrollIndicator={false}
-					style={styles.scrollView}
-					scrollsToTop={true}
-				>
-					<MessageBubble
-						received={false}
-						sent={true}
-						textInput={"Omg a girl!"}
-						timeStamp={"10:48 pm"}
-					/>
-					<MessageBubble
-						received={true}
-						sent={false}
-						textInput={"Down bad bro"}
-						timeStamp={"11:50 pm"}
-					/>
+				<FlatList
+					data={hardcodedChatEditable}
+					renderItem={({ item }) => (
+						<MessageBubble
+							messages={item}
+							currentUserId={"1" /* HARDCODED DATA CHANGE THIS*/}
+							key={item.id}
+						/>
+					)}
+				/>
 
-					<MessageBubble
-						received={false}
-						sent={true}
-						textInput={"Sorry :("}
-						timeStamp={"11:59 pm"}
-					/>
-
-					<MessageBubble
-						received={true}
-						sent={false}
-						textInput={"that's fine"}
-						timeStamp={"1:00 am"}
-					/>
-
-					<MessageBubble
-						received={false}
-						sent={true}
-						textInput={"hey lol"}
-						timeStamp={"11:59 pm"}
-					/>
-					<MessageBubble
-						received={false}
-						sent={true}
-						textInput={"You forgot to answer"}
-						timeStamp={"11:59 pm"}
-					/>
-					<MessageBubble
-						received={false}
-						sent={true}
-						textInput={"texted you on whatsapp"}
-						timeStamp={"11:59 pm"}
-					/>
-					<MessageBubble
-						received={false}
-						sent={true}
-						textInput={"hey"}
-						timeStamp={"11:59 pm"}
-					/>
-					<MessageBubble
-						received={false}
-						sent={true}
-						textInput={"hi"}
-						timeStamp={"11:59 pm"}
-					/>
-					<MessageBubble
-						received={false}
-						sent={true}
-						textInput={"hey"}
-						timeStamp={"11:59 pm"}
-					/>
-					<MessageBubble
-						received={true}
-						sent={false}
-						textInput={"LEAVE ME ALONE"}
-						timeStamp={"11:50 pm"}
-					/>
-					<MessageBubble
-						received={false}
-						sent={true}
-						textInput={"Sorry :("}
-						timeStamp={"11:59 pm"}
-					/>
-				</ScrollView>
 				<View style={styles.bottomBarContainer}>
 					<View style={styles.bottomBar}>
 						<TextInput
@@ -142,11 +169,16 @@ const OpenChat = ({ navigation }: RootStackScreenProps<"Messages">) => {
 							autoCapitalize="none"
 							secureTextEntry={false}
 							activeOutlineColor={Colors[colorScheme].opposite}
-							onSubmitEditing={(value) => console.log(value)}
+							onChangeText={(value) => setTextBarInput(value)}
+							value={textBarInput}
 							style={[styles.textInput]}
+							onSubmitEditing={sendBtnTrigger}
 						/>
-						<TouchableOpacity style={styles.signInButton}>
-							<Text style={styles.signInText}>Send</Text>
+						<TouchableOpacity
+							style={styles.sendButton}
+							onPressIn={sendBtnTrigger}
+						>
+							<Text style={styles.sendText}>Send</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -164,7 +196,6 @@ const styles = StyleSheet.create({
 	topBar: {
 		flexDirection: "row",
 		justifyContent: "space-between",
-		//backgroundColor: "red", //to delete this line once finished
 		paddingTop: 5,
 		height: 50,
 		borderBottomWidth: 0.3,
@@ -180,66 +211,19 @@ const styles = StyleSheet.create({
 		fontSize: 23,
 		color: "white",
 	},
-	profile: {
-		width: 52,
-		height: 52,
-		borderRadius: 50,
-		marginRight: 10,
-	},
-	messageBubbleRow: {
-		flexDirection: "row",
-	},
-	messageText: {
-		color: "white",
 
-		fontSize: 18,
-	},
-	messageBubble: {
-		backgroundColor: "red",
-		padding: 12,
-		borderRadius: 15,
-		borderBottomLeftRadius: 0,
-		alignContent: "center",
-		alignItems: "center",
-		alignSelf: "center",
-	},
-	messageSentBubble: {
-		backgroundColor: "#B6B6B6",
-		padding: 12,
-		borderRadius: 15,
-		borderBottomRightRadius: 0,
-		alignContent: "center",
-		alignItems: "center",
-		alignSelf: "flex-end",
-	},
-	messageContainer: {
-		flexDirection: "column",
-		flex: 0,
-		paddingHorizontal: 10,
-	},
-
-	receivedTime: {
-		alignSelf: "flex-end",
-		fontSize: 10,
-		padding: 2,
-		color: "#B6B6B6",
-	},
-	fairSpacing: {
-		padding: 10,
-	},
-	messageBubbleContainer: {},
 	bottomBar: {
 		flexDirection: "row",
 		paddingHorizontal: 10,
 		alignItems: "center",
 	},
-	signInButton: {
+	sendButton: {
 		paddingVertical: 11,
 		paddingHorizontal: 25,
 		backgroundColor: themeColor,
 		borderRadius: 10,
 	},
-	signInText: {
+	sendText: {
 		color: "white",
 		fontWeight: "bold",
 		textAlign: "center",
@@ -251,6 +235,10 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 		marginRight: 10,
 	},
-	bottomBarContainer: { flex: 1, justifyContent: "flex-end", marginBottom: 5 },
-	scrollView: { height: 615 },
+	bottomBarContainer: {
+		justifyContent: "flex-end",
+		marginBottom: 5,
+		position: "relative",
+	},
+	scrollView: { flex: 1 },
 });

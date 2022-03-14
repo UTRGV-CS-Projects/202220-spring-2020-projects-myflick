@@ -28,6 +28,7 @@
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
+    "@react-navigation/stack": "^6.1.1",
     "amplify": "0.0.11",
     "aws-amplify": "^4.3.15",
     "aws-amplify-react-native": "^6.0.3",
@@ -54,6 +55,7 @@
     "react-native-dynamic-search-bar": "^2.0.2",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~2.1.0",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-modal-datetime-picker": "^13.1.0",
     "react-native-paper": "^4.11.2",
@@ -65,7 +67,8 @@
     "react-native-screens": "~3.10.1",
     "react-native-swiper": "^1.6.0",
     "react-native-virtualized-view": "^0.1.5",
-    "react-native-web": "0.17.1"
+    "react-native-web": "0.17.1",
+    "react-navigation": "^4.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
