@@ -3,6 +3,7 @@ import {
   ImageBackground,
   StyleSheet,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Text, View } from "../Themed";
@@ -16,6 +17,7 @@ import { EvilIcons } from "@expo/vector-icons";
 
 import AnimatedDotsCarousel from "react-native-animated-dots-carousel";
 import { GenresType } from "../../types";
+import { useNavigation } from "@react-navigation/native";
 
 interface MovieCardProps {
   card: MovieCardType;
@@ -26,7 +28,7 @@ interface MovieCardProps {
 const MovieCard = ({ card, genres, cardIndex }: MovieCardProps) => {
   const colorScheme = useColorScheme();
   const [currentGenres, setCurrentGenres] = useState<string[]>();
-
+  const navigation = useNavigation();
   const getGenres = () => {
     const currentGenres = [];
     if (card.genre_ids) {
@@ -47,52 +49,70 @@ const MovieCard = ({ card, genres, cardIndex }: MovieCardProps) => {
   }, []);
 
   return (
-    <View
-      style={[styles.card, { backgroundColor: Colors[colorScheme].primary }]}
+    <TouchableWithoutFeedback
+      onPress={() => {
+        navigation.navigate("MovieDetails", {
+          title: card.title,
+          overview: card.overview,
+          original_title: card.original_title,
+          id: card.id,
+          vote_average: card.vote_average,
+          vote_count: card.vote_count,
+          genre_ids: card.genre_ids,
+          genres: card.genres,
+          image: [],
+          poster_path: card.poster_path,
+          release_date: card.release_date,
+        });
+      }}
     >
-      <ImageBackground
-        style={styles.cardTop}
-        imageStyle={{ borderRadius: 20 }}
-        source={{ uri: `https://image.tmdb.org/t/p/w500${card.poster_path}` }}
-        blurRadius={10}
-      >
-        <MoviePoster
-          source={`https://image.tmdb.org/t/p/w500${card.poster_path}`}
-        />
-      </ImageBackground>
-
       <View
-        style={[
-          styles.cardBottom,
-          { backgroundColor: Colors[colorScheme].primary },
-        ]}
+        style={[styles.card, { backgroundColor: Colors[colorScheme].primary }]}
       >
-        <Text style={styles.title}>{card.title}</Text>
+        <ImageBackground
+          style={styles.cardTop}
+          imageStyle={{ borderRadius: 20 }}
+          source={{ uri: `https://image.tmdb.org/t/p/w500${card.poster_path}` }}
+          blurRadius={10}
+        >
+          <MoviePoster
+            source={`https://image.tmdb.org/t/p/w500${card.poster_path}`}
+          />
+        </ImageBackground>
+
         <View
           style={[
-            styles.chipsContainer,
+            styles.cardBottom,
             { backgroundColor: Colors[colorScheme].primary },
           ]}
         >
-          {currentGenres?.map((genre, index) => {
-            return (
-              <TouchableOpacity key={index}>
-                <Chip
-                  mode="flat"
-                  textStyle={{ color: "white", fontSize: 15 }}
-                  style={{
-                    backgroundColor: themeColor,
-                    margin: 5,
-                  }}
-                >
-                  {genre}
-                </Chip>
-              </TouchableOpacity>
-            );
-          })}
+          <Text style={styles.title}>{card.title}</Text>
+          <View
+            style={[
+              styles.chipsContainer,
+              { backgroundColor: Colors[colorScheme].primary },
+            ]}
+          >
+            {currentGenres?.map((genre, index) => {
+              return (
+                <TouchableOpacity key={index}>
+                  <Chip
+                    mode="flat"
+                    textStyle={{ color: "white", fontSize: 15 }}
+                    style={{
+                      backgroundColor: themeColor,
+                      margin: 5,
+                    }}
+                  >
+                    {genre}
+                  </Chip>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
