@@ -4,15 +4,15 @@ import {
   Image,
   Pressable,
   TouchableOpacity,
+  Button, TextInput, FlatList
 } from "react-native";
 import { ScrollView } from 'react-native-virtualized-view';
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
-import { themeColor, lightThemeColor } from "../constants/Colors";
+import Colors, { themeColor, lightThemeColor } from "../constants/Colors";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
-import { Avatar, Input } from 'react-native-elements';
-import { Chip } from "react-native-paper";
+import { Chip, } from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
 import { Constants } from "@aws-amplify/core";
 import {
@@ -22,6 +22,10 @@ import {
 import 'react-native-gesture-handler'
 import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { actionButton } from "aws-amplify";
+import DateTimePicker from '@react-native-community/datetimepicker';
+import RBSheet from "react-native-raw-bottom-sheet";
+import SearchBar from "react-native-dynamic-search-bar";
+import Background from "../components/Match/Background";
 
 const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
 const colorScheme = useColorScheme();
@@ -31,26 +35,11 @@ const bottomSheetModalRef2 = useRef<BottomSheetModal>(null);
 const bottomSheetModalRef3 = useRef<BottomSheetModal>(null);
 const bottomSheetModalRef4 = useRef<BottomSheetModal>(null);
 const snapPoints = useMemo(() => ['25%', '50%'], []);
-const snapPoints2 = useMemo(() => ["25%"], []);
-const bottomSheetRef = useRef<BottomSheet>(null);
-
-
-  // callbacks
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
-  const handleSearchModalPress = useCallback(() => {
-    bottomSheetModalRef2.current?.present();
-  }, []);
-  const handleSearchBasicInfoModalPress = useCallback(() => {
-    bottomSheetModalRef3.current?.present();
-  }, []);
-  const handleSearchHobbiesModalPress = useCallback(() => {
-    bottomSheetModalRef4.current?.present();
-  }, []);
+const refRBSheet = useRef<any| null>(null);
+const refRBSheet2 = useRef<any| null>(null);
+const refRBSheet3 = useRef<any| null>(null);
+const refRBSheet4 = useRef<any| null>(null);
+  
 
 useEffect(() => {
   (async () => {
@@ -91,8 +80,28 @@ const pickImage = async () => {
 
     console.log(result);
   };
+  
+   const [date, setDate] = useState(new Date(1598051730000));
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+
+  const onChange = (event:any, selectedDate:any) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode: React.SetStateAction<string>) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  }; 
 
 
+ 
     return(
       <BottomSheetModalProvider>
     <SafeAreaView style={styles.container}>
@@ -106,104 +115,34 @@ const pickImage = async () => {
           <Text style={styles.saveButton}>Save</Text></TouchableOpacity>
         </View>
         
-        <View style={{ alignSelf: "center" }}>
-          <View style={styles.profileImage}>
-            <Image
-              style={styles.image}
-              source={{
-                uri: "https://randomuser.me/api/portraits/women/50.jpg",
-              }}
-            ></Image>
-          </View>
-          {/* <View style={styles.add}>
-            <TouchableOpacity onPress={pickImage}>
-              <Ionicons
-                name="add-circle-sharp"
-                size={30}
-                color={themeColor}
-                style={{ marginTop: 30, marginLeft: 32 }}
-              ></Ionicons>
-            </TouchableOpacity>
-            
-          </View> */}
-        </View>
-
-
-        <View style={styles.container}>
-            {/* <View style={styles.line}>
-            <View style={{
-                    borderBottomColor: 'black',
-                    borderBottomWidth: 1,
-                    width:"100%" ,
-            }}></View>
-            </View> */}
-
-            <View style={styles.viewKs}>
-                <Text style={styles.profileInput}>Name</Text>
-                <Input placeholder="Name"/>
-            </View>
-            
-            <View style={styles.viewKs}>
-                    <Text style={styles.profileInput2}>Pronouns</Text>
-                    <Input placeholder="Pronouns" />
-             </View>
-
-          <View style={styles.viewKs}>
-                <Text style={styles.profileInput3}>Bio</Text> 
-                <Input  placeholder="Bio" multiline={true} /> 
-          </View>
-
-          <View style={styles.viewKs}>
-                <Text style={styles.profileInput4 }>Location</Text>
-                <Input placeholder="Location"/>
-          </View>
-
-          {/* <View style={styles.line}>
-          <View style={{
-                    borderBottomColor: 'black',
-                    borderBottomWidth: 1,
-                    width:"100%" 
-                }}></View>
-                 </View> */}
-        </View>
-
-
         <View style={styles.container}>
             <View style={styles.photoLine}>
             <Text style={styles.sectionHeader}>Photos</Text>
             
             </View>
-             <View
-            style={{
-                borderBottomColor:"white",
-                borderBottomWidth: 1,
-                marginLeft: 10,
-                marginRight: 10
-            }}>   
-           </View> 
           
         </View>
         
         <View style={styles.body}>
             <View style={styles.bodyContent}>
 
-              <View style={styles.menuBox}>
-              <TouchableOpacity onPress={handlePresentModalPress}
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}] }>
+              <TouchableOpacity onPress={() => {refRBSheet.current.open()}}
               >
                     <Ionicons
                     name="add"
-                    size={60}
+                    size={40}
                     color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity>
                  {/* {image && <Image source={{ uri: image }} style={styles.menuBox} />}  */}
               </View>
 
-              <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={handlePresentModalPress}>
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}]}>
+              <TouchableOpacity  onPress={() => {refRBSheet.current.open()}}>
                     <Ionicons
                     name="add"
-                    size={60}
+                    size={40}
                     color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity>
@@ -211,11 +150,11 @@ const pickImage = async () => {
               </View>
 
 
-              <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={handlePresentModalPress}>
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}]}>
+              <TouchableOpacity  onPress={() => {refRBSheet.current.open()}}>
                     <Ionicons
                     name="add"
-                    size={60}
+                    size={40}
                     color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity>
@@ -229,45 +168,38 @@ const pickImage = async () => {
             <Text style={styles.sectionHeader}>Favorite Movies</Text>
            
                 </View>
-            <View
-            style={{
-                borderBottomColor: "white",
-                borderBottomWidth: 1,
-                marginLeft: 10,
-                marginRight: 10
-            }}/>
             </View>
 
             <View style={styles.body}>
             <View style={styles.bodyContent}>
             
-              <View style={styles.menuBox}>
-                <TouchableOpacity  onPress={handleSearchModalPress}>
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}]}>
+                <TouchableOpacity  onPress={() => {refRBSheet2.current.open()}}>
                 <Ionicons
                     name="add"
-                    size={60}
+                    size={40}
                     color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity>
                
               </View>
 
-              <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={handleSearchModalPress}>
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}]}>
+              <TouchableOpacity  onPress={() => {refRBSheet2.current.open()}}>
                     <Ionicons
                     name="add"
-                    size={60}
+                    size={40}
                     color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity>
               
               </View>
 
-              <View style={styles.menuBox}>
-              <TouchableOpacity  onPress={handleSearchModalPress}>
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}]}>
+              <TouchableOpacity  onPress={() => {refRBSheet2.current.open()}}>
                     <Ionicons
                     name="add"
-                    size={60}
+                    size={40}
                     color={themeColor}
                     style={styles.icon}></Ionicons>
                 </TouchableOpacity> 
@@ -276,9 +208,68 @@ const pickImage = async () => {
             </View>
             </View>
 
+
+      <View style={[styles.container2, {backgroundColor: Colors[colorScheme].primary}]}>
+      <Text style={styles.addName}>Name</Text>
+					<TextInput
+            style={styles.inputName}
+            placeholder="Add your name..."
+           
+          />
+				</View>
+
+        <View style={[styles.container2, {backgroundColor: Colors[colorScheme].primary}]}>
+        <Text style={styles.addName}>Birthday</Text>
+        <TextInput
+              onFocus={showDatepicker}
+              style={styles.inputName}
+              placeholder="Add your Birthday..."
+              multiline
+              numberOfLines={1}>
+             <Text style={styles.inputName}>{ date.toLocaleDateString()}</Text>
+        </TextInput>
+              {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode={'date'}
+              onChange={onChange}
+              display={"spinner"}
+              
+            />
+          )} 
+				</View>
+
+        <View style={[styles.container2, {backgroundColor: Colors[colorScheme].primary}]}>
+      <Text style={styles.addName}>Pronouns</Text>
+					<TextInput
+            style={styles.inputName}
+            placeholder="Add your pronouns..."
+            
+          />
+				</View>
+
+        <View style={[styles.container2, {backgroundColor: Colors[colorScheme].primary}]}>
+      <Text style={styles.addName}>Location</Text>
+					<TextInput
+            style={styles.inputName}
+            placeholder="Add your Location..."
+          />
+				</View>
+
+        <View style={[styles.container2, {backgroundColor: Colors[colorScheme].primary}]}>
+      <Text style={styles.addName}>Bio</Text>
+					<TextInput
+            style={styles.inputName}
+            placeholder="Add your Bio..."
+            
+          />
+				</View>
+
+        
           <View style={styles.container}>
           <Text style={styles.sectionHeader}>Basic Info</Text>
-          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
+          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 10 }}>
             {/* {basicInfo.map((item, index) => {
               return (
                 <View key={index} style={{ margin: 5 }}>
@@ -298,21 +289,22 @@ const pickImage = async () => {
               );
             })} */}
             <Chip
-                    mode="outlined"
-                    textStyle={{ color: themeColor, fontSize: 15 }}
-                    onPress={handleSearchBasicInfoModalPress}
-                    style={{
-                      marginLeft: 5,
-                      borderColor: themeColor,
-                    }}
-                  > Add +
-                  </Chip>
+              mode="outlined"
+              textStyle={{ color: "white", fontSize: 15, fontWeight:"bold" }}
+              onPress={() => {refRBSheet3.current.open()}}
+              style={{
+                marginLeft: 5,
+                borderColor: themeColor,
+                backgroundColor: themeColor
+              }}
+            > Add +
+            </Chip>
 
           </View>
           </View>
 
           <Text style={styles.sectionHeader}>Hobbies & Interests</Text>
-          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap"}}>
+          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 10}}>
             {/* {myInterests.map((item, index) => {
               return (
                 <View key={index} style={{ margin: 5 }}>
@@ -330,32 +322,45 @@ const pickImage = async () => {
                    );
                   })} */}
                   <Chip
-                    mode="outlined"
-                    textStyle={{ color: themeColor, fontSize: 15 }}
-                    onPress={handleSearchHobbiesModalPress}
+                    textStyle={{ color: "white", fontSize: 15, fontWeight:"bold",  }}
+                    onPress={() => {refRBSheet4.current.open()}}
                     style={{
                       marginLeft: 5,
                       borderColor: themeColor,
+                      backgroundColor: themeColor
                     }}
                   > Add +
                   </Chip>
                   
           </View>
           <View style={styles.contentContainer}>
-          <BottomSheetModal
-              style={{shadowOpacity: 0.5}}
-              ref={bottomSheetModalRef}
-              index={1}
-              snapPoints={snapPoints}
-              onChange={handleSheetChanges}>
-                <View> 
+            <RBSheet
+              ref={refRBSheet}
+              animationType={"slide"}
+              closeOnDragDown={true}
+              closeOnPressMask={true}
+              customStyles={{
+              wrapper: {
+                  backgroundColor: "transparent",
+                  
+              },
+              draggableIcon: {
+                backgroundColor: "grey"
+              },
+               container: {
+                backgroundColor: Colors[colorScheme].primary,
+                borderRadius: 20,
+              } 
+              }}>
+                
                 <Text style={styles.headerText}>Upload Photo</Text>
                 <Text style={styles.headerSubText}>Add Images for Others to See</Text>
                 <View style={{
                     borderBottomColor: 'black',
                     borderBottomWidth: 1,
                     width:"100%" ,
-                    opacity: 0.2
+                    opacity: 0.2, 
+                    
                 }}></View>
                 <TouchableOpacity onPress={takePhoto} style={styles.appButtonContainer}>
                 <Text style={styles.appButtonText}>Take Photo</Text>
@@ -363,76 +368,115 @@ const pickImage = async () => {
                 <TouchableOpacity onPress={pickImage} style={styles.appButtonContainer}>
                     <Text style={styles.appButtonText}>Choose from Library</Text>
                 </TouchableOpacity>
-                </View> 
-            </BottomSheetModal>
+                 
+              </RBSheet>
 
-            <BottomSheetModal
-            style={{shadowOpacity: 0.5}}
-            ref={bottomSheetModalRef2}
-            index={1}
-            snapPoints={snapPoints}
-            onChange={handleSheetChanges}
-            keyboardBehavior={"fillParent"}
-            >
-               <View> 
+              <RBSheet
+              ref={refRBSheet2}
+              animationType={"slide"}
+              closeOnDragDown={true}
+              closeOnPressMask={true}
+              customStyles={{
+              wrapper: {
+                  backgroundColor: "transparent",
+                  
+              },
+              draggableIcon: {
+                backgroundColor: "grey"
+              },
+               container: {
+                backgroundColor: Colors[colorScheme].primary,
+                borderRadius: 20,
+              } 
+              }}>
+               
                 <Text style={styles.headerText}>Select a Film</Text>
                 <View style={{
                     borderBottomColor: 'black',
                     borderBottomWidth: 1,
                     width:"100%" ,
-                    opacity: 0.2
+                    opacity: 0.2, 
+                    marginBottom: 5
                 }}></View>
-                
+               <SearchBar
+                  placeholder="Search here"
+                  //onPress={() => alert("onPress")}
+                  onChangeText={(text) => console.log(text)}
+                />
+            </RBSheet>
 
-                 <BottomSheetTextInput placeholder="Search" style={styles.inputModal}/>
-                 </View> 
-            </BottomSheetModal>
 
-
-            <BottomSheetModal
-            style={{shadowOpacity: 0.5}}
-            ref={bottomSheetModalRef3}
-            index={1}
-            snapPoints={snapPoints}
-            onChange={handleSheetChanges}
-            keyboardBehavior={"fillParent"}
-            >
-               <View> 
+            <RBSheet
+              ref={refRBSheet3}
+              animationType={"slide"}
+              closeOnDragDown={true}
+              closeOnPressMask={true}
+              customStyles={{
+              wrapper: {
+                  backgroundColor: "transparent",
+                  
+              },
+              draggableIcon: {
+                backgroundColor: "grey"
+              },
+               container: {
+                backgroundColor: Colors[colorScheme].primary,
+                borderRadius: 20,
+              } 
+              }}>
+             
                 <Text style={styles.headerText}>Basic Info</Text>
                 <View style={{
                     borderBottomColor: 'black',
                     borderBottomWidth: 1,
                     width:"100%" ,
-                    opacity: 0.2
+                    opacity: 0.2,
+                    marginBottom: 5
                 }}></View>
 
-                 <BottomSheetTextInput placeholder="Search" style={styles.inputModal}/>
-                 </View>
+                <SearchBar
+                  placeholder="Search here"
+                  //onPress={() => alert("onPress")}
+                  onChangeText={(text) => console.log(text)}
+                />
                 
-            </BottomSheetModal>
+                 </RBSheet>
 
-            <BottomSheetModal
-            style={{shadowOpacity: 0.5}}
-            ref={bottomSheetModalRef4}
-            index={1}
-            snapPoints={snapPoints}
-            onChange={handleSheetChanges}
-            keyboardBehavior={"fillParent"}
-            >
-               <View> 
+                 <RBSheet
+              ref={refRBSheet4}
+              animationType={"slide"}
+              closeOnDragDown={true}
+              closeOnPressMask={true}
+              customStyles={{
+              wrapper: {
+                  backgroundColor: "transparent",
+                  
+              },
+              draggableIcon: {
+                backgroundColor: "grey"
+              },
+               container: {
+                backgroundColor: Colors[colorScheme].primary,
+                borderRadius: 20,
+              } 
+              }}>
+               
                 <Text style={styles.headerText}>Hobbies & Interests</Text>
                 <View style={{
                     borderBottomColor: 'black',
                     borderBottomWidth: 1,
                     width:"100%" ,
-                    opacity: 0.2
+                    opacity: 0.2,
+                    marginBottom: 5
                 }}></View>
 
-                 <BottomSheetTextInput placeholder="Search" style={styles.inputModal}/>
-                 </View>
+                  <SearchBar
+                  placeholder="Search here"
+                  //onPress={() => alert("onPress")}
+                  onChangeText={(text) => console.log(text)}
+                />
                 
-            </BottomSheetModal>
-           
+            </RBSheet>
             
 
     </View>      
@@ -483,17 +527,6 @@ const styles = StyleSheet.create({
         width: undefined,
         height: undefined,
     },
-    add: {
-        position: "absolute",
-        bottom: 0,
-        right: 0,
-        width: 60,
-        height: 60,
-        borderRadius: 30,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "transparent",
-    },
     sectionHeader: {
         fontWeight: "bold",
         fontSize: 20,
@@ -511,7 +544,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
     },
     menuBox:{
-        backgroundColor: "#D3D3D3",
+        //backgroundColor: "#d0d0d0",
         width:100,
         height:100,
         alignItems: 'center',
@@ -520,70 +553,17 @@ const styles = StyleSheet.create({
         borderRadius:10,
     },
     icon: {
-        width: 55,
-        height:65,
-    },
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
+        width: 35,
+        height:50,
+        fontWeight: "bold"
     },
     containerEA: {
         alignItems: 'center',
         marginTop: -65,
     },
-    viewKs: {
-        justifyContent: 'space-between',
-        flexDirection: 'row', 
-    },
-    profileInput:{
-        fontSize: 16,
-        marginTop: 20,
-        marginBottom: 10,
-        marginLeft:10,
-        marginRight: 42,
-    },
-    profileInput2:{
-        fontSize: 16,
-        marginTop: 20,
-        marginBottom: 10,
-        marginLeft:10,
-        marginRight: 18,
-    },
-    profileInput3:{
-        fontSize: 16,
-        marginTop: 20,
-        marginBottom: 10,
-        marginLeft:10,
-        marginRight: 60
-    },
-    profileInput4:{
-        fontSize: 16,
-        marginTop: 20,
-        marginBottom: 10,
-        marginLeft:10,
-        marginRight: 25,
-    },
     photoLine:{
           flexDirection: "row",
           justifyContent: "space-between"
-    },
-    button: {
-        backgroundColor: themeColor,
-        padding: 12,
-        marginBottom: 10,
-        borderRadius: 10
-    },
-    buttonText: {
-        color: "white"
-    },
-    chipQuestion:{
-          fontSize: 15,
-          color: themeColor,
-          fontWeight: "bold",
-          marginLeft: 10,
-          marginTop: 10
     },
     appButtonContainer: {
       elevation: 8,
@@ -601,13 +581,12 @@ const styles = StyleSheet.create({
       color: "white",
       fontWeight: "bold",
       textTransform: "uppercase",
-      textAlign: "center"
+      textAlign: "center",
   },
   headerText: {
-    color: 'black',
     fontSize: 25,
     paddingLeft: 20,
-    paddingTop: 15,
+    paddingTop: 10,
     paddingBottom: 10,
     fontWeight: "bold",
     textAlign: "center"
@@ -615,35 +594,57 @@ const styles = StyleSheet.create({
   headerSubText:{
     textAlign: "center",
     opacity: 0.6,
-    marginBottom: 20,
-    color: "black"
+    marginBottom: 10,
   },
   contentContainer: {
     flex: 1,
     alignItems: 'center',
     marginTop: 5,
   },
-  textInput: {
-    alignSelf: "stretch",
-    marginHorizontal: 12,
-    marginBottom: 12,
-    padding: 12,
-    borderRadius: 12,
-    //backgroundColor: "blue",
-    color: "red",
-    textAlign: "center",
+  container2: {
+		marginLeft: 20,
+		marginRight: 11,
+		marginTop: 15,
+		borderRadius: 10,
+		paddingVertical: 15,
+	},
+  addName:{
+    fontSize: 17,
+    color: themeColor,
+    fontWeight: "bold",
+    marginLeft: 10,  
   },
-  inputModal: {
-    marginTop: 8,
-    marginBottom: 10,
+  inputName: {
+    height: 40,
+    padding: 10,
+    fontSize: 17, 
+    opacity: 0.6,
+    color: "grey"
+  },
+  pickedDateContainer: {
+    padding: 20,
+    backgroundColor: '#eee',
     borderRadius: 10,
-    fontSize: 16,
-    lineHeight: 20,
-    padding: 8,
-    backgroundColor: "#808080",
-    marginLeft: 10,
-    marginRight: 10
   },
+  pickedDate: {
+    fontSize: 18,
+    color: 'black',
+  },
+  btnContainer: {
+    padding: 30,
+  },
+  // This only works on iOS
+  datePicker: {
+    width: 320,
+    height: 260,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+  itemStyle: {
+    padding: 10,
+  }
+
     
 });
 

@@ -1,7 +1,4 @@
 import React, {
-  useEffect,
-  useState,
-  Component,
   useMemo,
   useRef,
   useCallback,
@@ -30,6 +27,7 @@ import {
 import "react-native-gesture-handler";
 import { handleLogOut } from "../store/actions/userActions";
 import { AuthContext } from "../store/AuthContext";
+import RBSheet from "react-native-raw-bottom-sheet";
 
 const ListItem = ({ item }: { item: any }) => {
   return (
@@ -75,13 +73,14 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
   const handleSheetChanges = useCallback((index: number) => {
     console.log("handleSheetChanges", index);
   }, []);
+  const refRBSheet = useRef<any| null>(null);
 
   return (
-    <BottomSheetModalProvider>
+    // <BottomSheetModalProvider>
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.titleBar}>
-            <TouchableOpacity onPress={handlePresentModalPress}>
+            <TouchableOpacity onPress={() =>{refRBSheet.current.open()}}>
               <Ionicons
                 name="settings-outline"
                 size={30}
@@ -172,10 +171,10 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
                   <View key={index} style={{ margin: 5 }}>
                     <Chip
                       mode="outlined"
-                      textStyle={{ color: "white", fontSize: 15 }}
+                      textStyle={{ color: "white", fontSize: 15, fontWeight: "bold" }}
                       style={{
                         backgroundColor: themeColor,
-                        borderColor: "white",
+                        //borderColor: "white",
                       }}
                     >
                       {item}
@@ -199,10 +198,10 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
                   <View key={index} style={{ margin: 5 }}>
                     <Chip
                       mode="outlined"
-                      textStyle={{ color: "white", fontSize: 15 }}
+                      textStyle={{ color: "white", fontSize: 15, fontWeight: "bold" }}
                       style={{
                         backgroundColor: themeColor,
-                        borderColor: "white",
+                        //borderColor: "white",
                       }}
                     >
                       {item}
@@ -212,72 +211,63 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
               })}
             </View>
           </View>
-          <BottomSheetModal
-            style={{ shadowOpacity: 0.5 }}
-            ref={bottomSheetModalRef}
-            index={1}
-            snapPoints={snapPoints}
-            onChange={handleSheetChanges}
-          >
-            <View style={styles.contentContainer}>
-              <Text style={styles.headerText}>Settings</Text>
-              <View
-                style={{
-                  borderBottomColor: "black",
-                  borderBottomWidth: 1,
-                  width: "100%",
-                  opacity: 0.2,
-                }}
-              ></View>
+         
+          <RBSheet
+              ref={refRBSheet}
+              animationType={"slide"}
+              closeOnDragDown={true}
+              closeOnPressMask={true}
+              customStyles={{
+              wrapper: {
+                  backgroundColor: "transparent",
+              },
+              draggableIcon: {
+                backgroundColor: "grey"
+              },
+               container: {
+                backgroundColor: Colors[colorScheme].primary,
+                borderRadius: 20,
+              } 
+              }}>
+			      <Text style={styles.headerText}>Settings</Text>
+							 <View
+								style={{
+									borderBottomColor: "black",
+									borderBottomWidth: 1,
+									width: "100%",
+									opacity: 0.2,
+								}}
+							></View> 
 
-              <View style={styles.rows}>
-                <Ionicons name="person-circle-outline" size={35}></Ionicons>
-                <TouchableOpacity onPress={handleMySettings}>
-                  <Text style={styles.optionsText}>Edit Profile</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handleMySettings}>
-                  <Ionicons name="chevron-forward" size={35}></Ionicons>
-                </TouchableOpacity>
-              </View>
+							{/* <View style={styles.rows}> */}
+							<TouchableOpacity onPress={() => {handleMySettings(); refRBSheet.current.close()}} style={styles.clickRow}>
+								<Ionicons name="person-circle-outline" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
+									<Text style={styles.optionsText}>Edit Profile</Text>
+									<Ionicons name="chevron-forward" size={35} color={Colors[colorScheme].opposite}  ></Ionicons>
+								</TouchableOpacity>
+							{/* </View> */}
 
-              <View style={styles.rows}>
-                <Ionicons name="person-add-outline" size={35}></Ionicons>
-                <TouchableOpacity onPress={handleMyDiscoverySettings}>
-                  <Text style={styles.optionsText}>Edit Discovery</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handleMyDiscoverySettings}>
-                  <Ionicons name="chevron-forward" size={35}></Ionicons>
-                </TouchableOpacity>
-              </View>
+							{/* <View style={styles.rows}> */}
+							<TouchableOpacity onPress={() => {handleMyDiscoverySettings(); refRBSheet.current.close()}} style={styles.clickRow}>
+								<Ionicons name="person-add-outline" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
+									<Text style={styles.optionsText}>Edit Discovery</Text>
+									<Ionicons name="chevron-forward" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
+								</TouchableOpacity>
+							{/* </View> */}
 
-              <View style={styles.rows}>
-                <Ionicons name="lock-closed-outline" size={35}></Ionicons>
-                <TouchableOpacity onPress={() => {}}>
-                  <Text style={styles.optionsText}>Privacy & Security</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => {}}>
-                  <Ionicons name="chevron-forward" size={35}></Ionicons>
-                </TouchableOpacity>
-              </View>
+							{/* <View style={styles.rows}> */}
+							<TouchableOpacity onPress={() => {refRBSheet.current.close()}} style={styles.clickRow}>
+								<Ionicons name="log-out-outline" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
+									<Text style={styles.logoutText}>Logout</Text>
+									<Ionicons name="chevron-forward" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
+								</TouchableOpacity>
+							{/* </View> */}
 
-              <View style={styles.rows}>
-                <Ionicons name="log-out-outline" size={35}></Ionicons>
-                <TouchableOpacity
-                  onPress={() => {
-                    handleLogOut(dispatch);
-                  }}
-                >
-                  <Text style={styles.logoutText}>Logout</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => {}}>
-                  <Ionicons name="chevron-forward" size={35}></Ionicons>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </BottomSheetModal>
+      </RBSheet>
+     
         </ScrollView>
       </SafeAreaView>
-    </BottomSheetModalProvider>
+    // </BottomSheetModalProvider>
   );
 };
 
@@ -372,7 +362,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerText: {
-    color: "black",
     fontSize: 25,
     paddingLeft: 20,
     paddingTop: 15,
@@ -381,7 +370,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   optionsText: {
-    color: "black",
+    //color: '#4a4a4a',
     fontSize: 20,
     paddingLeft: 20,
   },
@@ -390,12 +379,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingLeft: 20,
   },
-  rows: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+ /*  rows: {
     paddingTop: 15,
     paddingLeft: 10,
-  },
+    backgroundColor: "#202020"
+  }, */
+  clickRow:{
+	flexDirection: "row",
+	justifyContent: "space-between",
+	paddingLeft: 10,
+  marginTop: 10
+}
 });
 
 const myInterests = [

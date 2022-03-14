@@ -5,7 +5,7 @@ export const lightThemeColor = "#F8C1D1";
 
 export default {
   light: {
-    primary: "#fff",
+    primary: "#eeeeee",
     secondary: "#fff",
     opposite: "#000000",
     text: "#4A4A4A",
@@ -15,7 +15,7 @@ export default {
     lightTint: tintColorLight,
   },
   dark: {
-    primary: "#09090F",
+    primary: "#202020",
     secondary: "#1e2124",
     opposite: "#ffffff",
     text: "#ffffff",
