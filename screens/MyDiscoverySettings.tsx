@@ -43,7 +43,7 @@ const MyDiscoverySettings = ({
 					</TouchableOpacity>
 				</View>
 
-				<View style={styles.container2}>
+				<View style={[styles.container2, {backgroundColor: Colors[colorScheme].primary}]}>
 					<Text style={styles.switchText}>Enable Notifications</Text>
 					<Switch
 						style={styles.switch}
@@ -59,19 +59,19 @@ const MyDiscoverySettings = ({
 					<Text style={styles.questions}>I'm interested in...</Text>
 					<TouchableOpacity
 						onPress={() => {}}
-						style={styles.appButtonContainer}
+						style={[styles.appButtonContainer, {backgroundColor: Colors[colorScheme].primary}]}
 					>
 						<Text style={styles.appButtonText}>Men</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() => {}}
-						style={styles.appButtonContainer}
+						style={[styles.appButtonContainer, {backgroundColor: Colors[colorScheme].primary}]}
 					>
 						<Text style={styles.appButtonText}>Women</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() => {}}
-						style={styles.appButtonContainer}
+						style={[styles.appButtonContainer, {backgroundColor: Colors[colorScheme].primary}]}
 					>
 						<Text style={styles.appButtonText}>Everyone</Text>
 					</TouchableOpacity>

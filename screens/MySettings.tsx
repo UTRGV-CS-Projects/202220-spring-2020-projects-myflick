@@ -25,6 +25,7 @@ import { actionButton } from "aws-amplify";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RBSheet from "react-native-raw-bottom-sheet";
 import SearchBar from "react-native-dynamic-search-bar";
+import Background from "../components/Match/Background";
 
 const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
 const colorScheme = useColorScheme();
@@ -100,7 +101,6 @@ const pickImage = async () => {
   }; 
 
 
-
  
     return(
       <BottomSheetModalProvider>
@@ -126,7 +126,7 @@ const pickImage = async () => {
         <View style={styles.body}>
             <View style={styles.bodyContent}>
 
-              <View style={styles.menuBox}>
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}] }>
               <TouchableOpacity onPress={() => {refRBSheet.current.open()}}
               >
                     <Ionicons
@@ -138,7 +138,7 @@ const pickImage = async () => {
                  {/* {image && <Image source={{ uri: image }} style={styles.menuBox} />}  */}
               </View>
 
-              <View style={styles.menuBox}>
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}]}>
               <TouchableOpacity  onPress={() => {refRBSheet.current.open()}}>
                     <Ionicons
                     name="add"
@@ -150,7 +150,7 @@ const pickImage = async () => {
               </View>
 
 
-              <View style={styles.menuBox}>
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}]}>
               <TouchableOpacity  onPress={() => {refRBSheet.current.open()}}>
                     <Ionicons
                     name="add"
@@ -173,7 +173,7 @@ const pickImage = async () => {
             <View style={styles.body}>
             <View style={styles.bodyContent}>
             
-              <View style={styles.menuBox}>
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}]}>
                 <TouchableOpacity  onPress={() => {refRBSheet2.current.open()}}>
                 <Ionicons
                     name="add"
@@ -184,7 +184,7 @@ const pickImage = async () => {
                
               </View>
 
-              <View style={styles.menuBox}>
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}]}>
               <TouchableOpacity  onPress={() => {refRBSheet2.current.open()}}>
                     <Ionicons
                     name="add"
@@ -195,7 +195,7 @@ const pickImage = async () => {
               
               </View>
 
-              <View style={styles.menuBox}>
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}]}>
               <TouchableOpacity  onPress={() => {refRBSheet2.current.open()}}>
                     <Ionicons
                     name="add"
@@ -209,22 +209,21 @@ const pickImage = async () => {
             </View>
 
 
-      <View style={styles.container2}>
+      <View style={[styles.container2, {backgroundColor: Colors[colorScheme].primary}]}>
       <Text style={styles.addName}>Name</Text>
 					<TextInput
             style={styles.inputName}
-            placeholder="Add your name"
-            multiline
-            numberOfLines={1}
+            placeholder="Add your name..."
+           
           />
 				</View>
 
-        <View style={styles.container2}>
+        <View style={[styles.container2, {backgroundColor: Colors[colorScheme].primary}]}>
         <Text style={styles.addName}>Birthday</Text>
         <TextInput
               onFocus={showDatepicker}
               style={styles.inputName}
-              placeholder="Add your Birthday"
+              placeholder="Add your Birthday..."
               multiline
               numberOfLines={1}>
              <Text style={styles.inputName}>{ date.toLocaleDateString()}</Text>
@@ -241,33 +240,29 @@ const pickImage = async () => {
           )} 
 				</View>
 
-        <View style={styles.container2}>
+        <View style={[styles.container2, {backgroundColor: Colors[colorScheme].primary}]}>
       <Text style={styles.addName}>Pronouns</Text>
 					<TextInput
             style={styles.inputName}
-            placeholder="Add your pronouns"
-            multiline
-            numberOfLines={1}
+            placeholder="Add your pronouns..."
+            
           />
 				</View>
 
-        <View style={styles.container2}>
+        <View style={[styles.container2, {backgroundColor: Colors[colorScheme].primary}]}>
       <Text style={styles.addName}>Location</Text>
 					<TextInput
             style={styles.inputName}
-            placeholder="Add your Location"
-            multiline
-            numberOfLines={1}
+            placeholder="Add your Location..."
           />
 				</View>
 
-        <View style={styles.container2}>
+        <View style={[styles.container2, {backgroundColor: Colors[colorScheme].primary}]}>
       <Text style={styles.addName}>Bio</Text>
 					<TextInput
             style={styles.inputName}
-            placeholder="Add your Bio"
-            multiline
-            numberOfLines={2}
+            placeholder="Add your Bio..."
+            
           />
 				</View>
 
@@ -549,7 +544,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
     },
     menuBox:{
-        backgroundColor: "#d0d0d0",
+        //backgroundColor: "#d0d0d0",
         width:100,
         height:100,
         alignItems: 'center',
@@ -606,22 +601,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 5,
   },
-  textInput: {
-    alignSelf: "stretch",
-    marginHorizontal: 12,
-    marginBottom: 12,
-    padding: 12,
-    borderRadius: 12,
-    color: "red",
-    textAlign: "center",
-  },
   container2: {
 		marginLeft: 20,
 		marginRight: 11,
 		marginTop: 15,
 		borderRadius: 10,
 		paddingVertical: 15,
-    backgroundColor: '#d0d0d0'
 	},
   addName:{
     fontSize: 17,
@@ -633,6 +618,7 @@ const styles = StyleSheet.create({
     height: 40,
     padding: 10,
     fontSize: 17, 
+    opacity: 0.6,
     color: "grey"
   },
   pickedDateContainer: {
