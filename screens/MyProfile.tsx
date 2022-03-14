@@ -174,7 +174,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
                       textStyle={{ color: "white", fontSize: 15, fontWeight: "bold" }}
                       style={{
                         backgroundColor: themeColor,
-                        borderColor: "white",
+                        //borderColor: "white",
                       }}
                     >
                       {item}
@@ -201,7 +201,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
                       textStyle={{ color: "white", fontSize: 15, fontWeight: "bold" }}
                       style={{
                         backgroundColor: themeColor,
-                        borderColor: "white",
+                        //borderColor: "white",
                       }}
                     >
                       {item}
@@ -211,7 +211,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
               })}
             </View>
           </View>
-          <View>
+         
           <RBSheet
               ref={refRBSheet}
               animationType={"slide"}
@@ -220,7 +220,6 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
               customStyles={{
               wrapper: {
                   backgroundColor: "transparent",
-                  
               },
               draggableIcon: {
                 backgroundColor: "grey"
@@ -231,41 +230,41 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
               } 
               }}>
 			      <Text style={styles.headerText}>Settings</Text>
-							<View
+							 <View
 								style={{
 									borderBottomColor: "black",
 									borderBottomWidth: 1,
 									width: "100%",
 									opacity: 0.2,
 								}}
-							></View>
+							></View> 
 
-							<View style={styles.rows}>
+							{/* <View style={styles.rows}> */}
 							<TouchableOpacity onPress={() => {handleMySettings(); refRBSheet.current.close()}} style={styles.clickRow}>
 								<Ionicons name="person-circle-outline" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
 									<Text style={styles.optionsText}>Edit Profile</Text>
 									<Ionicons name="chevron-forward" size={35} color={Colors[colorScheme].opposite}  ></Ionicons>
 								</TouchableOpacity>
-							</View>
+							{/* </View> */}
 
-							<View style={styles.rows}>
+							{/* <View style={styles.rows}> */}
 							<TouchableOpacity onPress={() => {handleMyDiscoverySettings(); refRBSheet.current.close()}} style={styles.clickRow}>
 								<Ionicons name="person-add-outline" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
 									<Text style={styles.optionsText}>Edit Discovery</Text>
 									<Ionicons name="chevron-forward" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
 								</TouchableOpacity>
-							</View>
+							{/* </View> */}
 
-							<View style={styles.rows}>
+							{/* <View style={styles.rows}> */}
 							<TouchableOpacity onPress={() => {refRBSheet.current.close()}} style={styles.clickRow}>
 								<Ionicons name="log-out-outline" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
 									<Text style={styles.logoutText}>Logout</Text>
 									<Ionicons name="chevron-forward" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
 								</TouchableOpacity>
-							</View>
+							{/* </View> */}
 
       </RBSheet>
-      </View>
+     
         </ScrollView>
       </SafeAreaView>
     // </BottomSheetModalProvider>
@@ -363,7 +362,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerText: {
-    //color: '#4a4a4a',
     fontSize: 25,
     paddingLeft: 20,
     paddingTop: 15,
@@ -381,16 +379,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingLeft: 20,
   },
-  rows: {
-    //flexDirection: "row",
-    //justifyContent: "space-between",
+ /*  rows: {
     paddingTop: 15,
     paddingLeft: 10,
-  },
+    backgroundColor: "#202020"
+  }, */
   clickRow:{
 	flexDirection: "row",
 	justifyContent: "space-between",
-	paddingLeft: 10
+	paddingLeft: 10,
+  marginTop: 10
 }
 });
 

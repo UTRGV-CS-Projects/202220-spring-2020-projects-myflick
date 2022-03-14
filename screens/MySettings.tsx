@@ -357,7 +357,7 @@ const pickImage = async () => {
                 borderRadius: 20,
               } 
               }}>
-                <View> 
+                
                 <Text style={styles.headerText}>Upload Photo</Text>
                 <Text style={styles.headerSubText}>Add Images for Others to See</Text>
                 <View style={{
@@ -373,7 +373,7 @@ const pickImage = async () => {
                 <TouchableOpacity onPress={pickImage} style={styles.appButtonContainer}>
                     <Text style={styles.appButtonText}>Choose from Library</Text>
                 </TouchableOpacity>
-                </View> 
+                 
               </RBSheet>
 
               <RBSheet
@@ -408,7 +408,6 @@ const pickImage = async () => {
                   //onPress={() => alert("onPress")}
                   onChangeText={(text) => console.log(text)}
                 />
-  
             </RBSheet>
 
 
@@ -430,7 +429,7 @@ const pickImage = async () => {
                 borderRadius: 20,
               } 
               }}>
-               <View> 
+             
                 <Text style={styles.headerText}>Basic Info</Text>
                 <View style={{
                     borderBottomColor: 'black',
@@ -445,7 +444,6 @@ const pickImage = async () => {
                   //onPress={() => alert("onPress")}
                   onChangeText={(text) => console.log(text)}
                 />
-                 </View>
                 
                  </RBSheet>
 
@@ -467,7 +465,7 @@ const pickImage = async () => {
                 borderRadius: 20,
               } 
               }}>
-               <View> 
+               
                 <Text style={styles.headerText}>Hobbies & Interests</Text>
                 <View style={{
                     borderBottomColor: 'black',
@@ -482,7 +480,6 @@ const pickImage = async () => {
                   //onPress={() => alert("onPress")}
                   onChangeText={(text) => console.log(text)}
                 />
-                 </View>
                 
             </RBSheet>
             
@@ -589,7 +586,7 @@ const styles = StyleSheet.create({
       color: "white",
       fontWeight: "bold",
       textTransform: "uppercase",
-      textAlign: "center"
+      textAlign: "center",
   },
   headerText: {
     fontSize: 25,
