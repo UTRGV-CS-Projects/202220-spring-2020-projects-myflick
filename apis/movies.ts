@@ -4,10 +4,11 @@ const url = "https://api.themoviedb.org/3";
 
 const API_KEY = "2f7be12fe737d23f6891fca3cdd1b33f";
 
-export const fetchDiscovery = async () => {
+export const fetchDiscovery = async (page: number) => {
+  const pageNumber = page.toString();
   const { data } = await axios.get(
     url +
-      `/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=true&with_watch_monetization_types=flatrate`
+      `/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=${pageNumber}&with_genres=true&with_watch_monetization_types=flatrate`
   );
   return data;
 };

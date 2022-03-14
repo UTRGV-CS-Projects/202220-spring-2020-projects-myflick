@@ -20,15 +20,12 @@ import { GenresType } from "../../types";
 interface MovieCardProps {
   card: MovieCardType;
   genres: GenresType[];
+  cardIndex: number;
 }
 
-const MovieCard = ({ card, genres }: MovieCardProps) => {
+const MovieCard = ({ card, genres, cardIndex }: MovieCardProps) => {
   const colorScheme = useColorScheme();
-  const [index, setIndex] = useState(0);
   const [currentGenres, setCurrentGenres] = useState<string[]>();
-  useEffect(() => {
-    console.log(card);
-  }, []);
 
   const getGenres = () => {
     const currentGenres = [];
@@ -45,6 +42,7 @@ const MovieCard = ({ card, genres }: MovieCardProps) => {
   };
 
   useEffect(() => {
+    console.log(card);
     getGenres();
   }, []);
 
@@ -70,7 +68,12 @@ const MovieCard = ({ card, genres }: MovieCardProps) => {
         ]}
       >
         <Text style={styles.title}>{card.title}</Text>
-        <View style={styles.chipsContainer}>
+        <View
+          style={[
+            styles.chipsContainer,
+            { backgroundColor: Colors[colorScheme].primary },
+          ]}
+        >
           {currentGenres?.map((genre, index) => {
             return (
               <TouchableOpacity key={index}>
