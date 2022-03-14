@@ -94,6 +94,7 @@ function RootNavigator() {
       <Stack.Screen name="Match" component={Match} />
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="MovieDetails" component={MovieDetails} />
       <Stack.Screen name="Personalize" component={Personalize} />
       <Stack.Screen name="MySettings" component={MySettings} />
 
@@ -214,26 +215,6 @@ export function BottomTabNavigator() {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("MyProfile");
-              }}
-              accessibilityRole="button"
-            >
-              <Ionicons name="person-outline" size={30} color={color} />
-            </TouchableOpacity>
-          ),
-        })}
-      />
-
-      <BottomTab.Screen
-        name="MovieDetails"
-        component={MovieDetails}
-        options={({ navigation }: RootTabScreenProps<"MovieDetails">) => ({
-          title: "",
-          tabBarAccessibilityLabel: "MovieDetails",
-          tabBarTestID: "MovieDetails",
-          tabBarIcon: ({ color }) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("MovieDetails");
               }}
               accessibilityRole="button"
             >
