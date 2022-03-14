@@ -4,34 +4,24 @@ import {
 	Image,
 	Pressable,
 	TouchableOpacity,
-	FlatList,
-	SectionList,
-	Alert,
-	VirtualizedList,
-	TextInput,
-	TextInputProps,
-	Touchable,
-	Button,
 	Switch,
 } from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
-import { themeColor, lightThemeColor } from "../constants/Colors";
+//import { themeColor, lightThemeColor } from "../constants/Colors";
 import { MyProfileSections } from "../db/db";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import Slider from "@react-native-community/slider";
 import { parseSync } from "@babel/core";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
-import { red200 } from "react-native-paper/lib/typescript/styles/colors";
-import { color } from "react-native-elements/dist/helpers";
-import Background from "../components/Match/Background";
-
+import Colors, { themeColor } from "../constants/Colors";
 const MyDiscoverySettings = ({
 	navigation,
 }: RootStackScreenProps<"MyDiscoverySettings">) => {
 	const [range, setRange] = useState<any>(0);
+	const colorScheme = useColorScheme();
 	const [multiSliderValue, setMultiSliderValue] = useState([0, 1]);
 	const multiSliderValuesChange = (values: any) => setMultiSliderValue(values);
 	const [isEnabled, setIsEnabled] = useState(false);
@@ -166,10 +156,10 @@ const styles = StyleSheet.create({
 		marginTop: 10,
 	},
 	appButtonText: {
-		fontSize: 18,
+		fontSize: 17,
 		color: themeColor,
 		fontWeight: "bold",
-		textTransform: "uppercase",
+		//textTransform: "uppercase",
 	},
 	slider: {
 		width: "90%",
@@ -197,13 +187,13 @@ const styles = StyleSheet.create({
 	switch: {
 		marginRight: 5,
 	},
-	switchText: {
-		marginLeft: 5,
-		marginTop: 5,
-		opacity: 0.6,
-		color: "black",
-		fontSize: 16.5,
-	},
+	switchText:{
+		fontSize: 17,
+		color: themeColor,
+		fontWeight: "bold",
+		marginLeft: 10, 
+		marginTop: 5 
+	  },
 	/* appButtonContainer2: {
         //elevation: 8,
         backgroundColor: "grey",

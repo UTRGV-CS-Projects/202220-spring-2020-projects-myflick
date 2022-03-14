@@ -1,7 +1,4 @@
 import React, {
-  useEffect,
-  useState,
-  Component,
   useMemo,
   useRef,
   useCallback,
@@ -174,7 +171,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
                   <View key={index} style={{ margin: 5 }}>
                     <Chip
                       mode="outlined"
-                      textStyle={{ color: "white", fontSize: 15 }}
+                      textStyle={{ color: "white", fontSize: 15, fontWeight: "bold" }}
                       style={{
                         backgroundColor: themeColor,
                         borderColor: "white",
@@ -201,7 +198,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
                   <View key={index} style={{ margin: 5 }}>
                     <Chip
                       mode="outlined"
-                      textStyle={{ color: "white", fontSize: 15 }}
+                      textStyle={{ color: "white", fontSize: 15, fontWeight: "bold" }}
                       style={{
                         backgroundColor: themeColor,
                         borderColor: "white",
@@ -214,25 +211,26 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
               })}
             </View>
           </View>
+          <View>
           <RBSheet
-				ref={refRBSheet}
-				animationType={"slide"}
-				closeOnDragDown={true}
-				closeOnPressMask={true}
-				customStyles={{
-				wrapper: {
-						backgroundColor: "transparent",
-						
-				},
-				draggableIcon: {
-					backgroundColor: "grey"
-				},
-				container: {
-					backgroundColor: 'white',
-					borderRadius: 10
-				}
-				}}>
-			<Text style={styles.headerText}>Settings</Text>
+              ref={refRBSheet}
+              animationType={"slide"}
+              closeOnDragDown={true}
+              closeOnPressMask={true}
+              customStyles={{
+              wrapper: {
+                  backgroundColor: "transparent",
+                  
+              },
+              draggableIcon: {
+                backgroundColor: "grey"
+              },
+               container: {
+                backgroundColor: Colors[colorScheme].primary,
+                borderRadius: 20,
+              } 
+              }}>
+			      <Text style={styles.headerText}>Settings</Text>
 							<View
 								style={{
 									borderBottomColor: "black",
@@ -243,29 +241,31 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
 							></View>
 
 							<View style={styles.rows}>
-							<TouchableOpacity onPress={handleMySettings} style={styles.clickRow}>
-								<Ionicons name="person-circle-outline" size={35} ></Ionicons>
+							<TouchableOpacity onPress={() => {handleMySettings(); refRBSheet.current.close()}} style={styles.clickRow}>
+								<Ionicons name="person-circle-outline" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
 									<Text style={styles.optionsText}>Edit Profile</Text>
-									<Ionicons name="chevron-forward" size={35} ></Ionicons>
+									<Ionicons name="chevron-forward" size={35} color={Colors[colorScheme].opposite}  ></Ionicons>
 								</TouchableOpacity>
 							</View>
 
 							<View style={styles.rows}>
-							<TouchableOpacity onPress={handleMyDiscoverySettings} style={styles.clickRow}>
-								<Ionicons name="person-add-outline" size={35}></Ionicons>
+							<TouchableOpacity onPress={() => {handleMyDiscoverySettings(); refRBSheet.current.close()}} style={styles.clickRow}>
+								<Ionicons name="person-add-outline" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
 									<Text style={styles.optionsText}>Edit Discovery</Text>
-									<Ionicons name="chevron-forward" size={35}></Ionicons>
+									<Ionicons name="chevron-forward" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
 								</TouchableOpacity>
 							</View>
 
 							<View style={styles.rows}>
-							<TouchableOpacity onPress={() => {}} style={styles.clickRow}>
-								<Ionicons name="log-out-outline" size={35} ></Ionicons>
+							<TouchableOpacity onPress={() => {refRBSheet.current.close()}} style={styles.clickRow}>
+								<Ionicons name="log-out-outline" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
 									<Text style={styles.logoutText}>Logout</Text>
-									<Ionicons name="chevron-forward" size={35}></Ionicons>
+									<Ionicons name="chevron-forward" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
 								</TouchableOpacity>
 							</View>
+
       </RBSheet>
+      </View>
         </ScrollView>
       </SafeAreaView>
     // </BottomSheetModalProvider>
@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerText: {
-    color: "black",
+    //color: '#4a4a4a',
     fontSize: 25,
     paddingLeft: 20,
     paddingTop: 15,
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   optionsText: {
-    color: "black",
+    //color: '#4a4a4a',
     fontSize: 20,
     paddingLeft: 20,
   },

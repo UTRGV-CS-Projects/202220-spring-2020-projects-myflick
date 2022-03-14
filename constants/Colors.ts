@@ -14,7 +14,7 @@ export default {
     lightTint: tintColorLight,
   },
   dark: {
-    primary: "#09090F",
+    primary: "#202020",
     secondary: "#1e2124",
     opposite: "#ffffff",
     text: "#ffffff",
