@@ -1,8 +1,4 @@
-import React, {
-  useMemo,
-  useRef,
-  useCallback,
-} from "react";
+import React, { useMemo, useRef, useCallback } from "react";
 import {
   StyleSheet,
   Image,
@@ -73,200 +69,252 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
   const handleSheetChanges = useCallback((index: number) => {
     console.log("handleSheetChanges", index);
   }, []);
-  const refRBSheet = useRef<any| null>(null);
+  const refRBSheet = useRef<any | null>(null);
 
   return (
     // <BottomSheetModalProvider>
-      <SafeAreaView style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.titleBar}>
-            <TouchableOpacity onPress={() =>{refRBSheet.current.open()}}>
-              <Ionicons
-                name="settings-outline"
-                size={30}
-                color={Colors[colorScheme].opposite}
-              ></Ionicons>
-            </TouchableOpacity>
+    <SafeAreaView style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.titleBar}>
+          <TouchableOpacity
+            onPress={() => {
+              refRBSheet.current.open();
+            }}
+          >
+            <Ionicons
+              name="settings-outline"
+              size={30}
+              color={Colors[colorScheme].opposite}
+            ></Ionicons>
+          </TouchableOpacity>
 
-            <Text style={styles.title}>Profile</Text>
+          <Text style={styles.title}>Profile</Text>
 
-            <TouchableOpacity onPress={() => {}}>
-              <Ionicons
-                name="share-outline"
-                size={30}
-                color={Colors[colorScheme].opposite}
-              ></Ionicons>
-            </TouchableOpacity>
+          <TouchableOpacity onPress={() => {}}>
+            <Ionicons
+              name="share-outline"
+              size={30}
+              color={Colors[colorScheme].opposite}
+            ></Ionicons>
+          </TouchableOpacity>
+        </View>
+
+        <View style={{ alignSelf: "center" }}>
+          <View style={styles.profileImage}>
+            <Image
+              style={styles.image}
+              source={{
+                uri: "https://randomuser.me/api/portraits/women/50.jpg",
+              }}
+            ></Image>
+          </View>
+        </View>
+
+        <View style={styles.container}>
+          <View style={styles.nameAndPronouns}>
+            <Text style={styles.name}>{user.firstName}</Text>
+            <Text style={styles.name}>24</Text>
+            <Text style={styles.pronouns}>{user.pronouns}</Text>
           </View>
 
-          <View style={{ alignSelf: "center" }}>
-            <View style={styles.profileImage}>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: "https://randomuser.me/api/portraits/women/50.jpg",
-                }}
-              ></Image>
-            </View>
+          <View style={styles.location}>
+            <Ionicons
+              name="location-outline"
+              size={15}
+              color={Colors[colorScheme].opposite}
+            ></Ionicons>
+            <Text>Quantico, VA</Text>
           </View>
 
-          <View style={styles.container}>
-            <View style={styles.nameAndPronouns}>
-              <Text style={styles.name}>{user.firstName}</Text>
-              <Text style={styles.name}>24</Text>
-              <Text style={styles.pronouns}>{user.pronouns}</Text>
-            </View>
-
-            <View style={styles.location}>
-              <Ionicons
-                name="location-outline"
-                size={15}
-                color={Colors[colorScheme].opposite}
-              ></Ionicons>
-              <Text>Quantico, VA</Text>
-            </View>
-
-            <View>
-              <Text style={styles.bio}>
-                I love modeling, watching movies, and having fun.
-              </Text>
-            </View>
+          <View>
+            <Text style={styles.bio}>
+              I love modeling, watching movies, and having fun.
+            </Text>
           </View>
+        </View>
 
-          <View style={styles.container}>
-            <SectionList
-              contentContainerStyle={styles.sectionList}
-              stickySectionHeadersEnabled={false}
-              sections={MyProfileSections}
-              keyExtractor={(item, index) => item.key + index}
-              initialNumToRender={5}
-              renderSectionHeader={({ section }) => (
-                <View>
-                  <Text style={styles.sectionHeader}>{section.title}</Text>
-                  {section.horizontal ? (
-                    <FlatList
-                      horizontal
-                      keyExtractor={(item: any, index) => item.key + index}
-                      data={section.data}
-                      renderItem={({ item }) => <ListItem item={item} />}
-                      showsHorizontalScrollIndicator={false}
-                    />
-                  ) : null}
+        <View style={styles.container}>
+          <SectionList
+            contentContainerStyle={styles.sectionList}
+            stickySectionHeadersEnabled={false}
+            sections={MyProfileSections}
+            keyExtractor={(item, index) => item.key + index}
+            initialNumToRender={5}
+            renderSectionHeader={({ section }) => (
+              <View>
+                <Text style={styles.sectionHeader}>{section.title}</Text>
+                {section.horizontal ? (
+                  <FlatList
+                    horizontal
+                    keyExtractor={(item: any, index) => item.key + index}
+                    data={section.data}
+                    renderItem={({ item }) => <ListItem item={item} />}
+                    showsHorizontalScrollIndicator={false}
+                  />
+                ) : null}
+              </View>
+            )}
+            renderItem={({ item, section }) => {
+              if (section.horizontal) {
+                return null;
+              }
+              return <ListItem item={item} />;
+            }}
+          />
+        </View>
+
+        <View style={styles.container}>
+          <Text style={styles.sectionHeader2}>Basic Info</Text>
+          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
+            {basicInfo.map((item, index) => {
+              return (
+                <View key={index} style={{ margin: 5 }}>
+                  <Chip
+                    mode="outlined"
+                    textStyle={{
+                      color: "white",
+                      fontSize: 15,
+                      fontWeight: "bold",
+                    }}
+                    style={{
+                      backgroundColor: themeColor,
+                      //borderColor: "white",
+                    }}
+                  >
+                    {item}
+                  </Chip>
                 </View>
-              )}
-              renderItem={({ item, section }) => {
-                if (section.horizontal) {
-                  return null;
-                }
-                return <ListItem item={item} />;
-              }}
-            />
+              );
+            })}
           </View>
 
-          <View style={styles.container}>
-            <Text style={styles.sectionHeader2}>Basic Info</Text>
-            <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
-              {basicInfo.map((item, index) => {
-                return (
-                  <View key={index} style={{ margin: 5 }}>
-                    <Chip
-                      mode="outlined"
-                      textStyle={{ color: "white", fontSize: 15, fontWeight: "bold" }}
-                      style={{
-                        backgroundColor: themeColor,
-                        //borderColor: "white",
-                      }}
-                    >
-                      {item}
-                    </Chip>
-                  </View>
-                );
-              })}
-            </View>
-
-            <Text style={styles.sectionHeader2}>My Interests</Text>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                alignItems: "center",
-                flexWrap: "wrap",
-              }}
-            >
-              {myInterests.map((item, index) => {
-                return (
-                  <View key={index} style={{ margin: 5 }}>
-                    <Chip
-                      mode="outlined"
-                      textStyle={{ color: "white", fontSize: 15, fontWeight: "bold" }}
-                      style={{
-                        backgroundColor: themeColor,
-                        //borderColor: "white",
-                      }}
-                    >
-                      {item}
-                    </Chip>
-                  </View>
-                );
-              })}
-            </View>
+          <Text style={styles.sectionHeader2}>My Interests</Text>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            {myInterests.map((item, index) => {
+              return (
+                <View key={index} style={{ margin: 5 }}>
+                  <Chip
+                    mode="outlined"
+                    textStyle={{
+                      color: "white",
+                      fontSize: 15,
+                      fontWeight: "bold",
+                    }}
+                    style={{
+                      backgroundColor: themeColor,
+                      //borderColor: "white",
+                    }}
+                  >
+                    {item}
+                  </Chip>
+                </View>
+              );
+            })}
           </View>
-         
-          <RBSheet
-              ref={refRBSheet}
-              animationType={"slide"}
-              closeOnDragDown={true}
-              closeOnPressMask={true}
-              customStyles={{
-              wrapper: {
-                  backgroundColor: "transparent",
-              },
-              draggableIcon: {
-                backgroundColor: "grey"
-              },
-               container: {
-                backgroundColor: Colors[colorScheme].primary,
-                borderRadius: 20,
-              } 
-              }}>
-			      <Text style={styles.headerText}>Settings</Text>
-							 <View
-								style={{
-									borderBottomColor: "black",
-									borderBottomWidth: 1,
-									width: "100%",
-									opacity: 0.2,
-								}}
-							></View> 
+        </View>
 
-							{/* <View style={styles.rows}> */}
-							<TouchableOpacity onPress={() => {handleMySettings(); refRBSheet.current.close()}} style={styles.clickRow}>
-								<Ionicons name="person-circle-outline" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
-									<Text style={styles.optionsText}>Edit Profile</Text>
-									<Ionicons name="chevron-forward" size={35} color={Colors[colorScheme].opposite}  ></Ionicons>
-								</TouchableOpacity>
-							{/* </View> */}
+        <RBSheet
+          ref={refRBSheet}
+          animationType={"slide"}
+          closeOnDragDown={true}
+          closeOnPressMask={true}
+          customStyles={{
+            wrapper: {
+              backgroundColor: "transparent",
+            },
+            draggableIcon: {
+              backgroundColor: "grey",
+            },
+            container: {
+              backgroundColor: Colors[colorScheme].primary,
+              borderRadius: 20,
+            },
+          }}
+        >
+          <Text style={styles.headerText}>Settings</Text>
+          <View
+            style={{
+              borderBottomColor: "black",
+              borderBottomWidth: 1,
+              width: "100%",
+              opacity: 0.2,
+            }}
+          ></View>
 
-							{/* <View style={styles.rows}> */}
-							<TouchableOpacity onPress={() => {handleMyDiscoverySettings(); refRBSheet.current.close()}} style={styles.clickRow}>
-								<Ionicons name="person-add-outline" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
-									<Text style={styles.optionsText}>Edit Discovery</Text>
-									<Ionicons name="chevron-forward" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
-								</TouchableOpacity>
-							{/* </View> */}
+          {/* <View style={styles.rows}> */}
+          <TouchableOpacity
+            onPress={() => {
+              handleMySettings();
+              refRBSheet.current.close();
+            }}
+            style={styles.clickRow}
+          >
+            <Ionicons
+              name="person-circle-outline"
+              size={35}
+              color={Colors[colorScheme].opposite}
+            ></Ionicons>
+            <Text style={styles.optionsText}>Edit Profile</Text>
+            <Ionicons
+              name="chevron-forward"
+              size={35}
+              color={Colors[colorScheme].opposite}
+            ></Ionicons>
+          </TouchableOpacity>
+          {/* </View> */}
 
-							{/* <View style={styles.rows}> */}
-							<TouchableOpacity onPress={() => {refRBSheet.current.close()}} style={styles.clickRow}>
-								<Ionicons name="log-out-outline" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
-									<Text style={styles.logoutText}>Logout</Text>
-									<Ionicons name="chevron-forward" size={35} color={Colors[colorScheme].opposite} ></Ionicons>
-								</TouchableOpacity>
-							{/* </View> */}
+          {/* <View style={styles.rows}> */}
+          <TouchableOpacity
+            onPress={() => {
+              handleMyDiscoverySettings();
+              refRBSheet.current.close();
+            }}
+            style={styles.clickRow}
+          >
+            <Ionicons
+              name="person-add-outline"
+              size={35}
+              color={Colors[colorScheme].opposite}
+            ></Ionicons>
+            <Text style={styles.optionsText}>Edit Discovery</Text>
+            <Ionicons
+              name="chevron-forward"
+              size={35}
+              color={Colors[colorScheme].opposite}
+            ></Ionicons>
+          </TouchableOpacity>
+          {/* </View> */}
 
-      </RBSheet>
-     
-        </ScrollView>
-      </SafeAreaView>
+          {/* <View style={styles.rows}> */}
+          <TouchableOpacity
+            onPress={() => {
+              refRBSheet.current.close();
+            }}
+            style={styles.clickRow}
+          >
+            <Ionicons
+              name="log-out-outline"
+              size={35}
+              color={Colors[colorScheme].opposite}
+            ></Ionicons>
+            <Text style={styles.logoutText}>Logout</Text>
+            <Ionicons
+              name="chevron-forward"
+              size={35}
+              color={Colors[colorScheme].opposite}
+            ></Ionicons>
+          </TouchableOpacity>
+          {/* </View> */}
+        </RBSheet>
+      </ScrollView>
+    </SafeAreaView>
     // </BottomSheetModalProvider>
   );
 };
@@ -379,17 +427,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingLeft: 20,
   },
- /*  rows: {
+  /*  rows: {
     paddingTop: 15,
     paddingLeft: 10,
     backgroundColor: "#202020"
   }, */
-  clickRow:{
-	flexDirection: "row",
-	justifyContent: "space-between",
-	paddingLeft: 10,
-  marginTop: 10
-}
+  clickRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingLeft: 10,
+    marginTop: 10,
+  },
 });
 
 const myInterests = [
