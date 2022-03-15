@@ -68,7 +68,8 @@
     "react-native-swiper": "^1.6.0",
     "react-native-virtualized-view": "^0.1.5",
     "react-native-web": "0.17.1",
-    "react-navigation": "^4.4.4"
+    "react-navigation": "^4.4.4",
+    "expo-location": "~14.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

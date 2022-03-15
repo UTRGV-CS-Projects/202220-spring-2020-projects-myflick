@@ -1,11 +1,6 @@
 import React, { useEffect, useState, Component } from "react";
 import {
-	StyleSheet,
-	Image,
-	Pressable,
-	TouchableOpacity,
-	Switch,
-} from "react-native";
+	StyleSheet,TouchableOpacity, Switch, Platform} from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
@@ -17,15 +12,49 @@ import Slider from "@react-native-community/slider";
 import { parseSync } from "@babel/core";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import Colors, { themeColor } from "../constants/Colors";
-const MyDiscoverySettings = ({
-	navigation,
-}: RootStackScreenProps<"MyDiscoverySettings">) => {
+import * as Location from 'expo-location';
+import Constants from 'expo-constants';
+
+const MyDiscoverySettings = ({navigation,}: RootStackScreenProps<"MyDiscoverySettings">) => {
 	const [range, setRange] = useState<any>(0);
 	const colorScheme = useColorScheme();
 	const [multiSliderValue, setMultiSliderValue] = useState([0, 1]);
 	const multiSliderValuesChange = (values: any) => setMultiSliderValue(values);
 	const [isEnabled, setIsEnabled] = useState(false);
 	const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+	const [isEnabled2, setIsEnabled2] = useState(false);
+	const toggleSwitch2 = () => setIsEnabled2((previousState) => !previousState);
+	const [location, setLocation] = useState<any | null>(null);
+  	const [errorMsg, setErrorMsg] = useState<any | null>(null);
+
+
+	  useEffect(() => {
+		(async () => {
+		  if (Platform.OS === 'android' && !Constants.isDevice) {
+			setErrorMsg(
+			  'Oops, this will not work on Snack in an Android emulator. Try it on your device!'
+			);
+			return;
+		  }
+		  let { status } = await Location.requestForegroundPermissionsAsync();
+		  if (status !== 'granted') {
+			setErrorMsg('Permission to access location was denied');
+			return;
+		  }
+	
+		  let location = await Location.getCurrentPositionAsync({});
+		  setLocation(location);
+		})();
+	  }, []);
+	
+	  let text = 'Waiting..';
+	  if (errorMsg) {
+		text = errorMsg;
+	  } else if (location) {
+		text = JSON.stringify(location);
+	  }
+	
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<ScrollView showsVerticalScrollIndicator={false}>
@@ -52,6 +81,18 @@ const MyDiscoverySettings = ({
 						ios_backgroundColor="#3e3e3e"
 						onValueChange={toggleSwitch}
 						value={isEnabled}
+					/>
+				</View>
+
+				<View style={[styles.container2, {backgroundColor: Colors[colorScheme].primary}]}>
+					<Text style={styles.switchText}>Share Location</Text>
+					<Switch
+						style={styles.switch}
+						trackColor={{ false: "#fff", true: themeColor }}
+						thumbColor={isEnabled2 ? "#fff" : "#fff"}
+						ios_backgroundColor="#3e3e3e"
+						onValueChange={toggleSwitch2}
+						value={isEnabled2}
 					/>
 				</View>
 
@@ -109,6 +150,9 @@ const MyDiscoverySettings = ({
 						value={range}
 						onSlidingComplete={(range: number) => setRange(range.toFixed())}
 					/>
+				<View style={styles.container}>
+					<Text style={styles.paragraph}>{text}</Text>
+					</View>
 				</View>
 			</ScrollView>
 		</SafeAreaView>
@@ -117,6 +161,10 @@ const MyDiscoverySettings = ({
 export default MyDiscoverySettings;
 
 const styles = StyleSheet.create({
+	paragraph: {
+		fontSize: 18,
+		textAlign: 'center',
+	  },
 	container: {
 		flex: 1,
 		//marginRight: 12
@@ -206,3 +254,5 @@ const styles = StyleSheet.create({
     
     }, */
 });
+
+
