@@ -5,7 +5,7 @@ import {
 	Platform,
 	FlatList,
 } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RootStackScreenProps } from "../types";
 import { SafeAreaView, View } from "../components/Themed";
@@ -82,12 +82,13 @@ const OpenChat = ({ navigation }: RootStackScreenProps<"Messages">) => {
 		{
 			id: "9",
 			senderId: "1",
-			content: "IK, very unexpected; she was only 101 years old (msg9 LAST)",
+			content: "Cool beans (msg9 LAST)",
 			timeStamp: "3:20 pm",
 		},
 	];
 
 	const colorScheme = useColorScheme();
+	const flatListRef = useRef(null);
 
 	//dependent variables
 	const [hardcodedChatEditable, setHardcodedChatEditable] =
@@ -122,6 +123,11 @@ const OpenChat = ({ navigation }: RootStackScreenProps<"Messages">) => {
 		console.warn("open chat settings button triggered");
 	};
 
+	//when data loads or is changed, the flatlist scrolls to the bottom
+	const handleOnChange = () => {
+		if (flatListRef.current) flatListRef.current.scrollToOffset(0);
+	};
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -150,7 +156,14 @@ const OpenChat = ({ navigation }: RootStackScreenProps<"Messages">) => {
 				</View>
 
 				<FlatList
+					ref={flatListRef}
 					data={hardcodedChatEditable}
+					showsVerticalScrollIndicator={false}
+					showsHorizontalScrollIndicator={false}
+					inverted={true}
+					style={styles.flatList}
+					contentContainerStyle={{ flexDirection: "column-reverse" }}
+					onContentSizeChange={handleOnChange}
 					renderItem={({ item }) => (
 						<MessageBubble
 							messages={item}
@@ -193,6 +206,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
+	flatList: {},
 	topBar: {
 		flexDirection: "row",
 		justifyContent: "space-between",
