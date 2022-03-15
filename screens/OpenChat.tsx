@@ -18,7 +18,7 @@ import { TextInput } from "react-native-paper";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors, { themeColor } from "../constants/Colors";
 
-const OpenChat = ({ navigation }: RootStackScreenProps<"Messages">) => {
+const OpenChat = ({ navigation }: RootStackScreenProps<"OpenChat">) => {
 	//hardcoded data for testing purpouses delete when finsihed - follows Message type from types.tsx
 	let hardcodedChat = [
 		{ id: "1", senderId: "1", content: "hey (msg1)", timeStamp: "3:00 pm" },
@@ -88,7 +88,7 @@ const OpenChat = ({ navigation }: RootStackScreenProps<"Messages">) => {
 	];
 
 	const colorScheme = useColorScheme();
-	const flatListRef = useRef(null);
+	const flatListRef = useRef<FlatList>(null);
 
 	//dependent variables
 	const [hardcodedChatEditable, setHardcodedChatEditable] =
@@ -125,7 +125,7 @@ const OpenChat = ({ navigation }: RootStackScreenProps<"Messages">) => {
 
 	//when data loads or is changed, the flatlist scrolls to the bottom
 	const handleOnChange = () => {
-		if (flatListRef.current) flatListRef.current.scrollToOffset(0);
+		if (flatListRef.current) flatListRef.current.scrollToOffset({ offset: 0 });
 	};
 
 	return (
