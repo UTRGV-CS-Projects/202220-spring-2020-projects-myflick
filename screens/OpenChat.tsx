@@ -186,6 +186,7 @@ const OpenChat = ({ navigation }: RootStackScreenProps<"OpenChat">) => {
 							value={textBarInput}
 							style={[styles.textInput]}
 							onSubmitEditing={sendBtnTrigger}
+							onPressIn={handleOnChange}
 						/>
 						<TouchableOpacity
 							style={styles.sendButton}
