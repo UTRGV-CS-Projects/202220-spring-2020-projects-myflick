@@ -10,9 +10,12 @@ export const subscribeToNewMessage = /* GraphQL */ `
         conversations {
           nextToken
         }
+        id
         messages {
           nextToken
         }
+        username
+        registered
         email
         email_verified
         firstName
@@ -35,9 +38,12 @@ export const subscribeToNewMessage = /* GraphQL */ `
         conversations {
           nextToken
         }
+        id
         messages {
           nextToken
         }
+        username
+        registered
         email
         email_verified
         firstName
@@ -56,18 +62,18 @@ export const subscribeToNewMessage = /* GraphQL */ `
 `;
 export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser(
-    $cognitoId: String
+    $cognitoId: ID
+    $id: ID
+    $username: String
+    $registered: Boolean
     $email: String
-    $email_verified: Boolean
-    $firstName: String
-    $picture: String
   ) {
     onCreateUser(
       cognitoId: $cognitoId
+      id: $id
+      username: $username
+      registered: $registered
       email: $email
-      email_verified: $email_verified
-      firstName: $firstName
-      picture: $picture
     ) {
       cognitoId
       conversations {
@@ -77,8 +83,9 @@ export const onCreateUser = /* GraphQL */ `
           userId
         }
       }
+      id
       messages {
-        messages {
+        items {
           content
           conversationId
           createdAt
@@ -88,6 +95,8 @@ export const onCreateUser = /* GraphQL */ `
         }
         nextToken
       }
+      username
+      registered
       email
       email_verified
       firstName
@@ -104,18 +113,18 @@ export const onCreateUser = /* GraphQL */ `
 `;
 export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser(
-    $cognitoId: String
+    $cognitoId: ID
+    $id: ID
+    $username: String
+    $registered: Boolean
     $email: String
-    $email_verified: Boolean
-    $firstName: String
-    $picture: String
   ) {
     onUpdateUser(
       cognitoId: $cognitoId
+      id: $id
+      username: $username
+      registered: $registered
       email: $email
-      email_verified: $email_verified
-      firstName: $firstName
-      picture: $picture
     ) {
       cognitoId
       conversations {
@@ -125,8 +134,9 @@ export const onUpdateUser = /* GraphQL */ `
           userId
         }
       }
+      id
       messages {
-        messages {
+        items {
           content
           conversationId
           createdAt
@@ -136,6 +146,8 @@ export const onUpdateUser = /* GraphQL */ `
         }
         nextToken
       }
+      username
+      registered
       email
       email_verified
       firstName
@@ -152,18 +164,18 @@ export const onUpdateUser = /* GraphQL */ `
 `;
 export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser(
-    $cognitoId: String
+    $cognitoId: ID
+    $id: ID
+    $username: String
+    $registered: Boolean
     $email: String
-    $email_verified: Boolean
-    $firstName: String
-    $picture: String
   ) {
     onDeleteUser(
       cognitoId: $cognitoId
+      id: $id
+      username: $username
+      registered: $registered
       email: $email
-      email_verified: $email_verified
-      firstName: $firstName
-      picture: $picture
     ) {
       cognitoId
       conversations {
@@ -173,8 +185,9 @@ export const onDeleteUser = /* GraphQL */ `
           userId
         }
       }
+      id
       messages {
-        messages {
+        items {
           content
           conversationId
           createdAt
@@ -184,6 +197,8 @@ export const onDeleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      username
+      registered
       email
       email_verified
       firstName
@@ -195,6 +210,504 @@ export const onDeleteUser = /* GraphQL */ `
       interests
       loggedIn
       profileComplete
+    }
+  }
+`;
+export const onCreateConversation = /* GraphQL */ `
+  subscription OnCreateConversation(
+    $createdAt: String
+    $id: ID
+    $name: String
+  ) {
+    onCreateConversation(createdAt: $createdAt, id: $id, name: $name) {
+      createdAt
+      id
+      messages {
+        items {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      name
+    }
+  }
+`;
+export const onUpdateConversation = /* GraphQL */ `
+  subscription OnUpdateConversation(
+    $createdAt: String
+    $id: ID
+    $name: String
+  ) {
+    onUpdateConversation(createdAt: $createdAt, id: $id, name: $name) {
+      createdAt
+      id
+      messages {
+        items {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      name
+    }
+  }
+`;
+export const onDeleteConversation = /* GraphQL */ `
+  subscription OnDeleteConversation(
+    $createdAt: String
+    $id: ID
+    $name: String
+  ) {
+    onDeleteConversation(createdAt: $createdAt, id: $id, name: $name) {
+      createdAt
+      id
+      messages {
+        items {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      name
+    }
+  }
+`;
+export const onCreateUserConversations = /* GraphQL */ `
+  subscription OnCreateUserConversations($conversationId: ID, $userId: ID) {
+    onCreateUserConversations(
+      conversationId: $conversationId
+      userId: $userId
+    ) {
+      associated {
+        associated {
+          conversationId
+          userId
+        }
+        conversation {
+          createdAt
+          id
+          name
+        }
+        conversationId
+        user {
+          cognitoId
+          id
+          username
+          registered
+          email
+          email_verified
+          firstName
+          picture
+          pronouns
+          bio
+          location
+          photos
+          interests
+          loggedIn
+          profileComplete
+        }
+        userId
+      }
+      conversation {
+        createdAt
+        id
+        messages {
+          nextToken
+        }
+        name
+      }
+      conversationId
+      user {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        username
+        registered
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      userId
+    }
+  }
+`;
+export const onUpdateUserConversations = /* GraphQL */ `
+  subscription OnUpdateUserConversations($conversationId: ID, $userId: ID) {
+    onUpdateUserConversations(
+      conversationId: $conversationId
+      userId: $userId
+    ) {
+      associated {
+        associated {
+          conversationId
+          userId
+        }
+        conversation {
+          createdAt
+          id
+          name
+        }
+        conversationId
+        user {
+          cognitoId
+          id
+          username
+          registered
+          email
+          email_verified
+          firstName
+          picture
+          pronouns
+          bio
+          location
+          photos
+          interests
+          loggedIn
+          profileComplete
+        }
+        userId
+      }
+      conversation {
+        createdAt
+        id
+        messages {
+          nextToken
+        }
+        name
+      }
+      conversationId
+      user {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        username
+        registered
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      userId
+    }
+  }
+`;
+export const onDeleteUserConversations = /* GraphQL */ `
+  subscription OnDeleteUserConversations($conversationId: ID, $userId: ID) {
+    onDeleteUserConversations(
+      conversationId: $conversationId
+      userId: $userId
+    ) {
+      associated {
+        associated {
+          conversationId
+          userId
+        }
+        conversation {
+          createdAt
+          id
+          name
+        }
+        conversationId
+        user {
+          cognitoId
+          id
+          username
+          registered
+          email
+          email_verified
+          firstName
+          picture
+          pronouns
+          bio
+          location
+          photos
+          interests
+          loggedIn
+          profileComplete
+        }
+        userId
+      }
+      conversation {
+        createdAt
+        id
+        messages {
+          nextToken
+        }
+        name
+      }
+      conversationId
+      user {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        username
+        registered
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      userId
+    }
+  }
+`;
+export const onCreateMessage = /* GraphQL */ `
+  subscription OnCreateMessage(
+    $content: String
+    $conversationId: ID
+    $createdAt: String
+    $id: ID
+    $isSent: Boolean
+  ) {
+    onCreateMessage(
+      content: $content
+      conversationId: $conversationId
+      createdAt: $createdAt
+      id: $id
+      isSent: $isSent
+    ) {
+      author {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        username
+        registered
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      content
+      conversationId
+      createdAt
+      id
+      isSent
+      recipient {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        username
+        registered
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      sender
+    }
+  }
+`;
+export const onUpdateMessage = /* GraphQL */ `
+  subscription OnUpdateMessage(
+    $content: String
+    $conversationId: ID
+    $createdAt: String
+    $id: ID
+    $isSent: Boolean
+  ) {
+    onUpdateMessage(
+      content: $content
+      conversationId: $conversationId
+      createdAt: $createdAt
+      id: $id
+      isSent: $isSent
+    ) {
+      author {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        username
+        registered
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      content
+      conversationId
+      createdAt
+      id
+      isSent
+      recipient {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        username
+        registered
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      sender
+    }
+  }
+`;
+export const onDeleteMessage = /* GraphQL */ `
+  subscription OnDeleteMessage(
+    $content: String
+    $conversationId: ID
+    $createdAt: String
+    $id: ID
+    $isSent: Boolean
+  ) {
+    onDeleteMessage(
+      content: $content
+      conversationId: $conversationId
+      createdAt: $createdAt
+      id: $id
+      isSent: $isSent
+    ) {
+      author {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        username
+        registered
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      content
+      conversationId
+      createdAt
+      id
+      isSent
+      recipient {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        username
+        registered
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      sender
     }
   }
 `;

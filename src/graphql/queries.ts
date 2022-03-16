@@ -2,171 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const allMessage = /* GraphQL */ `
-  query AllMessage($after: String, $conversationId: ID!, $first: Int) {
-    allMessage(after: $after, conversationId: $conversationId, first: $first) {
-      author {
-        cognitoId
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        email
-        email_verified
-        firstName
-        picture
-        pronouns
-        bio
-        location
-        photos
-        interests
-        loggedIn
-        profileComplete
-      }
-      content
-      conversationId
-      createdAt
-      id
-      isSent
-      recipient {
-        cognitoId
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        email
-        email_verified
-        firstName
-        picture
-        pronouns
-        bio
-        location
-        photos
-        interests
-        loggedIn
-        profileComplete
-      }
-      sender
-    }
-  }
-`;
-export const allMessageConnection = /* GraphQL */ `
-  query AllMessageConnection(
-    $after: String
-    $conversationId: ID!
-    $first: Int
-  ) {
-    allMessageConnection(
-      after: $after
-      conversationId: $conversationId
-      first: $first
-    ) {
-      messages {
-        author {
-          cognitoId
-          email
-          email_verified
-          firstName
-          picture
-          pronouns
-          bio
-          location
-          photos
-          interests
-          loggedIn
-          profileComplete
-        }
-        content
-        conversationId
-        createdAt
-        id
-        isSent
-        recipient {
-          cognitoId
-          email
-          email_verified
-          firstName
-          picture
-          pronouns
-          bio
-          location
-          photos
-          interests
-          loggedIn
-          profileComplete
-        }
-        sender
-      }
-      nextToken
-    }
-  }
-`;
-export const allMessageFrom = /* GraphQL */ `
-  query AllMessageFrom(
-    $after: String
-    $conversationId: ID!
-    $first: Int
-    $sender: String!
-  ) {
-    allMessageFrom(
-      after: $after
-      conversationId: $conversationId
-      first: $first
-      sender: $sender
-    ) {
-      author {
-        cognitoId
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        email
-        email_verified
-        firstName
-        picture
-        pronouns
-        bio
-        location
-        photos
-        interests
-        loggedIn
-        profileComplete
-      }
-      content
-      conversationId
-      createdAt
-      id
-      isSent
-      recipient {
-        cognitoId
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        email
-        email_verified
-        firstName
-        picture
-        pronouns
-        bio
-        location
-        photos
-        interests
-        loggedIn
-        profileComplete
-      }
-      sender
-    }
-  }
-`;
 export const me = /* GraphQL */ `
   query Me {
     me {
@@ -178,8 +13,9 @@ export const me = /* GraphQL */ `
           userId
         }
       }
+      id
       messages {
-        messages {
+        items {
           content
           conversationId
           createdAt
@@ -189,6 +25,8 @@ export const me = /* GraphQL */ `
         }
         nextToken
       }
+      username
+      registered
       email
       email_verified
       firstName
@@ -204,7 +42,7 @@ export const me = /* GraphQL */ `
   }
 `;
 export const getUser = /* GraphQL */ `
-  query GetUser($cognitoId: String!, $email: String!) {
+  query GetUser($cognitoId: ID!, $email: String!) {
     getUser(cognitoId: $cognitoId, email: $email) {
       cognitoId
       conversations {
@@ -214,8 +52,9 @@ export const getUser = /* GraphQL */ `
           userId
         }
       }
+      id
       messages {
-        messages {
+        items {
           content
           conversationId
           createdAt
@@ -225,6 +64,8 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
+      username
+      registered
       email
       email_verified
       firstName
@@ -251,9 +92,12 @@ export const listUsers = /* GraphQL */ `
         conversations {
           nextToken
         }
+        id
         messages {
           nextToken
         }
+        username
+        registered
         email
         email_verified
         firstName
@@ -265,6 +109,270 @@ export const listUsers = /* GraphQL */ `
         interests
         loggedIn
         profileComplete
+      }
+      nextToken
+    }
+  }
+`;
+export const getConversation = /* GraphQL */ `
+  query GetConversation($id: ID!) {
+    getConversation(id: $id) {
+      createdAt
+      id
+      messages {
+        items {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      name
+    }
+  }
+`;
+export const listConversations = /* GraphQL */ `
+  query ListConversations(
+    $filter: TableConversationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listConversations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        createdAt
+        id
+        messages {
+          nextToken
+        }
+        name
+      }
+      nextToken
+    }
+  }
+`;
+export const getUserConversations = /* GraphQL */ `
+  query GetUserConversations($conversationId: ID!) {
+    getUserConversations(conversationId: $conversationId) {
+      associated {
+        associated {
+          conversationId
+          userId
+        }
+        conversation {
+          createdAt
+          id
+          name
+        }
+        conversationId
+        user {
+          cognitoId
+          id
+          username
+          registered
+          email
+          email_verified
+          firstName
+          picture
+          pronouns
+          bio
+          location
+          photos
+          interests
+          loggedIn
+          profileComplete
+        }
+        userId
+      }
+      conversation {
+        createdAt
+        id
+        messages {
+          nextToken
+        }
+        name
+      }
+      conversationId
+      user {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        username
+        registered
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      userId
+    }
+  }
+`;
+export const listUserConversations = /* GraphQL */ `
+  query ListUserConversations(
+    $filter: TableUserConversationsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUserConversations(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        associated {
+          conversationId
+          userId
+        }
+        conversation {
+          createdAt
+          id
+          name
+        }
+        conversationId
+        user {
+          cognitoId
+          id
+          username
+          registered
+          email
+          email_verified
+          firstName
+          picture
+          pronouns
+          bio
+          location
+          photos
+          interests
+          loggedIn
+          profileComplete
+        }
+        userId
+      }
+      nextToken
+    }
+  }
+`;
+export const getMessage = /* GraphQL */ `
+  query GetMessage($conversationId: ID!) {
+    getMessage(conversationId: $conversationId) {
+      author {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        username
+        registered
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      content
+      conversationId
+      createdAt
+      id
+      isSent
+      recipient {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        username
+        registered
+        email
+        email_verified
+        firstName
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
+      }
+      sender
+    }
+  }
+`;
+export const listMessages = /* GraphQL */ `
+  query ListMessages(
+    $filter: TableMessageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        author {
+          cognitoId
+          id
+          username
+          registered
+          email
+          email_verified
+          firstName
+          picture
+          pronouns
+          bio
+          location
+          photos
+          interests
+          loggedIn
+          profileComplete
+        }
+        content
+        conversationId
+        createdAt
+        id
+        isSent
+        recipient {
+          cognitoId
+          id
+          username
+          registered
+          email
+          email_verified
+          firstName
+          picture
+          pronouns
+          bio
+          location
+          photos
+          interests
+          loggedIn
+          profileComplete
+        }
+        sender
       }
       nextToken
     }
