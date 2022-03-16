@@ -4,21 +4,24 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { GenresType, RootStackScreenProps } from "../types";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import Swiper from "react-native-deck-swiper";
 import LottieView from "lottie-react-native";
 import useColorScheme from "../hooks/useColorScheme";
-import { MovieCardType, PeopleDetailsType } from "../db/db";
+import { MovieCardType } from "../db/db";
 import PeopleCard from "../components/SwipingComponent/PeopleCard";
 import Colors, { themeColor } from "../constants/Colors";
 import { EvilIcons } from "@expo/vector-icons";
 import { fetchUsers } from "../apis/users";
 import { User } from "../src/API";
 import { v4 as uuidv4 } from "uuid";
+import { AuthContext } from "../store/AuthContext";
 
 const PeopleSwiping = () => {
+  const { user, dispatch } = useContext(AuthContext);
+
   const colorScheme = useColorScheme();
   const heart = useRef<LottieView>(null);
   const star = useRef<LottieView>(null);
@@ -58,9 +61,13 @@ const PeopleSwiping = () => {
       setLoading(true);
 
       const response = await fetchUsers();
-      const users = response?.data?.listUsers?.items as User[];
+      const usersResponse = response?.data?.listUsers?.items as User[];
 
-      setUsers(users);
+      const filteredUsers = usersResponse.filter((indexUser) => {
+        return indexUser.cognitoId !== user.cognitoId;
+      });
+
+      setUsers(filteredUsers);
     } catch (error) {
       console.log(error);
     }

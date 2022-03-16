@@ -44,8 +44,8 @@ const Personalize = ({
   const [interest, setInterest] = useState("");
 
   const [completeProfile, setCompleteProfile] = useState<ProfileCompleteType>({
-    email: route.params.email,
-    password: route.params.password,
+    email: route.params!.email,
+    password: route.params!.password,
     interests: [],
     firstName: "",
     photos: [],

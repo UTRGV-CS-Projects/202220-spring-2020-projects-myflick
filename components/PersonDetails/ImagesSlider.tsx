@@ -3,7 +3,6 @@ import React from "react";
 import Swiper from "react-native-swiper";
 import { lightThemeColor, themeColor } from "../../constants/Colors";
 import { ImagesSliderParamsList } from "../../types";
-import { PeopleDetailsType } from "../../db/db";
 
 const ImagesSlider = ({ person }: ImagesSliderParamsList) => {
   return (
@@ -18,8 +17,8 @@ const ImagesSlider = ({ person }: ImagesSliderParamsList) => {
         width: "100%",
       }}
     >
-      {person.images!.length > 0 ? (
-        person.images!.map((image, index) => {
+      {person && person.photos.length > 0 ? (
+        person?.photos?.map((image, index) => {
           return (
             <Image
               key={index}
@@ -33,7 +32,7 @@ const ImagesSlider = ({ person }: ImagesSliderParamsList) => {
         <Image
           style={styles.profilePicture}
           resizeMode="cover"
-          source={{ uri: person.profileImage }}
+          source={{ uri: person?.picture }}
         ></Image>
       )}
     </Swiper>

@@ -94,9 +94,9 @@ export const handleProfileComplete = async (
       password: data.password,
     });
 
-    console.log("data", data);
+    // console.log("data", data);
 
-    console.log("userSub", userSub);
+    //  console.log("userSub", userSub);
 
     const info = await API.graphql(
       graphqlOperation(createUser, {
@@ -119,7 +119,7 @@ export const handleProfileComplete = async (
       })
     );
 
-    console.log(info);
+    //console.log(info);
 
     dispatch({ type: UserActionTypes.PROFILE_COMPLETE, payload: data });
   } catch (error) {
