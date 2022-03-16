@@ -1,5 +1,4 @@
 import {
-	FlatList,
 	ImageBackground,
 	StyleSheet,
 	TouchableOpacity,
@@ -12,10 +11,7 @@ import { MovieCardType } from "../../db/db";
 import Colors, { themeColor } from "../../constants/Colors";
 import useColorScheme from "../../hooks/useColorScheme";
 import { Chip } from "react-native-paper";
-import LottieView from "lottie-react-native";
-import { EvilIcons } from "@expo/vector-icons";
 
-import AnimatedDotsCarousel from "react-native-animated-dots-carousel";
 import { GenresType } from "../../types";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";

@@ -1,23 +1,18 @@
-import {
-	ActivityIndicator,
-	Button,
-	StyleSheet,
-	TouchableOpacity,
-} from "react-native";
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { GenresType, RootStackScreenProps } from "../types";
+import { GenresType } from "../types";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import Swiper from "react-native-deck-swiper";
 import LottieView from "lottie-react-native";
 import useColorScheme from "../hooks/useColorScheme";
-import { MovieCardType, PeopleDetailsType } from "../db/db";
-import PeopleCard from "../components/SwipingComponent/PeopleCard";
+import { MovieCardType } from "../db/db";
 import Colors, { themeColor } from "../constants/Colors";
 import { EvilIcons } from "@expo/vector-icons";
 import MovieCard from "../components/SwipingComponent/MovieCard";
 import { fetchDiscovery, fetchGenres } from "../apis/movies";
-import CustomerSwiper from "../components/SwipingComponent/CustomMovieSwiper";
-import CustomMovieSwiper from "../components/SwipingComponent/CustomMovieSwiper";
+
+const delay = (ms: number | undefined) =>
+	new Promise((res) => setTimeout(res, ms));
 
 const MovieSwiping = () => {
 	const colorScheme = useColorScheme();
@@ -30,13 +25,60 @@ const MovieSwiping = () => {
 	const [isLiked, setIsLiked] = useState(false);
 	const [isSuperLiked, setIsSuperLiked] = useState(false);
 	const [showOverlayLabel, setShowOverlayLabel] = useState(false);
-	const [OverlayLabelColor, setOverlayLabelColor] = useState("transparent");
+	const [OverlayLabelColor, setOverlayLabelColor] =
+		useState("rgba(0, 0, 0, 0)");
 	const [OverlayLabelText, setOverlayLabelText] = useState("Change This");
 	const [loading, setLoading] = useState(true);
 	const [movies, setMovies] = useState<MovieCardType[]>([]);
 	const [globalGenres, setGlobalGenres] = useState<GenresType[]>([]);
 	const [page, setPage] = useState(1);
 	const [customSwiperProps, setCustomSwiperProps] = useState({ cards: movies });
+
+	const btnSwipeLeft = async () => {
+		let useSwiperPtr;
+		useSwiperPtr = useSwiper;
+
+		if (useSwiperPtr.current) {
+			overlayTrigger(true, "red", "NOPE");
+			await delay(800);
+			setShowOverlayLabel(false);
+			setOverlayLabelColor("transparent");
+			useSwiperPtr.current.swipeLeft();
+		}
+	};
+
+	const btnSwipeRight = async () => {
+		let useSwiperPtr;
+		useSwiperPtr = useSwiper;
+
+		if (useSwiperPtr.current) {
+			overlayTrigger(true, "#2FEB5D", "LIKE");
+
+			await delay(800);
+
+			setShowOverlayLabel(false);
+			setOverlayLabelColor("transparent");
+
+			useSwiperPtr.current.swipeRight();
+			setIsLiked(false);
+		}
+	};
+
+	const btnSwipeTop = async () => {
+		let useSwiperPtr;
+		useSwiperPtr = useSwiper;
+
+		if (useSwiperPtr.current) {
+			overlayTrigger(true, "#35C3E7", "MUST WATCH");
+			await delay(800);
+
+			setShowOverlayLabel(false);
+			setOverlayLabelColor("transparent");
+
+			useSwiperPtr.current.swipeTop();
+			setIsSuperLiked(false);
+		}
+	};
 
 	const index = useRef(0);
 	useEffect(() => {
@@ -131,15 +173,135 @@ const MovieSwiping = () => {
 		<SafeAreaView style={styles.container}>
 			{!loading ? (
 				<>
-					<CustomMovieSwiper
-						movies={movies}
-						handleSwiped={handleSwiped}
-						globalGenres={globalGenres}
-						index={index.current}
+					{showOverlayLabel ? (
+						<View
+							style={{
+								flexDirection: "column",
+								alignItems: "center",
+								justifyContent: "center",
+								position: "absolute",
+								top: 100,
+								backgroundColor: "rgba(0, 0, 0, 0)",
+								zIndex: 5,
+								flex: 1,
+								width: 370,
+								height: 150,
+							}}
+						>
+							<Text
+								style={{
+									fontSize: 45,
+									fontWeight: "bold",
+									borderRadius: 10,
+									padding: 10,
+									overflow: "hidden",
+									backgroundColor: "rgba(0, 0, 0, 0)",
+									borderColor: OverlayLabelColor,
+									color: OverlayLabelColor,
+									borderWidth: 3,
+									opacity: 1,
+								}}
+							>
+								{OverlayLabelText}
+							</Text>
+						</View>
+					) : (
+						<></>
+					)}
+					<Swiper
+						ref={useSwiper}
+						cards={movies}
+						key={movies.length}
+						keyExtractor={(item) => item.id}
+						renderCard={(card) => {
+							return (
+								<MovieCard
+									card={card}
+									genres={globalGenres}
+									cardIndex={index.current}
+									key={index.current}
+								/>
+							);
+						}}
+						onSwiped={handleSwiped}
+						onSwipedAll={() => {}}
+						cardIndex={index.current}
+						backgroundColor={Colors[colorScheme].secondary}
+						stackSize={2}
+						showSecondCard={true}
+						horizontalThreshold={100}
+						stackSeparation={-20}
+						animateCardOpacity={true}
+						animateOverlayLabelsOpacity={true}
+						infinite={false}
+						onSwipedLeft={() => {}}
+						onSwipedRight={() => {}}
+						onSwipedTop={() => {}}
+						disableBottomSwipe={true}
+						overlayLabels={{
+							left: {
+								title: "NOPE",
+								style: {
+									label: {
+										backgroundColor: "rgba(0, 0, 0, 0)",
+										borderColor: "red",
+										color: "red",
+										borderWidth: 3,
+									},
+									wrapper: {
+										flexDirection: "column",
+										alignItems: "flex-end",
+										justifyContent: "flex-start",
+										marginTop: 30,
+										marginLeft: -30,
+									},
+								},
+							},
+							right: {
+								title: "LIKE",
+								style: {
+									label: {
+										backgroundColor: "rgba(0, 0, 0, 0)",
+										borderColor: "#2FEB5D",
+										color: "#2FEB5D",
+										borderWidth: 2.5,
+									},
+									wrapper: {
+										flexDirection: "column",
+										alignItems: "flex-start",
+										justifyContent: "flex-start",
+										marginTop: 30,
+										marginLeft: 30,
+									},
+								},
+							},
+							top: {
+								title: "MUST WATCH",
+								style: {
+									label: {
+										backgroundColor: "rgba(0, 0, 0, 0)",
+										borderColor: "#35C3E7",
+										color: "#35C3E7",
+										borderWidth: 1,
+									},
+									wrapper: {
+										flexDirection: "column",
+										alignItems: "flex-start",
+										justifyContent: "flex-start",
+										marginTop: 560,
+										marginLeft: 30,
+									},
+								},
+							},
+						}}
 					/>
 
 					<View style={styles.buttonContainer}>
-						<TouchableOpacity onPress={() => {}}>
+						<TouchableOpacity
+							onPress={() => {
+								btnSwipeLeft();
+							}}
+						>
 							<View style={[styles.bubble, { borderColor: "#FD484E" }]}>
 								<EvilIcons
 									name="close"
@@ -150,7 +312,11 @@ const MovieSwiping = () => {
 							</View>
 						</TouchableOpacity>
 
-						<TouchableOpacity onPress={() => {}}>
+						<TouchableOpacity
+							onPress={() => {
+								btnSwipeTop();
+							}}
+						>
 							<View style={[styles.bubble, { borderColor: "#35C3E7" }]}>
 								<LottieView
 									ref={star}
@@ -160,7 +326,11 @@ const MovieSwiping = () => {
 								/>
 							</View>
 						</TouchableOpacity>
-						<TouchableOpacity onPress={() => {}}>
+						<TouchableOpacity
+							onPress={() => {
+								btnSwipeRight();
+							}}
+						>
 							<View
 								style={[styles.bubble, { borderColor: "#2FEB5D" /*#FD484E*/ }]}
 							>
