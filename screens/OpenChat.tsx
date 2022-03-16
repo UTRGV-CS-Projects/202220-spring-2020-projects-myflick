@@ -134,12 +134,21 @@ const OpenChat = ({ navigation }: RootStackScreenProps<"OpenChat">) => {
 			style={styles.container}
 		>
 			<SafeAreaView style={[styles.container]}>
-				<View style={styles.topBar}>
+				<View
+					style={[
+						styles.topBar,
+						{ borderBottomColor: Colors[colorScheme].opposite },
+					]}
+				>
 					<TouchableOpacity style={styles.backBtn} onPress={handleGoBack}>
-						<Ionicons name="chevron-back-outline" size={30} color={"white"} />
+						<Ionicons
+							name="chevron-back-outline"
+							size={30}
+							color={Colors[colorScheme].opposite}
+						/>
 					</TouchableOpacity>
 
-					<Text style={styles.name}>
+					<Text style={[styles.name, { color: Colors[colorScheme].opposite }]}>
 						Ashley {/* HARDCODED DATA, CHANGE THIS */}
 					</Text>
 
@@ -150,7 +159,7 @@ const OpenChat = ({ navigation }: RootStackScreenProps<"OpenChat">) => {
 						<Ionicons
 							name="ellipsis-vertical-outline"
 							size={30}
-							color={"white"}
+							color={Colors[colorScheme].opposite}
 						/>
 					</TouchableOpacity>
 				</View>
@@ -214,7 +223,6 @@ const styles = StyleSheet.create({
 		paddingTop: 5,
 		height: 50,
 		borderBottomWidth: 0.3,
-		borderBottomColor: "#3F3F3F",
 	},
 	backBtn: {
 		paddingLeft: 5,
@@ -224,7 +232,6 @@ const styles = StyleSheet.create({
 	},
 	name: {
 		fontSize: 23,
-		color: "white",
 	},
 
 	bottomBar: {
