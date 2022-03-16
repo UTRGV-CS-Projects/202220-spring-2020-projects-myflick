@@ -94,11 +94,17 @@ export const handleProfileComplete = async (
       password: data.password,
     });
 
+    console.log("data", data);
+
+    console.log("userSub", userSub);
+
     const info = await API.graphql(
       graphqlOperation(createUser, {
         input: {
           cognitoId: userSub,
+          id: userSub,
           email: data.email,
+          username: userSub,
           firstName: data.firstName,
           email_verified: false,
           picture: data.picture,

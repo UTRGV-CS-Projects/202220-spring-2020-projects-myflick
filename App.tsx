@@ -6,6 +6,7 @@ import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
 import { AuthContextProvider } from "./store/AuthContext";
+import "react-native-get-random-values";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
