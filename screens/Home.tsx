@@ -4,10 +4,6 @@ import { RootStackScreenProps } from "../types";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import Movies from "../components/Movies";
 const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
-  const handleDetailsPress = () => {
-    navigation.navigate("PersonDetails");
-  };
-
   const handleMatch = () => {
     navigation.navigate("Match", {
       firstName: "John",
@@ -22,7 +18,6 @@ const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
     <SafeAreaView
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
-      <Text onPress={handleDetailsPress}>Sara Banks</Text>
       <Text onPress={handleMatch}>Match</Text>
     </SafeAreaView>
   );
