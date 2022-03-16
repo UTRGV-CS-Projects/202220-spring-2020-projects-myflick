@@ -1,7 +1,6 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Text, View } from "../components/Themed";
-import { People } from "../db/db";
 import { Chip } from "react-native-paper";
 import { lightThemeColor, themeColor } from "../constants/Colors";
 import { EvilIcons } from "@expo/vector-icons";
@@ -9,11 +8,11 @@ import { RootStackScreenProps } from "../types";
 import LottieView from "lottie-react-native";
 import ImagesSlider from "../components/PersonDetails/ImagesSlider";
 
-
 const PersonDetails = ({
   navigation,
+  route,
 }: RootStackScreenProps<"PersonDetails">) => {
-  const person = People[0];
+  const [person, setPerson] = useState(route.params?.person);
   const heart = useRef<LottieView>(null);
   const isFirstRun = useRef(true);
   const [isLiked, setIsLiked] = useState(false);
@@ -86,24 +85,20 @@ const PersonDetails = ({
       </View>
       <View style={styles.lowerContainer}>
         <View>
-          <Text style={styles.name}>
-            {person.firstName} {person.lastName}, {person.age}
-          </Text>
-          <Text style={styles.location}>
-            {person.city}, {person.state}
-          </Text>
+          <Text style={styles.name}>{person?.firstName}</Text>
+          <Text style={styles.location}>{person?.location}</Text>
         </View>
 
         <View>
           <Text style={styles.header}>About me</Text>
 
-          <Text style={styles.bio}>{person.bio}</Text>
+          <Text style={styles.bio}>{person?.bio}</Text>
         </View>
 
         <View>
           <Text style={styles.header}>Interests</Text>
           <View style={styles.chipsContainer}>
-            {person.interests?.map((interest, index) => {
+            {person?.interests?.map((interest, index) => {
               return (
                 <Chip
                   style={styles.chip}

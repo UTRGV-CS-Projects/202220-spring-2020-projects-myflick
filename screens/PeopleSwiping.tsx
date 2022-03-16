@@ -10,7 +10,7 @@ import { View, Text, SafeAreaView } from "../components/Themed";
 import Swiper from "react-native-deck-swiper";
 import LottieView from "lottie-react-native";
 import useColorScheme from "../hooks/useColorScheme";
-import { MovieCardType, PeopleDetailsType } from "../db/db";
+import { MovieCardType } from "../db/db";
 import PeopleCard from "../components/SwipingComponent/PeopleCard";
 import Colors, { themeColor } from "../constants/Colors";
 import { EvilIcons } from "@expo/vector-icons";

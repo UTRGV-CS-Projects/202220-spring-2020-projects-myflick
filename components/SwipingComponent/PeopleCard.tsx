@@ -28,6 +28,7 @@ const PeopleCard = ({ card }: PeopleCardProps) => {
 
   //console.log(card);
   const handlePersonDetails = () => {
+    console.log("here");
     navigation.navigate("PersonDetails", { person: card });
   };
   const nextPicture = () => {
@@ -76,96 +77,91 @@ const PeopleCard = ({ card }: PeopleCardProps) => {
   };
 
   return (
-    <TouchableWithoutFeedback style={styles.card} onPress={handlePersonDetails}>
-      <View style={styles.cardInnerContainer}>
-        {card.photos ? (
-          card.photos.length > 1 ? (
-            <View style={styles.dotsCarouselContainer}>
-              <AnimatedDotsCarousel
-                length={card.photos.length}
-                currentIndex={index}
-                maxIndicators={card.photos.length}
-                activeIndicatorConfig={{
-                  color: themeColor,
-                  margin: 3,
-                  opacity: 1,
-                  size: 8,
-                }}
-                inactiveIndicatorConfig={{
-                  color: Colors[colorScheme].lightTint,
-                  margin: 3,
-                  opacity: 0.5,
-                  size: 8,
-                }}
-                decreasingDots={[
-                  {
-                    config: {
-                      color: "white",
-                      margin: 3,
-                      opacity: 0.5,
-                      size: 5,
-                    },
-                    quantity: 1,
+    <View style={styles.card}>
+      {card.photos ? (
+        card.photos.length > 1 ? (
+          <View style={styles.dotsCarouselContainer}>
+            <AnimatedDotsCarousel
+              length={card.photos.length}
+              currentIndex={index}
+              maxIndicators={card.photos.length}
+              activeIndicatorConfig={{
+                color: themeColor,
+                margin: 3,
+                opacity: 1,
+                size: 8,
+              }}
+              inactiveIndicatorConfig={{
+                color: Colors[colorScheme].lightTint,
+                margin: 3,
+                opacity: 0.5,
+                size: 8,
+              }}
+              decreasingDots={[
+                {
+                  config: {
+                    color: "white",
+                    margin: 3,
+                    opacity: 0.5,
+                    size: 5,
                   },
-                  {
-                    config: {
-                      color: "white",
-                      margin: 3,
-                      opacity: 0.5,
-                      size: 3,
-                    },
-                    quantity: 1,
+                  quantity: 1,
+                },
+                {
+                  config: {
+                    color: "white",
+                    margin: 3,
+                    opacity: 0.5,
+                    size: 3,
                   },
-                ]}
-              />
-            </View>
-          ) : null
-        ) : null}
-        <TouchableOpacity
-          style={styles.nextPictureClick}
-          onPress={nextPicture}
-        />
-        <TouchableOpacity
-          style={styles.previousPictureClick}
-          onPress={previousPicture}
-        />
-        <TouchableOpacity
-          style={styles.openDetailsClick}
-          onPress={openDetails}
-        />
-        {renderImages()}
-        <View style={[styles.cardBottom]}>
-          <View style={styles.InfoContainer}>
-            <Text style={styles.title}>{card.firstName}</Text>
+                  quantity: 1,
+                },
+              ]}
+            />
           </View>
+        ) : null
+      ) : null}
+      <TouchableOpacity style={styles.nextPictureClick} onPress={nextPicture} />
+      <TouchableOpacity
+        style={styles.previousPictureClick}
+        onPress={previousPicture}
+      />
 
-          <View style={styles.chipsContainer}>
-            {card.interests ? (
-              card.interests.map((interest, index) => {
-                return (
-                  <Chip
-                    key={index}
-                    mode="flat"
-                    textStyle={{ color: "white", fontSize: 15 }}
-                    style={{
-                      backgroundColor: themeColor,
-                      margin: 5,
-                    }}
-                  >
-                    {interest}
-                  </Chip>
-                );
-              })
-            ) : (
-              <></>
-            )}
-          </View>
-          <View style={styles.bioContainer}>
-            <Text style={styles.bio}>{card.bio}</Text>
-          </View>
+      {renderImages()}
+      <View style={styles.cardBottom}>
+        <TouchableOpacity
+          style={styles.InfoContainer}
+          onPress={handlePersonDetails}
+        >
+          <Text style={styles.title}>{card.firstName}</Text>
+        </TouchableOpacity>
+
+        <View style={styles.chipsContainer}>
+          {card.interests ? (
+            card.interests.map((interest, index) => {
+              return (
+                <Chip
+                  key={index}
+                  mode="flat"
+                  textStyle={{ color: "white", fontSize: 15 }}
+                  style={{
+                    backgroundColor: themeColor,
+                    margin: 5,
+                  }}
+                >
+                  {interest}
+                </Chip>
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </View>
+        <View style={styles.bioContainer}>
+          <Text style={styles.bio}>{card.bio}</Text>
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </View>
   );
 };
 
@@ -173,28 +169,24 @@ export default PeopleCard;
 
 const styles = StyleSheet.create({
   card: {
-    flex: 1,
+    flex: 0.9,
     paddingBottom: 20,
     borderRadius: 20,
     justifyContent: "center",
-  },
-  cardInnerContainer: {
-    flex: 0.9,
-    justifyContent: "center",
-    borderRadius: 20,
     elevation: 5,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.5,
     shadowRadius: 10,
   },
+
   chipsContainer: {
     width: "80%",
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "flex-start",
     flexWrap: "wrap",
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     marginBottom: 10,
   },
 
@@ -209,7 +201,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cardBottom: {
-    borderRadius: 20,
     flex: 0.3,
     justifyContent: "flex-start",
     flexDirection: "column",
@@ -229,9 +220,7 @@ const styles = StyleSheet.create({
   bio: { fontSize: 16 },
   InfoContainer: {
     flexDirection: "row",
-    paddingTop: 10,
-    paddingBottom: 10,
-    marginLeft: 20,
+    padding: 15,
   },
   bioContainer: {
     marginHorizontal: 20,
@@ -242,7 +231,7 @@ const styles = StyleSheet.create({
     width: "50%",
     height: "75%",
     position: "absolute",
-    zIndex: 4,
+    zIndex: 1,
     right: 0,
     top: 0,
   },
@@ -251,26 +240,17 @@ const styles = StyleSheet.create({
     width: "50%",
     height: "75%",
     position: "absolute",
-    zIndex: 4,
+    zIndex: 1,
     left: 0,
     top: 0,
   },
 
-  openDetailsClick: {
-    backgroundColor: "rgba(0, 0, 0, 0)",
-    height: 700,
-    width: 370,
-    position: "absolute",
-    zIndex: 3,
-    top: 0,
-  },
   dotsCarouselContainer: {
     position: "absolute",
     zIndex: 3,
     top: "60%",
     justifyContent: "center",
     alignItems: "center",
-    paddingLeft: 15,
     width: "100%",
     backgroundColor: "transparent",
   },

@@ -96,7 +96,7 @@ export type PersonalizeParamList = {
 export type PersonDetailsParamsList = {};
 
 export type ImagesSliderParamsList = {
-  person: User;
+  person: User | undefined;
 };
 
 export type PeopleDetailsParamsList = {
