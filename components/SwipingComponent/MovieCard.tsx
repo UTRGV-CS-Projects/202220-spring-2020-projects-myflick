@@ -196,6 +196,7 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		padding: 15,
 		paddingBottom: 5,
+		textAlign: "center",
 	},
 	nextPictureClick: {
 		backgroundColor: "rgba(0, 0, 0, 0)",
