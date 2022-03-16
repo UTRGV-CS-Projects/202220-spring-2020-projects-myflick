@@ -6,8 +6,36 @@ type Conversation {
   name: String!
 }
 
+type ConversationConnection {
+  items: [Conversation]
+  nextToken: String
+}
+
+input CreateConversationInput {
+  createdAt: String
+  name: String!
+  id: ID!
+}
+
+input CreateMessageInput {
+  content: String!
+  conversationId: ID!
+  createdAt: String
+  id: ID!
+  isSent: Boolean
+  sender: String
+}
+
+input CreateUserConversationsInput {
+  conversationId: ID!
+  userId: ID!
+}
+
 input CreateUserInput {
-  cognitoId: String!
+  cognitoId: ID!
+  id: ID!
+  username: String!
+  registered: Boolean
   email: String!
   email_verified: Boolean!
   firstName: String!
@@ -21,8 +49,20 @@ input CreateUserInput {
   profileComplete: Boolean!
 }
 
+input DeleteConversationInput {
+  id: ID!
+}
+
+input DeleteMessageInput {
+  conversationId: ID!
+}
+
+input DeleteUserConversationsInput {
+  conversationId: ID!
+}
+
 input DeleteUserInput {
-  cognitoId: String!
+  cognitoId: ID!
   email: String!
 }
 
@@ -38,7 +78,7 @@ type Message {
 }
 
 type MessageConnection {
-  messages: [Message]
+  items: [Message]
   nextToken: String
 }
 
@@ -134,39 +174,57 @@ input ModelStringInput {
 }
 
 type Mutation {
-  createConversation(createdAt: String, id: ID!, name: String!): Conversation
-  createMessage(content: String, conversationId: ID!, createdAt: String!, id: ID!): Message
   createUser(input: CreateUserInput!): User
   updateUser(input: UpdateUserInput!): User
   deleteUser(input: DeleteUserInput!): User
+  createConversation(input: CreateConversationInput!): Conversation
+  updateConversation(input: UpdateConversationInput!): Conversation
+  deleteConversation(input: DeleteConversationInput!): Conversation
+  createUserConversations(input: CreateUserConversationsInput!): UserConversations
+  updateUserConversations(input: UpdateUserConversationsInput!): UserConversations
+  deleteUserConversations(input: DeleteUserConversationsInput!): UserConversations
+  createMessage(input: CreateMessageInput!): Message
+  updateMessage(input: UpdateMessageInput!): Message
+  deleteMessage(input: DeleteMessageInput!): Message
 }
 
 type Query {
-  allMessage(after: String, conversationId: ID!, first: Int): [Message]
-  allMessageConnection(after: String, conversationId: ID!, first: Int): MessageConnection
-  allMessageFrom(after: String, conversationId: ID!, first: Int, sender: String!): [Message]
   me: User
-  getUser(cognitoId: String!, email: String!): User
+  getUser(cognitoId: ID!, email: String!): User
   listUsers(filter: TableUserFilterInput, limit: Int, nextToken: String): UserConnection
-}
-
-type RandomInfo {
-  randomString: String
-  randomInt: Int
-  randomFloat: Float
-  randomBoolean: Boolean
+  getConversation(id: ID!): Conversation
+  listConversations(filter: TableConversationFilterInput, limit: Int, nextToken: String): ConversationConnection
+  getUserConversations(conversationId: ID!): UserConversations
+  listUserConversations(filter: TableUserConversationsFilterInput, limit: Int, nextToken: String): UserConversationsConnection
+  getMessage(conversationId: ID!): Message
+  listMessages(filter: TableMessageFilterInput, limit: Int, nextToken: String): MessageConnection
 }
 
 type Subscription {
   subscribeToNewMessage(conversationId: ID!): Message @aws_subscribe(mutations: ["createMessage"])
-  onCreateUser(cognitoId: String, email: String, email_verified: Boolean, firstName: String, picture: String): User @aws_subscribe(mutations: ["createUser"])
-  onUpdateUser(cognitoId: String, email: String, email_verified: Boolean, firstName: String, picture: String): User @aws_subscribe(mutations: ["updateUser"])
-  onDeleteUser(cognitoId: String, email: String, email_verified: Boolean, firstName: String, picture: String): User @aws_subscribe(mutations: ["deleteUser"])
+  onCreateUser(cognitoId: ID, id: ID, username: String, registered: Boolean, email: String): User @aws_subscribe(mutations: ["createUser"])
+  onUpdateUser(cognitoId: ID, id: ID, username: String, registered: Boolean, email: String): User @aws_subscribe(mutations: ["updateUser"])
+  onDeleteUser(cognitoId: ID, id: ID, username: String, registered: Boolean, email: String): User @aws_subscribe(mutations: ["deleteUser"])
+  onCreateConversation(createdAt: String, id: ID, name: String): Conversation @aws_subscribe(mutations: ["createConversation"])
+  onUpdateConversation(createdAt: String, id: ID, name: String): Conversation @aws_subscribe(mutations: ["updateConversation"])
+  onDeleteConversation(createdAt: String, id: ID, name: String): Conversation @aws_subscribe(mutations: ["deleteConversation"])
+  onCreateUserConversations(conversationId: ID, userId: ID): UserConversations @aws_subscribe(mutations: ["createUserConversations"])
+  onUpdateUserConversations(conversationId: ID, userId: ID): UserConversations @aws_subscribe(mutations: ["updateUserConversations"])
+  onDeleteUserConversations(conversationId: ID, userId: ID): UserConversations @aws_subscribe(mutations: ["deleteUserConversations"])
+  onCreateMessage(content: String, conversationId: ID, createdAt: String, id: ID, isSent: Boolean): Message @aws_subscribe(mutations: ["createMessage"])
+  onUpdateMessage(content: String, conversationId: ID, createdAt: String, id: ID, isSent: Boolean): Message @aws_subscribe(mutations: ["updateMessage"])
+  onDeleteMessage(content: String, conversationId: ID, createdAt: String, id: ID, isSent: Boolean): Message @aws_subscribe(mutations: ["deleteMessage"])
 }
 
 input TableBooleanFilterInput {
   ne: Boolean
   eq: Boolean
+}
+
+input TableConversationFilterInput {
+  createdAt: TableStringFilterInput
+  id: TableIDFilterInput
+  name: TableStringFilterInput
 }
 
 input TableFloatFilterInput {
@@ -206,6 +264,15 @@ input TableIntFilterInput {
   between: [Int]
 }
 
+input TableMessageFilterInput {
+  content: TableStringFilterInput
+  conversationId: TableIDFilterInput
+  createdAt: TableStringFilterInput
+  id: TableIDFilterInput
+  isSent: TableBooleanFilterInput
+  sender: TableStringFilterInput
+}
+
 input TableStringFilterInput {
   ne: String
   eq: String
@@ -219,8 +286,16 @@ input TableStringFilterInput {
   beginsWith: String
 }
 
+input TableUserConversationsFilterInput {
+  conversationId: TableIDFilterInput
+  userId: TableIDFilterInput
+}
+
 input TableUserFilterInput {
-  cognitoId: TableStringFilterInput
+  cognitoId: TableIDFilterInput
+  id: TableIDFilterInput
+  username: TableStringFilterInput
+  registered: TableBooleanFilterInput
   email: TableStringFilterInput
   email_verified: TableBooleanFilterInput
   firstName: TableStringFilterInput
@@ -234,8 +309,31 @@ input TableUserFilterInput {
   profileComplete: TableBooleanFilterInput
 }
 
+input UpdateConversationInput {
+  createdAt: String
+  id: ID!
+  name: String
+}
+
+input UpdateMessageInput {
+  content: String
+  conversationId: ID!
+  createdAt: String
+  id: ID
+  isSent: Boolean
+  sender: String
+}
+
+input UpdateUserConversationsInput {
+  conversationId: ID!
+  userId: ID
+}
+
 input UpdateUserInput {
-  cognitoId: String!
+  cognitoId: ID!
+  id: ID
+  username: String
+  registered: Boolean
   email: String!
   email_verified: Boolean
   firstName: String
@@ -250,9 +348,12 @@ input UpdateUserInput {
 }
 
 type User {
-  cognitoId: String!
+  cognitoId: ID!
   conversations(after: String, first: Int): UserConverstationsConnection
+  id: ID!
   messages(after: String, first: Int): MessageConnection
+  username: String!
+  registered: Boolean
   email: String!
   email_verified: Boolean!
   firstName: String!
@@ -277,6 +378,11 @@ type UserConversations {
   conversationId: ID!
   user: User
   userId: ID!
+}
+
+type UserConversationsConnection {
+  items: [UserConversations]
+  nextToken: String
 }
 
 type UserConverstationsConnection {

@@ -1,21 +1,29 @@
-import { Button, StyleSheet, TouchableOpacity } from "react-native";
-import React, { useRef, useState } from "react";
+import {
+  ActivityIndicator,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 import { GenresType, RootStackScreenProps } from "../types";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import Swiper from "react-native-deck-swiper";
 import LottieView from "lottie-react-native";
 import useColorScheme from "../hooks/useColorScheme";
-import { MovieCardType, People, PeopleDetailsType } from "../db/db";
+import { MovieCardType, PeopleDetailsType } from "../db/db";
 import PeopleCard from "../components/SwipingComponent/PeopleCard";
 import Colors, { themeColor } from "../constants/Colors";
 import { EvilIcons } from "@expo/vector-icons";
+import { fetchUsers } from "../apis/users";
+import { User } from "../src/API";
+import { v4 as uuidv4 } from "uuid";
 
 const PeopleSwiping = () => {
   const colorScheme = useColorScheme();
   const heart = useRef<LottieView>(null);
   const star = useRef<LottieView>(null);
   const useSwiper = useRef<Swiper<MovieCardType>>(null);
-  const useSwiperPeople = useRef<Swiper<PeopleDetailsType>>(null);
+  const useSwiperPeople = useRef<Swiper<User>>(null);
   const isLikeFirstRun = useRef(true);
   const isSuperLikeFirstRun = useRef(true);
 
@@ -29,8 +37,7 @@ const PeopleSwiping = () => {
   const [OverlayLabelColor, setOverlayLabelColor] = useState("transparent");
   const [OverlayLabelText, setOverlayLabelText] = useState("Change This");
   const [loading, setLoading] = useState(true);
-
-  const Peoplex = People;
+  const [users, setUsers] = useState<User[]>([]);
 
   const overlayTrigger = (
     setShow: boolean,
@@ -42,16 +49,39 @@ const PeopleSwiping = () => {
     setOverlayLabelText(setText);
   };
 
+  useEffect(() => {
+    setUsersData();
+  }, []);
+
+  const setUsersData = async () => {
+    try {
+      setLoading(true);
+
+      const response = await fetchUsers();
+      const users = response?.data?.listUsers?.items as User[];
+
+      setUsers(users);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (users?.length > 0) {
+      setLoading(false);
+    }
+  }, [users]);
+
   return (
     <SafeAreaView style={styles.container}>
       {!loading ? (
         <>
           <Swiper
             ref={useSwiperPeople}
-            cards={Peoplex}
+            cards={users!}
             keyExtractor={(item) => item.id}
             renderCard={(card) => {
-              return <PeopleCard card={card} />;
+              return <PeopleCard key={card.cognitoId} card={card} />;
             }}
             onSwiped={(cardIndex) => {
               console.log(cardIndex);
@@ -165,7 +195,13 @@ const PeopleSwiping = () => {
             </TouchableOpacity>
           </View>
         </>
-      ) : null}
+      ) : (
+        <ActivityIndicator
+          size="large"
+          color={themeColor}
+          animating={loading}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -175,6 +211,8 @@ export default PeopleSwiping;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonContainer: {
     width: "100%",
@@ -182,7 +220,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     backgroundColor: "transparent",
     alignContent: "center",
-    top: 660,
+    position: "absolute",
+    bottom: 20,
   },
   bubble: {
     position: "relative",

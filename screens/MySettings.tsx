@@ -26,6 +26,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import RBSheet from "react-native-raw-bottom-sheet";
 import SearchBar from "react-native-dynamic-search-bar";
 import Background from "../components/Match/Background";
+import DatePicker from "react-native-datepicker";
 
 const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
 const colorScheme = useColorScheme();
@@ -81,11 +82,11 @@ const pickImage = async () => {
     console.log(result);
   };
   
-   const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
 
-  const onChange = (event:any, selectedDate:any) => {
+  const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate;
     setShow(false);
     setDate(currentDate);
