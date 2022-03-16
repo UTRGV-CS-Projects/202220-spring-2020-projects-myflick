@@ -493,7 +493,7 @@ export default MySettings;
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      marginRight: 12
+      //marginRight: 12
       //marginTop:10,
     },
     titleBar: {
