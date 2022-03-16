@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Component } from "react";
 import {
-	StyleSheet,TouchableOpacity, Switch, Platform} from "react-native";
+	StyleSheet,TouchableOpacity, Switch, Platform, Alert} from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
@@ -28,7 +28,7 @@ const MyDiscoverySettings = ({navigation,}: RootStackScreenProps<"MyDiscoverySet
   	const [errorMsg, setErrorMsg] = useState<any | null>(null);
 
 
-	  useEffect(() => {
+	  /* useEffect(() => {
 		(async () => {
 		  if (Platform.OS === 'android' && !Constants.isDevice) {
 			setErrorMsg(
@@ -42,8 +42,12 @@ const MyDiscoverySettings = ({navigation,}: RootStackScreenProps<"MyDiscoverySet
 			return;
 		  }
 	
-		  let location = await Location.getCurrentPositionAsync({});
+		  let location = await Location.getCurrentPositionAsync();
 		  setLocation(location);
+
+		  
+
+		  
 		})();
 	  }, []);
 	
@@ -52,8 +56,66 @@ const MyDiscoverySettings = ({navigation,}: RootStackScreenProps<"MyDiscoverySet
 		text = errorMsg;
 	  } else if (location) {
 		text = JSON.stringify(location);
-	  }
+	  } */
 	
+	  const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
+	  const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
+		'Loading...'
+	  );
+	
+	  useEffect(() => {
+		CheckIfLocationEnabled();
+		GetCurrentLocation();
+	  }, []);
+	
+	  const CheckIfLocationEnabled = async () => {
+		let enabled = await Location.hasServicesEnabledAsync();
+	
+		if (!enabled) {
+		  Alert.alert(
+			'Location Service not enabled',
+			'Please enable your location services to continue',
+			[{ text: 'OK' }],
+			{ cancelable: false }
+		  );
+		} else {
+		  setLocationServiceEnabled(enabled);
+		}
+	  };
+	  
+	  const GetCurrentLocation = async () => {
+		let { status } = await Location.requestForegroundPermissionsAsync();
+	  
+		if (status !== 'granted') {
+		  Alert.alert(
+			'Permission not granted',
+			'Allow the app to use location service.',
+			[{ text: 'OK' }],
+			{ cancelable: false }
+		  );
+		}
+	  
+		let { coords } = await Location.getCurrentPositionAsync();
+	  
+		if (coords) {
+		  const { latitude, longitude } = coords;
+		  let response = await Location.reverseGeocodeAsync({
+			latitude,
+			longitude
+		  });
+	  
+		  for (let item of response) {
+			let address = `${item.city}, ${item.region}`;
+	  
+			setDisplayCurrentAddress(address);
+			if (address.length > 0) {
+				setTimeout(() => {
+				  console.log("Location Retrieved")
+				}, 2000);
+			  }
+		  }
+		}
+	  };
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -85,15 +147,8 @@ const MyDiscoverySettings = ({navigation,}: RootStackScreenProps<"MyDiscoverySet
 				</View>
 
 				<View style={[styles.container2, {backgroundColor: Colors[colorScheme].primary}]}>
-					<Text style={styles.switchText}>Share Location</Text>
-					<Switch
-						style={styles.switch}
-						trackColor={{ false: "#fff", true: themeColor }}
-						thumbColor={isEnabled2 ? "#fff" : "#fff"}
-						ios_backgroundColor="#3e3e3e"
-						onValueChange={toggleSwitch2}
-						value={isEnabled2}
-					/>
+					<Text style={styles.switchText}>Current Location</Text>
+					<Text style={styles.paragraph }>{displayCurrentAddress}</Text>
 				</View>
 
 				<View style={styles.container}>
@@ -150,9 +205,7 @@ const MyDiscoverySettings = ({navigation,}: RootStackScreenProps<"MyDiscoverySet
 						value={range}
 						onSlidingComplete={(range: number) => setRange(range.toFixed())}
 					/>
-				<View style={styles.container}>
-					<Text style={styles.paragraph}>{text}</Text>
-					</View>
+				
 				</View>
 			</ScrollView>
 		</SafeAreaView>
@@ -162,8 +215,12 @@ export default MyDiscoverySettings;
 
 const styles = StyleSheet.create({
 	paragraph: {
-		fontSize: 18,
-		textAlign: 'center',
+		height: 40,
+    	padding: 10,
+    	fontSize: 17, 
+    	opacity: 0.6,
+    	color: "grey"
+		
 	  },
 	container: {
 		flex: 1,
