@@ -15,7 +15,9 @@ function MoviePoster({ image }: MoviePosterProps) {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
   poster: {
     height: 220,
     width: 150,
