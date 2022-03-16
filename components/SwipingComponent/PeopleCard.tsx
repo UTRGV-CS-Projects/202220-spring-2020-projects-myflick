@@ -3,6 +3,7 @@ import {
   ImageBackground,
   StyleSheet,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Text, View } from "../Themed";
@@ -10,11 +11,11 @@ import MoviePoster from "./MoviePoster";
 import Colors, { themeColor } from "../../constants/Colors";
 import useColorScheme from "../../hooks/useColorScheme";
 import { Chip } from "react-native-paper";
-import LottieView from "lottie-react-native";
-import { EvilIcons } from "@expo/vector-icons";
 
 import AnimatedDotsCarousel from "react-native-animated-dots-carousel";
 import { User } from "../../src/API";
+import Navigation from "../../navigation";
+import { useNavigation } from "@react-navigation/native";
 
 interface PeopleCardProps {
   card: User;
@@ -22,10 +23,13 @@ interface PeopleCardProps {
 
 const PeopleCard = ({ card }: PeopleCardProps) => {
   const colorScheme = useColorScheme();
+  const navigation = useNavigation();
   const [index, setIndex] = useState(0);
 
-  console.log(card);
-
+  //console.log(card);
+  const handlePersonDetails = () => {
+    navigation.navigate("PersonDetails", { person: card });
+  };
   const nextPicture = () => {
     //prevent out of bounds index
     if (card.photos) {
@@ -46,7 +50,7 @@ const PeopleCard = ({ card }: PeopleCardProps) => {
           style={styles.cardTop}
           imageStyle={{ borderRadius: 20 }}
           source={{ uri: card.photos[index] }}
-          blurRadius={10}
+          blurRadius={100}
         >
           <MoviePoster source={card.photos[index]} />
         </ImageBackground>
@@ -72,78 +76,96 @@ const PeopleCard = ({ card }: PeopleCardProps) => {
   };
 
   return (
-    <View style={[styles.card]}>
-      {card.photos ? (
-        card.photos.length > 1 ? (
-          <View style={styles.dotsCarouselContainer}>
-            <AnimatedDotsCarousel
-              length={card.photos.length}
-              currentIndex={index}
-              maxIndicators={card.photos.length}
-              activeIndicatorConfig={{
-                color: themeColor,
-                margin: 3,
-                opacity: 1,
-                size: 8,
-              }}
-              inactiveIndicatorConfig={{
-                color: "white",
-                margin: 3,
-                opacity: 0.5,
-                size: 8,
-              }}
-              decreasingDots={[
-                {
-                  config: { color: "white", margin: 3, opacity: 0.5, size: 5 },
-                  quantity: 1,
-                },
-                {
-                  config: { color: "white", margin: 3, opacity: 0.5, size: 3 },
-                  quantity: 1,
-                },
-              ]}
-            />
+    <TouchableWithoutFeedback style={styles.card} onPress={handlePersonDetails}>
+      <View style={styles.cardInnerContainer}>
+        {card.photos ? (
+          card.photos.length > 1 ? (
+            <View style={styles.dotsCarouselContainer}>
+              <AnimatedDotsCarousel
+                length={card.photos.length}
+                currentIndex={index}
+                maxIndicators={card.photos.length}
+                activeIndicatorConfig={{
+                  color: themeColor,
+                  margin: 3,
+                  opacity: 1,
+                  size: 8,
+                }}
+                inactiveIndicatorConfig={{
+                  color: Colors[colorScheme].lightTint,
+                  margin: 3,
+                  opacity: 0.5,
+                  size: 8,
+                }}
+                decreasingDots={[
+                  {
+                    config: {
+                      color: "white",
+                      margin: 3,
+                      opacity: 0.5,
+                      size: 5,
+                    },
+                    quantity: 1,
+                  },
+                  {
+                    config: {
+                      color: "white",
+                      margin: 3,
+                      opacity: 0.5,
+                      size: 3,
+                    },
+                    quantity: 1,
+                  },
+                ]}
+              />
+            </View>
+          ) : null
+        ) : null}
+        <TouchableOpacity
+          style={styles.nextPictureClick}
+          onPress={nextPicture}
+        />
+        <TouchableOpacity
+          style={styles.previousPictureClick}
+          onPress={previousPicture}
+        />
+        <TouchableOpacity
+          style={styles.openDetailsClick}
+          onPress={openDetails}
+        />
+        {renderImages()}
+        <View style={[styles.cardBottom]}>
+          <View style={styles.InfoContainer}>
+            <Text style={styles.title}>{card.firstName}</Text>
           </View>
-        ) : null
-      ) : null}
-      <TouchableOpacity style={styles.nextPictureClick} onPress={nextPicture} />
-      <TouchableOpacity
-        style={styles.previousPictureClick}
-        onPress={previousPicture}
-      />
-      <TouchableOpacity style={styles.openDetailsClick} onPress={openDetails} />
-      {renderImages()}
-      <View style={[styles.cardBottom]}>
-        <View style={styles.InfoContainer}>
-          <Text style={styles.title}>{card.firstName}</Text>
-        </View>
 
-        <View style={styles.chipsContainer}>
-          {card.interests ? (
-            card.interests.map((interest, index) => {
-              return (
-                <Chip
-                  key={index}
-                  mode="flat"
-                  textStyle={{ color: "white", fontSize: 15 }}
-                  style={{
-                    backgroundColor: themeColor,
-                    margin: 5,
-                  }}
-                >
-                  {interest}
-                </Chip>
-              );
-            })
-          ) : (
-            <></>
-          )}
-        </View>
-        <View style={styles.bioContainer}>
-          <Text style={styles.bio}>{card.bio}</Text>
+          <View style={styles.chipsContainer}>
+            {card.interests ? (
+              card.interests.map((interest, index) => {
+                return (
+                  <Chip
+                    key={index}
+                    mode="flat"
+                    textStyle={{ color: "white", fontSize: 15 }}
+                    style={{
+                      backgroundColor: themeColor,
+                      margin: 5,
+                    }}
+                  >
+                    {interest}
+                  </Chip>
+                );
+              })
+            ) : (
+              <></>
+            )}
+          </View>
+          <View style={styles.bioContainer}>
+            <Text style={styles.bio}>{card.bio}</Text>
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -151,11 +173,15 @@ export default PeopleCard;
 
 const styles = StyleSheet.create({
   card: {
-    flex: 0.9,
+    flex: 1,
     paddingBottom: 20,
     borderRadius: 20,
     justifyContent: "center",
-    flexDirection: "column",
+  },
+  cardInnerContainer: {
+    flex: 0.9,
+    justifyContent: "center",
+    borderRadius: 20,
     elevation: 5,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 1 },
@@ -212,18 +238,18 @@ const styles = StyleSheet.create({
   },
 
   nextPictureClick: {
-    backgroundColor: "rgba(0, 0, 0, 0)",
-    height: 500,
-    width: 187,
+    backgroundColor: "transparent",
+    width: "50%",
+    height: "75%",
     position: "absolute",
     zIndex: 4,
     right: 0,
     top: 0,
   },
   previousPictureClick: {
-    backgroundColor: "rgba(0, 0, 0, 0)",
-    height: 500,
-    width: 187,
+    backgroundColor: "transparent",
+    width: "50%",
+    height: "75%",
     position: "absolute",
     zIndex: 4,
     left: 0,
@@ -241,9 +267,11 @@ const styles = StyleSheet.create({
   dotsCarouselContainer: {
     position: "absolute",
     zIndex: 3,
-    top: 450,
-    paddingLeft: 15,
-    width: 370,
+    top: "60%",
+    justifyContent: "center",
     alignItems: "center",
+    paddingLeft: 15,
+    width: "100%",
+    backgroundColor: "transparent",
   },
 });

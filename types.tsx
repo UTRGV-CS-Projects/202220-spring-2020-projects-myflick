@@ -9,9 +9,9 @@ import {
   NavigatorScreenParams,
 } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { MovieCardType, PeopleDetailsType } from "./db/db";
+import { MovieCardType } from "./db/db";
 import * as ImagePicker from "expo-image-picker";
-
+import { User } from "./src/API";
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
@@ -19,7 +19,7 @@ declare global {
 }
 
 export type RootStackParamList = {
-  ogin: NavigatorScreenParams<LoginParamList> | undefined;
+  Login: NavigatorScreenParams<LoginParamList> | undefined;
   MyProfile: NavigatorScreenParams<MyProfileList> | undefined;
   Home: undefined;
   Introduction: NavigatorScreenParams<MessageParamList> | undefined;
@@ -29,13 +29,13 @@ export type RootStackParamList = {
   MySettings: NavigatorScreenParams<MovieParamsList> | undefined;
   Messages: NavigatorScreenParams<MessageParamList> | undefined;
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
-  PersonDetails: NavigatorScreenParams<MessageParamList> | undefined;
+  PersonDetails: PeopleDetailsParamsList | undefined;
   Match: MatchParamList;
   SignUp: NavigatorScreenParams<MessageParamList> | undefined;
   SignIn: NavigatorScreenParams<MessageParamList> | undefined;
   CustomMovieSwiper: NavigatorScreenParams<MessageParamList> | undefined;
-  Personalize: PersonalizeParamList;
-  MovieDetails: MovieCardType;
+  Personalize: PersonalizeParamList | undefined;
+  MovieDetails: MovieCardType | undefined;
   OpenChat: undefined;
   MyDiscoverySettings:
     | NavigatorScreenParams<MyDiscoverySettingsParamList>
@@ -82,8 +82,9 @@ export type MyDiscoverySettingsParamList = {};
 
 export type MovieParamsList = {};
 export type IntroductionParamsList = {};
+
 export type MessageParamList = {
-  item: PeopleDetailsType;
+  item: User;
   navigation: any;
 };
 
@@ -95,7 +96,11 @@ export type PersonalizeParamList = {
 export type PersonDetailsParamsList = {};
 
 export type ImagesSliderParamsList = {
-  person: PeopleDetailsType;
+  person: User;
+};
+
+export type PeopleDetailsParamsList = {
+  person: User;
 };
 
 export type MatchParamList = {
