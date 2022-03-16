@@ -215,11 +215,12 @@ export default MyDiscoverySettings;
 
 const styles = StyleSheet.create({
 	paragraph: {
-		height: 40,
-    	padding: 10,
+		height: 30,
+    	paddingRight: 10,
+		paddingTop: 5,
     	fontSize: 17, 
     	opacity: 0.6,
-    	color: "grey"
+    	color: "grey", 
 		
 	  },
 	container: {
@@ -280,7 +281,6 @@ const styles = StyleSheet.create({
 	container2: {
 		flex: 1,
 		flexDirection: "row",
-		//alignItems: 'center',
 		justifyContent: "space-between",
 		marginLeft: 20,
 		marginRight: 20,
