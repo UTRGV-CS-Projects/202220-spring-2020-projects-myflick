@@ -29,6 +29,12 @@ const MyDiscoverySettings = ({
 	const multiSliderValuesChange = (values: any) => setMultiSliderValue(values);
 	const [isEnabled, setIsEnabled] = useState(false);
 	const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+<<<<<<< HEAD
+	const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
+	const [displayCurrentAddress, setDisplayCurrentAddress] = useState('Loading...');
+	
+	  useEffect(() => {
+=======
 	const [isEnabled2, setIsEnabled2] = useState(false);
 	const toggleSwitch2 = () => setIsEnabled2((previousState) => !previousState);
 	const [location, setLocation] = useState<any | null>(null);
@@ -69,6 +75,7 @@ const MyDiscoverySettings = ({
 		useState("Loading...");
 
 	useEffect(() => {
+>>>>>>> d7bcddcca5ecd08977202ecc7a5eb4243de154f1
 		CheckIfLocationEnabled();
 		GetCurrentLocation();
 	}, []);
