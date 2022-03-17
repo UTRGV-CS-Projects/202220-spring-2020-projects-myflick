@@ -53,6 +53,7 @@ const MovieSwiping = () => {
 
 		if (useSwiperPtr.current) {
 			overlayTrigger(true, "#2FEB5D", "LIKE");
+			setIsLiked(true);
 
 			await delay(800);
 
@@ -70,6 +71,7 @@ const MovieSwiping = () => {
 
 		if (useSwiperPtr.current) {
 			overlayTrigger(true, "#35C3E7", "MUST WATCH");
+			setIsSuperLiked(true);
 			await delay(800);
 
 			setShowOverlayLabel(false);
@@ -115,6 +117,36 @@ const MovieSwiping = () => {
 		fetchMovieGenres();
 		fetchMoviesDiscovery(page);
 	}, []);
+
+	useEffect(() => {
+		if (isLikeFirstRun.current) {
+			if (isLiked) {
+				heart.current?.play(75, 75);
+			} else {
+				heart.current?.play(0, 0);
+			}
+			isLikeFirstRun.current = false;
+		} else if (isLiked) {
+			heart.current?.play(0, 75);
+		} else {
+			heart.current?.play(10, 0);
+		}
+	}, [isLiked]);
+
+	useEffect(() => {
+		if (isSuperLikeFirstRun.current) {
+			if (isSuperLiked) {
+				star.current?.play(120, 120);
+			} else {
+				star.current?.play(0, 0);
+			}
+			isSuperLikeFirstRun.current = false;
+		} else if (isSuperLiked) {
+			star.current?.play(40, 120);
+		} else {
+			star.current?.play(10, 0);
+		}
+	}, [isSuperLiked]);
 
 	const overlayTrigger = (
 		setShow: boolean,
