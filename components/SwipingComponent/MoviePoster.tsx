@@ -3,22 +3,22 @@ import React from "react";
 import useImageAspectRatio from "../../hooks/useImageAspectRatio";
 
 interface MoviePosterProps {
-  source: string;
+	source: string;
 }
 
 const MoviePoster = ({ source }: MoviePosterProps) => {
-  const aspectRatio = useImageAspectRatio(source);
+	const aspectRatio = useImageAspectRatio(source);
 
-  return (
-    <Image
-      source={{ uri: source }}
-      style={{
-        width: "100%",
-        height: "100%",
-        resizeMode: "contain",
-      }}
-    />
-  );
+	return (
+		<Image
+			source={{ uri: source }}
+			style={{
+				width: "100%",
+				height: "100%",
+				resizeMode: "contain",
+			}}
+		/>
+	);
 };
 
 export default MoviePoster;
