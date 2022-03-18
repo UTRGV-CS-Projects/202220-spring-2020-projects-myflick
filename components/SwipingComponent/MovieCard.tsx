@@ -28,11 +28,13 @@ const MovieCard = ({ card, genres, cardIndex }: MovieCardProps) => {
 	const navigation = useNavigation();
 	const getGenres = () => {
 		const currentGenres = [];
+		let threeCounter = 0;
 		if (card.genre_ids) {
 			for (const genre of card.genre_ids) {
 				for (const genreValue of genres) {
-					if (genre === genreValue.id) {
+					if (genre === genreValue.id && threeCounter < 3) {
 						currentGenres.push(genreValue.name);
+						threeCounter++;
 					}
 				}
 			}
@@ -50,17 +52,8 @@ const MovieCard = ({ card, genres, cardIndex }: MovieCardProps) => {
 		return yearText;
 	};
 
-	const getShortDescription = () => {
-		const fullDescriptionString: any = card.overview;
-		let yearText = "";
-		for (let i = 0; i < 72; i++) {
-			yearText += fullDescriptionString.charAt(i);
-		}
-		return yearText;
-	};
-
 	useEffect(() => {
-		console.log(card);
+		//console.log(card);
 		getGenres();
 	}, []);
 
@@ -134,11 +127,7 @@ const MovieCard = ({ card, genres, cardIndex }: MovieCardProps) => {
 							{ color: Colors[colorScheme].opposite },
 						]}
 					>
-						{
-							card.title.length > 40
-								? null
-								: card.overview /*prevent overflow of description*/
-						}
+						{card.title.length < 40 ? card.overview : null}
 					</Text>
 					<LinearGradient
 						style={styles.descriptionContainer}
@@ -247,6 +236,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	movieDescription: {
+		zIndex: 1,
 		maxHeight: 80,
 		maxWidth: "80%",
 		overflow: "hidden",
