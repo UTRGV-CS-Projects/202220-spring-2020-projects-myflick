@@ -10,7 +10,7 @@ import { ScrollView } from "react-native-virtualized-view";
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
 //import { themeColor, lightThemeColor } from "../constants/Colors";
-import { MyProfileSections } from "../db/db";
+//import { MyProfileSections } from "../db/db";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import Slider from "@react-native-community/slider";
