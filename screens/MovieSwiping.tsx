@@ -40,11 +40,17 @@ const MovieSwiping = () => {
 	const [movies, setMovies] = useState<MovieCardType[]>([]);
 	const [globalGenres, setGlobalGenres] = useState<GenresType[]>([]);
 	const [page, setPage] = useState(1);
+	const [genresHash, setGenresHash] = useState<any>();
 
 	const [btnLeft, setBtnLeft] = useState(false);
 	const [btnTop, setBtnTop] = useState(false);
 	const [btnRight, setBtnRight] = useState(false);
 	const [customSwiperProps, setCustomSwiperProps] = useState({ cards: movies });
+
+	useEffect(() => {
+		let result = new Map(globalGenres.map(({ id, name }) => [id, name]));
+		setGenresHash(result);
+	}, [globalGenres]);
 
 	const btnSwipeLeft = async () => {
 		overlayTrigger(true, "red", "NOPE");
@@ -53,6 +59,7 @@ const MovieSwiping = () => {
 		setBtnLeft(false);
 		setShowOverlayLabel(false);
 		setOverlayLabelColor("transparent");
+		//console.log(genresHash.get(16));
 	};
 
 	const btnSwipeRight = async () => {
@@ -222,6 +229,7 @@ const MovieSwiping = () => {
 						handleSwiped={handleSwiped}
 						globalGenres={globalGenres}
 						index={index.current}
+						genresMap={genresHash}
 					/>
 
 					<View style={styles.buttonContainer}>

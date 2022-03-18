@@ -20,9 +20,10 @@ interface MovieCardProps {
 	card: MovieCardType;
 	genres: GenresType[];
 	cardIndex: number;
+	genresMap: any;
 }
 
-const MovieCard = ({ card, genres, cardIndex }: MovieCardProps) => {
+const MovieCard = ({ card, genres, cardIndex, genresMap }: MovieCardProps) => {
 	const colorScheme = useColorScheme();
 	const [currentGenres, setCurrentGenres] = useState<string[]>();
 	const navigation = useNavigation();
@@ -104,7 +105,7 @@ const MovieCard = ({ card, genres, cardIndex }: MovieCardProps) => {
 							{ backgroundColor: Colors[colorScheme].primary },
 						]}
 					>
-						{currentGenres?.map((genre, index) => {
+						{card.genre_ids?.map((genre, index) => {
 							return (
 								<TouchableOpacity key={index}>
 									<Chip
@@ -115,7 +116,7 @@ const MovieCard = ({ card, genres, cardIndex }: MovieCardProps) => {
 											margin: 5,
 										}}
 									>
-										{genre}
+										{genresMap.get(genre)}
 									</Chip>
 								</TouchableOpacity>
 							);
