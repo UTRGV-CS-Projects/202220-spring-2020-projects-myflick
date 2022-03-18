@@ -28,11 +28,13 @@ const MovieCard = ({ card, genres, cardIndex }: MovieCardProps) => {
 	const navigation = useNavigation();
 	const getGenres = () => {
 		const currentGenres = [];
+		let threeCounter = 0;
 		if (card.genre_ids) {
 			for (const genre of card.genre_ids) {
 				for (const genreValue of genres) {
-					if (genre === genreValue.id) {
+					if (genre === genreValue.id && threeCounter < 3) {
 						currentGenres.push(genreValue.name);
+						threeCounter++;
 					}
 				}
 			}
@@ -51,7 +53,7 @@ const MovieCard = ({ card, genres, cardIndex }: MovieCardProps) => {
 	};
 
 	useEffect(() => {
-		console.log(card);
+		//console.log(card);
 		getGenres();
 	}, []);
 
@@ -125,7 +127,7 @@ const MovieCard = ({ card, genres, cardIndex }: MovieCardProps) => {
 							{ color: Colors[colorScheme].opposite },
 						]}
 					>
-						{card.overview}
+						{card.title.length < 40 ? card.overview : null}
 					</Text>
 					<LinearGradient
 						style={styles.descriptionContainer}

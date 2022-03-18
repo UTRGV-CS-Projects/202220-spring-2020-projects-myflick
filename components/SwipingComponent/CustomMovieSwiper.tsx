@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MovieCardType } from "../../db/db";
 import Swiper from "react-native-deck-swiper";
 import MovieCard from "./MovieCard";
@@ -12,6 +12,9 @@ interface CustomSwiperProps {
 	handleSwiped: (index: number) => void;
 	globalGenres: GenresType[];
 	index: number;
+	btnTriggerLeft: boolean;
+	btnTriggerTop: boolean;
+	btnTriggerRight: boolean;
 }
 
 const handleSwipeLeft = () => {};
@@ -23,9 +26,22 @@ const CustomMovieSwiper = ({
 	handleSwiped,
 	globalGenres,
 	index,
+	btnTriggerLeft,
+	btnTriggerTop,
+	btnTriggerRight,
 }: CustomSwiperProps) => {
 	const useSwiper = useRef<Swiper<MovieCardType>>(null);
 	const colorScheme = useColorScheme();
+
+	const checkforBtnTriggers = () => {
+		btnTriggerLeft ? useSwiper.current?.swipeLeft() : {};
+		btnTriggerTop ? useSwiper.current?.swipeTop() : {};
+		btnTriggerRight ? useSwiper.current?.swipeRight() : {};
+	};
+
+	useEffect(() => {
+		checkforBtnTriggers();
+	}, [btnTriggerLeft, btnTriggerTop, btnTriggerRight]);
 
 	return (
 		<Swiper

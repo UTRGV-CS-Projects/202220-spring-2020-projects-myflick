@@ -641,7 +641,7 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		marginTop: 7,
 		marginHorizontal: 10,
-		marginBottom: 20,
+		marginBottom: 15,
 	},
 	title1: {
 		fontSize: 20,

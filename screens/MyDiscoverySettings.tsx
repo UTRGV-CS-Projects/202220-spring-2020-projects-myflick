@@ -90,21 +90,21 @@ const MyDiscoverySettings = ({
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<ScrollView showsVerticalScrollIndicator={false}>
-				<View style={styles.titleBar}>
-					<TouchableOpacity
-						onPress={() => {
-							navigation.navigate("MyProfile");
-						}}
-					>
-						<Text style={styles.cancelButton}>Cancel</Text>
-					</TouchableOpacity>
-					<Text style={styles.title1}>Discovery</Text>
-					<TouchableOpacity onPress={() => {}}>
-						<Text style={styles.saveButton}>Save</Text>
-					</TouchableOpacity>
-				</View>
+			<View style={styles.titleBar}>
+				<TouchableOpacity
+					onPress={() => {
+						navigation.navigate("MyProfile");
+					}}
+				>
+					<Text style={styles.cancelButton}>Cancel</Text>
+				</TouchableOpacity>
+				<Text style={styles.title1}>Discovery</Text>
+				<TouchableOpacity onPress={() => {}}>
+					<Text style={styles.saveButton}>Save</Text>
+				</TouchableOpacity>
+			</View>
 
+			<ScrollView showsVerticalScrollIndicator={false}>
 				<View
 					style={[
 						styles.container2,
@@ -221,6 +221,7 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		marginTop: 7,
 		marginHorizontal: 10,
+		marginBottom: 15,
 	},
 	title1: {
 		fontSize: 20,
