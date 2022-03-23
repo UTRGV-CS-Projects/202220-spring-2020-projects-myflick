@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, ImageBackground } from "react-native";
+import {View, Text, StyleSheet, Image, ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Colors, { themeColor } from "../constants/Colors";
 import Background from "../components/Match/Background";
@@ -10,7 +10,7 @@ import { BackgroundImage } from "react-native-elements/dist/config";
 import MoviePoster from "../components/MovieDetails/MoviePoster";
 import { useFonts } from "expo-font";
 import { color } from "react-native-elements/dist/helpers";
-
+//import { View, Text, SafeAreaView } from "../components/Themed";
 const white_image = { uri: "https://wallpaperaccess.com/full/1586320.jpg" };
 
 const image = { uri: "https://wallpaperaccess.com/full/1508305.jpg" };
@@ -139,7 +139,9 @@ const styles = StyleSheet.create({
     top: 270,
     left: 170,
     paddingTop: 70, 
-    paddingRight: 10
+    paddingRight: 10,
+    flexWrap: "wrap",
+    color: "#4a4a4a"
   },
   release_year: {
     fontSize: 16,
@@ -147,6 +149,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 365,
     left: 170,
+    color: "#4a4a4a"
   },
   rating: {
     fontSize: 16,
@@ -154,6 +157,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 365,
     left: 290,
+    color: "#4a4a4a"
   },
   positioning: {
     flexDirection: "row",
@@ -169,7 +173,7 @@ const styles = StyleSheet.create({
     top: 500,
     left: 10,
     right: 10,
-    color: "#000000",
+    color: "#4a4a4a"
     
   },
  /*  DescContainer: {
@@ -227,9 +231,11 @@ const styles = StyleSheet.create({
   },
   morelikethis: {
     fontSize: 20,
+    fontWeight: "bold",
     position: "absolute",
     top: 670,
     left: 10,
+    color: "#4a4a4a"
   }
 });
 export default MovieDetails;
