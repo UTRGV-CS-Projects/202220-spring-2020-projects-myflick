@@ -26,7 +26,9 @@ const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
   const { user, dispatch } = useContext(AuthContext);
   async function signUp() {
     try {
-      if (userEmail.length === 0 || password.length === 0) {
+      if (userEmail.length == 0 || password.length == 0) {
+        console.log(userEmail.length)
+        console.log(password.length)
         alert("Please enter email and password");
         return;
       }

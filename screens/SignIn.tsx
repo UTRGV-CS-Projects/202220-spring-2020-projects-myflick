@@ -61,7 +61,7 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
     try {
       setLoading(true);
 
-      if (userEmail.length === 0 || password.length === 0) {
+      if (userEmail.length == 0 || password.length == 0) {
         alert("Please enter email and password");
         setLoading(false);
         return;
