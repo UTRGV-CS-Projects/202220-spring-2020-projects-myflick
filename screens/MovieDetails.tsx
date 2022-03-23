@@ -16,10 +16,10 @@ const white_image = { uri: "https://wallpaperaccess.com/full/1586320.jpg" };
 const image = { uri: "https://wallpaperaccess.com/full/1508305.jpg" };
 
 const poster = {
-  uri: "https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg",
+  uri: "https://www.companyfolders.com/blog/media/2017/07/jaws.jpg",
 };
 const ozark_poster = {
-  uri: "https://m.media-amazon.com/images/M/MV5BNGY3MmUzNjktZWEzNi00ODdiLTk4ZDItZjBhMjZlYzI0NTJjXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_FMjpg_UX1000_.jpg",
+  uri: "https://images.squarespace-cdn.com/content/v1/5702ab9d746fb9634796c9f9/1570206011880-G7G59JFOV23504NCZMIA/MIDSTHD-04_PayoffKATrimmed_RGB-FIN_R13.jpg?format=1000w",
 };
 
 const dark_knight = {
@@ -70,31 +70,42 @@ function MovieDetails({
           <Image
             source={dark_knight}
             style={{
-              width: 100,
-              height: 135,
+              width: 90,
+              height: 140,
               top: 590,
-              left: 40,
-              borderRadius: 20,
+              left: 10,
+              borderRadius: 10,
             }}
           ></Image>
           <Image
             source={ozark_poster}
             style={{
-              width: 100,
-              height: 135,
+              width: 90,
+              height: 140,
               top: 590,
-              left: 50,
-              borderRadius: 20,
+              left: 20,
+              borderRadius: 10,
             }}
           ></Image>
           <Image
             source={marriage_story}
             style={{
-              width: 100,
-              height: 135,
+              width: 90,
+              height: 140,
               top: 590,
-              left: 60,
-              borderRadius: 20,
+              left: 30,
+              borderRadius: 10,
+            }}
+          ></Image>
+          <Image
+            source={poster}
+            style={{
+              width: 90,
+              height: 140,
+              top: 590,
+              left: 40,
+              right: 10,
+              borderRadius: 10,
             }}
           ></Image>
         </View>
