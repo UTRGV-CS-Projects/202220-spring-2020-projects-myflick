@@ -17,7 +17,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
-import { themeColor, lightThemeColor } from "../constants/Colors";
+import Colors, { themeColor, lightThemeColor } from "../constants/Colors";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import { Avatar, Input } from "react-native-elements";
@@ -28,6 +28,7 @@ import { handleProfileComplete } from "../store/actions/userActions";
 import { ProfileCompleteType } from "../types";
 import * as ImagePicker from "expo-image-picker";
 import LottieView from "lottie-react-native";
+import { color } from "react-native-reanimated";
 
 const Personalize = ({
   navigation,
@@ -146,7 +147,7 @@ const Personalize = ({
               value={interest}
               placeholder="Enter interest here"
               multiline={false}
-              style={styles.textInput}
+              style={[styles.textInput, { color: Colors[colorScheme].text }]}
               autoCorrect={false}
             />
             <Pressable
@@ -201,6 +202,7 @@ const Personalize = ({
           <View style={styles.viewKs}>
             <Input
               placeholder="Name"
+              style={{ color: Colors[colorScheme].text }}
               value={completeProfile.firstName}
               onChangeText={(value) => {
                 setCompleteProfile({ ...completeProfile, firstName: value });
@@ -211,6 +213,7 @@ const Personalize = ({
           <View style={styles.viewKs}>
             <Input
               value={completeProfile.pronouns}
+              style={{ color: Colors[colorScheme].text }}
               onChangeText={(value) => {
                 setCompleteProfile({ ...completeProfile, pronouns: value });
               }}
@@ -221,6 +224,7 @@ const Personalize = ({
           <View style={styles.viewKs}>
             <Input
               value={completeProfile.bio}
+              style={{ color: Colors[colorScheme].text }}
               onChangeText={(value) => {
                 setCompleteProfile({ ...completeProfile, bio: value });
               }}
@@ -232,6 +236,7 @@ const Personalize = ({
           <View style={styles.viewKs}>
             <Input
               value={completeProfile.location}
+              style={{ color: Colors[colorScheme].text }}
               onChangeText={(value) => {
                 setCompleteProfile({ ...completeProfile, location: value });
               }}
@@ -308,6 +313,7 @@ const Personalize = ({
                   style={{
                     margin: 5,
                     borderColor: themeColor,
+                    alignSelf: "center",
                   }}
                 >
                   {item}

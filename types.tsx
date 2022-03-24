@@ -9,7 +9,7 @@ import {
   NavigatorScreenParams,
 } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { MovieCardType } from "./db/db";
+import { MovieCardType, PeopleDetailsType } from "./db/db";
 import * as ImagePicker from "expo-image-picker";
 import { User } from "./src/API";
 declare global {
@@ -84,7 +84,7 @@ export type MovieParamsList = {};
 export type IntroductionParamsList = {};
 
 export type MessageParamList = {
-  item: User;
+  item: PeopleDetailsType;
   navigation: any;
 };
 
