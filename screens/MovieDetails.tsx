@@ -74,16 +74,16 @@ function MovieDetails({
             fontSize: 25,
             color: `#708090`,
             position: "absolute",
-            top: 595,
+            top: 650,
             left: 40,
           }}
         >
           More Like This:{" "}
         </Text>
         <View style={{position: 'absolute', flexDirection: 'row', top: 45}}>      
-      <Image source={dark_knight} style={{width: 100, height: 135,top: 590, left: 40, borderRadius: 20,}}></Image>
-      <Image source={ozark_poster} style={{width: 100, height: 135, top: 590, left: 50, borderRadius: 20}}></Image>
-      <Image source={marriage_story} style={{width: 100, height: 135, top: 590, left: 60, borderRadius: 20}}></Image>
+      <Image source={dark_knight} style={{width: 100, height: 135,top: 645, left: 40, borderRadius: 20,}}></Image>
+      <Image source={ozark_poster} style={{width: 100, height: 135, top: 645, left: 50, borderRadius: 20}}></Image>
+      <Image source={marriage_story} style={{width: 100, height: 135, top: 645, left: 60, borderRadius: 20}}></Image>
       
        </View>
       </ImageBackground>
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     flex: 0.65,
     flexWrap: 'wrap',
     fontSize: 25,
-    top: 290,
+    top: 315,
     left: 200,
     color: "#4a4a4a"
   },
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     flex: 0.9,
     flexWrap: 'wrap',
     fontSize: 17,
-    top: 450,
+    top: 487,
     left: 39,
     color: "#000000",
   },
@@ -176,40 +176,40 @@ const styles = StyleSheet.create({
   list: {
     fontSize: 20,
     position: "absolute",
-    top: 360,
+    top: 380,
     left: 38,
     color: "#deb887",
   },
   list1: {
     fontSize: 20,
     position: "absolute",
-    top: 390,
+    top: 410,
     left: 39,
     color: "#deb887",
   },
   list2: {
     fontSize: 20,
     position: "absolute",
-    top: 420,
+    top: 440,
     left: 39,
     color: "#deb887",
   },
   directorname: {
     fontSize: 17,
     position: "absolute",
-    top: 363,
+    top: 383,
     left: 125,
   },
   writers: {
     fontSize: 17,
     position: "absolute",
-    top: 393,
+    top: 413,
     left: 125,
   },
   stars: {
     flex: 0.8,
     fontSize: 17,
-    top: 423,
+    top: 443,
     left: 110,
     flexWrap: "wrap",
   },

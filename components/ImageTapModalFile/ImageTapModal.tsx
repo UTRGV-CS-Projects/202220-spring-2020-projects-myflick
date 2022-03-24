@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     width: 150,
     borderRadius: 25,
     left: 40,
-    top: 130,
+    top: 150,
     // position: 'absolute',
   },
   imageModal: {
