@@ -204,7 +204,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
                   flexWrap: "wrap",
                 }}
               >
-                {user.interests.map((item, index) => {
+                {user.interests?.map((item, index) => {
                   return (
                     <View key={index} style={{ margin: 5 }}>
                       <Chip
