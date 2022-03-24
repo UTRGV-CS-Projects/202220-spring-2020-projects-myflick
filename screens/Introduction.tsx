@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { View, Text } from "../components/Themed";
 import { themeColor, lightThemeColor } from "../constants/Colors";
 import Swiper from "react-native-swiper";
@@ -46,9 +46,11 @@ const Introduction = ({ navigation }: RootStackScreenProps<"Introduction">) => {
         }}
       >
         <View style={styles.slide1}>
-          <Image
-            resizeMode="stretch"
-            source={require("../assets/images/Subtract.png")}
+          <Ionicons
+            name="ios-heart-circle-sharp"
+            style={{ marginBottom: 5 }}
+            size={60}
+            color={themeColor}
           />
           <Text style={styles.caption}>Find Your Match</Text>
           <Text style={styles.subCaption}>
@@ -82,23 +84,6 @@ const Introduction = ({ navigation }: RootStackScreenProps<"Introduction">) => {
         </View>
       </Swiper>
       <View style={styles.buttons}>
-        <MaterialCommunityIcons.Button
-          name="facebook"
-          backgroundColor="#3b5998"
-          onPress={() => {
-            handleLogInFaceBook(dispatch);
-          }}
-        >
-          Login with Facebook
-        </MaterialCommunityIcons.Button>
-        <FontAwesome5.Button
-          name="google"
-          onPress={() => {
-            handleLogInGoogle(dispatch);
-          }}
-        >
-          Login with Google
-        </FontAwesome5.Button>
         <TouchableOpacity
           style={styles.signInButton}
           onPress={() => {
@@ -176,6 +161,7 @@ const styles = StyleSheet.create({
   signInButton: {
     paddingVertical: 13,
     paddingHorizontal: 30,
+    marginVertical: 10,
     backgroundColor: themeColor,
     borderRadius: 10,
   },
@@ -192,9 +178,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   buttons: {
-    width: 200,
-    height: 230,
-    justifyContent: "space-evenly",
+    justifyContent: "center",
     alignItems: "center",
   },
   loginButtons: {},

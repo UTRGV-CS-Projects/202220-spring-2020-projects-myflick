@@ -15,10 +15,11 @@ import { User } from "../../src/API";
 import { getUser } from "../../src/graphql/queries";
 export const handleLogInGoogle = async (dispatch: Dispatch<UserAction>) => {
   try {
-    await Auth.federatedSignIn({
+    const data = await Auth.federatedSignIn({
       provider: CognitoHostedUIIdentityProvider.Google,
     });
-    dispatch({ type: UserActionTypes.LOG_IN });
+    console.log(data);
+    //dispatch({ type: UserActionTypes.LOG_IN });
   } catch (error) {
     console.log(error);
   }
