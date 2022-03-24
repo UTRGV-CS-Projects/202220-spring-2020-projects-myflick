@@ -17,6 +17,33 @@ import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 
 interface MovieCardProps {
+<<<<<<< HEAD
+	card: MovieCardType;
+	genres: GenresType[];
+	cardIndex: number;
+	genresMap: any;
+}
+
+const MovieCard = ({ card, genres, cardIndex, genresMap }: MovieCardProps) => {
+	const colorScheme = useColorScheme();
+	const [currentGenres, setCurrentGenres] = useState<string[]>();
+	const navigation = useNavigation();
+	const getGenres = () => {
+		const currentGenres = [];
+		let threeCounter = 0;
+		if (card.genre_ids) {
+			for (const genre of card.genre_ids) {
+				for (const genreValue of genres) {
+					if (genre === genreValue.id && threeCounter < 3) {
+						currentGenres.push(genreValue.name);
+						threeCounter++;
+					}
+				}
+			}
+		}
+		setCurrentGenres(currentGenres);
+	};
+=======
   card: MovieCardType;
   genres: GenresType[];
   cardIndex: number;
@@ -41,6 +68,7 @@ const MovieCard = ({ card, genres, cardIndex }: MovieCardProps) => {
     }
     setCurrentGenres(currentGenres);
   };
+>>>>>>> master
 
   const getYear = () => {
     const fullReleaseString: any = card.release_date;
@@ -89,50 +117,55 @@ const MovieCard = ({ card, genres, cardIndex }: MovieCardProps) => {
           />
         </ImageBackground>
 
-        <View
-          style={[
-            styles.cardBottom,
-            { backgroundColor: Colors[colorScheme].primary },
-          ]}
-        >
-          <Text style={styles.title}>
-            {card.title} {getYear()}
-          </Text>
-          <View
-            style={[
-              styles.chipsContainer,
-              { backgroundColor: Colors[colorScheme].primary },
-            ]}
-          >
-            {currentGenres?.map((genre, index) => {
-              return (
-                <TouchableOpacity key={index}>
-                  <Chip
-                    mode="flat"
-                    textStyle={{ color: "white", fontSize: 15 }}
-                    style={{
-                      backgroundColor: themeColor,
-                      margin: 5,
-                    }}
-                  >
-                    {genre}
-                  </Chip>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-          <Text
-            style={[
-              styles.movieDescription,
-              { color: Colors[colorScheme].opposite },
-            ]}
-          >
-            {card.title.length < 40 ? card.overview : null}
-          </Text>
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
-  );
+				<View
+					style={[
+						styles.cardBottom,
+						{ backgroundColor: Colors[colorScheme].primary },
+					]}
+				>
+					<Text style={styles.title}>
+						{card.title} {getYear()}
+					</Text>
+					<View
+						style={[
+							styles.chipsContainer,
+							{ backgroundColor: Colors[colorScheme].primary },
+						]}
+					>
+						{card.genre_ids?.map((genre, index) => {
+							return (
+								<TouchableOpacity key={index}>
+									<Chip
+										mode="flat"
+										textStyle={{ color: "white", fontSize: 15 }}
+										style={{
+											backgroundColor: themeColor,
+											margin: 5,
+										}}
+									>
+										{genresMap.get(genre)}
+									</Chip>
+								</TouchableOpacity>
+							);
+						})}
+					</View>
+					<Text
+						style={[
+							styles.movieDescription,
+							{ color: Colors[colorScheme].opposite },
+						]}
+					>
+						{card.title.length < 40 ? card.overview : null}
+					</Text>
+					<LinearGradient
+						style={styles.descriptionContainer}
+						colors={["rgba(0, 0, 0, 0)", Colors[colorScheme].primary]}
+						start={{ x: 0.5, y: 0.2 }}
+					></LinearGradient>
+				</View>
+			</View>
+		</TouchableWithoutFeedback>
+	);
 };
 
 export default MovieCard;
