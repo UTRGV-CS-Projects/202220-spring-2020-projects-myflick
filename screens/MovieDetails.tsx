@@ -11,8 +11,7 @@ import MoviePoster from "../components/MovieDetails/MoviePoster";
 import { useFonts } from "expo-font";
 import { color } from "react-native-elements/dist/helpers";
 import WhitePoster from "../components/WhiteBackground/WhitePoster";
-import { ScrollView } from "react-native-virtualized-view";
-
+import Overview from "../components/MovieDetails/Overview";
 const height = Dimensions.get('window').height
 
 const white_image = { uri: "https://wallpaperaccess.com/full/1586320.jpg" };
@@ -60,15 +59,7 @@ function MovieDetails({
        <View style={{flexDirection: 'row', position: 'absolute'}} >
        <Text style={styles.stars} numberOfLines={1} ellipsizeMode='tail'>Joaquin Phoenix, Zazie Beets, Robert De Niro</Text>
        </View>
-      <ScrollView horizontal style={{position: 'absolute'}}>
-      <View style={{flexDirection: 'row', position: 'absolute',}}>
-          <Text style={styles.Description} numberOfLines={7} ellipsizeMode='tail'>
-            {overview}
-          </Text>
-
-          </View>
-      </ScrollView>
-
+        <Overview overview={overview}/>
 
         <Text
           style={{
