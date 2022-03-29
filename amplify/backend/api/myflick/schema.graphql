@@ -9,6 +9,17 @@ type Conversation {
   messages(after: String, first: Int): MessageConnection
   name: String!
 }
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+type Picture @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  name: String
+  owner: String
+  file: S3Object
+}
 
 type ConversationConnection {
   items: [Conversation]

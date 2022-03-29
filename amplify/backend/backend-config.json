@@ -11,7 +11,14 @@
               "apiKeyExpirationDays": 7
             }
           },
-          "additionalAuthenticationProviders": []
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authmyflick6eddbe9a"
+              }
+            }
+          ]
         }
       }
     }
@@ -42,6 +49,13 @@
           "EMAIL"
         ]
       }
+    }
+  },
+  "storage": {
+    "s3a7ee1a1b": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
     }
   }
 }

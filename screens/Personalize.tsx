@@ -29,7 +29,11 @@ import { ProfileCompleteType } from "../types";
 import * as ImagePicker from "expo-image-picker";
 import LottieView from "lottie-react-native";
 import { color } from "react-native-reanimated";
-
+import { createPicture } from "../src/graphql/mutations";
+import awsExports from "../src/aws-exports";
+import { Storage, API, graphqlOperation, Auth } from "aws-amplify";
+import { CreatePictureInput } from "../src/API";
+import { v4 as uuidv4 } from "uuid";
 const Personalize = ({
   navigation,
   route,
@@ -43,6 +47,7 @@ const Personalize = ({
   const [imageStatus, requestPermission] =
     ImagePicker.useMediaLibraryPermissions();
   const [interest, setInterest] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [completeProfile, setCompleteProfile] = useState<ProfileCompleteType>({
     email: route.params!.email,
@@ -55,6 +60,14 @@ const Personalize = ({
     pronouns: "",
     picture: "",
   });
+
+  useEffect(() => {
+    if (loading) {
+      console.log("loading...");
+    } else {
+      console.log("not loading");
+    }
+  }, [loading]);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -75,24 +88,97 @@ const Personalize = ({
     }
   };
 
-  const handlePhotos = async () => {
-    const result = await pickImage();
-    if (!result?.cancelled) {
-      setCompleteProfile({
-        ...completeProfile,
-        photos: [...completeProfile.photos, result!.uri],
-      });
+  const addImageToDB = async (image: CreatePictureInput) => {
+    try {
+      await API.graphql(graphqlOperation(createPicture, { input: image }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchImageFromUri = async (uri: string) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    return blob;
+  };
+  const handleImages = async () => {
+    try {
+      const result = await pickImage();
+      if (result?.cancelled) {
+        alert("Upload cancelled");
+        return;
+      } else {
+        setLoading(true);
+        const img = await fetchImageFromUri(result!.uri);
+        const uploadUrl = await uploadImage(uuidv4(), img);
+        downloadImages(uploadUrl);
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Upload failed");
     }
   };
 
   const handleProfilePicture = async () => {
-    const result = await pickImage();
-    if (!result?.cancelled) {
-      setCompleteProfile({
-        ...completeProfile,
-        picture: result!.uri,
-      });
+    try {
+      const result = await pickImage();
+      if (result?.cancelled) {
+        alert("Upload cancelled");
+        return;
+      } else {
+        setLoading(true);
+        const img = await fetchImageFromUri(result!.uri);
+        const uploadUrl = await uploadImage(uuidv4(), img);
+        downloadImageProfilePicture(uploadUrl);
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Upload failed");
     }
+  };
+
+  const uploadImage = async (fileName: string, image: Blob) => {
+    Auth.currentCredentials();
+
+    return Storage.put(fileName, image, {
+      level: "public",
+      contentType: "image/jpg",
+      progressCallback(progress) {
+        if (progress.loaded === progress.total) {
+          setLoading(false);
+        }
+        //setLoading(progress);
+      },
+    })
+      .then((response) => {
+        return response.key;
+      })
+      .catch((error) => {
+        console.log(error);
+        return error.response;
+      });
+  };
+
+  const downloadImageProfilePicture = (uri: string) => {
+    Storage.get(uri)
+      .then((result) =>
+        setCompleteProfile({
+          ...completeProfile,
+          picture: result,
+        })
+      )
+      .catch((err) => console.log(err));
+  };
+
+  const downloadImages = (uri: string) => {
+    Storage.get(uri)
+      .then((result) =>
+        setCompleteProfile({
+          ...completeProfile,
+          photos: [...completeProfile.photos, result],
+        })
+      )
+      .catch((err) => console.log(err));
   };
 
   const handleAddInterest = () => {
@@ -275,7 +361,7 @@ const Personalize = ({
                 }}
               />
             ) : null}
-            <TouchableOpacity onPress={handlePhotos}>
+            <TouchableOpacity onPress={handleImages}>
               <View style={styles.menuBox}>
                 <Ionicons
                   name="add"
