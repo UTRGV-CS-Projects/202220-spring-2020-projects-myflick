@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, Image, ImageBackground, Dimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { themeColor } from "../constants/Colors";
 import Background from "../components/Match/Background";
@@ -10,14 +10,13 @@ import { BackgroundImage } from "react-native-elements/dist/config";
 import MoviePoster from "../components/MovieDetails/MoviePoster";
 import { useFonts } from "expo-font";
 import { color } from "react-native-elements/dist/helpers";
+import WhitePoster from "../components/WhiteBackground/WhitePoster";
+import { ScrollView } from "react-native-virtualized-view";
+
+const height = Dimensions.get('window').height
 
 const white_image = { uri: "https://wallpaperaccess.com/full/1586320.jpg" };
 
-const image = { uri: "https://wallpaperaccess.com/full/1508305.jpg" };
-
-const poster = {
-  uri: "https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg",
-};
 const ozark_poster = {
   uri: "https://m.media-amazon.com/images/M/MV5BNGY3MmUzNjktZWEzNi00ODdiLTk4ZDItZjBhMjZlYzI0NTJjXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_FMjpg_UX1000_.jpg",
 };
@@ -43,8 +42,7 @@ function MovieDetails({
  <ImageBackground style={styles.whiteimg} source={white_image}>
       <MoviePoster image={poster_path} />
         <Image style={styles.image} source={{ uri: `https://image.tmdb.org/t/p/w500${poster_path}` }}/>
-        <Image style={styles.imagewht} source={white_image}></Image>
-     
+        <WhitePoster />         
         <View style={{ flexDirection: 'row', position: 'absolute'}} >
         
        <Text style={styles.titletext} numberOfLines={3} ellipsizeMode='tail'>{title}</Text>
@@ -52,7 +50,6 @@ function MovieDetails({
         {/* <Text style={styles.release_year}>{release_date}</Text> */}
 
         {/* <Text style={styles.rating}>{vote_average}/10</Text> */}
-
         <Text style={styles.list}>Director:</Text>
         <Text style={styles.list1}>Writers:</Text>
         <Text style={styles.list2}>Stars:</Text>
@@ -63,27 +60,32 @@ function MovieDetails({
        <View style={{flexDirection: 'row', position: 'absolute'}} >
        <Text style={styles.stars} numberOfLines={1} ellipsizeMode='tail'>Joaquin Phoenix, Zazie Beets, Robert De Niro</Text>
        </View>
-        <View style={{flexDirection: 'row', position: 'absolute',}}>
-        <Text style={styles.Description} numberOfLines={7} ellipsizeMode='tail'>
-          {overview}
-        </Text>
-        </View>
+      <ScrollView horizontal style={{position: 'absolute'}}>
+      <View style={{flexDirection: 'row', position: 'absolute',}}>
+          <Text style={styles.Description} numberOfLines={7} ellipsizeMode='tail'>
+            {overview}
+          </Text>
+
+          </View>
+      </ScrollView>
+
+
         <Text
           style={{
             fontWeight: "700",
             fontSize: 25,
             color: `#708090`,
             position: "absolute",
-            top: 595,
+            top: 650,
             left: 40,
           }}
         >
-          More Like This:{" "}
+          {/* More Like This:{" "} */}
         </Text>
-        <View style={{position: 'absolute', flexDirection: 'row', top: 45}}>      
-      <Image source={dark_knight} style={{width: 100, height: 135,top: 590, left: 40, borderRadius: 20,}}></Image>
-      <Image source={ozark_poster} style={{width: 100, height: 135, top: 590, left: 50, borderRadius: 20}}></Image>
-      <Image source={marriage_story} style={{width: 100, height: 135, top: 590, left: 60, borderRadius: 20}}></Image>
+        <View style={styles.movies}>      
+      <Image source={dark_knight} style={{width: 100, height: 135, borderRadius: 20, marginRight: 5, marginBottom: 10}} />
+      <Image source={ozark_poster} style={{width: 100, height: 135, borderRadius: 20, marginRight: 3, marginBottom: 10}} />
+      <Image source={marriage_story} style={{width: 100, height: 135, borderRadius: 20, marginRight: 3, marginBottom: 10}} />
       
        </View>
       </ImageBackground>
@@ -94,6 +96,7 @@ function MovieDetails({
 }
 const styles = StyleSheet.create({
   container: {
+   flex: 1
   },
   box: {
     width: 25,
@@ -113,6 +116,19 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
   },
+  movies: {
+    flex: 1, 
+    position: 'absolute', 
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    // backgroundColor: 'red',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0
+
+  },
   poster: {
     height: 220,
     width: 150,
@@ -124,10 +140,13 @@ const styles = StyleSheet.create({
   titletext: {
     flex: 0.65,
     flexWrap: 'wrap',
-    fontSize: 25,
-    top: 290,
-    left: 200,
-    color: "#4a4a4a"
+    fontSize: height * 0.03,
+    color: "#4a4a4a",
+    backgroundColor: 'blue',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
   },
   release_year: {
     fontSize: 16,
@@ -155,7 +174,7 @@ const styles = StyleSheet.create({
     flex: 0.9,
     flexWrap: 'wrap',
     fontSize: 17,
-    top: 450,
+    top: 487,
     left: 39,
     color: "#000000",
   },
@@ -167,49 +186,43 @@ const styles = StyleSheet.create({
     height: 50,
     resizeMode: "contain",
   },
-  imagewht: {
-    height: "200%",
-    width: "100%",
-    bottom: 420,
-    borderRadius: 60,
-  },
   list: {
     fontSize: 20,
     position: "absolute",
-    top: 360,
+    top: 380,
     left: 38,
     color: "#deb887",
   },
   list1: {
     fontSize: 20,
     position: "absolute",
-    top: 390,
+    top: 410,
     left: 39,
     color: "#deb887",
   },
   list2: {
     fontSize: 20,
     position: "absolute",
-    top: 420,
+    top: 440,
     left: 39,
     color: "#deb887",
   },
   directorname: {
     fontSize: 17,
     position: "absolute",
-    top: 363,
+    top: 383,
     left: 125,
   },
   writers: {
     fontSize: 17,
     position: "absolute",
-    top: 393,
+    top: 413,
     left: 125,
   },
   stars: {
     flex: 0.8,
     fontSize: 17,
-    top: 423,
+    top: 443,
     left: 110,
     flexWrap: "wrap",
   },

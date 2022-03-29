@@ -1,0 +1,21 @@
+-// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Text
+  style={
+    Array [
+      Object {
+        "color": "#4A4A4A",
+      },
+      Array [
+        undefined,
+        Object {
+          "fontFamily": "space-mono",
+        },
+      ],
+    ]
+  }
+>
+  Snapshot test!
+</Text>
+`;
