@@ -7,39 +7,28 @@ import { useScrollToTop } from "@react-navigation/native";
 import { fetchUserConversations } from "../../apis/messages";
 import { AuthContext } from "../../store/AuthContext";
 import { UserConversations } from "../../src/API";
-const NewMessagesList = ({ navigationProp }: any) => {
+import { MessageUser } from "../../types";
+
+interface NewMessagesListProps {
+  navigationProp: any;
+  users: MessageUser[];
+}
+const NewMessagesList = ({ navigationProp, users }: NewMessagesListProps) => {
   const ref = useRef(null);
   useScrollToTop(ref);
 
-  const [loading, setLoading] = useState(false);
-  const [conversations, setConversations] = useState<UserConversations[]>([]);
-
-  const { user, dispatch } = useContext(AuthContext);
-
-  const fetchUserConversation = async () => {
-    const data = await fetchUserConversations(user.cognitoId);
-    if (data?.data?.listUserConversations?.items) {
-      const conversations = data.data.listUserConversations
-        .items as UserConversations[];
-      setConversations(conversations);
-    }
-  };
-
-  useEffect(() => {
-    setLoading(true);
-    fetchUserConversation();
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <View style={styles.container}>
       <FlatList
         ref={ref}
-        data={People}
+        data={users}
         contentContainerStyle={styles.newMatchesListContainer}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(item: PeopleDetailsType) => item.id}
-        renderItem={({ item }: { item: PeopleDetailsType }) => {
+        keyExtractor={(item: MessageUser) => item.cognitoId}
+        renderItem={({ item }: { item: MessageUser }) => {
           return <Message item={item} navigation={navigationProp} />;
         }}
       />

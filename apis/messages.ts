@@ -5,11 +5,17 @@ import {
   CreateMessageMutation,
   CreateUserConversationsInput,
   CreateUserConversationsMutation,
+  ListConversationsQuery,
+  ListMessagesQuery,
   ListUserConversationsQuery,
   ListUsersQuery,
   OnCreateMessageSubscription,
 } from "../src/API";
-import { listUserConversations } from "../src/graphql/queries";
+import {
+  listConversations,
+  listMessages,
+  listUserConversations,
+} from "../src/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import {
   createConversation,
@@ -17,6 +23,7 @@ import {
   createUserConversations,
 } from "../src/graphql/mutations";
 import { onCreateMessage } from "../src/graphql/subscriptions";
+import { Observable } from "zen-observable-ts";
 
 export const fetchUserConversations = async (cognitoId: string) => {
   try {
@@ -25,6 +32,20 @@ export const fetchUserConversations = async (cognitoId: string) => {
         filter: { userId: { eq: cognitoId } },
       })
     )) as GraphQLResult<ListUserConversationsQuery>;
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchConversations = async (conversationId: string) => {
+  try {
+    const data = (await API.graphql(
+      graphqlOperation(listConversations, {
+        filter: { id: { eq: conversationId } },
+      })
+    )) as GraphQLResult<ListConversationsQuery>;
     console.log(data);
     return data;
   } catch (error) {
@@ -87,16 +108,16 @@ export const createMessages = async (
   }
 };
 
-export const onCreateMessages = async (conversationId: string) => {
+export const listMessage = async (conversationId: string | undefined) => {
   try {
     const data = (await API.graphql(
-      graphqlOperation(onCreateMessage, {
-        conversationId: conversationId,
+      graphqlOperation(listMessages, {
+        filter: { conversationId: { eq: conversationId } },
       })
-    )) as GraphQLResult<OnCreateMessageSubscription>;
+    )) as GraphQLResult<ListMessagesQuery>;
 
     return data;
   } catch (error) {
-    console.log(error);
+    throw new Error();
   }
 };

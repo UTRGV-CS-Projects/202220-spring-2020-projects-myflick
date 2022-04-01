@@ -266,50 +266,13 @@ export const listMessages = /* GraphQL */ `
   ) {
     listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        author {
-          cognitoId
-          id
-          username
-          registered
-          email
-          email_verified
-          firstName
-          age
-          picture
-          pronouns
-          bio
-          location
-          photos
-          interests
-          loggedIn
-          profileComplete
-        }
         content
         conversationId
         createdAt
         id
         isSent
-        recipient {
-          cognitoId
-          id
-          username
-          registered
-          email
-          email_verified
-          firstName
-          age
-          picture
-          pronouns
-          bio
-          location
-          photos
-          interests
-          loggedIn
-          profileComplete
-        }
         sender
       }
-      nextToken
     }
   }
 `;
@@ -352,6 +315,7 @@ export const listPictures = /* GraphQL */ `
     }
   }
 `;
+
 export const getUser = /* GraphQL */ `
   query GetUser($cognitoId: ID!) {
     getUser(cognitoId: $cognitoId) {

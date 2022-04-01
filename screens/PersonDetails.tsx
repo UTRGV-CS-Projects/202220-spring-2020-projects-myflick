@@ -49,6 +49,13 @@ const PersonDetails = ({
 
     Promise.all([promise1, promise2]).then((res) => {
       console.log("data created", res);
+      navigation.goBack();
+
+      navigation.navigate("OpenChat", {
+        id: res[1]?.data?.createConversation?.id,
+        name: res[1]?.data?.createConversation?.name,
+        person: person!,
+      });
     });
   };
 

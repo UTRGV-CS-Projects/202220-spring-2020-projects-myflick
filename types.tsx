@@ -36,7 +36,7 @@ export type RootStackParamList = {
   CustomMovieSwiper: NavigatorScreenParams<MessageParamList> | undefined;
   Personalize: PersonalizeParamList | undefined;
   MovieDetails: MovieCardType | undefined;
-  OpenChat: undefined;
+  OpenChat: OpenChatParamList | undefined;
   MyDiscoverySettings:
     | NavigatorScreenParams<MyDiscoverySettingsParamList>
     | undefined;
@@ -84,13 +84,19 @@ export type MovieParamsList = {};
 export type IntroductionParamsList = {};
 
 export type MessageParamList = {
-  item: PeopleDetailsType;
+  item: MessageUser;
   navigation: any;
 };
 
 export type PersonalizeParamList = {
   email: string;
   password: string;
+};
+
+export type OpenChatParamList = {
+  id: string | undefined;
+  name: string | undefined;
+  person: User | undefined;
 };
 
 export type PersonDetailsParamsList = {};
@@ -154,4 +160,10 @@ export type ChatRoom = {
   id: String;
   users: string[]; //users array
   lastMessage: Message;
+};
+
+export type MessageUser = {
+  picture: string;
+  firstName: string;
+  cognitoId: string;
 };
