@@ -1,13 +1,34 @@
 import { FlatList, StyleSheet } from "react-native";
-import React from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { View, Text } from "../Themed";
 import { People, PeopleDetailsType } from "../../db/db";
 import Message from "./Message";
 import { useScrollToTop } from "@react-navigation/native";
-
+import { fetchUserConversations } from "../../apis/messages";
+import { AuthContext } from "../../store/AuthContext";
+import { UserConversations } from "../../src/API";
 const NewMessagesList = ({ navigationProp }: any) => {
-  const ref = React.useRef(null);
+  const ref = useRef(null);
   useScrollToTop(ref);
+
+  const [loading, setLoading] = useState(false);
+  const [conversations, setConversations] = useState<UserConversations[]>([]);
+
+  const { user, dispatch } = useContext(AuthContext);
+
+  const fetchUserConversation = async () => {
+    const data = await fetchUserConversations(user.cognitoId);
+    if (data?.data?.listUserConversations?.items) {
+      const conversations = data.data.listUserConversations
+        .items as UserConversations[];
+      setConversations(conversations);
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    fetchUserConversation();
+  }, []);
 
   return (
     <View style={styles.container}>

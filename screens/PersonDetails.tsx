@@ -1,12 +1,15 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Text, View } from "../components/Themed";
 import { Chip } from "react-native-paper";
 import { lightThemeColor, themeColor } from "../constants/Colors";
-import { EvilIcons } from "@expo/vector-icons";
+import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
 import LottieView from "lottie-react-native";
 import ImagesSlider from "../components/PersonDetails/ImagesSlider";
+import { createConversations, createUserConversation } from "../apis/messages";
+import { AuthContext } from "../store/AuthContext";
+import { v4 as uuidv4 } from "uuid";
 
 const PersonDetails = ({
   navigation,
@@ -16,6 +19,7 @@ const PersonDetails = ({
   const heart = useRef<LottieView>(null);
   const isFirstRun = useRef(true);
   const [isLiked, setIsLiked] = useState(false);
+  const { user, dispatch } = useContext(AuthContext);
 
   const handleFavorite = () => {
     setIsLiked(!isLiked);
@@ -37,6 +41,16 @@ const PersonDetails = ({
       heart.current?.play(10, 0);
     }
   }, [isLiked]);
+
+  const handleMessage = () => {
+    const id = uuidv4();
+    const promise1 = createUserConversation(user.cognitoId, id);
+    const promise2 = createConversations(person!.cognitoId, id);
+
+    Promise.all([promise1, promise2]).then((res) => {
+      console.log("data created", res);
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -71,6 +85,16 @@ const PersonDetails = ({
               />
             </View>
           </TouchableOpacity>
+          <TouchableOpacity onPress={handleMessage}>
+            <View style={styles.bubble}>
+              <Ionicons
+                name="chatbubble-outline"
+                size={45}
+                color={themeColor}
+                style={styles.chatBubble}
+              />
+            </View>
+          </TouchableOpacity>
           <TouchableOpacity onPress={handleFavorite}>
             <View style={styles.bubble}>
               <LottieView
@@ -85,7 +109,9 @@ const PersonDetails = ({
       </View>
       <View style={styles.lowerContainer}>
         <View>
-          <Text style={styles.name}>{person?.firstName}</Text>
+          <Text style={styles.name}>
+            {person?.firstName}, {person?.age}
+          </Text>
           <Text style={styles.location}>{person?.location}</Text>
         </View>
 
@@ -183,6 +209,10 @@ const styles = StyleSheet.create({
   cross: {
     paddingLeft: 18,
     paddingTop: 22,
+  },
+  chatBubble: {
+    paddingLeft: 18,
+    paddingTop: 15,
   },
   heart: { width: 70, height: 70, paddingLeft: 2, paddingTop: 3 },
   lowerContainer: {

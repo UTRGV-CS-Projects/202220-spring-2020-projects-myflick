@@ -135,6 +135,7 @@ export type ProfileCompleteType = {
   location: string;
   pronouns: string;
   picture: string;
+  age: number;
 };
 
 export type GenresType = {

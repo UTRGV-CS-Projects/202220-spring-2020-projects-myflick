@@ -54,6 +54,7 @@ input CreateUserInput {
   email: String!
   email_verified: Boolean!
   firstName: String!
+  age: Int
   picture: String!
   pronouns: String!
   bio: String
@@ -231,7 +232,7 @@ type Subscription {
   onCreateUserConversations(conversationId: ID, userId: ID): UserConversations @aws_subscribe(mutations: ["createUserConversations"])
   onUpdateUserConversations(conversationId: ID, userId: ID): UserConversations @aws_subscribe(mutations: ["updateUserConversations"])
   onDeleteUserConversations(conversationId: ID, userId: ID): UserConversations @aws_subscribe(mutations: ["deleteUserConversations"])
-  onCreateMessage(content: String, conversationId: ID, createdAt: String, id: ID, isSent: Boolean): Message @aws_subscribe(mutations: ["createMessage"])
+  onCreateMessage(conversationId: ID): Message @aws_subscribe(mutations: ["createMessage"])
   onUpdateMessage(content: String, conversationId: ID, createdAt: String, id: ID, isSent: Boolean): Message @aws_subscribe(mutations: ["updateMessage"])
   onDeleteMessage(content: String, conversationId: ID, createdAt: String, id: ID, isSent: Boolean): Message @aws_subscribe(mutations: ["deleteMessage"])
   onCreatePicture(owner: String): Picture @aws_subscribe(mutations: ["createPicture"]) @aws_cognito_user_pools
@@ -380,6 +381,7 @@ type User {
   email: String!
   email_verified: Boolean!
   firstName: String!
+  age: Int
   picture: String!
   pronouns: String!
   bio: String
