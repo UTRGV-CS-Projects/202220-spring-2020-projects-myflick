@@ -19,6 +19,7 @@ export const subscribeToNewMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -47,6 +48,7 @@ export const subscribeToNewMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -57,159 +59,6 @@ export const subscribeToNewMessage = /* GraphQL */ `
         profileComplete
       }
       sender
-    }
-  }
-`;
-export const onCreateUser = /* GraphQL */ `
-  subscription OnCreateUser(
-    $cognitoId: ID
-    $id: ID
-    $username: String
-    $registered: Boolean
-    $email: String
-  ) {
-    onCreateUser(
-      cognitoId: $cognitoId
-      id: $id
-      username: $username
-      registered: $registered
-      email: $email
-    ) {
-      cognitoId
-      conversations {
-        nextToken
-        userConversations {
-          conversationId
-          userId
-        }
-      }
-      id
-      messages {
-        items {
-          content
-          conversationId
-          createdAt
-          id
-          isSent
-          sender
-        }
-        nextToken
-      }
-      username
-      registered
-      email
-      email_verified
-      firstName
-      picture
-      pronouns
-      bio
-      location
-      photos
-      interests
-      loggedIn
-      profileComplete
-    }
-  }
-`;
-export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser(
-    $cognitoId: ID
-    $id: ID
-    $username: String
-    $registered: Boolean
-    $email: String
-  ) {
-    onUpdateUser(
-      cognitoId: $cognitoId
-      id: $id
-      username: $username
-      registered: $registered
-      email: $email
-    ) {
-      cognitoId
-      conversations {
-        nextToken
-        userConversations {
-          conversationId
-          userId
-        }
-      }
-      id
-      messages {
-        items {
-          content
-          conversationId
-          createdAt
-          id
-          isSent
-          sender
-        }
-        nextToken
-      }
-      username
-      registered
-      email
-      email_verified
-      firstName
-      picture
-      pronouns
-      bio
-      location
-      photos
-      interests
-      loggedIn
-      profileComplete
-    }
-  }
-`;
-export const onDeleteUser = /* GraphQL */ `
-  subscription OnDeleteUser(
-    $cognitoId: ID
-    $id: ID
-    $username: String
-    $registered: Boolean
-    $email: String
-  ) {
-    onDeleteUser(
-      cognitoId: $cognitoId
-      id: $id
-      username: $username
-      registered: $registered
-      email: $email
-    ) {
-      cognitoId
-      conversations {
-        nextToken
-        userConversations {
-          conversationId
-          userId
-        }
-      }
-      id
-      messages {
-        items {
-          content
-          conversationId
-          createdAt
-          id
-          isSent
-          sender
-        }
-        nextToken
-      }
-      username
-      registered
-      email
-      email_verified
-      firstName
-      picture
-      pronouns
-      bio
-      location
-      photos
-      interests
-      loggedIn
-      profileComplete
     }
   }
 `;
@@ -310,6 +159,7 @@ export const onCreateUserConversations = /* GraphQL */ `
           email
           email_verified
           firstName
+          age
           picture
           pronouns
           bio
@@ -344,6 +194,7 @@ export const onCreateUserConversations = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -382,6 +233,7 @@ export const onUpdateUserConversations = /* GraphQL */ `
           email
           email_verified
           firstName
+          age
           picture
           pronouns
           bio
@@ -416,6 +268,7 @@ export const onUpdateUserConversations = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -454,6 +307,7 @@ export const onDeleteUserConversations = /* GraphQL */ `
           email
           email_verified
           firstName
+          age
           picture
           pronouns
           bio
@@ -488,6 +342,7 @@ export const onDeleteUserConversations = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -502,20 +357,8 @@ export const onDeleteUserConversations = /* GraphQL */ `
   }
 `;
 export const onCreateMessage = /* GraphQL */ `
-  subscription OnCreateMessage(
-    $content: String
-    $conversationId: ID
-    $createdAt: String
-    $id: ID
-    $isSent: Boolean
-  ) {
-    onCreateMessage(
-      content: $content
-      conversationId: $conversationId
-      createdAt: $createdAt
-      id: $id
-      isSent: $isSent
-    ) {
+  subscription OnCreateMessage($conversationId: ID) {
+    onCreateMessage(conversationId: $conversationId) {
       author {
         cognitoId
         conversations {
@@ -530,6 +373,7 @@ export const onCreateMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -558,6 +402,7 @@ export const onCreateMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -600,6 +445,7 @@ export const onUpdateMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -628,6 +474,7 @@ export const onUpdateMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -670,6 +517,7 @@ export const onDeleteMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -698,6 +546,7 @@ export const onDeleteMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -756,6 +605,162 @@ export const onDeletePicture = /* GraphQL */ `
       }
       createdAt
       updatedAt
+    }
+  }
+`;
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser(
+    $cognitoId: ID
+    $id: ID
+    $username: String
+    $registered: Boolean
+    $email: String
+  ) {
+    onCreateUser(
+      cognitoId: $cognitoId
+      id: $id
+      username: $username
+      registered: $registered
+      email: $email
+    ) {
+      cognitoId
+      conversations {
+        nextToken
+        userConversations {
+          conversationId
+          userId
+        }
+      }
+      id
+      messages {
+        items {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      username
+      registered
+      email
+      email_verified
+      firstName
+      age
+      picture
+      pronouns
+      bio
+      location
+      photos
+      interests
+      loggedIn
+      profileComplete
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser(
+    $cognitoId: ID
+    $id: ID
+    $username: String
+    $registered: Boolean
+    $email: String
+  ) {
+    onUpdateUser(
+      cognitoId: $cognitoId
+      id: $id
+      username: $username
+      registered: $registered
+      email: $email
+    ) {
+      cognitoId
+      conversations {
+        nextToken
+        userConversations {
+          conversationId
+          userId
+        }
+      }
+      id
+      messages {
+        items {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      username
+      registered
+      email
+      email_verified
+      firstName
+      age
+      picture
+      pronouns
+      bio
+      location
+      photos
+      interests
+      loggedIn
+      profileComplete
+    }
+  }
+`;
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser(
+    $cognitoId: ID
+    $id: ID
+    $username: String
+    $registered: Boolean
+    $email: String
+  ) {
+    onDeleteUser(
+      cognitoId: $cognitoId
+      id: $id
+      username: $username
+      registered: $registered
+      email: $email
+    ) {
+      cognitoId
+      conversations {
+        nextToken
+        userConversations {
+          conversationId
+          userId
+        }
+      }
+      id
+      messages {
+        items {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      username
+      registered
+      email
+      email_verified
+      firstName
+      age
+      picture
+      pronouns
+      bio
+      location
+      photos
+      interests
+      loggedIn
+      profileComplete
     }
   }
 `;

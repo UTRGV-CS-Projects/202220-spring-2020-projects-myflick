@@ -41,8 +41,8 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-myflick-dev-145327-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apimyflick"
       },
-      "lastPushTimeStamp": "2022-03-29T00:47:31.682Z",
-      "lastPushDirHash": "OgU26gz4bFqeVULBA+CmX1YPxM8="
+      "lastPushTimeStamp": "2022-03-31T03:06:22.359Z",
+      "lastPushDirHash": "R/dZAFP6xNeOQiS853xZzB1tmqk="
     }
   },
   "auth": {
@@ -75,7 +75,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-myflick-dev-145327-deployment/amplify-cfn-templates/auth/myflick6eddbe9a-cloudformation-template.json",
         "logicalId": "authmyflick6eddbe9a"
       },
-      "lastPushTimeStamp": "2022-03-29T00:47:28.189Z",
+      "lastPushTimeStamp": "2022-03-31T03:06:19.121Z",
       "output": {
         "UserPoolId": "us-east-2_lnEW7xAlk",
         "AppClientIDWeb": "6tkvuingignt3u8j6684n802ee",
@@ -93,7 +93,7 @@
       "service": "S3",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
-      "lastPushTimeStamp": "2022-03-29T00:47:28.192Z",
+      "lastPushTimeStamp": "2022-03-31T03:06:19.124Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-myflick-dev-145327-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
         "logicalId": "storages3a7ee1a1b"

@@ -108,6 +108,7 @@ export const handleProfileComplete = async (
       picture: data.picture,
       pronouns: data.pronouns,
       bio: data.bio,
+      age: data.age,
       location: data.location,
       photos: data.photos,
       interests: data.interests,

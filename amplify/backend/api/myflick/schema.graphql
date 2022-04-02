@@ -54,6 +54,7 @@ input CreateUserInput {
   email: String!
   email_verified: Boolean!
   firstName: String!
+  age: Int
   picture: String!
   pronouns: String!
   bio: String
@@ -273,13 +274,8 @@ type Subscription {
     @aws_subscribe(mutations: ["updateUserConversations"])
   onDeleteUserConversations(conversationId: ID, userId: ID): UserConversations
     @aws_subscribe(mutations: ["deleteUserConversations"])
-  onCreateMessage(
-    content: String
-    conversationId: ID
-    createdAt: String
-    id: ID
-    isSent: Boolean
-  ): Message @aws_subscribe(mutations: ["createMessage"])
+  onCreateMessage(conversationId: ID): Message
+    @aws_subscribe(mutations: ["createMessage"])
   onUpdateMessage(
     content: String
     conversationId: ID
@@ -437,6 +433,7 @@ type User {
   email: String!
   email_verified: Boolean!
   firstName: String!
+  age: Int
   picture: String!
   pronouns: String!
   bio: String

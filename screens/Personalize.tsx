@@ -56,6 +56,7 @@ const Personalize = ({
     firstName: "",
     photos: [],
     bio: "",
+    age: 0,
     location: "",
     pronouns: "",
     picture: "",
@@ -292,6 +293,22 @@ const Personalize = ({
               value={completeProfile.firstName}
               onChangeText={(value) => {
                 setCompleteProfile({ ...completeProfile, firstName: value });
+              }}
+            />
+          </View>
+
+          <View style={styles.viewKs}>
+            <Input
+              placeholder="Age"
+              style={{ color: Colors[colorScheme].text }}
+              value={
+                completeProfile.age == 0 ? "" : completeProfile.age.toString()
+              }
+              onChangeText={(value) => {
+                setCompleteProfile({
+                  ...completeProfile,
+                  age: parseInt(value),
+                });
               }}
             />
           </View>

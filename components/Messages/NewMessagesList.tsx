@@ -1,24 +1,39 @@
 import { FlatList, StyleSheet } from "react-native";
-import React from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { View, Text } from "../Themed";
 import { People, PeopleDetailsType } from "../../db/db";
 import Message from "./Message";
 import { useScrollToTop } from "@react-navigation/native";
+import { fetchUserConversations } from "../../apis/messages";
+import { AuthContext } from "../../store/AuthContext";
+import { Message as MessageType, UserConversations } from "../../src/API";
+import { ConversationType, MessageUser } from "../../types";
 
-const NewMessagesList = ({ navigationProp }: any) => {
-  const ref = React.useRef(null);
+interface NewMessagesListProps {
+  navigationProp: any;
+  conversations: ConversationType[];
+}
+const NewMessagesList = ({
+  navigationProp,
+  conversations,
+}: NewMessagesListProps) => {
+  const ref = useRef(null);
   useScrollToTop(ref);
+
+  useEffect(() => {}, []);
+
+  /*  */
 
   return (
     <View style={styles.container}>
       <FlatList
         ref={ref}
-        data={People}
+        data={conversations}
         contentContainerStyle={styles.newMatchesListContainer}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(item: PeopleDetailsType) => item.id}
-        renderItem={({ item }: { item: PeopleDetailsType }) => {
+        keyExtractor={(item: ConversationType) => item.conversationId}
+        renderItem={({ item }: { item: ConversationType }) => {
           return <Message item={item} navigation={navigationProp} />;
         }}
       />

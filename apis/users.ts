@@ -1,6 +1,6 @@
 import { API, graphqlOperation } from "aws-amplify";
-import { ListUsersQuery } from "../src/API";
-import { listUsers } from "../src/graphql/queries";
+import { GetUserQuery, ListUsersQuery } from "../src/API";
+import { getUser, listUsers } from "../src/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 
 export const fetchUsers = async () => {
@@ -14,3 +14,25 @@ export const fetchUsers = async () => {
     console.log(error);
   }
 };
+
+export const fetchUserDataMessage = async (id: string) => {
+  try {
+    const data = (await API.graphql(
+      graphqlOperation(getUserDataMessage, {
+        cognitoId: id,
+      })
+    )) as GraphQLResult<GetUserQuery>;
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getUserDataMessage = `query GetUser($cognitoId: ID!) {
+  getUser(cognitoId: $cognitoId) {
+    firstName
+    picture
+    cognitoId
+  }
+}`;

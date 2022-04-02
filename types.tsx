@@ -11,7 +11,7 @@ import {
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MovieCardType, PeopleDetailsType } from "./db/db";
 import * as ImagePicker from "expo-image-picker";
-import { User } from "./src/API";
+import { Message, User } from "./src/API";
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
@@ -36,7 +36,7 @@ export type RootStackParamList = {
   CustomMovieSwiper: NavigatorScreenParams<MessageParamList> | undefined;
   Personalize: PersonalizeParamList | undefined;
   MovieDetails: MovieCardType | undefined;
-  OpenChat: undefined;
+  OpenChat: OpenChatParamList | undefined;
   MyDiscoverySettings:
     | NavigatorScreenParams<MyDiscoverySettingsParamList>
     | undefined;
@@ -84,13 +84,19 @@ export type MovieParamsList = {};
 export type IntroductionParamsList = {};
 
 export type MessageParamList = {
-  item: PeopleDetailsType;
+  item: ConversationType;
   navigation: any;
 };
 
 export type PersonalizeParamList = {
   email: string;
   password: string;
+};
+
+export type OpenChatParamList = {
+  id: string | undefined;
+  name: string | undefined;
+  person: User | undefined;
 };
 
 export type PersonDetailsParamsList = {};
@@ -135,6 +141,7 @@ export type ProfileCompleteType = {
   location: string;
   pronouns: string;
   picture: string;
+  age: number;
 };
 
 export type GenresType = {
@@ -142,15 +149,28 @@ export type GenresType = {
   name: string;
 };
 
-export type Message = {
+/* export type Message = {
   id: String;
   senderId: String;
   content: string;
   timeStamp: string;
 };
-
+ */
 export type ChatRoom = {
   id: String;
   users: string[]; //users array
   lastMessage: Message;
+};
+
+export type MessageUser = {
+  picture: string;
+  firstName: string;
+  cognitoId: string;
+};
+
+export type ConversationType = {
+  lastMessage: string;
+  messages: Message[];
+  user: MessageUser | undefined;
+  conversationId: string;
 };
