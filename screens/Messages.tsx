@@ -4,7 +4,7 @@ import NewMatchesList from "../components/Messages/NewMatchesList";
 import NewMessagesList from "../components/Messages/NewMessagesList";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ConversationType, MessageUser, RootStackScreenProps } from "../types";
-import { SafeAreaView } from "../components/Themed";
+import { SafeAreaView, Text } from "../components/Themed";
 import {
   fetchConversations,
   fetchUserConversations,
@@ -21,8 +21,8 @@ const Messages = ({ navigation }: RootStackScreenProps<"Messages">) => {
   const [loading, setLoading] = useState(true);
   const [conversations, setConversations] = useState<ConversationType[]>([]);
   //const [messages, setMessages] = useState<Message[][]>([]);
-
-  useEffect(() => {
+  const getData = async () => {
+    console.log("getting data");
     fetchUserConversations(user.cognitoId).then((res) => {
       const userConversations = res?.data?.listUserConversations
         ?.items as UserConversations[];
@@ -62,11 +62,20 @@ const Messages = ({ navigation }: RootStackScreenProps<"Messages">) => {
       });
       setLoading(false);
     });
+  };
+  useEffect(() => {
+    console.log("messages mounted");
   }, []);
 
   useEffect(() => {
     console.log("conversations", conversations);
   }, [conversations]);
+
+  useEffect(() => {
+    if (loading) {
+      getData();
+    }
+  }, [loading]);
 
   return (
     <SafeAreaView style={[styles.container]}>
@@ -85,6 +94,7 @@ const Messages = ({ navigation }: RootStackScreenProps<"Messages">) => {
           <NewMessagesList
             navigationProp={navigation}
             conversations={conversations}
+            setLoading={setLoading}
           />
         </>
       )}
@@ -99,5 +109,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  noMessages: {
+    color: themeColor,
+    fontSize: 22,
   },
 });
