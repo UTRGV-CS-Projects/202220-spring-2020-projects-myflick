@@ -6,29 +6,34 @@ import Message from "./Message";
 import { useScrollToTop } from "@react-navigation/native";
 import { fetchUserConversations } from "../../apis/messages";
 import { AuthContext } from "../../store/AuthContext";
-import { UserConversations } from "../../src/API";
-import { MessageUser } from "../../types";
+import { Message as MessageType, UserConversations } from "../../src/API";
+import { ConversationType, MessageUser } from "../../types";
 
 interface NewMessagesListProps {
   navigationProp: any;
-  users: MessageUser[];
+  conversations: ConversationType[];
 }
-const NewMessagesList = ({ navigationProp, users }: NewMessagesListProps) => {
+const NewMessagesList = ({
+  navigationProp,
+  conversations,
+}: NewMessagesListProps) => {
   const ref = useRef(null);
   useScrollToTop(ref);
 
   useEffect(() => {}, []);
 
+  /*  */
+
   return (
     <View style={styles.container}>
       <FlatList
         ref={ref}
-        data={users}
+        data={conversations}
         contentContainerStyle={styles.newMatchesListContainer}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(item: MessageUser) => item.cognitoId}
-        renderItem={({ item }: { item: MessageUser }) => {
+        keyExtractor={(item: ConversationType) => item.conversationId}
+        renderItem={({ item }: { item: ConversationType }) => {
           return <Message item={item} navigation={navigationProp} />;
         }}
       />

@@ -6,32 +6,39 @@ const Message = ({ item, navigation }: MessageParamList) => {
   const MAX_MESSAGE_LENGTH = 25;
 
   const handleOpenMessage = () => {
-    navigation.navigate("OpenChat");
+    navigation.navigate("OpenChat", {
+      id: item.conversationId,
+      name: item.user?.cognitoId,
+      person: item.user,
+    });
   };
 
-  /* const formatMessage = (message: string): string => {
-		const trimmedMessage = item.lastMessage.trim();
-		if (trimmedMessage.length > MAX_MESSAGE_LENGTH) {
-			return message.slice(0, MAX_MESSAGE_LENGTH).concat("...");
-		} else {
-			return message;
-		}
-	}; */
+  const formatMessage = (message: string): string => {
+    const trimmedMessage = item.lastMessage.trim();
+    if (trimmedMessage.length > MAX_MESSAGE_LENGTH) {
+      return message.slice(0, MAX_MESSAGE_LENGTH).concat("...");
+    } else {
+      return message;
+    }
+  };
 
   //const messageStyle = item.opened ? styles.opened : styles.unOpened;
 
   return (
     <View style={styles.messageContainer}>
       <TouchableOpacity onPress={handleOpenMessage}>
-        <Image style={styles.profile} source={{ uri: item.picture }}></Image>
+        <Image
+          style={styles.profile}
+          source={{ uri: item?.user?.picture }}
+        ></Image>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.innerMessageContainer}
         onPress={handleOpenMessage}
       >
         <View style={styles.innerMessage}>
-          <Text style={styles.name}>{item.firstName}</Text>
-          <Text>in the works</Text>
+          <Text style={styles.name}>{item?.user?.firstName}</Text>
+          <Text>{formatMessage(item.lastMessage)}</Text>
         </View>
       </TouchableOpacity>
     </View>

@@ -11,7 +11,7 @@ import {
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MovieCardType, PeopleDetailsType } from "./db/db";
 import * as ImagePicker from "expo-image-picker";
-import { User } from "./src/API";
+import { Message, User } from "./src/API";
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
@@ -84,7 +84,7 @@ export type MovieParamsList = {};
 export type IntroductionParamsList = {};
 
 export type MessageParamList = {
-  item: MessageUser;
+  item: ConversationType;
   navigation: any;
 };
 
@@ -149,13 +149,13 @@ export type GenresType = {
   name: string;
 };
 
-export type Message = {
+/* export type Message = {
   id: String;
   senderId: String;
   content: string;
   timeStamp: string;
 };
-
+ */
 export type ChatRoom = {
   id: String;
   users: string[]; //users array
@@ -166,4 +166,11 @@ export type MessageUser = {
   picture: string;
   firstName: string;
   cognitoId: string;
+};
+
+export type ConversationType = {
+  lastMessage: string;
+  messages: Message[];
+  user: MessageUser | undefined;
+  conversationId: string;
 };

@@ -5,7 +5,7 @@ import {
   Platform,
   FlatList,
 } from "react-native";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RootStackScreenProps } from "../types";
 import { SafeAreaView, View } from "../components/Themed";
@@ -19,6 +19,7 @@ import useColorScheme from "../hooks/useColorScheme";
 import Colors, { themeColor } from "../constants/Colors";
 import { listMessage } from "../apis/messages";
 import { Message } from "../src/API";
+import { AuthContext } from "../store/AuthContext";
 
 const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
   const [conversationId, setConversationId] = useState(route.params?.id);
@@ -26,7 +27,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
   const [person, setPerson] = useState(route.params?.person);
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState<Message[]>([]);
-
+  const { user, dispatch } = useContext(AuthContext);
   useEffect(() => {
     console.log(conversationId);
     console.log(userId);
@@ -34,9 +35,9 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 
     listMessage(conversationId)
       .then((res) => {
-        setLoading(false);
         const messagesResponse = res?.data?.listMessages?.items as Message[];
         setMessages(messagesResponse);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -47,85 +48,14 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
     console.log(messages);
   }, [messages]);
 
-  //hardcoded data for testing purpouses delete when finsihed - follows Message type from types.tsx
-  let hardcodedChat = [
-    { id: "1", senderId: "1", content: "hey (msg1)", timeStamp: "3:00 pm" },
-    {
-      id: "2",
-      senderId: "2",
-      content: "Testing (msg2)",
-      timeStamp: "3:02 pm",
-    },
-    {
-      id: "10",
-      senderId: "2",
-      content: "Do double messages look bad? (msg2)",
-      timeStamp: "3:02 pm",
-    },
-    {
-      id: "11",
-      senderId: "2",
-      content:
-        "Working on making the profile icon bubble only appear on the first msg, and then after another one is added, it's added (double) without bubble",
-      timeStamp: "3:02 pm",
-    },
-    {
-      id: "3",
-      senderId: "1",
-      content:
-        "new message is added when typed and 'sent' (random gibberish just to see how a lonmg message would look like on the openchat screen) (msg3)",
-      timeStamp: "3:05 pm",
-    },
-    {
-      id: "4",
-      senderId: "2",
-      content: "working on rendering flatlist from the bottom up (msg4)",
-      timeStamp: "3:07 pm",
-    },
-    {
-      id: "5",
-      senderId: "1",
-      content:
-        "Also working on making flatlist smaller when safeAreaKeyword is triggered (msg5)",
-      timeStamp: "3:10 pm",
-    },
-    {
-      id: "6",
-      senderId: "2",
-      content: "test (msg6)",
-      timeStamp: "3:11 pm",
-    },
-    {
-      id: "7",
-      senderId: "1",
-      content: "test (msg7)",
-      timeStamp: "3:15 pm",
-    },
-    {
-      id: "8",
-      senderId: "2",
-      content: "Damn (msg8)",
-      timeStamp: "3:17 pm",
-    },
-    {
-      id: "9",
-      senderId: "1",
-      content: "Cool beans (msg9 LAST)",
-      timeStamp: "3:20 pm",
-    },
-  ];
-
   const colorScheme = useColorScheme();
   const flatListRef = useRef<FlatList>(null);
 
-  //dependent variables
-  const [hardcodedChatEditable, setHardcodedChatEditable] =
-    useState(hardcodedChat);
   const [textBarInput, setTextBarInput] = useState("");
 
   //methods (triggers)
   const handleGoBack = () => {
-    navigation.navigate("Messages");
+    navigation.goBack();
   };
 
   const sendBtnTrigger = () => {
@@ -133,15 +63,6 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
     if (textBarInput === "") return;
 
     //else, add new message input to the chat
-    setHardcodedChatEditable([
-      ...hardcodedChatEditable,
-      {
-        id: "99", //HARDCODED DATA CHANGE THIS
-        senderId: "1", //HARDCODED DATA CHANGE THIS
-        content: textBarInput,
-        timeStamp: "3:00 pm", //HARDCODED DATA CHANGE THIS
-      },
-    ]);
 
     //once submitted, reset textBarInput
     setTextBarInput("");
@@ -166,6 +87,15 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
           animating={loading}
           color={themeColor}
           size={"large"}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         />
       ) : (
         <SafeAreaView style={[styles.container]}>
@@ -202,7 +132,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
           </View>
           <FlatList
             ref={flatListRef}
-            data={hardcodedChatEditable}
+            data={messages}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
             inverted={true}
@@ -211,16 +141,16 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
             onContentSizeChange={handleOnChange}
             renderItem={({ item }) => (
               <MessageBubble
-                messages={item}
-                currentUserId={"1" /* HARDCODED DATA CHANGE THIS*/}
+                message={item}
+                currentUserId={user.cognitoId}
                 key={item.id}
+                user={person}
               />
             )}
           />
           <View style={styles.bottomBarContainer}>
             <View style={styles.bottomBar}>
               <TextInput
-                label=""
                 autoComplete={false}
                 mode="outlined"
                 autoCapitalize="none"
@@ -240,7 +170,6 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
               </TouchableOpacity>
             </View>
           </View>
-          )
         </SafeAreaView>
       )}
     </KeyboardAvoidingView>
