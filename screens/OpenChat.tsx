@@ -13,13 +13,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import MessageBubble from "../components/Messages/MessageBubble";
 import { ActivityIndicator, TextInput } from "react-native-paper";
-
 //styling
 import useColorScheme from "../hooks/useColorScheme";
 import Colors, { themeColor } from "../constants/Colors";
-import { listMessage } from "../apis/messages";
-import { Message } from "../src/API";
+import { createMessages, listMessage } from "../apis/messages";
+import { OnCreateMessageSubscription } from "../src/API";
 import { AuthContext } from "../store/AuthContext";
+import { API, graphqlOperation } from "aws-amplify";
+import { onCreateMessage } from "../src/graphql/subscriptions";
 
 const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
   const [conversationId, setConversationId] = useState(route.params?.id);
@@ -28,6 +29,61 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState<Message[]>([]);
   const { user, dispatch } = useContext(AuthContext);
+  const subscriptionRef = useRef<any>();
+
+  interface Message {
+    id: string;
+    content: string;
+    conversationId: string;
+    sender: string;
+  }
+
+  interface SubscriptionValue<T> {
+    value: { data: T };
+  }
+  function mapOnCreateMessageSubscription(
+    createMessageSubscription: OnCreateMessageSubscription
+  ): Message {
+    const { id, content, conversationId, sender } =
+      createMessageSubscription.onCreateMessage || {};
+    return {
+      id,
+      content,
+      conversationId,
+      sender,
+    } as Message;
+  }
+
+  function subscribeGraphQL<T>(
+    subscription: any,
+    callback: (value: T) => void
+  ) {
+    return (
+      API.graphql({
+        query: subscription,
+        variables: {
+          conversationId,
+        },
+      }) as any
+    ).subscribe({
+      next: (response: SubscriptionValue<T>) => {
+        console.log("res value: ", response.value);
+        callback(response.value.data);
+      },
+      error: (error: any) => console.warn(error),
+    });
+    /* return (API.graphql(graphqlOperation(subscription)) as any).subscribe({
+      next: (response: SubscriptionValue<T>) => callback(response.value.data),
+    }); */
+  }
+
+  const onCreateMessageHandler = (
+    createMessageSubscription: OnCreateMessageSubscription
+  ) => {
+    const message = mapOnCreateMessageSubscription(createMessageSubscription);
+    setMessages([...messages, message]);
+  };
+
   useEffect(() => {
     console.log(conversationId);
     console.log(userId);
@@ -45,7 +101,18 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
   }, []);
 
   useEffect(() => {
-    console.log(messages);
+    console.log("messages", messages);
+
+    // Subscribe to creation of Message
+    const subscription = subscribeGraphQL<OnCreateMessageSubscription>(
+      onCreateMessage,
+      onCreateMessageHandler
+    );
+
+    return () => {
+      // Stop receiving data updates from the subscription
+      subscription.unsubscribe();
+    };
   }, [messages]);
 
   const colorScheme = useColorScheme();
@@ -58,11 +125,12 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
     navigation.goBack();
   };
 
-  const sendBtnTrigger = () => {
+  const sendBtnTrigger = async () => {
     //if textBarInput is empty, do nothing
     if (textBarInput === "") return;
 
     //else, add new message input to the chat
+    createMessages(conversationId, textBarInput, false, user.cognitoId);
 
     //once submitted, reset textBarInput
     setTextBarInput("");

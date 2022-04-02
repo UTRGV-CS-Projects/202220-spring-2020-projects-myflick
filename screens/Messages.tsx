@@ -1,10 +1,10 @@
-import { ActivityIndicator, StyleSheet } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import NewMatchesList from "../components/Messages/NewMatchesList";
 import NewMessagesList from "../components/Messages/NewMessagesList";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ConversationType, MessageUser, RootStackScreenProps } from "../types";
-import { SafeAreaView, Text } from "../components/Themed";
+import { SafeAreaView, Text, View } from "../components/Themed";
 import {
   fetchConversations,
   fetchUserConversations,
@@ -20,6 +20,7 @@ const Messages = ({ navigation }: RootStackScreenProps<"Messages">) => {
   const { user, dispatch } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [conversations, setConversations] = useState<ConversationType[]>([]);
+  const conversationIdSet = useRef(new Set<string>());
   //const [messages, setMessages] = useState<Message[][]>([]);
   const getData = async () => {
     console.log("getting data");
@@ -41,21 +42,48 @@ const Messages = ({ navigation }: RootStackScreenProps<"Messages">) => {
             fetchUserDataMessage(conversation!.name)
               .then((res) => {
                 messageUser = res?.data?.getUser as MessageUser;
-                lastMessage = messages[0].content;
+                lastMessage = messages[messages.length - 1].content;
 
                 return res;
               })
 
               .then(() => {
-                setConversations([
-                  ...conversations,
-                  {
-                    conversationId: userConversation!.conversationId,
-                    user: messageUser,
-                    lastMessage,
-                    messages,
-                  },
-                ]);
+                const duplicated = conversationIdSet.current.has(
+                  userConversation.conversationId
+                );
+                if (duplicated) {
+                  const newConversations = conversations.map(function (
+                    item,
+                    i
+                  ) {
+                    if (
+                      item.conversationId == userConversation.conversationId
+                    ) {
+                      return {
+                        conversationId: userConversation!.conversationId,
+                        user: messageUser,
+                        lastMessage,
+                        messages,
+                      };
+                    } else {
+                      return item;
+                    }
+                  });
+                  setConversations(newConversations);
+                } else {
+                  setConversations([
+                    ...conversations,
+                    {
+                      conversationId: userConversation!.conversationId,
+                      user: messageUser,
+                      lastMessage,
+                      messages,
+                    },
+                  ]);
+                  conversationIdSet.current.add(
+                    userConversation!.conversationId
+                  );
+                }
               });
           });
         });
@@ -113,5 +141,15 @@ const styles = StyleSheet.create({
   noMessages: {
     color: themeColor,
     fontSize: 22,
+  },
+  button: {
+    backgroundColor: themeColor,
+    padding: 12,
+    marginVertical: 10,
+    borderRadius: 10,
+    alignSelf: "center",
+  },
+  buttonText: {
+    color: "white",
   },
 });

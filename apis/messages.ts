@@ -85,9 +85,9 @@ export const createConversations = async (name: string, id: string) => {
 };
 
 export const createMessages = async (
-  conversationId: string,
+  conversationId: string | undefined,
   content: string,
-  isSent: string,
+  isSent: boolean,
   sender: string
 ) => {
   try {
