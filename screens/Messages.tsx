@@ -1,10 +1,10 @@
-import { ActivityIndicator, StyleSheet } from "react-native";
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import NewMatchesList from "../components/Messages/NewMatchesList";
 import NewMessagesList from "../components/Messages/NewMessagesList";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ConversationType, MessageUser, RootStackScreenProps } from "../types";
-import { SafeAreaView, Text } from "../components/Themed";
+import { SafeAreaView, Text, View } from "../components/Themed";
 import {
   fetchConversations,
   fetchUserConversations,
@@ -113,5 +113,15 @@ const styles = StyleSheet.create({
   noMessages: {
     color: themeColor,
     fontSize: 22,
+  },
+  button: {
+    backgroundColor: themeColor,
+    padding: 12,
+    marginVertical: 10,
+    borderRadius: 10,
+    alignSelf: "center",
+  },
+  buttonText: {
+    color: "white",
   },
 });
