@@ -35,6 +35,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
     id: string;
     content: string;
     conversationId: string;
+    createdAt: string;
     sender: string;
   }
 
@@ -91,7 +92,10 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 
     listMessage(conversationId)
       .then((res) => {
-        const messagesResponse = res?.data?.listMessages?.items as Message[];
+        let messagesResponse = res?.data?.listMessages?.items as Message[];
+        messagesResponse = messagesResponse.sort((a, b) => {
+          return a.createdAt.localeCompare(b.createdAt);
+        });
         setMessages(messagesResponse);
         setLoading(false);
       })

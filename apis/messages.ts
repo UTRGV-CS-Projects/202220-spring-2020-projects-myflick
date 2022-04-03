@@ -115,9 +115,9 @@ export const listMessage = async (conversationId: string | undefined) => {
         filter: { conversationId: { eq: conversationId } },
       })
     )) as GraphQLResult<ListMessagesQuery>;
-
     return data;
   } catch (error) {
+    console.log(error);
     throw new Error();
   }
 };
