@@ -294,17 +294,7 @@ const Personalize = ({
 					</View>
 				</View>
 
-				{/* <View>
-					<View style={styles.viewKs}>
-						<Input
-							placeholder="Name"
-							style={{ color: Colors[colorScheme].text }}
-							value={completeProfile.firstName}
-							onChangeText={(value) => {
-								setCompleteProfile({ ...completeProfile, firstName: value });
-							}}
-						/>
-					</View>
+				{/* 
 
 					<View style={styles.viewKs}>
 						<Input
@@ -322,40 +312,10 @@ const Personalize = ({
 						/>
 					</View>
 
-					<View style={styles.viewKs}>
-						<Input
-							value={completeProfile.pronouns}
-							style={{ color: Colors[colorScheme].text }}
-							onChangeText={(value) => {
-								setCompleteProfile({ ...completeProfile, pronouns: value });
-							}}
-							placeholder="Pronouns"
-						/>
-					</View>
 
-					<View style={styles.viewKs}>
-						<Input
-							value={completeProfile.bio}
-							style={{ color: Colors[colorScheme].text }}
-							onChangeText={(value) => {
-								setCompleteProfile({ ...completeProfile, bio: value });
-							}}
-							placeholder="Bio"
-							multiline={true}
-						/>
-					</View>
+					
 
-					<View style={styles.viewKs}>
-						<Input
-							value={completeProfile.location}
-							style={{ color: Colors[colorScheme].text }}
-							onChangeText={(value) => {
-								setCompleteProfile({ ...completeProfile, location: value });
-							}}
-							placeholder="Location"
-						/>
-					</View>
-				</View>
+					
 				
  */}
 <View style={[styles.container2,{ backgroundColor: Colors[colorScheme].primary },]}>
@@ -380,7 +340,7 @@ const Personalize = ({
 					</View>
 
 					<View style={[styles.container2,{ backgroundColor: Colors[colorScheme].primary },]}>
-						<Text style={styles.addName}>Pronouns</Text>
+						<Text style={styles.addName}>Age</Text>
 						<TextInput style={[styles.inputName,{ color: Colors[colorScheme].opposite },]}
 							placeholder="Add your age"
               value={completeProfile.age == 0 ? "" : completeProfile.age.toString()}
@@ -494,11 +454,7 @@ const Personalize = ({
 										fontWeight: "bold",
 									}}
 									onPress={() => {}}
-									style={{
-										margin: 5,
-										borderColor: themeColor,
-										alignSelf: "center",
-									}}
+									style={[styles.chipStyle, { backgroundColor: Colors[colorScheme].primary }]}
 								>
 									{item}
 								</Chip>
@@ -509,11 +465,7 @@ const Personalize = ({
 							onPress={() => {
 								setModalVisible(!modalVisible);
 							}}
-							style={{
-								margin: 5,
-								borderColor: themeColor,
-								alignSelf: "center",
-							}}
+							style={[styles.chipStyle, { backgroundColor: Colors[colorScheme].primary }]}
 						>
 							<Ionicons name="add" size={20} color={themeColor}></Ionicons>
 						</Chip>
@@ -736,4 +688,10 @@ const styles = StyleSheet.create({
 		marginLeft: 10, 
 		flexDirection: "row"
 	 }, 
+	 chipStyle:{
+		marginTop: 10,
+		marginLeft: 10,
+		borderColor: themeColor,
+		alignSelf: "center",
+	}
 });
