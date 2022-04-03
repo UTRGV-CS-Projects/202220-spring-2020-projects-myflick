@@ -294,7 +294,7 @@ const Personalize = ({
 					</View>
 				</View>
 
-				<View>
+				{/* <View>
 					<View style={styles.viewKs}>
 						<Input
 							placeholder="Name"
@@ -356,6 +356,69 @@ const Personalize = ({
 						/>
 					</View>
 				</View>
+				
+ */}
+<View style={[styles.container2,{ backgroundColor: Colors[colorScheme].primary },]}>
+						<Text style={styles.addName}>Name</Text>
+						<TextInput style={[styles.inputName,{color: Colors[colorScheme].opposite },]}
+              placeholder="Add your name"
+							value={completeProfile.firstName}
+              onChangeText={(value) => {
+                setCompleteProfile({ ...completeProfile, firstName: value})
+              }}/>
+					</View>
+
+					<View style={[styles.container2,{ backgroundColor: Colors[colorScheme].primary },]}>
+						<Text style={styles.addName}>Pronouns</Text>
+						<TextInput style={[styles.inputName,{ color: Colors[colorScheme].opposite },]}
+							placeholder="Add your pronouns"
+              value={completeProfile.pronouns}
+              onChangeText={(value) => {
+                setCompleteProfile({ ...completeProfile, pronouns: value });
+              }}
+						/>
+					</View>
+
+					<View style={[styles.container2,{ backgroundColor: Colors[colorScheme].primary },]}>
+						<Text style={styles.addName}>Pronouns</Text>
+						<TextInput style={[styles.inputName,{ color: Colors[colorScheme].opposite },]}
+							placeholder="Add your age"
+              value={completeProfile.age == 0 ? "" : completeProfile.age.toString()}
+              onChangeText={(value) => {
+				setCompleteProfile({
+					...completeProfile,
+					age: parseInt(value),
+				
+                });
+              }}
+						/>
+					</View>
+
+					<View style={[styles.container2,{ backgroundColor: Colors[colorScheme].primary },]}>
+						<Text style={styles.addName}>Bio</Text>
+						<TextInput style={[styles.inputName,{ color: Colors[colorScheme].opposite },]}
+							placeholder="Add your bio"
+              value={completeProfile.bio}
+              onChangeText={(value) => {
+                setCompleteProfile({ ...completeProfile, bio: value });
+              }}
+              
+						/>
+					</View>
+
+					<View style={[styles.container2,{ backgroundColor: Colors[colorScheme].primary },]}>
+						<Text style={styles.addName}>Location</Text>
+						<TextInput style={[styles.inputName,{ color: Colors[colorScheme].opposite },]}
+							placeholder="Add your location"
+              value={completeProfile.location}
+              onChangeText={(value) => {
+                setCompleteProfile({ ...completeProfile, location: value });
+              }}
+						/>
+					</View>
+
+
+
 
 				<View></View>
 
@@ -634,5 +697,25 @@ const styles = StyleSheet.create({
 	modalText: {
 		marginBottom: 15,
 		textAlign: "center",
+	},
+	container2: {
+		marginLeft: 11,
+		marginRight: 11,
+		marginTop: 15,
+		borderRadius: 10,
+		paddingVertical: 15,
+	},
+	addName: {
+		fontSize: 17,
+		color: themeColor,
+		fontWeight: "bold",
+		marginLeft: 10,
+	},
+	inputName: {
+		height: 40,
+		padding: 10,
+		fontSize: 17,
+		opacity: 0.6,
+		color: "grey",
 	},
 });
