@@ -423,45 +423,54 @@ const Personalize = ({
 				<View></View>
 
 				<View
-					style={{
-						width: "100%",
-						justifyContent: "center",
-						alignItems: "flex-start",
-					}}
-				>
-					<Text style={styles.sectionHeader}>Photos</Text>
-					<View style={styles.bodyContent}>
-						{completeProfile.photos.length > 0 ? (
-							<FlatList
-								horizontal={true}
-								contentContainerStyle={{}}
-								keyExtractor={(data) => {
-									return data;
-								}}
-								data={completeProfile.photos}
-								renderItem={(item) => {
-									return (
-										<Image
-											key={item.index}
-											source={{ uri: item.item }}
-											style={{ width: 200, height: 200 }}
-										/>
-									);
-								}}
-							/>
-						) : null}
-						<TouchableOpacity onPress={handleImages}>
-							<View style={styles.menuBox}>
-								<Ionicons
-									name="add"
-									size={60}
-									color={themeColor}
-									style={styles.icon}
-								></Ionicons>
-							</View>
-						</TouchableOpacity>
-					</View>
-				</View>
+          style={{
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "flex-start",
+          }}
+        >
+          <Text style={styles.sectionHeader}>Photos</Text>
+          <View style={styles.bodyContent}>
+            <ScrollView horizontal nestedScrollEnabled={true}>
+            <TouchableOpacity onPress={handleImages}>
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}]}>
+                <Ionicons
+                  name="add"
+                  size={60}
+                  color={themeColor}
+                  style={styles.icon}
+                ></Ionicons>
+              </View>
+            </TouchableOpacity>
+            
+            {completeProfile.photos.length > 0 ? (
+              <ScrollView >
+                
+              <FlatList
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{}}
+                keyExtractor={(data) => {
+                  return data;
+                }}
+                data={completeProfile.photos}
+                renderItem={(item) => {
+                  return (
+                    <Image
+                      key={item.index}
+                      source={{ uri: item.item }}
+                      style={styles.imageSizing}
+                    />
+                  );
+                }}
+              />
+            
+            </ScrollView>
+            ) : null}
+            
+            </ScrollView>
+          </View>
+        </View>
 
 				<View>
 					<Text style={styles.chipQuestion}>Interests</Text>
@@ -604,8 +613,10 @@ const styles = StyleSheet.create({
 	},
 	menuBox: {
 		backgroundColor: "#D3D3D3",
-		width: 200,
-		height: 200,
+		width: 100,
+		height: 140,
+		borderRadius: 8, 
+		marginLeft: 10,
 		alignItems: "center",
 		justifyContent: "center",
 	},
@@ -718,4 +729,11 @@ const styles = StyleSheet.create({
 		opacity: 0.6,
 		color: "grey",
 	},
+	imageSizing: {
+		width: 100, 
+		height: 140, 
+		borderRadius: 8, 
+		marginLeft: 10, 
+		flexDirection: "row"
+	 }, 
 });
