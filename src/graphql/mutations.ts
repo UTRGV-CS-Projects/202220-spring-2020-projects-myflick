@@ -2,123 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createUser = /* GraphQL */ `
-  mutation CreateUser($input: CreateUserInput!) {
-    createUser(input: $input) {
-      cognitoId
-      conversations {
-        nextToken
-        userConversations {
-          conversationId
-          userId
-        }
-      }
-      id
-      messages {
-        items {
-          content
-          conversationId
-          createdAt
-          id
-          isSent
-          sender
-        }
-        nextToken
-      }
-      username
-      registered
-      email
-      email_verified
-      firstName
-      picture
-      pronouns
-      bio
-      location
-      photos
-      interests
-      loggedIn
-      profileComplete
-    }
-  }
-`;
-export const updateUser = /* GraphQL */ `
-  mutation UpdateUser($input: UpdateUserInput!) {
-    updateUser(input: $input) {
-      cognitoId
-      conversations {
-        nextToken
-        userConversations {
-          conversationId
-          userId
-        }
-      }
-      id
-      messages {
-        items {
-          content
-          conversationId
-          createdAt
-          id
-          isSent
-          sender
-        }
-        nextToken
-      }
-      username
-      registered
-      email
-      email_verified
-      firstName
-      picture
-      pronouns
-      bio
-      location
-      photos
-      interests
-      loggedIn
-      profileComplete
-    }
-  }
-`;
-export const deleteUser = /* GraphQL */ `
-  mutation DeleteUser($input: DeleteUserInput!) {
-    deleteUser(input: $input) {
-      cognitoId
-      conversations {
-        nextToken
-        userConversations {
-          conversationId
-          userId
-        }
-      }
-      id
-      messages {
-        items {
-          content
-          conversationId
-          createdAt
-          id
-          isSent
-          sender
-        }
-        nextToken
-      }
-      username
-      registered
-      email
-      email_verified
-      firstName
-      picture
-      pronouns
-      bio
-      location
-      photos
-      interests
-      loggedIn
-      profileComplete
-    }
-  }
-`;
 export const createConversation = /* GraphQL */ `
   mutation CreateConversation($input: CreateConversationInput!) {
     createConversation(input: $input) {
@@ -201,6 +84,7 @@ export const createUserConversations = /* GraphQL */ `
           email
           email_verified
           firstName
+          age
           picture
           pronouns
           bio
@@ -235,6 +119,7 @@ export const createUserConversations = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -270,6 +155,7 @@ export const updateUserConversations = /* GraphQL */ `
           email
           email_verified
           firstName
+          age
           picture
           pronouns
           bio
@@ -304,6 +190,7 @@ export const updateUserConversations = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -339,6 +226,7 @@ export const deleteUserConversations = /* GraphQL */ `
           email
           email_verified
           firstName
+          age
           picture
           pronouns
           bio
@@ -373,6 +261,7 @@ export const deleteUserConversations = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -403,6 +292,7 @@ export const createMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -431,6 +321,7 @@ export const createMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -461,6 +352,7 @@ export const updateMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -489,6 +381,7 @@ export const updateMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -519,6 +412,7 @@ export const deleteMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -547,6 +441,7 @@ export const deleteMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -557,6 +452,183 @@ export const deleteMessage = /* GraphQL */ `
         profileComplete
       }
       sender
+    }
+  }
+`;
+export const createPicture = /* GraphQL */ `
+  mutation CreatePicture(
+    $input: CreatePictureInput!
+    $condition: ModelPictureConditionInput
+  ) {
+    createPicture(input: $input, condition: $condition) {
+      id
+      name
+      owner
+      file {
+        bucket
+        region
+        key
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updatePicture = /* GraphQL */ `
+  mutation UpdatePicture(
+    $input: UpdatePictureInput!
+    $condition: ModelPictureConditionInput
+  ) {
+    updatePicture(input: $input, condition: $condition) {
+      id
+      name
+      owner
+      file {
+        bucket
+        region
+        key
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deletePicture = /* GraphQL */ `
+  mutation DeletePicture(
+    $input: DeletePictureInput!
+    $condition: ModelPictureConditionInput
+  ) {
+    deletePicture(input: $input, condition: $condition) {
+      id
+      name
+      owner
+      file {
+        bucket
+        region
+        key
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createUser = /* GraphQL */ `
+  mutation CreateUser($input: CreateUserInput!) {
+    createUser(input: $input) {
+      cognitoId
+      conversations {
+        nextToken
+        userConversations {
+          conversationId
+          userId
+        }
+      }
+      id
+      messages {
+        items {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      username
+      registered
+      email
+      email_verified
+      firstName
+      age
+      picture
+      pronouns
+      bio
+      location
+      photos
+      interests
+      loggedIn
+      profileComplete
+    }
+  }
+`;
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser($input: UpdateUserInput!) {
+    updateUser(input: $input) {
+      cognitoId
+      conversations {
+        nextToken
+        userConversations {
+          conversationId
+          userId
+        }
+      }
+      id
+      messages {
+        items {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      username
+      registered
+      email
+      email_verified
+      firstName
+      age
+      picture
+      pronouns
+      bio
+      location
+      photos
+      interests
+      loggedIn
+      profileComplete
+    }
+  }
+`;
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser($input: DeleteUserInput!) {
+    deleteUser(input: $input) {
+      cognitoId
+      conversations {
+        nextToken
+        userConversations {
+          conversationId
+          userId
+        }
+      }
+      id
+      messages {
+        items {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      username
+      registered
+      email
+      email_verified
+      firstName
+      age
+      picture
+      pronouns
+      bio
+      location
+      photos
+      interests
+      loggedIn
+      profileComplete
     }
   }
 `;

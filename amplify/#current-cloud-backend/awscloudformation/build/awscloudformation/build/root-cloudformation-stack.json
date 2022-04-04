@@ -160,8 +160,14 @@
           "AppSyncApiName": "myflick",
           "DynamoDBBillingMode": "PAY_PER_REQUEST",
           "DynamoDBEnableServerSideEncryption": false,
+          "AuthCognitoUserPoolId": {
+            "Fn::GetAtt": [
+              "authmyflick6eddbe9a",
+              "Outputs.UserPoolId"
+            ]
+          },
           "S3DeploymentBucket": "amplify-myflick-dev-145327-deployment",
-          "S3DeploymentRootKey": "amplify-appsync-files/b0de86dd2446cc2bb52e78eb941001dcbcfddc87",
+          "S3DeploymentRootKey": "amplify-appsync-files/441e91e1938e1cc17ffc73f1282c0543ad2ddbcd",
           "env": "dev"
         }
       }
@@ -172,7 +178,7 @@
         "TemplateURL": "https://s3.amazonaws.com/amplify-myflick-dev-145327-deployment/amplify-cfn-templates/auth/myflick6eddbe9a-cloudformation-template.json",
         "Parameters": {
           "identityPoolName": "myflick6eddbe9a_identitypool_6eddbe9a",
-          "allowUnauthenticatedIdentities": false,
+          "allowUnauthenticatedIdentities": true,
           "resourceNameTruncated": "myflic6eddbe9a",
           "userPoolName": "myflick6eddbe9a_userpool_6eddbe9a",
           "autoVerifiedAttributes": "email",
@@ -216,6 +222,39 @@
           },
           "breakCircularDependency": true,
           "dependsOn": "",
+          "env": "dev"
+        }
+      }
+    },
+    "storages3a7ee1a1b": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-myflick-dev-145327-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
+        "Parameters": {
+          "bucketName": "myflick5b148c436f79489cb4ec3f71bd3b647a",
+          "selectedGuestPermissions": "s3:PutObject,s3:GetObject,s3:ListBucket,s3:DeleteObject",
+          "selectedAuthenticatedPermissions": "s3:PutObject,s3:GetObject,s3:ListBucket,s3:DeleteObject",
+          "unauthRoleName": {
+            "Ref": "UnauthRoleName"
+          },
+          "authRoleName": {
+            "Ref": "AuthRoleName"
+          },
+          "s3PrivatePolicy": "Private_policy_a7ee1a1b",
+          "s3ProtectedPolicy": "Protected_policy_a7ee1a1b",
+          "s3PublicPolicy": "Public_policy_a7ee1a1b",
+          "s3ReadPolicy": "read_policy_a7ee1a1b",
+          "s3UploadsPolicy": "Uploads_policy_a7ee1a1b",
+          "authPolicyName": "s3_amplify_a7ee1a1b",
+          "unauthPolicyName": "s3_amplify_a7ee1a1b",
+          "AuthenticatedAllowList": "ALLOW",
+          "GuestAllowList": "ALLOW",
+          "s3PermissionsAuthenticatedPrivate": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedProtected": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedUploads": "s3:PutObject",
+          "s3PermissionsGuestPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsGuestUploads": "s3:PutObject",
           "env": "dev"
         }
       }

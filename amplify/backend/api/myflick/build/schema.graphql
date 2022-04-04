@@ -6,6 +6,21 @@ type Conversation {
   name: String!
 }
 
+type S3Object @aws_cognito_user_pools {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+type Picture @aws_cognito_user_pools {
+  id: ID!
+  name: String
+  owner: String
+  file: S3Object
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
 type ConversationConnection {
   items: [Conversation]
   nextToken: String
@@ -39,6 +54,7 @@ input CreateUserInput {
   email: String!
   email_verified: Boolean!
   firstName: String!
+  age: Int
   picture: String!
   pronouns: String!
   bio: String
@@ -186,6 +202,9 @@ type Mutation {
   createMessage(input: CreateMessageInput!): Message
   updateMessage(input: UpdateMessageInput!): Message
   deleteMessage(input: DeleteMessageInput!): Message
+  createPicture(input: CreatePictureInput!, condition: ModelPictureConditionInput): Picture @aws_cognito_user_pools
+  updatePicture(input: UpdatePictureInput!, condition: ModelPictureConditionInput): Picture @aws_cognito_user_pools
+  deletePicture(input: DeletePictureInput!, condition: ModelPictureConditionInput): Picture @aws_cognito_user_pools
 }
 
 type Query {
@@ -198,6 +217,8 @@ type Query {
   listUserConversations(filter: TableUserConversationsFilterInput, limit: Int, nextToken: String): UserConversationsConnection
   getMessage(conversationId: ID!): Message
   listMessages(filter: TableMessageFilterInput, limit: Int, nextToken: String): MessageConnection
+  getPicture(id: ID!): Picture @aws_cognito_user_pools
+  listPictures(filter: ModelPictureFilterInput, limit: Int, nextToken: String): ModelPictureConnection @aws_cognito_user_pools
 }
 
 type Subscription {
@@ -211,9 +232,12 @@ type Subscription {
   onCreateUserConversations(conversationId: ID, userId: ID): UserConversations @aws_subscribe(mutations: ["createUserConversations"])
   onUpdateUserConversations(conversationId: ID, userId: ID): UserConversations @aws_subscribe(mutations: ["updateUserConversations"])
   onDeleteUserConversations(conversationId: ID, userId: ID): UserConversations @aws_subscribe(mutations: ["deleteUserConversations"])
-  onCreateMessage(content: String, conversationId: ID, createdAt: String, id: ID, isSent: Boolean): Message @aws_subscribe(mutations: ["createMessage"])
+  onCreateMessage(conversationId: ID): Message @aws_subscribe(mutations: ["createMessage"])
   onUpdateMessage(content: String, conversationId: ID, createdAt: String, id: ID, isSent: Boolean): Message @aws_subscribe(mutations: ["updateMessage"])
   onDeleteMessage(content: String, conversationId: ID, createdAt: String, id: ID, isSent: Boolean): Message @aws_subscribe(mutations: ["deleteMessage"])
+  onCreatePicture(owner: String): Picture @aws_subscribe(mutations: ["createPicture"]) @aws_cognito_user_pools
+  onUpdatePicture(owner: String): Picture @aws_subscribe(mutations: ["updatePicture"]) @aws_cognito_user_pools
+  onDeletePicture(owner: String): Picture @aws_subscribe(mutations: ["deletePicture"]) @aws_cognito_user_pools
 }
 
 input TableBooleanFilterInput {
@@ -357,6 +381,7 @@ type User {
   email: String!
   email_verified: Boolean!
   firstName: String!
+  age: Int
   picture: String!
   pronouns: String!
   bio: String
@@ -388,5 +413,51 @@ type UserConversationsConnection {
 type UserConverstationsConnection {
   nextToken: String
   userConversations: [UserConversations]
+}
+
+input S3ObjectInput {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+type ModelPictureConnection @aws_cognito_user_pools {
+  items: [Picture]!
+  nextToken: String
+}
+
+input ModelPictureFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  owner: ModelStringInput
+  and: [ModelPictureFilterInput]
+  or: [ModelPictureFilterInput]
+  not: ModelPictureFilterInput
+}
+
+input ModelPictureConditionInput {
+  name: ModelStringInput
+  owner: ModelStringInput
+  and: [ModelPictureConditionInput]
+  or: [ModelPictureConditionInput]
+  not: ModelPictureConditionInput
+}
+
+input CreatePictureInput {
+  id: ID
+  name: String
+  owner: String
+  file: S3ObjectInput
+}
+
+input UpdatePictureInput {
+  id: ID!
+  name: String
+  owner: String
+  file: S3ObjectInput
+}
+
+input DeletePictureInput {
+  id: ID!
 }
 

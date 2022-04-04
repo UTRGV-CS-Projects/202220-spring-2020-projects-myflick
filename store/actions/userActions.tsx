@@ -5,7 +5,7 @@ import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
 import { AuthContext, ProfileType } from "../AuthContext";
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import { createUser } from "../../src/graphql/mutations";
-
+import { CreateUserInput } from "../../src/API";
 export interface UserAction {
   type: UserActionTypes;
   payload?: any;
@@ -98,29 +98,30 @@ export const handleProfileComplete = async (
     // console.log("data", data);
 
     //  console.log("userSub", userSub);
-
+    const inputData: CreateUserInput = {
+      cognitoId: userSub,
+      id: userSub,
+      email: data.email,
+      username: userSub,
+      firstName: data.firstName,
+      email_verified: false,
+      picture: data.picture,
+      pronouns: data.pronouns,
+      bio: data.bio,
+      age: data.age,
+      location: data.location,
+      photos: data.photos,
+      interests: data.interests,
+      loggedIn: false,
+      profileComplete: true,
+    };
     const info = await API.graphql(
       graphqlOperation(createUser, {
-        input: {
-          cognitoId: userSub,
-          id: userSub,
-          email: data.email,
-          username: userSub,
-          firstName: data.firstName,
-          email_verified: false,
-          picture: data.picture,
-          pronouns: data.pronouns,
-          bio: data.bio,
-          location: data.location,
-          photos: data.photos,
-          interests: data.interests,
-          loggedIn: false,
-          profileComplete: true,
-        },
+        input: inputData,
       })
     );
 
-    //console.log(info);
+    console.log("signed up", info);
 
     dispatch({ type: UserActionTypes.PROFILE_COMPLETE, payload: data });
   } catch (error) {

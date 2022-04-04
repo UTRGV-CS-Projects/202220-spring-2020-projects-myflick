@@ -9,6 +9,17 @@ type Conversation {
   messages(after: String, first: Int): MessageConnection
   name: String!
 }
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+type Picture @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  name: String
+  owner: String
+  file: S3Object
+}
 
 type ConversationConnection {
   items: [Conversation]
@@ -43,6 +54,7 @@ input CreateUserInput {
   email: String!
   email_verified: Boolean!
   firstName: String!
+  age: Int
   picture: String!
   pronouns: String!
   bio: String
@@ -262,13 +274,8 @@ type Subscription {
     @aws_subscribe(mutations: ["updateUserConversations"])
   onDeleteUserConversations(conversationId: ID, userId: ID): UserConversations
     @aws_subscribe(mutations: ["deleteUserConversations"])
-  onCreateMessage(
-    content: String
-    conversationId: ID
-    createdAt: String
-    id: ID
-    isSent: Boolean
-  ): Message @aws_subscribe(mutations: ["createMessage"])
+  onCreateMessage(conversationId: ID): Message
+    @aws_subscribe(mutations: ["createMessage"])
   onUpdateMessage(
     content: String
     conversationId: ID
@@ -426,6 +433,7 @@ type User {
   email: String!
   email_verified: Boolean!
   firstName: String!
+  age: Int
   picture: String!
   pronouns: String!
   bio: String

@@ -15,6 +15,7 @@ interface CustomSwiperProps {
 	btnTriggerLeft: boolean;
 	btnTriggerTop: boolean;
 	btnTriggerRight: boolean;
+	genresMap: any;
 }
 
 const handleSwipeLeft = () => {};
@@ -29,6 +30,7 @@ const CustomMovieSwiper = ({
 	btnTriggerLeft,
 	btnTriggerTop,
 	btnTriggerRight,
+	genresMap,
 }: CustomSwiperProps) => {
 	const useSwiper = useRef<Swiper<MovieCardType>>(null);
 	const colorScheme = useColorScheme();
@@ -56,6 +58,7 @@ const CustomMovieSwiper = ({
 						genres={globalGenres}
 						cardIndex={index}
 						key={index}
+						genresMap={genresMap}
 					/>
 				);
 			}}

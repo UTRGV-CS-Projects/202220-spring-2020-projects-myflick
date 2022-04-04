@@ -30,6 +30,7 @@ export const me = /* GraphQL */ `
       email
       email_verified
       firstName
+      age
       picture
       pronouns
       bio
@@ -38,79 +39,6 @@ export const me = /* GraphQL */ `
       interests
       loggedIn
       profileComplete
-    }
-  }
-`;
-export const getUser = /* GraphQL */ `
-  query GetUser($cognitoId: ID!, $email: String!) {
-    getUser(cognitoId: $cognitoId, email: $email) {
-      cognitoId
-      conversations {
-        nextToken
-        userConversations {
-          conversationId
-          userId
-        }
-      }
-      id
-      messages {
-        items {
-          content
-          conversationId
-          createdAt
-          id
-          isSent
-          sender
-        }
-        nextToken
-      }
-      username
-      registered
-      email
-      email_verified
-      firstName
-      picture
-      pronouns
-      bio
-      location
-      photos
-      interests
-      loggedIn
-      profileComplete
-    }
-  }
-`;
-export const listUsers = /* GraphQL */ `
-  query ListUsers(
-    $filter: TableUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        cognitoId
-        conversations {
-          nextToken
-        }
-        id
-        messages {
-          nextToken
-        }
-        username
-        registered
-        email
-        email_verified
-        firstName
-        picture
-        pronouns
-        bio
-        location
-        photos
-        interests
-        loggedIn
-        profileComplete
-      }
-      nextToken
     }
   }
 `;
@@ -175,6 +103,7 @@ export const getUserConversations = /* GraphQL */ `
           email
           email_verified
           firstName
+          age
           picture
           pronouns
           bio
@@ -209,6 +138,7 @@ export const getUserConversations = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -252,6 +182,7 @@ export const listUserConversations = /* GraphQL */ `
           email
           email_verified
           firstName
+          age
           picture
           pronouns
           bio
@@ -284,6 +215,7 @@ export const getMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -312,6 +244,7 @@ export const getMessage = /* GraphQL */ `
         email
         email_verified
         firstName
+        age
         picture
         pronouns
         bio
@@ -333,46 +266,126 @@ export const listMessages = /* GraphQL */ `
   ) {
     listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        author {
-          cognitoId
-          id
-          username
-          registered
-          email
-          email_verified
-          firstName
-          picture
-          pronouns
-          bio
-          location
-          photos
-          interests
-          loggedIn
-          profileComplete
-        }
         content
         conversationId
         createdAt
         id
         isSent
-        recipient {
-          cognitoId
-          id
-          username
-          registered
-          email
-          email_verified
-          firstName
-          picture
-          pronouns
-          bio
-          location
-          photos
-          interests
-          loggedIn
-          profileComplete
-        }
         sender
+      }
+    }
+  }
+`;
+export const getPicture = /* GraphQL */ `
+  query GetPicture($id: ID!) {
+    getPicture(id: $id) {
+      id
+      name
+      owner
+      file {
+        bucket
+        region
+        key
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPictures = /* GraphQL */ `
+  query ListPictures(
+    $filter: ModelPictureFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPictures(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        owner
+        file {
+          bucket
+          region
+          key
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+
+export const getUser = /* GraphQL */ `
+  query GetUser($cognitoId: ID!) {
+    getUser(cognitoId: $cognitoId) {
+      cognitoId
+      conversations {
+        nextToken
+        userConversations {
+          conversationId
+          userId
+        }
+      }
+      id
+      messages {
+        items {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
+        nextToken
+      }
+      username
+      registered
+      email
+      email_verified
+      firstName
+      age
+      picture
+      pronouns
+      bio
+      location
+      photos
+      interests
+      loggedIn
+      profileComplete
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: TableUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        cognitoId
+        conversations {
+          nextToken
+        }
+        id
+        messages {
+          nextToken
+        }
+        username
+        registered
+        email
+        email_verified
+        firstName
+        age
+        picture
+        pronouns
+        bio
+        location
+        photos
+        interests
+        loggedIn
+        profileComplete
       }
       nextToken
     }

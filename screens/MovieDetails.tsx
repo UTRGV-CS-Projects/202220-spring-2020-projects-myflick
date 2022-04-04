@@ -20,23 +20,23 @@ const width = Dimensions.get('window').width
 const white_image = { uri: "https://wallpaperaccess.com/full/1586320.jpg" };
 
 const ozark_poster = {
-  uri: "https://m.media-amazon.com/images/M/MV5BNGY3MmUzNjktZWEzNi00ODdiLTk4ZDItZjBhMjZlYzI0NTJjXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_FMjpg_UX1000_.jpg",
+	uri: "https://m.media-amazon.com/images/M/MV5BNGY3MmUzNjktZWEzNi00ODdiLTk4ZDItZjBhMjZlYzI0NTJjXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_FMjpg_UX1000_.jpg",
 };
 
 const dark_knight = {
-  uri: "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_.jpg",
+	uri: "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_.jpg",
 };
 
 const marriage_story = {
-  uri: "https://soleposter.com/image/cache/catalog/poster/9587/9587-550x550h.jpg",
+	uri: "https://soleposter.com/image/cache/catalog/poster/9587/9587-550x550h.jpg",
 };
 
 function MovieDetails({
-  navigation,
-  route,
+	navigation,
+	route,
 }: RootTabScreenProps<"MovieDetails">) {
-  const { title, poster_path, release_date, overview, vote_average } =
-    route.params;
+	const { title, poster_path, release_date, overview, vote_average } =
+		route.params;
 
   return (
     <View style={styles.container}>

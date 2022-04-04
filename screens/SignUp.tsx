@@ -74,11 +74,11 @@ const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
               autoComplete={false}
               multiline={false}
               autoCapitalize="none"
-              activeOutlineColor={Colors[colorScheme].opposite}
+              activeOutlineColor={Colors[colorScheme].secondary}
               style={[styles.textInput]}
               autoCorrect={true}
-              onSubmitEditing={(value) => {
-                setUserEmail(value.nativeEvent.text.trim());
+              onChangeText={(value) => {
+                setUserEmail(value.trim());
               }}
               left={<TextInput.Icon name="account" />}
             />
@@ -88,10 +88,8 @@ const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
               mode="outlined"
               autoCapitalize="none"
               secureTextEntry={true}
-              activeOutlineColor={Colors[colorScheme].opposite}
-              onSubmitEditing={(value) =>
-                setPassword(value.nativeEvent.text.trim())
-              }
+              activeOutlineColor={Colors[colorScheme].secondary}
+              onChangeText={(value) => setPassword(value.trim())}
               style={[styles.textInput]}
               left={<TextInput.Icon name="eye" />}
             />
