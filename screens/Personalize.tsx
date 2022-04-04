@@ -21,6 +21,7 @@ import Colors, { themeColor, lightThemeColor } from "../constants/Colors";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
 import { Avatar, Input } from "react-native-elements";
+import SearchBar from "react-native-dynamic-search-bar";
 import { Chip } from "react-native-paper";
 import { UserActionTypes } from "../store/actions/actionTypes";
 import { AuthContext } from "../store/AuthContext";
@@ -34,12 +35,12 @@ import awsExports from "../src/aws-exports";
 import { Storage, API, graphqlOperation, Auth } from "aws-amplify";
 import { CreatePictureInput } from "../src/API";
 import { v4 as uuidv4 } from "uuid";
-const Personalize = ({
-	navigation,
-	route,
-}: RootStackScreenProps<"Personalize">) => {
-	const colorScheme = useColorScheme();
+import RBSheet from "react-native-raw-bottom-sheet";
+import axios from "axios"
 
+const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) => {
+	const colorScheme = useColorScheme();
+	const refRBSheet = useRef<any | null>(null);
 	const { user, dispatch } = useContext(AuthContext);
 	const [authCode, setAuthCode] = useState("");
 	const [modalVisible, setModalVisible] = useState(false);
@@ -48,6 +49,24 @@ const Personalize = ({
 		ImagePicker.useMediaLibraryPermissions();
 	const [interest, setInterest] = useState("");
 	const [loading, setLoading] = useState(false);
+	const apiurl = "http://www.omdbapi.com/?apikey=c72cc91d";
+	const [state, setState] = useState({
+		s: "Search for a movie",
+		results: [],
+		selected: {}
+	})
+	const search = () => {
+		axios(apiurl + "&s=" + state.s).then(({data}) =>{
+			let results = data.Search 
+			console.log(results)
+			setState(prevState => {
+				return {
+					...prevState,
+					results: results
+				}
+			})
+		})
+	}
 
 	const [completeProfile, setCompleteProfile] = useState<ProfileCompleteType>({
 		email: route.params!.email,
@@ -432,6 +451,62 @@ const Personalize = ({
           </View>
         </View>
 
+		<Text style={styles.sectionHeader}>Favorite Movies</Text>
+          <View style={styles.bodyContent}>
+            <ScrollView horizontal nestedScrollEnabled={true}>
+            <TouchableOpacity onPress={() => { refRBSheet.current.open(); }}>
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}]}>
+                <Ionicons
+                  name="add"
+                  size={60}
+                  color={themeColor}
+                  style={styles.icon}
+                ></Ionicons>
+              </View>
+            </TouchableOpacity>
+			</ScrollView>
+			</View>
+
+			<View>
+			<RBSheet
+							ref={refRBSheet}
+							animationType={"slide"}
+							closeOnDragDown={true}
+							closeOnPressMask={true}
+							customStyles={{
+								wrapper: {
+									backgroundColor: "transparent",
+								},
+								draggableIcon: {
+									backgroundColor: "grey",
+								},
+								container: {
+									backgroundColor: Colors[colorScheme].primary,
+									height: "100%",
+									
+									//borderRadius: 20,
+								},
+							}}
+						>
+							<Text style={styles.headerText}>Select a Film</Text>
+							<View
+								style={{
+									borderBottomColor: "black",
+									borderBottomWidth: 1,
+									width: "100%",
+									opacity: 0.2,
+									marginBottom: 5,
+								}}
+							></View>
+							<SearchBar
+								value={state.s}
+								//onPress={() => alert("onPress")}
+								onChangeText={text => setState(prevState => ({ ...prevState, s: text }))}
+								onSubmitEditing={search}
+							/>
+						</RBSheet>
+			</View>
+
 				<View>
 					<Text style={styles.chipQuestion}>Interests</Text>
 					<View
@@ -693,5 +768,13 @@ const styles = StyleSheet.create({
 		marginLeft: 10,
 		borderColor: themeColor,
 		alignSelf: "center",
-	}
+	},
+	headerText: {
+		fontSize: 25,
+		paddingLeft: 20,
+		paddingTop: 30,
+		paddingBottom: 10,
+		fontWeight: "bold",
+		textAlign: "center",
+	},
 });
