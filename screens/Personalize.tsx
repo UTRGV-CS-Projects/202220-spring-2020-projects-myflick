@@ -52,7 +52,7 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 	const apiurl = "http://www.omdbapi.com/?apikey=c72cc91d";
 	const [state, setState] = useState({
 		s: "Search for a movie",
-		results: [],
+		results: [] as any,
 		selected: {}
 	})
 	const search = () => {
@@ -313,30 +313,7 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 					</View>
 				</View>
 
-				{/* 
 
-					<View style={styles.viewKs}>
-						<Input
-							placeholder="Age"
-							style={{ color: Colors[colorScheme].text }}
-							value={
-								completeProfile.age == 0 ? "" : completeProfile.age.toString()
-							}
-							onChangeText={(value) => {
-								setCompleteProfile({
-									...completeProfile,
-									age: parseInt(value),
-								});
-							}}
-						/>
-					</View>
-
-
-					
-
-					
-				
- */}
 <View style={[styles.container2,{ backgroundColor: Colors[colorScheme].primary },]}>
 						<Text style={styles.addName}>Name</Text>
 						<TextInput style={[styles.inputName,{color: Colors[colorScheme].opposite },]}
@@ -492,7 +469,7 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 							<View
 								style={{
 									borderBottomColor: "black",
-									borderBottomWidth: 1,
+									borderBottomWidth: 2,
 									width: "100%",
 									opacity: 0.2,
 									marginBottom: 5,
@@ -504,6 +481,27 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 								onChangeText={text => setState(prevState => ({ ...prevState, s: text }))}
 								onSubmitEditing={search}
 							/>
+							<ScrollView style={[styles.results, {backgroundColor: Colors[colorScheme].primary}]}>
+								{state.results.map((result: { imdbID: React.Key | null | undefined; Title: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; Poster: any; }) => (
+									
+									<View key={result.imdbID} style={[styles.results, {backgroundColor: Colors[colorScheme].primary}]}>
+										<TouchableOpacity>
+										<View style={{flexDirection: "row"}}>
+										<Image
+											source={{uri: result.Poster}}
+											style={styles.imageSizing2}
+										/> 
+										<Text style={styles.heading}>{result.Title}</Text>
+										</View>
+										</TouchableOpacity>
+										</View>
+										
+									
+										
+							
+									
+								))}
+							</ScrollView>
 						</RBSheet>
 			</View>
 
@@ -763,6 +761,14 @@ const styles = StyleSheet.create({
 		marginLeft: 10, 
 		flexDirection: "row"
 	 }, 
+	 imageSizing2: {
+		width: 100, 
+		height: 140, 
+		borderRadius: 8, 
+		marginLeft: 10, 
+		
+		marginTop: 10
+	 }, 
 	 chipStyle:{
 		marginTop: 10,
 		marginLeft: 10,
@@ -777,4 +783,19 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		textAlign: "center",
 	},
+	results: {
+		flex: 1
+	},
+	result:{
+		flex: 1,
+		width: "100%",
+		
+	}, 
+	heading: {
+		fontSize: 18,
+		flexWrap: "wrap",
+		padding: 20,
+		
+	}
+	
 });
