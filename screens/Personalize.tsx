@@ -294,17 +294,7 @@ const Personalize = ({
 					</View>
 				</View>
 
-				<View>
-					<View style={styles.viewKs}>
-						<Input
-							placeholder="Name"
-							style={{ color: Colors[colorScheme].text }}
-							value={completeProfile.firstName}
-							onChangeText={(value) => {
-								setCompleteProfile({ ...completeProfile, firstName: value });
-							}}
-						/>
-					</View>
+				{/* 
 
 					<View style={styles.viewKs}>
 						<Input
@@ -322,83 +312,125 @@ const Personalize = ({
 						/>
 					</View>
 
-					<View style={styles.viewKs}>
-						<Input
-							value={completeProfile.pronouns}
-							style={{ color: Colors[colorScheme].text }}
-							onChangeText={(value) => {
-								setCompleteProfile({ ...completeProfile, pronouns: value });
-							}}
-							placeholder="Pronouns"
+
+					
+
+					
+				
+ */}
+<View style={[styles.container2,{ backgroundColor: Colors[colorScheme].primary },]}>
+						<Text style={styles.addName}>Name</Text>
+						<TextInput style={[styles.inputName,{color: Colors[colorScheme].opposite },]}
+              placeholder="Add your name"
+							value={completeProfile.firstName}
+              onChangeText={(value) => {
+                setCompleteProfile({ ...completeProfile, firstName: value})
+              }}/>
+					</View>
+
+					<View style={[styles.container2,{ backgroundColor: Colors[colorScheme].primary },]}>
+						<Text style={styles.addName}>Pronouns</Text>
+						<TextInput style={[styles.inputName,{ color: Colors[colorScheme].opposite },]}
+							placeholder="Add your pronouns"
+              value={completeProfile.pronouns}
+              onChangeText={(value) => {
+                setCompleteProfile({ ...completeProfile, pronouns: value });
+              }}
 						/>
 					</View>
 
-					<View style={styles.viewKs}>
-						<Input
-							value={completeProfile.bio}
-							style={{ color: Colors[colorScheme].text }}
-							onChangeText={(value) => {
-								setCompleteProfile({ ...completeProfile, bio: value });
-							}}
-							placeholder="Bio"
-							multiline={true}
+					<View style={[styles.container2,{ backgroundColor: Colors[colorScheme].primary },]}>
+						<Text style={styles.addName}>Age</Text>
+						<TextInput style={[styles.inputName,{ color: Colors[colorScheme].opposite },]}
+							placeholder="Add your age"
+              value={completeProfile.age == 0 ? "" : completeProfile.age.toString()}
+              onChangeText={(value) => {
+				setCompleteProfile({
+					...completeProfile,
+					age: parseInt(value),
+				
+                });
+              }}
 						/>
 					</View>
 
-					<View style={styles.viewKs}>
-						<Input
-							value={completeProfile.location}
-							style={{ color: Colors[colorScheme].text }}
-							onChangeText={(value) => {
-								setCompleteProfile({ ...completeProfile, location: value });
-							}}
-							placeholder="Location"
+					<View style={[styles.container2,{ backgroundColor: Colors[colorScheme].primary },]}>
+						<Text style={styles.addName}>Bio</Text>
+						<TextInput style={[styles.inputName,{ color: Colors[colorScheme].opposite },]}
+							placeholder="Add your bio"
+              value={completeProfile.bio}
+              onChangeText={(value) => {
+                setCompleteProfile({ ...completeProfile, bio: value });
+              }}
+              
 						/>
 					</View>
-				</View>
+
+					<View style={[styles.container2,{ backgroundColor: Colors[colorScheme].primary },]}>
+						<Text style={styles.addName}>Location</Text>
+						<TextInput style={[styles.inputName,{ color: Colors[colorScheme].opposite },]}
+							placeholder="Add your location"
+              value={completeProfile.location}
+              onChangeText={(value) => {
+                setCompleteProfile({ ...completeProfile, location: value });
+              }}
+						/>
+					</View>
+
+
+
 
 				<View></View>
 
 				<View
-					style={{
-						width: "100%",
-						justifyContent: "center",
-						alignItems: "flex-start",
-					}}
-				>
-					<Text style={styles.sectionHeader}>Photos</Text>
-					<View style={styles.bodyContent}>
-						{completeProfile.photos.length > 0 ? (
-							<FlatList
-								horizontal={true}
-								contentContainerStyle={{}}
-								keyExtractor={(data) => {
-									return data;
-								}}
-								data={completeProfile.photos}
-								renderItem={(item) => {
-									return (
-										<Image
-											key={item.index}
-											source={{ uri: item.item }}
-											style={{ width: 200, height: 200 }}
-										/>
-									);
-								}}
-							/>
-						) : null}
-						<TouchableOpacity onPress={handleImages}>
-							<View style={styles.menuBox}>
-								<Ionicons
-									name="add"
-									size={60}
-									color={themeColor}
-									style={styles.icon}
-								></Ionicons>
-							</View>
-						</TouchableOpacity>
-					</View>
-				</View>
+          style={{
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "flex-start",
+          }}
+        >
+          <Text style={styles.sectionHeader}>Photos</Text>
+          <View style={styles.bodyContent}>
+            <ScrollView horizontal nestedScrollEnabled={true}>
+            <TouchableOpacity onPress={handleImages}>
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}]}>
+                <Ionicons
+                  name="add"
+                  size={60}
+                  color={themeColor}
+                  style={styles.icon}
+                ></Ionicons>
+              </View>
+            </TouchableOpacity>
+            
+            {completeProfile.photos.length > 0 ? (
+              <ScrollView >
+                
+              <FlatList
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{}}
+                keyExtractor={(data) => {
+                  return data;
+                }}
+                data={completeProfile.photos}
+                renderItem={(item) => {
+                  return (
+                    <Image
+                      key={item.index}
+                      source={{ uri: item.item }}
+                      style={styles.imageSizing}
+                    />
+                  );
+                }}
+              />
+            
+            </ScrollView>
+            ) : null}
+            
+            </ScrollView>
+          </View>
+        </View>
 
 				<View>
 					<Text style={styles.chipQuestion}>Interests</Text>
@@ -422,11 +454,7 @@ const Personalize = ({
 										fontWeight: "bold",
 									}}
 									onPress={() => {}}
-									style={{
-										margin: 5,
-										borderColor: themeColor,
-										alignSelf: "center",
-									}}
+									style={[styles.chipStyle, { backgroundColor: Colors[colorScheme].primary }]}
 								>
 									{item}
 								</Chip>
@@ -437,11 +465,7 @@ const Personalize = ({
 							onPress={() => {
 								setModalVisible(!modalVisible);
 							}}
-							style={{
-								margin: 5,
-								borderColor: themeColor,
-								alignSelf: "center",
-							}}
+							style={[styles.chipStyle, { backgroundColor: Colors[colorScheme].primary }]}
 						>
 							<Ionicons name="add" size={20} color={themeColor}></Ionicons>
 						</Chip>
@@ -541,8 +565,10 @@ const styles = StyleSheet.create({
 	},
 	menuBox: {
 		backgroundColor: "#D3D3D3",
-		width: 200,
-		height: 200,
+		width: 100,
+		height: 140,
+		borderRadius: 8, 
+		marginLeft: 10,
 		alignItems: "center",
 		justifyContent: "center",
 	},
@@ -635,4 +661,37 @@ const styles = StyleSheet.create({
 		marginBottom: 15,
 		textAlign: "center",
 	},
+	container2: {
+		marginLeft: 11,
+		marginRight: 11,
+		marginTop: 15,
+		borderRadius: 10,
+		paddingVertical: 15,
+	},
+	addName: {
+		fontSize: 17,
+		color: themeColor,
+		fontWeight: "bold",
+		marginLeft: 10,
+	},
+	inputName: {
+		height: 40,
+		padding: 10,
+		fontSize: 17,
+		opacity: 0.6,
+		color: "grey",
+	},
+	imageSizing: {
+		width: 100, 
+		height: 140, 
+		borderRadius: 8, 
+		marginLeft: 10, 
+		flexDirection: "row"
+	 }, 
+	 chipStyle:{
+		marginTop: 10,
+		marginLeft: 10,
+		borderColor: themeColor,
+		alignSelf: "center",
+	}
 });
