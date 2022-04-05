@@ -142,6 +142,7 @@ export type ProfileCompleteType = {
   pronouns: string;
   picture: string;
   age: number;
+
 };
 
 export type GenresType = {

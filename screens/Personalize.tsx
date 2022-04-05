@@ -14,6 +14,7 @@ import {
 	TextInput,
 	Modal,
 	Pressable,
+	Button,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
@@ -37,21 +38,30 @@ import { CreatePictureInput } from "../src/API";
 import { v4 as uuidv4 } from "uuid";
 import RBSheet from "react-native-raw-bottom-sheet";
 import axios from "axios"
+import Swipeable from "react-native-gesture-handler/Swipeable";
 
 const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) => {
 	const colorScheme = useColorScheme();
 	const refRBSheet = useRef<any | null>(null);
+	const refRBSheet2 = useRef<any | null>(null);
 	const { user, dispatch } = useContext(AuthContext);
 	const [authCode, setAuthCode] = useState("");
 	const [modalVisible, setModalVisible] = useState(false);
+	const [isModalVisible, setModalVisible2] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible2(!isModalVisible);
+  };
 	const [images, setImages] = useState<ImagePicker.ImageInfo[]>([]);
 	const [imageStatus, requestPermission] =
 		ImagePicker.useMediaLibraryPermissions();
+	
 	const [interest, setInterest] = useState("");
+	const [favoriteMovies, setFavoriteMovies] = useState("");
 	const [loading, setLoading] = useState(false);
 	const apiurl = "http://www.omdbapi.com/?apikey=c72cc91d";
 	const [state, setState] = useState({
-		s: "Search for a movie",
+		s: "",
 		results: [] as any,
 		selected: {}
 	})
@@ -67,6 +77,7 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 			})
 		})
 	}
+
 
 	const [completeProfile, setCompleteProfile] = useState<ProfileCompleteType>({
 		email: route.params!.email,
@@ -210,6 +221,8 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 			.catch((err) => console.log(err));
 	};
 
+
+
 	const handleAddInterest = () => {
 		if (!interest) {
 			alert("Please enter an interest");
@@ -244,6 +257,7 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 
 	const checkRef = useRef<LottieView>(null);
 
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<Modal
@@ -274,6 +288,15 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 					</View>
 				</View>
 			</Modal>
+
+			<Modal visible={true}>
+        <View style={{ flex: 1 , zIndex:44, width:80, height:100}}>
+          <Text>Hello!</Text>
+
+          <Button title="Hide modal" onPress={toggleModal} />
+        </View>
+      </Modal>
+	
 
 			<ScrollView>
 				<View style={styles.titleBar}>
@@ -446,64 +469,70 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 
 			<View>
 			<RBSheet
-							ref={refRBSheet}
-							animationType={"slide"}
-							closeOnDragDown={true}
-							closeOnPressMask={true}
-							customStyles={{
-								wrapper: {
-									backgroundColor: "transparent",
-								},
-								draggableIcon: {
-									backgroundColor: "grey",
-								},
-								container: {
-									backgroundColor: Colors[colorScheme].primary,
-									height: "100%",
+				ref={refRBSheet}
+				animationType={"slide"}
+				closeOnDragDown={true}
+				closeOnPressMask={true}
+				customStyles={{
+					wrapper: {
+						backgroundColor: "transparent",
+					},
+					draggableIcon: {
+						backgroundColor: "grey",
+					},
+					container: {
+						backgroundColor: Colors[colorScheme].primary,
+						height: "100%",
+						
+						//borderRadius: 20,
+					},
+				}}
+			>
+				<Text style={styles.headerText}>Select a Movie</Text>
+				<View
+					style={{
+						borderBottomColor: "black",
+						borderBottomWidth: 2,
+						width: "100%",
+						opacity: 0.2,
+						marginBottom: 5,
+					}}
+				></View>
+				<SearchBar
+					value={state.s}
+					//onPress={() => alert("onPress")}
+					onChangeText={text => setState(prevState => ({ ...prevState, s: text }))}
+					onSubmitEditing={search}
+				/>
+				<ScrollView style={[styles.results, {backgroundColor: Colors[colorScheme].primary}]}>
+					{state.results.map((result: {Year: any; Type: any; imdbID: React.Key | null | undefined; Title: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; Poster: any; }) => (
+						
+						<View key={result.imdbID} style={styles.results}>
+							<TouchableOpacity onPress={toggleModal}>
 									
-									//borderRadius: 20,
-								},
-							}}
-						>
-							<Text style={styles.headerText}>Select a Film</Text>
-							<View
-								style={{
-									borderBottomColor: "black",
-									borderBottomWidth: 2,
-									width: "100%",
-									opacity: 0.2,
-									marginBottom: 5,
-								}}
-							></View>
-							<SearchBar
-								value={state.s}
-								//onPress={() => alert("onPress")}
-								onChangeText={text => setState(prevState => ({ ...prevState, s: text }))}
-								onSubmitEditing={search}
-							/>
-							<ScrollView style={[styles.results, {backgroundColor: Colors[colorScheme].primary}]}>
-								{state.results.map((result: { imdbID: React.Key | null | undefined; Title: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; Poster: any; }) => (
-									
-									<View key={result.imdbID} style={[styles.results, {backgroundColor: Colors[colorScheme].primary}]}>
-										<TouchableOpacity>
-										<View style={{flexDirection: "row"}}>
-										<Image
-											source={{uri: result.Poster}}
-											style={styles.imageSizing2}
-										/> 
-										<Text style={styles.heading}>{result.Title}</Text>
-										</View>
-										</TouchableOpacity>
-										</View>
-										
-									
-										
+							<View style={{ flexDirection: "row", backgroundColor: Colors[colorScheme].primary}}>
+							<Image
+								source={{uri: result.Poster}}
+								style={styles.imageSizing2}
+							/> 
+							<View style={{flexDirection: "column",  backgroundColor: Colors[colorScheme].primary}}>
+							<View style={{backgroundColor: Colors[colorScheme].primary, width:300}}>
+							<Text style={styles.heading}>{result.Title}</Text>
+								</View>
+							<Text style={styles.heading2}>{result.Year}</Text>
 							
-									
-								))}
-							</ScrollView>
-						</RBSheet>
+							</View>
+							</View>
+							
+						</TouchableOpacity>
+						</View>
+
+						
+					))}
+				</ScrollView>
+			</RBSheet>
 			</View>
+
 
 				<View>
 					<Text style={styles.chipQuestion}>Interests</Text>
@@ -575,6 +604,19 @@ const styles = StyleSheet.create({
 		flex: 1,
 		//marginTop:10,
 	},
+	modalContainer: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+		paddingTop: 50,
+		backgroundColor: '#ecf0f1',
+	  },
+	  modalContent: {
+		  width: '80%',
+		  backgroundColor: "white", 
+		  paddingHorizontal: 20,
+		  paddingVertical: 30,
+	  },
 	titleBar: {
 		flexDirection: "row",
 		justifyContent: "space-between",
@@ -784,7 +826,8 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 	},
 	results: {
-		flex: 1
+		flex: 1,
+		marginTop: 10, 
 	},
 	result:{
 		flex: 1,
@@ -792,9 +835,18 @@ const styles = StyleSheet.create({
 		
 	}, 
 	heading: {
-		fontSize: 18,
+		fontSize: 20,
+		fontWeight: "bold",
 		flexWrap: "wrap",
-		padding: 20,
+		paddingLeft: 10,
+		paddingTop: 10,
+		
+	},
+	heading2: {
+		fontSize: 18,
+		//flexWrap: "wrap",
+		paddingLeft: 10,
+		paddingTop: 10,
 		
 	}
 	
