@@ -3,8 +3,8 @@ import renderer from 'react-test-renderer';
 
 import { MonoText } from '../StyledText';
 
-it.only(`renders correctly`, () => {
-  const tree = renderer.create(<MonoText>Snapshot test!</MonoText>).toJSON();
+it(`renders correctly`, () => {
+  const tree = renderer.create(<MonoText>Snapshot tes!</MonoText>).toJSON();
 
   expect(tree).toMatchSnapshot();
 });
