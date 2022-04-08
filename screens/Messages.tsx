@@ -27,74 +27,82 @@ const Messages = ({ navigation }: RootStackScreenProps<"Messages">) => {
     fetchUserConversations(user.cognitoId).then((res) => {
       const userConversations = res?.data?.listUserConversations
         ?.items as UserConversations[];
-      userConversations.forEach((userConversation) => {
-        let lastMessage = "";
-        let conversationMessages: Message[] = [];
-        let messageUser: MessageUser;
-        let messages: Message[];
+      if (userConversations.length > 0) {
+        userConversations.forEach((userConversation) => {
+          let lastMessage = "";
+          let conversationMessages: Message[] = [];
+          let messageUser: MessageUser;
+          let messages: Message[];
 
-        listMessage(userConversation.conversationId)
-          .then((res) => {
-            messages = res?.data?.listMessages?.items as Message[];
-            messages = messages.sort((a, b) => {
-              return a.createdAt.localeCompare(b.createdAt);
-            });
-            //console.log("sorted messages", messages);
-            //setMessages([...messages, data]);
-          })
-          .then(() => {
-            fetchConversations(userConversation?.conversationId).then((res) => {
-              res?.data?.listConversations?.items?.map((conversation) => {
-                fetchUserDataMessage(conversation!.name)
-                  .then((res) => {
-                    messageUser = res?.data?.getUser as MessageUser;
-                    lastMessage = messages[messages.length - 1]?.content;
+          listMessage(userConversation.conversationId)
+            .then((res) => {
+              messages = res?.data?.listMessages?.items as Message[];
+              messages = messages.sort((a, b) => {
+                return a.createdAt.localeCompare(b.createdAt);
+              });
+              //console.log("sorted messages", messages);
+              //setMessages([...messages, data]);
+            })
+            .then(() => {
+              fetchConversations(userConversation?.conversationId).then(
+                (res) => {
+                  res?.data?.listConversations?.items?.map((conversation) => {
+                    fetchUserDataMessage(conversation!.name)
+                      .then((res) => {
+                        messageUser = res?.data?.getUser as MessageUser;
+                        lastMessage = messages[messages.length - 1]?.content;
 
-                    return res;
-                  })
+                        return res;
+                      })
 
-                  .then(() => {
-                    const duplicated = conversationIdSet.current.has(
-                      userConversation.conversationId
-                    );
-                    if (duplicated) {
-                      const newConversations = conversations.map(function (
-                        item,
-                        i
-                      ) {
-                        if (
-                          item.conversationId == userConversation.conversationId
-                        ) {
-                          return {
-                            conversationId: userConversation!.conversationId,
-                            user: messageUser,
-                            lastMessage,
-                            messages,
-                          };
+                      .then(() => {
+                        const duplicated = conversationIdSet.current.has(
+                          userConversation.conversationId
+                        );
+                        if (duplicated) {
+                          const newConversations = conversations.map(function (
+                            item,
+                            i
+                          ) {
+                            if (
+                              item.conversationId ==
+                              userConversation.conversationId
+                            ) {
+                              return {
+                                conversationId:
+                                  userConversation!.conversationId,
+                                user: messageUser,
+                                lastMessage,
+                                messages,
+                              };
+                            } else {
+                              return item;
+                            }
+                          });
+                          setConversations(newConversations);
                         } else {
-                          return item;
+                          setConversations([
+                            ...conversations,
+                            {
+                              conversationId: userConversation!.conversationId,
+                              user: messageUser,
+                              lastMessage,
+                              messages,
+                            },
+                          ]);
+                          conversationIdSet.current.add(
+                            userConversation!.conversationId
+                          );
                         }
                       });
-                      setConversations(newConversations);
-                    } else {
-                      setConversations([
-                        ...conversations,
-                        {
-                          conversationId: userConversation!.conversationId,
-                          user: messageUser,
-                          lastMessage,
-                          messages,
-                        },
-                      ]);
-                      conversationIdSet.current.add(
-                        userConversation!.conversationId
-                      );
-                    }
                   });
-              });
+                }
+              );
             });
-          });
-      });
+        });
+      } else {
+        setConversations([]);
+      }
       setLoading(false);
     });
   };
