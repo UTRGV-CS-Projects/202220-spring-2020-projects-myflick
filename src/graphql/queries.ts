@@ -75,7 +75,8 @@ export const listConversations = /* GraphQL */ `
         messages {
           nextToken
         }
-        name
+        name1
+        name2
       }
       nextToken
     }
@@ -171,7 +172,8 @@ export const listUserConversations = /* GraphQL */ `
         conversation {
           createdAt
           id
-          name
+          name1
+          name2
         }
         conversationId
         user {
