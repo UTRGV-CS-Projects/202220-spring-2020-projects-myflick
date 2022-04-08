@@ -47,7 +47,13 @@ const Messages = ({ navigation }: RootStackScreenProps<"Messages">) => {
               fetchConversations(userConversation?.conversationId).then(
                 (res) => {
                   res?.data?.listConversations?.items?.map((conversation) => {
-                    fetchUserDataMessage(conversation!.name)
+                    let name: string;
+                    if (conversation?.name1 === user.cognitoId) {
+                      name = conversation!.name2;
+                    } else {
+                      name = conversation!.name1;
+                    }
+                    fetchUserDataMessage(name)
                       .then((res) => {
                         messageUser = res?.data?.getUser as MessageUser;
                         lastMessage = messages[messages.length - 1]?.content;

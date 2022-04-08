@@ -61,11 +61,8 @@ export const handleSignIn = async (
     const info = await API.graphql(
       graphqlOperation(getUser, {
         cognitoId: username,
-        email,
       })
     );
-
-    console.log("infooo", info);
 
     //let userInfo = await Auth.currentAuthenticatedUser();
     //console.log("userInfo: ", userInfo);

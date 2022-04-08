@@ -82,6 +82,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
     createMessageSubscription: OnCreateMessageSubscription
   ) => {
     const message = mapOnCreateMessageSubscription(createMessageSubscription);
+    console.log("new msg received");
     setMessages([...messages, message]);
   };
 

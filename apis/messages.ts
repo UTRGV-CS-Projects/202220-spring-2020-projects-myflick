@@ -36,6 +36,7 @@ export const fetchUserConversations = async (cognitoId: string) => {
     return data;
   } catch (error) {
     console.log(error);
+    console.log("error in fetchUserConversations");
   }
 };
 
@@ -50,6 +51,7 @@ export const fetchConversations = async (conversationId: string) => {
     return data;
   } catch (error) {
     console.log(error);
+    console.log("error in fetchConversations");
   }
 };
 
@@ -66,15 +68,21 @@ export const createUserConversation = async (
 
     return data;
   } catch (error) {
+    console.log("error in createUserConversation");
     console.log(error);
   }
 };
 
-export const createConversations = async (name: string, id: string) => {
+export const createConversations = async (
+  name1: string,
+  name2: string,
+  id: string
+) => {
   try {
+    console.log(name1, name2);
     const data = (await API.graphql(
       graphqlOperation(createConversation, {
-        input: { id, name },
+        input: { id, name1, name2 },
       })
     )) as GraphQLResult<CreateConversationMutation>;
 

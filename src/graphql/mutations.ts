@@ -18,7 +18,8 @@ export const createConversation = /* GraphQL */ `
         }
         nextToken
       }
-      name
+      name1
+      name2
     }
   }
 `;
@@ -73,7 +74,8 @@ export const createUserConversations = /* GraphQL */ `
         conversation {
           createdAt
           id
-          name
+          name1
+          name2
         }
         conversationId
         user {
@@ -102,7 +104,8 @@ export const createUserConversations = /* GraphQL */ `
         messages {
           nextToken
         }
-        name
+        name1
+        name2
       }
       conversationId
       user {

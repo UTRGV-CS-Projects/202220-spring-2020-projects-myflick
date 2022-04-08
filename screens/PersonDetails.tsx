@@ -45,15 +45,17 @@ const PersonDetails = ({
   const handleMessage = () => {
     const id = uuidv4();
     const promise1 = createUserConversation(user.cognitoId, id);
-    const promise2 = createConversations(person!.cognitoId, id);
+    const promise2 = createUserConversation(person!.cognitoId, id);
 
-    Promise.all([promise1, promise2]).then((res) => {
+    const promise3 = createConversations(user.cognitoId, person!.cognitoId, id);
+
+    Promise.all([promise1, promise2, promise3]).then((res) => {
       console.log("data created", res);
       navigation.goBack();
 
       navigation.navigate("OpenChat", {
-        id: res[1]?.data?.createConversation?.id,
-        name: res[1]?.data?.createConversation?.name,
+        id: res[2]?.data?.createConversation?.id,
+        name: res[2]?.data?.createConversation?.name1,
         person: person!,
       });
     });

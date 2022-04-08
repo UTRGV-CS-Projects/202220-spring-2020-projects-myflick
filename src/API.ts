@@ -4,7 +4,9 @@
 
 export type CreateConversationInput = {
   createdAt?: string | null;
-  name: string;
+  name1: string;
+  name2: string;
+
   id: string;
 };
 
@@ -13,7 +15,8 @@ export type Conversation = {
   createdAt?: string | null;
   id: string;
   messages?: MessageConnection | null;
-  name: string;
+  name1: string;
+  name2: string;
 };
 
 export type MessageConnection = {
@@ -400,7 +403,8 @@ export type CreateConversationMutation = {
       } | null> | null;
       nextToken?: string | null;
     } | null;
-    name: string;
+    name1: string;
+    name2: string;
   } | null;
 };
 
@@ -1215,7 +1219,8 @@ export type ListConversationsQuery = {
         __typename: "MessageConnection";
         nextToken?: string | null;
       } | null;
-      name: string;
+      name1: string;
+      name2: string;
     } | null> | null;
     nextToken?: string | null;
   } | null;
