@@ -45,13 +45,14 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
   function mapOnCreateMessageSubscription(
     createMessageSubscription: OnCreateMessageSubscription
   ): Message {
-    const { id, content, conversationId, sender } =
+    const { id, content, conversationId, sender, createdAt } =
       createMessageSubscription.onCreateMessage || {};
     return {
       id,
       content,
       conversationId,
       sender,
+      createdAt,
     } as Message;
   }
 

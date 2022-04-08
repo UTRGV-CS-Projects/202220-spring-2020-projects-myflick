@@ -386,6 +386,7 @@ export const onCreateMessage = /* GraphQL */ `
       content
       conversationId
       id
+      createdAt
       isSent
       recipient {
         cognitoId

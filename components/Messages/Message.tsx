@@ -1,7 +1,7 @@
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { View, Text } from "../Themed";
-import { MessageParamList } from "../../types";
+import { ErrorTypes, MessageParamList } from "../../types";
 const Message = ({ item, navigation }: MessageParamList) => {
   const MAX_MESSAGE_LENGTH = 25;
 
@@ -38,7 +38,15 @@ const Message = ({ item, navigation }: MessageParamList) => {
       >
         <View style={styles.innerMessage}>
           <Text style={styles.name}>{item?.user?.firstName}</Text>
-          <Text>{formatMessage(item.lastMessage)}</Text>
+          <Text
+            style={
+              item.lastMessage === ErrorTypes.START_CONVERSATING
+                ? styles.startConversation
+                : null
+            }
+          >
+            {formatMessage(item.lastMessage)}
+          </Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -53,6 +61,9 @@ const styles = StyleSheet.create({
     height: 57,
     borderRadius: 50,
     marginRight: 10,
+  },
+  startConversation: {
+    opacity: 0.6,
   },
 
   messageContainer: {

@@ -4,6 +4,7 @@ import { View, Text } from "../Themed";
 import Colors, { themeColor } from "../../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { Message, User } from "../../src/API";
+import useColorScheme from "../../hooks/useColorScheme";
 
 interface ChatMsgprops {
   currentUserId: string;
@@ -13,6 +14,39 @@ interface ChatMsgprops {
 
 const MessageBubble = (props: ChatMsgprops) => {
   const { message, currentUserId, user } = props; //de-structure props
+  const colorScheme = useColorScheme();
+
+  const formatLocalTime = (date: string) => {
+    const data = new Date(date);
+    return data.toLocaleString();
+  };
+
+  function timeSince(date: Date) {
+    let seconds = Math.floor((+new Date() - +date) / 1000);
+
+    var interval = seconds / 31536000;
+
+    if (interval > 1) {
+      return Math.floor(interval) + " years";
+    }
+    interval = seconds / 2592000;
+    if (interval > 1) {
+      return Math.floor(interval) + " months";
+    }
+    interval = seconds / 86400;
+    if (interval > 1) {
+      return Math.floor(interval) + " days";
+    }
+    interval = seconds / 3600;
+    if (interval > 1) {
+      return Math.floor(interval) + " hours";
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+      return Math.floor(interval) + " minutes";
+    }
+    return Math.floor(seconds) + " seconds";
+  }
 
   const renderReceivedMessage = () => {
     return (
@@ -24,9 +58,21 @@ const MessageBubble = (props: ChatMsgprops) => {
               uri: user?.picture,
             }}
           />
-          <View style={styles.messageBubbleContainer}>
-            <View style={styles.messageBubble}>
-              <Text style={styles.messageText}>{message.content}</Text>
+          <View>
+            <View>
+              <View style={styles.messageBubble}>
+                <Text style={styles.messageText}>{message.content}</Text>
+              </View>
+              <Text
+                style={{
+                  color: Colors[colorScheme].opposite,
+                  alignSelf: "flex-end",
+                  marginTop: 10,
+                  fontSize: 11,
+                }}
+              >
+                {formatLocalTime(message.createdAt)}
+              </Text>
             </View>
           </View>
         </View>
@@ -38,8 +84,20 @@ const MessageBubble = (props: ChatMsgprops) => {
     return (
       <View style={styles.messageContainer}>
         <View>
-          <View style={styles.messageSentBubble}>
-            <Text style={styles.messageText}>{message.content}</Text>
+          <View>
+            <View style={styles.messageSentBubble}>
+              <Text style={styles.messageText}>{message.content}</Text>
+            </View>
+            <Text
+              style={{
+                fontSize: 11,
+                color: Colors[colorScheme].opposite,
+                alignSelf: "flex-end",
+                marginTop: 10,
+              }}
+            >
+              {formatLocalTime(message.createdAt)}
+            </Text>
           </View>
           <View style={styles.messageInfo}>
             <Ionicons
@@ -80,6 +138,7 @@ const styles = StyleSheet.create({
 
     fontSize: 16,
   },
+
   messageBubble: {
     backgroundColor: "gray",
     padding: 11,
@@ -87,7 +146,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 0,
     alignContent: "center",
     alignItems: "center",
-    alignSelf: "center",
+    alignSelf: "flex-start",
     maxWidth: 290,
   },
   messageSentBubble: {
@@ -105,6 +164,7 @@ const styles = StyleSheet.create({
     flex: 0,
     paddingHorizontal: 10,
     paddingTop: 10,
+    paddingBottom: 10,
   },
 
   receivedTime: {

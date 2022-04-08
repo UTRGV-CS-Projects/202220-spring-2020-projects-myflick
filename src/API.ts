@@ -2069,7 +2069,7 @@ export type OnCreateMessageSubscription = {
     } | null;
     content: string;
     conversationId: string;
-    createdAt?: string | null;
+    createdAt: string;
     id: string;
     isSent?: boolean | null;
     recipient?: {

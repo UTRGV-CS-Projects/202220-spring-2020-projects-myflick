@@ -3,7 +3,12 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import NewMatchesList from "../components/Messages/NewMatchesList";
 import NewMessagesList from "../components/Messages/NewMessagesList";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ConversationType, MessageUser, RootStackScreenProps } from "../types";
+import {
+  ConversationType,
+  MessageUser,
+  RootStackScreenProps,
+  ErrorTypes,
+} from "../types";
 import { SafeAreaView, Text, View } from "../components/Themed";
 import {
   fetchConversations,
@@ -15,6 +20,7 @@ import { Message, UserConversations } from "../src/API";
 import { listConversations } from "../src/graphql/queries";
 import { fetchUserDataMessage } from "../apis/users";
 import { themeColor } from "../constants/Colors";
+
 const Messages = ({ navigation }: RootStackScreenProps<"Messages">) => {
   const insets = useSafeAreaInsets();
   const { user, dispatch } = useContext(AuthContext);
@@ -37,11 +43,11 @@ const Messages = ({ navigation }: RootStackScreenProps<"Messages">) => {
           listMessage(userConversation.conversationId)
             .then((res) => {
               messages = res?.data?.listMessages?.items as Message[];
-              messages = messages.sort((a, b) => {
-                return a.createdAt.localeCompare(b.createdAt);
-              });
-              //console.log("sorted messages", messages);
-              //setMessages([...messages, data]);
+              if (messages.length > 0) {
+                messages = messages.sort((a, b) => {
+                  return a.createdAt.localeCompare(b.createdAt);
+                });
+              }
             })
             .then(() => {
               fetchConversations(userConversation?.conversationId).then(
@@ -56,7 +62,11 @@ const Messages = ({ navigation }: RootStackScreenProps<"Messages">) => {
                     fetchUserDataMessage(name)
                       .then((res) => {
                         messageUser = res?.data?.getUser as MessageUser;
-                        lastMessage = messages[messages.length - 1]?.content;
+                        if (messages.length > 0) {
+                          lastMessage = messages[messages.length - 1]?.content;
+                        } else {
+                          lastMessage = ErrorTypes.START_CONVERSATING;
+                        }
 
                         return res;
                       })

@@ -174,3 +174,7 @@ export type ConversationType = {
   user: MessageUser | undefined;
   conversationId: string;
 };
+
+export enum ErrorTypes {
+  START_CONVERSATING = "Start Conversating!",
+}
