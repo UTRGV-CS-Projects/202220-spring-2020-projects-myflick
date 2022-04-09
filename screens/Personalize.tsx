@@ -21,7 +21,7 @@ import { RootStackScreenProps } from "../types";
 import Colors, { themeColor, lightThemeColor } from "../constants/Colors";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
-import { Avatar, Input } from "react-native-elements";
+import { Avatar, Icon, Input } from "react-native-elements";
 import SearchBar from "react-native-dynamic-search-bar";
 import { Chip } from "react-native-paper";
 import { UserActionTypes } from "../store/actions/actionTypes";
@@ -38,7 +38,8 @@ import { CreatePictureInput } from "../src/API";
 import { v4 as uuidv4 } from "uuid";
 import RBSheet from "react-native-raw-bottom-sheet";
 import axios from "axios"
-import Swipeable from "react-native-gesture-handler/Swipeable";
+import { searchMovie } from "../apis/movies";
+import Card from "../components/Cards";
 
 const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) => {
 	const colorScheme = useColorScheme();
@@ -57,9 +58,10 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 		ImagePicker.useMediaLibraryPermissions();
 	
 	const [interest, setInterest] = useState("");
-	const [favoriteMovies, setFavoriteMovies] = useState("");
+	
 	const [loading, setLoading] = useState(false);
 	const apiurl = "http://www.omdbapi.com/?apikey=c72cc91d";
+
 	const [state, setState] = useState({
 		s: "",
 		results: [] as any,
@@ -258,6 +260,19 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 	const checkRef = useRef<LottieView>(null);
 
 
+	const [text, setText] = useState("");
+	const [searchResults, setSearchResults] = useState<any | null>();
+	const [error, setError] = useState(false);
+
+	const onSubmit = (query: any) => {
+		searchMovie(query).then(data => 
+			{ setSearchResults(data);
+				console.log(data);
+			}).catch(() => { setError(true);});
+		console.log(query); 
+		
+	}
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<Modal
@@ -288,14 +303,6 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 					</View>
 				</View>
 			</Modal>
-
-			<Modal visible={true}>
-        <View style={{ flex: 1 , zIndex:44, width:80, height:100}}>
-          <Text>Hello!</Text>
-
-          <Button title="Hide modal" onPress={toggleModal} />
-        </View>
-      </Modal>
 	
 
 			<ScrollView>
@@ -498,38 +505,30 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 						marginBottom: 5,
 					}}
 				></View>
-				<SearchBar
-					value={state.s}
-					//onPress={() => alert("onPress")}
-					onChangeText={text => setState(prevState => ({ ...prevState, s: text }))}
-					onSubmitEditing={search}
-				/>
-				<ScrollView style={[styles.results, {backgroundColor: Colors[colorScheme].primary}]}>
-					{state.results.map((result: {Year: any; Type: any; imdbID: React.Key | null | undefined; Title: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; Poster: any; }) => (
-						
-						<View key={result.imdbID} style={styles.results}>
-							<TouchableOpacity onPress={toggleModal}>
-									
-							<View style={{ flexDirection: "row", backgroundColor: Colors[colorScheme].primary}}>
-							<Image
-								source={{uri: result.Poster}}
-								style={styles.imageSizing2}
-							/> 
-							<View style={{flexDirection: "column",  backgroundColor: Colors[colorScheme].primary}}>
-							<View style={{backgroundColor: Colors[colorScheme].primary, width:300}}>
-							<Text style={styles.heading}>{result.Title}</Text>
-								</View>
-							<Text style={styles.heading2}>{result.Year}</Text>
-							
-							</View>
-							</View>
-							
-						</TouchableOpacity>
-						</View>
 
-						
-					))}
-				</ScrollView>
+	
+			<SearchBar
+					value={text}
+					placeholder="Search Movies"
+					onChangeText={setText}
+					onSubmitEditing={() => {onSubmit(text)}}
+				/>
+
+				<View style={[styles.searchItems, {backgroundColor: Colors[colorScheme].primary}]}>
+					{searchResults && searchResults.length > 0 && (
+					<FlatList
+					showsVerticalScrollIndicator={false}
+						numColumns={3}
+						data={searchResults}
+						renderItem={({item}) => (
+						<Card navigation={navigation} item={item} />
+						)}
+						keyExtractor={item => item.id}
+					/>
+					)}
+					
+				</View>
+			
 			</RBSheet>
 			</View>
 
@@ -848,6 +847,27 @@ const styles = StyleSheet.create({
 		paddingLeft: 10,
 		paddingTop: 10,
 		
-	}
+	}, 
+	input: {
+		borderRadius: 15,
+		height: 40,
+		margin: 12,
+		borderWidth: 1,
+		padding: 10,
+	  },
+	  container23: {
+		padding: 10,
+		paddingTop: 10,
+		flexDirection: 'row',
+		alignItems: 'center',
+	  },
+	  form: {
+		flexBasis: 'auto',
+		flexGrow: 1,
+	  },
+	  searchItems: {
+		padding: 5,
+		color: themeColor,
+	  },
 	
 });
