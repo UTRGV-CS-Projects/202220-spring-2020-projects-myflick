@@ -15,6 +15,7 @@ import {
 	Modal,
 	Pressable,
 	Button,
+	Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
@@ -87,6 +88,7 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 		interests: [],
 		firstName: "",
 		photos: [],
+		favorites: [],
 		bio: "",
 		age: 0,
 		location: "",
@@ -304,6 +306,7 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 				</View>
 			</Modal>
 	
+			
 
 			<ScrollView>
 				<View style={styles.titleBar}>
@@ -471,8 +474,39 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
                 ></Ionicons>
               </View>
             </TouchableOpacity>
+			{completeProfile.favorites.length > 0 ? (
+              <ScrollView >
+                
+              <FlatList
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{}}
+                keyExtractor={(data) => {
+                  return data;
+                }}
+                data={completeProfile.photos}
+                renderItem={(item) => {
+                  return (
+                    <Image
+                      key={item.index}
+                      source={{ uri: item.item }}
+                      style={styles.imageSizing}
+                    />
+                  );
+                }}
+              />
+            
+            </ScrollView>
+            ) : null}
+
+		
 			</ScrollView>
 			</View>
+
+
+
+
+
 
 			<View>
 			<RBSheet
@@ -505,8 +539,6 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 						marginBottom: 5,
 					}}
 				></View>
-
-	
 			<SearchBar
 					value={text}
 					placeholder="Search Movies"
@@ -517,7 +549,7 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 				<View style={[styles.searchItems, {backgroundColor: Colors[colorScheme].primary}]}>
 					{searchResults && searchResults.length > 0 && (
 					<FlatList
-					showsVerticalScrollIndicator={false}
+						showsVerticalScrollIndicator={false}
 						numColumns={3}
 						data={searchResults}
 						renderItem={({item}) => (
@@ -531,6 +563,7 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 			
 			</RBSheet>
 			</View>
+
 
 
 				<View>
