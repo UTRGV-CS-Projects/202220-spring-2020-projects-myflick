@@ -37,7 +37,7 @@ const getUserDataMessage = `query GetUser($cognitoId: ID!) {
   }
 }`;
 
-const getLikedInfo = `query MyQuery {
+const getLikedInfo = `query MyQuery($likedId:Int!) {
   getLikedTable(likedId: $likedId) {
     UserLikingId
     VictimId
