@@ -1,0 +1,37 @@
+Screens
+
+Unit tests!!!
+   Unit Tests 
+        - Tests one unit of code in isolation.. function or react component.. Dont test any interactions with any other unit
+     Functional tests
+        - Testig a particular function of a software. Unit of software that takes inputs and gets outputs. General behavior of your software.
+     - Like Enter data in form  and click submit. and function your testing to see if the software does right thing. Might be a integration tests, or a unit test. Invalid data an entry box turns red its a unit tests, still a 
+        function test. Your testing the behavior not code... react testing library recommends testing how users use your software not testing internal code interpretation 
+        enncourages functional tests for react testing libary
+
+Behavior Driven Design
+    - Testing behavior over implementation. How users use the app.
+
+SignIn
+ - Test Button Functionality BDD
+ - Functions for testing if the username !== 0
+ - Typing FireEvent, Type
+
+SignUp
+ - Button Functionality
+ - Functions username and password length
+- Typing FireEvent, Type
+
+Personalize
+ - Test Image Picking
+ - Movie Choosing
+ - Button
+ - Modal
+ - Functions
+ - Movie Scroll?
+
+MovieSwiping
+ - Swiping Functionality
+ - Movie Click to get MovieDetails page
+
+ 

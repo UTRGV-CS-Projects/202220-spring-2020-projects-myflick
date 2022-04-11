@@ -18,7 +18,7 @@ const createTestProps = (props: Object) => ({
   ...props
 })
 
-  describe('Fire Event testing!', () => {
+  describe.skip('Fire Event testing!', () => {
 
     describe('Rendering', () => {
       let props: any;
@@ -29,3 +29,12 @@ const createTestProps = (props: Object) => ({
       expect(props.navigation.navigate).toHaveBeenCalledWith('SignIn')
       })
     })
+
+test.only('Another Example', async () => {
+  let props: any;
+  beforeEach(() => {
+    props = createTestProps({})
+  })
+  const {getAllByRole} = await render(<SignIn {...props} />)
+  expect(getAllByRole('button')).toBeDefined();
+})

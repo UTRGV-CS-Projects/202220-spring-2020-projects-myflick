@@ -15,7 +15,7 @@ const ImageTapModal:React.FC<Props> = ({image}) => {
   return (
     <View style={styles.container}>
 
-        <TouchableOpacity testID="touchableopac" activeOpacity={.5} onPress={() => setModalVisible(true)}>
+        <TouchableOpacity accessibilityRole='button' accessibilityLabel='upvote count' testID="touchableopac" activeOpacity={.5} onPress={() => setModalVisible(true)}>
             <Image source={image} style={styles.image}/>
         </TouchableOpacity>
        
