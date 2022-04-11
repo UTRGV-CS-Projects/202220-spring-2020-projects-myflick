@@ -1,10 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import App from './App';
-
-describe('<App />', () => {
-  it('has 1 child', () => {
+import Screen from '../Screen'
+import App from '../../App'
+describe('<Screen />', () => {
+  it('has 2 child', () => {
     const tree = renderer.create(<App />).toJSON();
     expect(tree.children.length).toBe(1);
   });

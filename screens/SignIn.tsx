@@ -166,6 +166,11 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
             <TouchableOpacity style={styles.signInButton} onPress={signIn}>
               <Text style={styles.signInText}>Sign In</Text>
             </TouchableOpacity>
+
+            <Button title="Press me" onPress={()=> console.log("Test!")}>
+              Press me
+            </Button>
+            
             <ActivityIndicator
               size="large"
               color="#ffffff"
