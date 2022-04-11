@@ -1,5 +1,7 @@
 Screens
 
+
+
 Unit tests!!!
    Unit Tests 
         - Tests one unit of code in isolation.. function or react component.. Dont test any interactions with any other unit
@@ -34,4 +36,8 @@ MovieSwiping
  - Swiping Functionality
  - Movie Click to get MovieDetails page
 
+MovieDetails
+ - Check if the image is clickable
  
+MySettings
+ - Check Image picture

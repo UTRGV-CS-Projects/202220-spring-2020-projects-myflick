@@ -40,7 +40,7 @@ test.only('Another Example', async () => {
 })
 
 
-describe('Test the User and Password lengt', () => {
+describe('Test the User and Password length', () => {
   it("Test the Username Length", () => {
     
   })
