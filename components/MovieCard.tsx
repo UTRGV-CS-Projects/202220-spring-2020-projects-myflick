@@ -12,22 +12,22 @@ const propTypes = {
  
 };
 
-
-
-const Card = (props: { navigation: any; item: any;}) => {
-  const {navigation, item} = props;
+const Card = (props: {item: any;}) => {
+  const { item} = props;
   const [state, setState] = useState(false);
   const colorScheme = useColorScheme();
+
   const getFavorites = () => {
+    if(!state){
+      const movieString = item.poster_path;
+      console.log(movieString);
+    }
     setState(!state);
   };
   return (
     
-   <View>    
-    <TouchableOpacity
-      onPress={() => navigation.navigate('MovieDetails', {movieID: item.id})}
-      
-      style={styles.container}>
+   <View style={styles.container}>    
+ 
            <MaterialCommunityIcons
             style={[styles.favourite, {backgroundColor: Colors[colorScheme].primary}]}
             name={state ? 'heart' : 'heart-outline'}
@@ -46,7 +46,6 @@ const Card = (props: { navigation: any; item: any;}) => {
       />
       
       {!item.poster_path && <Text style={styles.movieName}>{item.title}</Text>}
-    </TouchableOpacity>
     </View>
 
     

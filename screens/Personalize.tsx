@@ -17,7 +17,7 @@ import {
 	Button,
 	Alert,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
 import Colors, { themeColor, lightThemeColor } from "../constants/Colors";
 import { View, Text, SafeAreaView } from "../components/Themed";
@@ -40,9 +40,15 @@ import { v4 as uuidv4 } from "uuid";
 import RBSheet from "react-native-raw-bottom-sheet";
 import axios from "axios"
 import { searchMovie } from "../apis/movies";
-import Card from "../components/Cards";
+import Card from "../components/MovieCard";
+import PropTypes from 'prop-types';
 
-const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) => {
+const placeHolderImage = require('../assets/images/placeholder.png');
+const propTypes = {
+	item: PropTypes.object,
+   
+  };
+const Personalize = ({navigation,route} : RootStackScreenProps<"Personalize">) => {
 	const colorScheme = useColorScheme();
 	const refRBSheet = useRef<any | null>(null);
 	const refRBSheet2 = useRef<any | null>(null);
@@ -59,28 +65,8 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 		ImagePicker.useMediaLibraryPermissions();
 	
 	const [interest, setInterest] = useState("");
-	
 	const [loading, setLoading] = useState(false);
-	const apiurl = "http://www.omdbapi.com/?apikey=c72cc91d";
-
-	const [state, setState] = useState({
-		s: "",
-		results: [] as any,
-		selected: {}
-	})
-	const search = () => {
-		axios(apiurl + "&s=" + state.s).then(({data}) =>{
-			let results = data.Search 
-			console.log(results)
-			setState(prevState => {
-				return {
-					...prevState,
-					results: results
-				}
-			})
-		})
-	}
-
+	const [favorite, setFavorite] = useState("")
 
 	const [completeProfile, setCompleteProfile] = useState<ProfileCompleteType>({
 		email: route.params!.email,
@@ -171,6 +157,7 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 			alert("Upload failed");
 		}
 	};
+
 
 	const uploadImage = async (fileName: string, image: Blob) => {
 		Auth.currentCredentials();
@@ -275,6 +262,37 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 		
 	}
 
+	
+	const [stateMovie, setStateMovie] = useState(false);
+	const getFavorites = (item: any) => {
+		if(stateMovie){
+		  const movieString = item.poster_path;
+		  console.log(movieString);
+		}
+		setStateMovie(!stateMovie);
+	  };
+
+	  const handleFavorites = async () => {
+		setLoading(true);
+		
+
+	}
+
+	const downloadMovieImage = (uri: string) => {
+		Storage.get(uri)
+			.then((result) => {
+				setCompleteProfile({
+					...completeProfile,
+					favorites: [
+						...completeProfile.favorites,
+						"https://image.tmdb.org/t/p/w500" +
+							uri,
+					],
+				});
+			})
+			.catch((err) => console.log(err));
+	}
+  
 	return (
 		<SafeAreaView style={styles.container}>
 			<Modal
@@ -464,7 +482,7 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 		<Text style={styles.sectionHeader}>Favorite Movies</Text>
           <View style={styles.bodyContent}>
             <ScrollView horizontal nestedScrollEnabled={true}>
-            <TouchableOpacity onPress={() => { refRBSheet.current.open(); }}>
+            <TouchableOpacity onPress={() => { refRBSheet.current.open(); getFavorites;}}>
               <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}]}>
                 <Ionicons
                   name="add"
@@ -474,7 +492,8 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
                 ></Ionicons>
               </View>
             </TouchableOpacity>
-			{completeProfile.favorites.length > 0 ? (
+
+			 {completeProfile.favorites.length > 0 ? (
               <ScrollView >
                 
               <FlatList
@@ -484,7 +503,7 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
                 keyExtractor={(data) => {
                   return data;
                 }}
-                data={completeProfile.photos}
+                data={completeProfile.favorites}
                 renderItem={(item) => {
                   return (
                     <Image
@@ -498,15 +517,8 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
             
             </ScrollView>
             ) : null}
-
-		
-			</ScrollView>
+			</ScrollView> 
 			</View>
-
-
-
-
-
 
 			<View>
 			<RBSheet
@@ -524,8 +536,7 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 					container: {
 						backgroundColor: Colors[colorScheme].primary,
 						height: "100%",
-						
-						//borderRadius: 20,
+
 					},
 				}}
 			>
@@ -546,22 +557,23 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 					onSubmitEditing={() => {onSubmit(text)}}
 				/>
 
-				<View style={[styles.searchItems, {backgroundColor: Colors[colorScheme].primary}]}>
-					{searchResults && searchResults.length > 0 && (
+				 <View style={[styles.searchItems, {backgroundColor: Colors[colorScheme].primary}]}>
+					 {searchResults && searchResults.length > 0 && (
 					<FlatList
 						showsVerticalScrollIndicator={false}
 						numColumns={3}
 						data={searchResults}
+						keyExtractor={(item) => item.id}
 						renderItem={({item}) => (
-						<Card navigation={navigation} item={item} />
+							<Card item={item}/>
+						 	
 						)}
-						keyExtractor={item => item.id}
 					/>
-					)}
+					)} 
 					
-				</View>
-			
+				</View> 
 			</RBSheet>
+
 			</View>
 
 
@@ -628,7 +640,7 @@ const Personalize = ({navigation,route,}: RootStackScreenProps<"Personalize">) =
 		</SafeAreaView>
 	);
 };
-
+Card.propTypes = propTypes;
 export default Personalize;
 
 const styles = StyleSheet.create({
@@ -902,5 +914,42 @@ const styles = StyleSheet.create({
 		padding: 5,
 		color: themeColor,
 	  },
+	  container4: {
+		padding: 5,
+		alignItems: 'center',
+		height: 180,
+		marginLeft: 10, 
+	  },
+	  image4: {
+		height: 150,
+		width: 110,
+		borderRadius: 10,
+		
+	  },
+	  movieName: {
+		position: 'absolute',
+		width: '80%',
+		textAlign: 'center',
+		top: 30,
+		color: "black"
+	  },
+	  movieName2: {
+		  color: "white"
+	  },
+	  favourite: {
+		textAlign: 'center',
+		width: 28,
+		top: 4,
+		right: 0,
+		position: 'absolute',
+		marginRight: 10,
+		opacity: 0.9,
+		borderRadius: 5,
+		zIndex: 1000,
+	  },
 	
 });
+function item(item: any) {
+	throw new Error("Function not implemented.");
+}
+
