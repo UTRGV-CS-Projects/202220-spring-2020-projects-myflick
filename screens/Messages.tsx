@@ -18,7 +18,7 @@ import {
 import { AuthContext } from "../store/AuthContext";
 import { Message, UserConversations } from "../src/API";
 import { listConversations } from "../src/graphql/queries";
-import { fetchUserDataMessage, fetchLikedInfo } from "../apis/users";
+import { fetchUserDataMessage, fetchLikes } from "../apis/users";
 import { themeColor } from "../constants/Colors";
 
 const Messages = ({ navigation }: RootStackScreenProps<"Messages">) => {
@@ -31,13 +31,13 @@ const Messages = ({ navigation }: RootStackScreenProps<"Messages">) => {
 
 	const getLikedData = async () => {
 		console.log("GETTING LIKED DATA *^*^*^*");
-		fetchLikedInfo("0").then((res) => {
+		fetchLikes(user.cognitoId).then((res) => {
 			console.log(res);
 		});
 	};
 
 	const getData = async () => {
-		console.log("getting data");
+		//	console.log("getting data");
 		fetchUserConversations(user.cognitoId).then((res) => {
 			const userConversations = res?.data?.listUserConversations
 				?.items as UserConversations[];
@@ -131,11 +131,11 @@ const Messages = ({ navigation }: RootStackScreenProps<"Messages">) => {
 		});
 	};
 	useEffect(() => {
-		console.log("messages mounted");
+		//console.log("messages mounted");
 	}, []);
 
 	useEffect(() => {
-		console.log("conversations", conversations);
+		//	console.log("conversations", conversations);
 	}, [conversations]);
 
 	useEffect(() => {

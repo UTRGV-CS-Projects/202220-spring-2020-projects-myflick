@@ -37,19 +37,18 @@ const getUserDataMessage = `query GetUser($cognitoId: ID!) {
   }
 }`;
 
-const getLikedInfo = `query MyQuery($likedId:Int!) {
-  getLikedTable(likedId: $likedId) {
-    UserLikingId
-    VictimId
-    likedId
+const getLikedList = `query GetUserLikes($cognitoId: String!) {
+  getLikedTableEfficient(cognitoId: $cognitoId) {
+    peopleLikedList
   }
-}`;
+}
+`;
 
-export const fetchLikedInfo = async (id: string) => {
+export const fetchLikes = async (id: string) => {
 	try {
 		const data = (await API.graphql(
-			graphqlOperation(getLikedInfo, {
-				likedId: id,
+			graphqlOperation(getLikedList, {
+				cognitoId: id,
 			})
 		)) as GraphQLResult<GetUserQuery>;
 
