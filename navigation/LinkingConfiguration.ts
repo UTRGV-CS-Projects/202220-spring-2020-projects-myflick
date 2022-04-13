@@ -12,18 +12,18 @@ import { RootStackParamList } from "../types";
 const prefix = Linking.createURL("/");
 console.log(prefix);
 const linking: LinkingOptions<RootStackParamList> = {
-  prefixes: [prefix],
-  config: {
-    screens: {
-      Home: {
-        path: "home",
-        screens: {
-          Profile: "profile",
-        },
-      },
-      Settings: "settings",
-    },
-  },
+	prefixes: [prefix],
+	config: {
+		screens: {
+			Home: {
+				path: "home",
+				screens: {
+					Profile: "profile",
+				},
+			},
+			Settings: "settings",
+		},
+	},
 };
 
 export default linking;

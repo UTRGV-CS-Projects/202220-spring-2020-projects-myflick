@@ -144,8 +144,6 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 
 	const handleOpenChatSettings = async () => {
 		console.warn("open chat settings button triggered");
-
-		createMatch(user.cognitoId, ["aaa81442a5e-649a-4594-9687-dfffbc27f745"]);
 	};
 
 	//when data loads or is changed, the flatlist scrolls to the bottom

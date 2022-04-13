@@ -1,11 +1,6 @@
-import {
-	ActivityIndicator,
-	Button,
-	StyleSheet,
-	TouchableOpacity,
-} from "react-native";
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { GenresType, RootStackScreenProps } from "../types";
+import { RootStackScreenProps } from "../types";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import Swiper from "react-native-deck-swiper";
 import LottieView from "lottie-react-native";
@@ -16,13 +11,13 @@ import Colors, { themeColor } from "../constants/Colors";
 import { EvilIcons } from "@expo/vector-icons";
 import { fetchUsers } from "../apis/users";
 import { User } from "../src/API";
-import { v4 as uuidv4 } from "uuid";
 import { AuthContext } from "../store/AuthContext";
 import { createMatch, fetchMatches, updateMatches } from "../apis/messages";
-import { listMatches } from "../src/graphql/queries";
 
 const delay = (ms: number | undefined) =>
 	new Promise((res) => setTimeout(res, ms));
+
+let currentCardUser = [{ cognitoId: 0 }];
 
 const PeopleSwiping = ({
 	navigation,
@@ -75,17 +70,19 @@ const PeopleSwiping = ({
 		//check if the swiped user has YOU (current logged in user) on their matches list
 		let swipedUsermatches = await fetchMatches(currentUserDisplayed);
 
-		for (let i = 0; i < swipedUsermatches.peopleLikedList.length; ++i) {
-			//==if yoou both like each other
-			if (swipedUsermatches.peopleLikedList[i] === user.cognitoId) {
-				console.log("ITS A MATCH");
-				console.log("ITS A MATCH");
-				console.log("ITS A MATCH");
-				console.log("ITS A MATCH");
-				//if you do, show match screen
-				handleMatch();
-				// && open a new chat (convo)
-				break;
+		if (swipedUsermatches != null) {
+			for (let i = 0; i < swipedUsermatches.peopleLikedList.length; ++i) {
+				//==if yoou both like each other
+				if (swipedUsermatches.peopleLikedList[i] === user.cognitoId) {
+					console.log("ITS A MATCH");
+					console.log("ITS A MATCH");
+					console.log("ITS A MATCH");
+					console.log("ITS A MATCH");
+					//if you do, show match screen
+					handleMatch();
+					// && open a new chat (convo)
+					break;
+				}
 			}
 		}
 	};
@@ -103,13 +100,15 @@ const PeopleSwiping = ({
 			firstName: currentCardUser[currentCardUser.length - 4].firstName,
 			personOneImg: user.picture,
 			personTwoImg: otherPersonPicture,
+			person: currentCardUser[currentCardUser.length - 4],
 		});
 	};
 
-	const handleSwipeTop = () => {};
+	const handleSwipeTop = () => {
+		handleSwipeRight();
+	};
 
 	const [isLiked, setIsLiked] = useState(false);
-	let currentCardUser = [{ cognitoId: 0 }];
 	const [isSuperLiked, setIsSuperLiked] = useState(false);
 	const [showOverlayLabel, setShowOverlayLabel] = useState(false);
 	const [OverlayLabelColor, setOverlayLabelColor] = useState("transparent");
@@ -200,7 +199,7 @@ const PeopleSwiping = ({
 	const btnSwipeRight = async () => {
 		let useSwiperPtr;
 		useSwiperPtr = useSwiperPeople;
-		handleSwipeRight();
+		//handleSwipeRight();
 		if (useSwiperPtr.current) {
 			overlayTrigger(true, "#2FEB5D", "LIKE");
 			setIsLiked(true);
@@ -295,7 +294,7 @@ const PeopleSwiping = ({
 						infinite={true}
 						onSwipedLeft={handleSwipeLeft}
 						onSwipedRight={handleSwipeRight}
-						onSwipedTop={handleSwipeTop}
+						onSwipedTop={handleSwipeRight}
 						disableBottomSwipe={true}
 						overlayLabels={{
 							left: {
