@@ -138,6 +138,7 @@ export type ProfileCompleteType = {
 	interests: string[];
 	firstName: string;
 	photos: string[];
+	favorites: string[];
 	bio: string;
 	location: string;
 	pronouns: string;

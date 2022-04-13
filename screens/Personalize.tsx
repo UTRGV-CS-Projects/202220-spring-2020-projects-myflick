@@ -14,13 +14,16 @@ import {
 	TextInput,
 	Modal,
 	Pressable,
+	Button,
+	Alert,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
 import Colors, { themeColor, lightThemeColor } from "../constants/Colors";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
-import { Avatar, Input } from "react-native-elements";
+import { Avatar, Icon, Input } from "react-native-elements";
+import SearchBar from "react-native-dynamic-search-bar";
 import { Chip } from "react-native-paper";
 import { UserActionTypes } from "../store/actions/actionTypes";
 import { AuthContext } from "../store/AuthContext";
@@ -34,20 +37,36 @@ import awsExports from "../src/aws-exports";
 import { Storage, API, graphqlOperation, Auth } from "aws-amplify";
 import { CreatePictureInput } from "../src/API";
 import { v4 as uuidv4 } from "uuid";
-const Personalize = ({
-	navigation,
-	route,
-}: RootStackScreenProps<"Personalize">) => {
-	const colorScheme = useColorScheme();
+import RBSheet from "react-native-raw-bottom-sheet";
+import axios from "axios"
+import { searchMovie } from "../apis/movies";
+import Card from "../components/MovieCard";
+import PropTypes from 'prop-types';
 
+const placeHolderImage = require('../assets/images/placeholder.png');
+const propTypes = {
+	item: PropTypes.object,
+   
+  };
+const Personalize = ({navigation,route} : RootStackScreenProps<"Personalize">) => {
+	const colorScheme = useColorScheme();
+	const refRBSheet = useRef<any | null>(null);
+	const refRBSheet2 = useRef<any | null>(null);
 	const { user, dispatch } = useContext(AuthContext);
 	const [authCode, setAuthCode] = useState("");
 	const [modalVisible, setModalVisible] = useState(false);
+	const [isModalVisible, setModalVisible2] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible2(!isModalVisible);
+  };
 	const [images, setImages] = useState<ImagePicker.ImageInfo[]>([]);
 	const [imageStatus, requestPermission] =
 		ImagePicker.useMediaLibraryPermissions();
+	
 	const [interest, setInterest] = useState("");
 	const [loading, setLoading] = useState(false);
+	const [favorite, setFavorite] = useState("")
 
 	const [completeProfile, setCompleteProfile] = useState<ProfileCompleteType>({
 		email: route.params!.email,
@@ -55,6 +74,7 @@ const Personalize = ({
 		interests: [],
 		firstName: "",
 		photos: [],
+		favorites: [],
 		bio: "",
 		age: 0,
 		location: "",
@@ -138,6 +158,7 @@ const Personalize = ({
 		}
 	};
 
+
 	const uploadImage = async (fileName: string, image: Blob) => {
 		Auth.currentCredentials();
 
@@ -191,6 +212,8 @@ const Personalize = ({
 			.catch((err) => console.log(err));
 	};
 
+
+
 	const handleAddInterest = () => {
 		if (!interest) {
 			alert("Please enter an interest");
@@ -225,6 +248,51 @@ const Personalize = ({
 
 	const checkRef = useRef<LottieView>(null);
 
+
+	const [text, setText] = useState("");
+	const [searchResults, setSearchResults] = useState<any | null>();
+	const [error, setError] = useState(false);
+
+	const onSubmit = (query: any) => {
+		searchMovie(query).then(data => 
+			{ setSearchResults(data);
+				console.log(data);
+			}).catch(() => { setError(true);});
+		console.log(query); 
+		
+	}
+
+	
+	const [stateMovie, setStateMovie] = useState(false);
+	const getFavorites = (item: any) => {
+		if(stateMovie){
+		  const movieString = item.poster_path;
+		  console.log(movieString);
+		}
+		setStateMovie(!stateMovie);
+	  };
+
+	  const handleFavorites = async () => {
+		setLoading(true);
+		
+
+	}
+
+	const downloadMovieImage = (uri: string) => {
+		Storage.get(uri)
+			.then((result) => {
+				setCompleteProfile({
+					...completeProfile,
+					favorites: [
+						...completeProfile.favorites,
+						"https://image.tmdb.org/t/p/w500" +
+							uri,
+					],
+				});
+			})
+			.catch((err) => console.log(err));
+	}
+  
 	return (
 		<SafeAreaView style={styles.container}>
 			<Modal
@@ -255,6 +323,8 @@ const Personalize = ({
 					</View>
 				</View>
 			</Modal>
+	
+			
 
 			<ScrollView>
 				<View style={styles.titleBar}>
@@ -294,30 +364,7 @@ const Personalize = ({
 					</View>
 				</View>
 
-				{/* 
 
-					<View style={styles.viewKs}>
-						<Input
-							placeholder="Age"
-							style={{ color: Colors[colorScheme].text }}
-							value={
-								completeProfile.age == 0 ? "" : completeProfile.age.toString()
-							}
-							onChangeText={(value) => {
-								setCompleteProfile({
-									...completeProfile,
-									age: parseInt(value),
-								});
-							}}
-						/>
-					</View>
-
-
-					
-
-					
-				
- */}
 <View style={[styles.container2,{ backgroundColor: Colors[colorScheme].primary },]}>
 						<Text style={styles.addName}>Name</Text>
 						<TextInput style={[styles.inputName,{color: Colors[colorScheme].opposite },]}
@@ -432,6 +479,105 @@ const Personalize = ({
           </View>
         </View>
 
+		<Text style={styles.sectionHeader}>Favorite Movies</Text>
+          <View style={styles.bodyContent}>
+            <ScrollView horizontal nestedScrollEnabled={true}>
+            <TouchableOpacity onPress={() => { refRBSheet.current.open(); getFavorites;}}>
+              <View style={[styles.menuBox, {backgroundColor: Colors[colorScheme].primary}]}>
+                <Ionicons
+                  name="add"
+                  size={60}
+                  color={themeColor}
+                  style={styles.icon}
+                ></Ionicons>
+              </View>
+            </TouchableOpacity>
+
+			 {completeProfile.favorites.length > 0 ? (
+              <ScrollView >
+                
+              <FlatList
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{}}
+                keyExtractor={(data) => {
+                  return data;
+                }}
+                data={completeProfile.favorites}
+                renderItem={(item) => {
+                  return (
+                    <Image
+                      key={item.index}
+                      source={{ uri: item.item }}
+                      style={styles.imageSizing}
+                    />
+                  );
+                }}
+              />
+            
+            </ScrollView>
+            ) : null}
+			</ScrollView> 
+			</View>
+
+			<View>
+			<RBSheet
+				ref={refRBSheet}
+				animationType={"slide"}
+				closeOnDragDown={true}
+				closeOnPressMask={true}
+				customStyles={{
+					wrapper: {
+						backgroundColor: "transparent",
+					},
+					draggableIcon: {
+						backgroundColor: "grey",
+					},
+					container: {
+						backgroundColor: Colors[colorScheme].primary,
+						height: "100%",
+
+					},
+				}}
+			>
+				<Text style={styles.headerText}>Select a Movie</Text>
+				<View
+					style={{
+						borderBottomColor: "black",
+						borderBottomWidth: 2,
+						width: "100%",
+						opacity: 0.2,
+						marginBottom: 5,
+					}}
+				></View>
+			<SearchBar
+					value={text}
+					placeholder="Search Movies"
+					onChangeText={setText}
+					onSubmitEditing={() => {onSubmit(text)}}
+				/>
+
+				 <View style={[styles.searchItems, {backgroundColor: Colors[colorScheme].primary}]}>
+					 {searchResults && searchResults.length > 0 && (
+					<FlatList
+						showsVerticalScrollIndicator={false}
+						numColumns={3}
+						data={searchResults}
+						keyExtractor={(item) => item.id}
+						renderItem={({item}) => (
+							<Card item={item}/>
+						 	
+						)}
+					/>
+					)} 
+					
+				</View> 
+			</RBSheet>
+
+			</View>
+
+
+
 				<View>
 					<Text style={styles.chipQuestion}>Interests</Text>
 					<View
@@ -494,7 +640,7 @@ const Personalize = ({
 		</SafeAreaView>
 	);
 };
-
+Card.propTypes = propTypes;
 export default Personalize;
 
 const styles = StyleSheet.create({
@@ -502,6 +648,19 @@ const styles = StyleSheet.create({
 		flex: 1,
 		//marginTop:10,
 	},
+	modalContainer: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+		paddingTop: 50,
+		backgroundColor: '#ecf0f1',
+	  },
+	  modalContent: {
+		  width: '80%',
+		  backgroundColor: "white", 
+		  paddingHorizontal: 20,
+		  paddingVertical: 30,
+	  },
 	titleBar: {
 		flexDirection: "row",
 		justifyContent: "space-between",
@@ -688,10 +847,109 @@ const styles = StyleSheet.create({
 		marginLeft: 10, 
 		flexDirection: "row"
 	 }, 
+	 imageSizing2: {
+		width: 100, 
+		height: 140, 
+		borderRadius: 8, 
+		marginLeft: 10, 
+		
+		marginTop: 10
+	 }, 
 	 chipStyle:{
 		marginTop: 10,
 		marginLeft: 10,
 		borderColor: themeColor,
 		alignSelf: "center",
-	}
+	},
+	headerText: {
+		fontSize: 25,
+		paddingLeft: 20,
+		paddingTop: 30,
+		paddingBottom: 10,
+		fontWeight: "bold",
+		textAlign: "center",
+	},
+	results: {
+		flex: 1,
+		marginTop: 10, 
+	},
+	result:{
+		flex: 1,
+		width: "100%",
+		
+	}, 
+	heading: {
+		fontSize: 20,
+		fontWeight: "bold",
+		flexWrap: "wrap",
+		paddingLeft: 10,
+		paddingTop: 10,
+		
+	},
+	heading2: {
+		fontSize: 18,
+		//flexWrap: "wrap",
+		paddingLeft: 10,
+		paddingTop: 10,
+		
+	}, 
+	input: {
+		borderRadius: 15,
+		height: 40,
+		margin: 12,
+		borderWidth: 1,
+		padding: 10,
+	  },
+	  container23: {
+		padding: 10,
+		paddingTop: 10,
+		flexDirection: 'row',
+		alignItems: 'center',
+	  },
+	  form: {
+		flexBasis: 'auto',
+		flexGrow: 1,
+	  },
+	  searchItems: {
+		padding: 5,
+		color: themeColor,
+	  },
+	  container4: {
+		padding: 5,
+		alignItems: 'center',
+		height: 180,
+		marginLeft: 10, 
+	  },
+	  image4: {
+		height: 150,
+		width: 110,
+		borderRadius: 10,
+		
+	  },
+	  movieName: {
+		position: 'absolute',
+		width: '80%',
+		textAlign: 'center',
+		top: 30,
+		color: "black"
+	  },
+	  movieName2: {
+		  color: "white"
+	  },
+	  favourite: {
+		textAlign: 'center',
+		width: 28,
+		top: 4,
+		right: 0,
+		position: 'absolute',
+		marginRight: 10,
+		opacity: 0.9,
+		borderRadius: 5,
+		zIndex: 1000,
+	  },
+	
 });
+function item(item: any) {
+	throw new Error("Function not implemented.");
+}
+
