@@ -44,10 +44,10 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
     }
   }
 
-  useEffect(() => {
+   useEffect(() => {
     console.log(authCode);
   }, [authCode]);
-
+ 
   const handleConfirmUser = async () => {
     try {
       await Auth.confirmSignUp(userEmail, authCode);
@@ -134,10 +134,13 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
               }}
               left={<TextInput.Icon name="account" />}
             />
+            
             <TextInput
               label="Password"
               autoComplete={false}
+              autoCorrect={false}
               mode="outlined"
+              textContentType="oneTimeCode"
               autoCapitalize="none"
               secureTextEntry={true}
               activeOutlineColor={Colors[colorScheme].primary}
@@ -145,13 +148,13 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
               style={[styles.textInput]}
               left={<TextInput.Icon name="eye" />}
             />
-
+            
             <TextInput
               label="Auth Code (optional)"
               autoComplete={false}
               mode="outlined"
               autoCapitalize="none"
-              secureTextEntry={true}
+              //secureTextEntry={true}
               activeOutlineColor={Colors[colorScheme].primary}
               onChangeText={(value) => setAuthCode(value.trim())}
               style={[styles.textInput]}
