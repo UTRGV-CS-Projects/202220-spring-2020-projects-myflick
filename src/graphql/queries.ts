@@ -69,6 +69,12 @@ export const listMatches = `query listMatches($cognitoId: String!){
   }
 }`;
 
+export const listLikedMovies = `query listLikedMovies($cognitoId: String!) {
+	getLikedMovieTable(cognitoId: $cognitoId) {
+	  likedMovies
+	}
+  }`;
+
 export const listConversations = /* GraphQL */ `
 	query ListConversations(
 		$filter: TableConversationFilterInput

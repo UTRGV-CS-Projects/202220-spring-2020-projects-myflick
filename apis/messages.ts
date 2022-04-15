@@ -16,6 +16,7 @@ import {
 	listMatches,
 	listMessages,
 	listUserConversations,
+	listLikedMovies,
 } from "../src/graphql/queries";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import {
@@ -162,6 +163,21 @@ export const fetchMatches = async (cognitoId: string) => {
 		)) as GraphQLResult<ListConversationsQuery>;
 		console.log(data.data.getLikedTableEfficient);
 		return data.data.getLikedTableEfficient;
+	} catch (error) {
+		console.log(error);
+		console.log("error in listMatches");
+	}
+};
+
+export const fetchLikedMovies = async (cognitoId: string) => {
+	try {
+		const data = (await API.graphql(
+			graphqlOperation(listLikedMovies, {
+				cognitoId: cognitoId,
+			})
+		)) as GraphQLResult<ListConversationsQuery>;
+		console.log(data);
+		return data;
 	} catch (error) {
 		console.log(error);
 		console.log("error in listMatches");

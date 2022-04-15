@@ -12,7 +12,12 @@ import { EvilIcons } from "@expo/vector-icons";
 import { fetchUsers } from "../apis/users";
 import { User } from "../src/API";
 import { AuthContext } from "../store/AuthContext";
-import { createMatch, fetchMatches, updateMatches } from "../apis/messages";
+import {
+	createMatch,
+	fetchMatches,
+	updateMatches,
+	fetchLikedMovies,
+} from "../apis/messages";
 
 const delay = (ms: number | undefined) =>
 	new Promise((res) => setTimeout(res, ms));
@@ -32,7 +37,11 @@ const PeopleSwiping = ({
 	const isLikeFirstRun = useRef(true);
 	const isSuperLikeFirstRun = useRef(true);
 
-	const handleSwipeLeft = () => {};
+	const handleSwipeLeft = async () => {
+		let likedMovies = await fetchLikedMovies(user.cognitoId);
+		console.log("BROBRORBROBRORBORBORBORBORBORBORB");
+		console.log(likedMovies);
+	};
 	const handleSwipeRight = async () => {
 		let matches = await fetchMatches(user.cognitoId);
 		let currentUserDisplayed =
