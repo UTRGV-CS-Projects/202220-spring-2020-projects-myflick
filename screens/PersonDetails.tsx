@@ -2,7 +2,7 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Text, View } from "../components/Themed";
 import { Chip } from "react-native-paper";
-import { lightThemeColor, themeColor } from "../constants/Colors";
+//import { lightThemeColor, themeColor } from "../constants/Colors";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
 import LottieView from "lottie-react-native";
@@ -10,7 +10,8 @@ import ImagesSlider from "../components/PersonDetails/ImagesSlider";
 import { createConversations, createUserConversation } from "../apis/messages";
 import { AuthContext } from "../store/AuthContext";
 import { v4 as uuidv4 } from "uuid";
-
+import Colors, { themeColor, lightThemeColor } from "../constants/Colors";
+import useColorScheme from "../hooks/useColorScheme";
 const PersonDetails = ({
 	navigation,
 	route,
@@ -20,7 +21,7 @@ const PersonDetails = ({
 	const isFirstRun = useRef(true);
 	const [isLiked, setIsLiked] = useState(false);
 	const { user, dispatch } = useContext(AuthContext);
-
+	const colorScheme = useColorScheme();
 	const handleFavorite = () => {
 		setIsLiked(!isLiked);
 	};
@@ -83,7 +84,7 @@ const PersonDetails = ({
 
 				<ImagesSlider person={person} />
 
-				<View style={styles.bubbleContainer}>
+				{/* <View style={styles.bubbleContainer}>
 					<TouchableOpacity onPress={handleDislike}>
 						<View style={styles.bubble}>
 							<EvilIcons
@@ -114,18 +115,39 @@ const PersonDetails = ({
 							/>
 						</View>
 					</TouchableOpacity>
-				</View>
+				</View> */}
 			</View>
 			<View style={styles.lowerContainer}>
-				<View>
+				<View style={styles.nameAndAge}>
 					<Text style={styles.name}>
-						{person?.firstName}, {person?.age}
+						{person?.firstName},
 					</Text>
+					<Text style={styles.age}>
+						{person?.age}
+					</Text>
+					</View>
+					<View style={styles.locationRow}>
+						<Ionicons
+                  name="location-outline"
+                  size={15}
+                  color={Colors[colorScheme].opposite}
+                ></Ionicons>
 					<Text style={styles.location}>{person?.location}</Text>
-				</View>
+					</View>
+
+					<View style={styles.locationRow}>
+						<Ionicons
+                  name="ios-male-female-outline"
+                  size={15}
+                  color={Colors[colorScheme].opposite}
+                ></Ionicons>
+					<Text style={styles.location}>{person?.pronouns}</Text>
+					</View>
+					
+				
 
 				<View>
-					<Text style={styles.header}>About me</Text>
+					<Text style={styles.header}>About {person?.firstName}</Text>
 
 					<Text style={styles.bio}>{person?.bio}</Text>
 				</View>
@@ -148,6 +170,43 @@ const PersonDetails = ({
 						})}
 					</View>
 				</View>
+
+ <View style={styles.bubbleContainer}>
+					<TouchableOpacity onPress={handleDislike}>
+						<View style={styles.bubble}>
+							<EvilIcons
+								name="close"
+								size={45}
+								color={themeColor}
+								style={styles.cross}
+							/>
+						</View>
+					</TouchableOpacity>
+					<TouchableOpacity onPress={handleMessage}>
+						<View style={styles.bubble}>
+							<Ionicons
+								name="chatbubble-outline"
+								size={45}
+								color={themeColor}
+								style={styles.chatBubble}
+							/>
+						</View>
+					</TouchableOpacity>
+					<TouchableOpacity onPress={handleFavorite}>
+						<View style={styles.bubble}>
+							<LottieView
+								ref={heart}
+								loop={false}
+								source={require("../assets/lotties/favorite.json")}
+								style={styles.heart}
+							/>
+						</View>
+					</TouchableOpacity>
+				</View> 
+
+
+
+
 			</View>
 		</View>
 	);
@@ -184,7 +243,7 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		width: "100%",
 		backgroundColor: "transparent",
-		bottom: -30,
+		bottom: 30,
 		alignSelf: "center",
 		flexDirection: "row",
 		justifyContent: "space-evenly",
@@ -226,18 +285,31 @@ const styles = StyleSheet.create({
 	heart: { width: 70, height: 70, paddingLeft: 2, paddingTop: 3 },
 	lowerContainer: {
 		flex: 0.5,
-		justifyContent: "space-evenly",
+		//justifyContent: "space-evenly",
 		alignItems: "flex-start",
 		paddingHorizontal: 20,
+		paddingTop: 20
 	},
 
 	name: {
-		fontSize: 28,
+		fontSize: 31,
 		fontWeight: "bold",
+		paddingRight: 5
+	},
+	age:{
+		fontSize: 28
+	},
+	nameAndAge:{
+		flexDirection: "row",
+	},
+	locationRow:{
+		flexDirection: "row",
+		opacity: 0.6
 	},
 	location: {
 		fontSize: 18,
 		fontWeight: "500",
+		paddingLeft: 5,
 	},
 	chip: {
 		marginRight: 10,
@@ -249,12 +321,15 @@ const styles = StyleSheet.create({
 		paddingTop: 1,
 	},
 	bio: {
-		fontSize: 16,
+		fontSize: 20,
+		//fontWeight: "bold",
 	},
 	header: {
-		fontSize: 21,
+		fontSize: 25,
 		fontWeight: "bold",
-		marginBottom: 10,
+		marginBottom: 8,
+		marginTop: 20,
+		//opacity: 0.6,
 	},
 	wrapper: {},
 	chipsContainer: {
