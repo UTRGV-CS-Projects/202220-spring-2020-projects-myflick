@@ -10,7 +10,7 @@ import ImagesSlider from "../components/PersonDetails/ImagesSlider";
 import { createConversations, createUserConversation } from "../apis/messages";
 import { AuthContext } from "../store/AuthContext";
 import { v4 as uuidv4 } from "uuid";
-import { themeColor, lightThemeColor } from "../constants/Colors";
+import Colors, { themeColor, lightThemeColor } from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 const PersonDetails = ({
 	navigation,
@@ -21,7 +21,7 @@ const PersonDetails = ({
 	const isFirstRun = useRef(true);
 	const [isLiked, setIsLiked] = useState(false);
 	const { user, dispatch } = useContext(AuthContext);
-	//const colorScheme = useColorScheme();
+	const colorScheme = useColorScheme();
 	const handleFavorite = () => {
 		setIsLiked(!isLiked);
 	};
@@ -130,7 +130,7 @@ const PersonDetails = ({
 						<Ionicons
                   name="location-outline"
                   size={15}
-                  color={themeColor}
+                  color={Colors[colorScheme].opposite}
                 ></Ionicons>
 					<Text style={styles.location}>{person?.location}</Text>
 					</View>
@@ -139,7 +139,7 @@ const PersonDetails = ({
 						<Ionicons
                   name="ios-male-female-outline"
                   size={15}
-                  color={themeColor}
+                  color={Colors[colorScheme].opposite}
                 ></Ionicons>
 					<Text style={styles.location}>{person?.pronouns}</Text>
 					</View>
