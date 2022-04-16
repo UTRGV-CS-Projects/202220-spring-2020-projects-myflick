@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
 	},
 
 	name: {
-		fontSize: 28,
+		fontSize: 31,
 		fontWeight: "bold",
 		paddingRight: 5
 	},
@@ -321,13 +321,15 @@ const styles = StyleSheet.create({
 		paddingTop: 1,
 	},
 	bio: {
-		fontSize: 16,
+		fontSize: 20,
+		//fontWeight: "bold",
 	},
 	header: {
-		fontSize: 21,
+		fontSize: 25,
 		fontWeight: "bold",
-		marginBottom: 10,
-		marginTop: 20
+		marginBottom: 8,
+		marginTop: 20,
+		//opacity: 0.6,
 	},
 	wrapper: {},
 	chipsContainer: {
