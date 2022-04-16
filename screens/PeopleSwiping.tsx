@@ -37,11 +37,7 @@ const PeopleSwiping = ({
 	const isLikeFirstRun = useRef(true);
 	const isSuperLikeFirstRun = useRef(true);
 
-	const handleSwipeLeft = async () => {
-		let likedMovies = await fetchLikedMovies(user.cognitoId);
-		console.log("BROBRORBROBRORBORBORBORBORBORBORB");
-		console.log(likedMovies);
-	};
+	const handleSwipeLeft = async () => {};
 	const handleSwipeRight = async () => {
 		let matches = await fetchMatches(user.cognitoId);
 		let currentUserDisplayed =

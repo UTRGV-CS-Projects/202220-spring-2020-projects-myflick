@@ -11,12 +11,28 @@ mutation MyMutation2($input: CreateLikedTableEfficientInput! ) {
   }
 }`;
 
+export const createLikedMoviesTable = `mutation MyMutation3($input: CreateLikedMovieTableInput! ) {
+	createLikedMovieTable(input: $input) {
+	  cognitoId
+	  likedMovies
+	}
+  }`;
+
 export const updateLikedTableEfficient = `
 
 mutation MyMutation2($input: UpdateLikedTableEfficientInput! ) {
   updateLikedTableEfficient(input: $input) {
     cognitoId
     peopleLikedList
+  }
+}`;
+
+export const updateLikedMovies = `
+
+mutation MyMutation23($input: UpdateLikedMovieTableInput! ) {
+  updateLikedMovieTable(input: $input) {
+    cognitoId
+    likedMovies
   }
 }`;
 

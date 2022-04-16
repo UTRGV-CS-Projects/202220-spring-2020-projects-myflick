@@ -25,6 +25,8 @@ import {
 	createUserConversations,
 	createLikedTableEfficient,
 	updateLikedTableEfficient,
+	createLikedMoviesTable,
+	updateLikedMovies,
 } from "../src/graphql/mutations";
 import { onCreateMessage } from "../src/graphql/subscriptions";
 import { Observable } from "zen-observable-ts";
@@ -140,6 +142,26 @@ export const createMatch = async (
 	}
 };
 
+export const createMovieLikedList = async (
+	cognitoId: string,
+	likedMovies: string[]
+) => {
+	try {
+		const matchData = (await API.graphql(
+			graphqlOperation(createLikedMoviesTable, {
+				input: {
+					cognitoId,
+					likedMovies,
+				},
+			})
+		)) as GraphQLResult<CreateMessageMutation>;
+
+		return matchData;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 export const listMessage = async (conversationId: string | undefined) => {
 	try {
 		const data = (await API.graphql(
@@ -176,8 +198,8 @@ export const fetchLikedMovies = async (cognitoId: string) => {
 				cognitoId: cognitoId,
 			})
 		)) as GraphQLResult<ListConversationsQuery>;
-		console.log(data);
-		return data;
+		//console.log(data.data.getLikedMovieTable);
+		return data.data.getLikedMovieTable;
 	} catch (error) {
 		console.log(error);
 		console.log("error in listMatches");
@@ -194,6 +216,26 @@ export const updateMatches = async (
 				input: {
 					cognitoId,
 					peopleLikedList,
+				},
+			})
+		)) as GraphQLResult<CreateMessageMutation>;
+
+		return matchData;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const updateLikedMoviesCall = async (
+	cognitoId: string,
+	likedMovies: string[]
+) => {
+	try {
+		const matchData = (await API.graphql(
+			graphqlOperation(updateLikedMovies, {
+				input: {
+					cognitoId,
+					likedMovies,
 				},
 			})
 		)) as GraphQLResult<CreateMessageMutation>;
