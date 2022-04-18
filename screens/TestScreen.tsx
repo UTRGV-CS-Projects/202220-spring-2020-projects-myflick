@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 
 function TestScreen() {
   return (
     <View style={styles.container}>
-        
+        <Text>
+            This is a test
+        </Text>
     </View>
   );
 }
