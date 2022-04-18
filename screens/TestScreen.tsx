@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Button } from 'react-native';
 
 function TestScreen() {
   return (
@@ -7,6 +7,12 @@ function TestScreen() {
         <Text>
             This is a test
         </Text>
+        <Button
+        title="Press me!"
+        onPress={() => {}}
+        testID="pressMeButton"
+        accessibilityLabel="Press me"
+      />
     </View>
   );
 }
