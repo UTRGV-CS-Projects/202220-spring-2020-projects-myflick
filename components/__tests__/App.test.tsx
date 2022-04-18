@@ -16,4 +16,12 @@ describe("Testing the Test Screen", () => {
 
         expect(foundButton).toBeTruthy();
     })
+    it("Using the Accessibility Label", () => {
+        const accessibilityLabel = 'Press me';
+        const {getByLabelText} = render(<TestScreen />)
+
+     const foundButton = getByLabelText(accessibilityLabel);
+
+     expect(foundButton).toBeTruthy();
+    })
 })
