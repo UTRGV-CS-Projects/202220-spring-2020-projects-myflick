@@ -24,4 +24,11 @@ describe("Testing the Test Screen", () => {
 
      expect(foundButton).toBeTruthy();
     })
+    it("Pressing on a button", () => {
+        const testIdName = 'pressMeButton';
+        const {getByTestId} = render(<TestScreen />)
+        const foundButton = getByTestId(testIdName);
+        fireEvent.press(foundButton);
+        expect(foundButton).toBeTruthy();
+    })
 })
