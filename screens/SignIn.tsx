@@ -121,6 +121,7 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
           >
             <TextInput
               label="Email"
+              testID="EmailInput"
               keyboard-type="email-address"
               mode="outlined"
               autoComplete={false}
@@ -137,6 +138,7 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
             
             <TextInput
               label="Password"
+              testID="PasswordInput"
               autoComplete={false}
               autoCorrect={false}
               mode="outlined"
@@ -166,7 +168,7 @@ const SignIn = ({ navigation }: RootStackScreenProps<"SignIn">) => {
             >
               <Text style={styles.authCodeText}>Resend Authorization Code</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.signInButton} onPress={signIn}>
+            <TouchableOpacity style={styles.signInButton} onPress={signIn} testID="SignInButton">
               <Text style={styles.signInText}>Sign In</Text>
             </TouchableOpacity>
             <ActivityIndicator

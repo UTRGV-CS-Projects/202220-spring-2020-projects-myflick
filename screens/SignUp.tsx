@@ -93,7 +93,7 @@ const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
               style={[styles.textInput]}
               left={<TextInput.Icon name="eye" />}
             />
-            <TouchableOpacity style={styles.signInButton} onPress={signUp}>
+            <TouchableOpacity style={styles.signInButton} onPress={signUp} testID="SignUnButton">
               <Text style={styles.signInText}>Sign Up</Text>
             </TouchableOpacity>
           </View>
