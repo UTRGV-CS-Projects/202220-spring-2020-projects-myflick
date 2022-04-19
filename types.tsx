@@ -37,6 +37,7 @@ export type RootStackParamList = {
 	Personalize: PersonalizeParamList | undefined;
 	MovieDetails: MovieCardType | undefined;
 	OpenChat: OpenChatParamList | undefined;
+	SameMovies: SameMoviesParamsList | undefined;
 	MyDiscoverySettings:
 		| NavigatorScreenParams<MyDiscoverySettingsParamList>
 		| undefined;
@@ -64,6 +65,7 @@ export type RootTabParamList = {
 	Personalize: { email: string };
 	MyDiscoverySettings: undefined;
 	OpenChat: undefined;
+	SameMovies: undefined;
 };
 
 export type LoginParamList = {
@@ -82,7 +84,9 @@ export type MyDiscoverySettingsParamList = {};
 
 export type MovieParamsList = {};
 export type IntroductionParamsList = {};
-
+export type SameMoviesParamsList = {
+	person: User;
+};
 export type MessageParamList = {
 	item: ConversationType;
 	navigation: any;

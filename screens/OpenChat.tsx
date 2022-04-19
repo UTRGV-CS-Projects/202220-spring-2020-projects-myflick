@@ -32,7 +32,9 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 	const { user, dispatch } = useContext(AuthContext);
 	const subscriptionRef = useRef<any>();
 	const refRBSheet = useRef<any | null>(null);
-
+	const handleSameMovies = () => {
+		navigation.navigate("SameMovies");
+	  };
 	interface Message {
 		id: string;
 		content: string;
@@ -197,7 +199,9 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 
 						<TouchableOpacity
 							style={styles.ellipsis}
-							onPress={() => {refRBSheet.current.open();}}
+							onPress={() => {
+								
+								refRBSheet.current.open();}}
 						>
 							<Ionicons
 								name="ellipsis-vertical-outline"
@@ -275,7 +279,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
               ></View>
 			   <TouchableOpacity
                 onPress={() => {
-                  
+					handleSameMovies();
                   refRBSheet.current.close();
                 }}
                 style={styles.clickRow}
@@ -294,7 +298,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
               </TouchableOpacity>
 			 <TouchableOpacity
                 onPress={() => {
-                  
+					
                   refRBSheet.current.close();
                 }}
                 style={styles.clickRow}
