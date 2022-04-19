@@ -20,6 +20,7 @@ const initialState: ProfileType = {
   picture: "",
   location: "",
   cognitoId: "",
+  age: "",
   bio: "",
   sub: "",
   loggedIn: false,
@@ -44,6 +45,7 @@ export type ProfileType = {
   pronouns: string;
   bio: string;
   location: string;
+  age: string;
   photos: string[];
   interests: string[];
   sub: string;
