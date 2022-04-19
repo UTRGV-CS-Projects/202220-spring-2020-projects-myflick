@@ -7,7 +7,7 @@ import {cleanup, fireEvent, render} from '@testing-library/react-native';
 
 describe("Testing the Test Screen", () => {
     it("Has 1 child View", () => {
-        const tree: any = renderer.create(<TestScreen />).toJSON(); // Get/render the TestScreen component
+        const tree: any= renderer.create(<TestScreen />).toJSON(); // Get/render the TestScreen component
         expect(tree?.children?.length).toBe(2); // Assertion and tells either pass or fail
     })
     it("A button with testId Exists", () => {
