@@ -14,6 +14,9 @@ Unit tests!!!
 Behavior Driven Design
     - Testing behavior over implementation. How users use the app.
 
+TestScreen component
+ - BoilerPlate for how testing is done.
+
 SignIn
  - Test Button Functionality BDD
  - Functions for testing if the username !== 0
@@ -41,3 +44,11 @@ MovieDetails
  
 MySettings
  - Check Image picture
+
+Messages Screens
+ - Check if user can Type
+ - Check if the submit message works
+
+
+
+ 
