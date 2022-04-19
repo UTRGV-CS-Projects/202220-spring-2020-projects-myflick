@@ -25,7 +25,7 @@ const createTestProps = (props: any) => ({ // Mock the Navigation.
           testId = getAllByTestId;
         })
     it('Testing the MovieDetails clickable image', () => {
-
+        // Need the ImageTapModal Component
     })
     it("Test the MovieDetails Scroll for the text?", () => {
 
