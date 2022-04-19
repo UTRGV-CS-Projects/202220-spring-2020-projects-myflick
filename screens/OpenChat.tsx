@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import MessageBubble from "../components/Messages/MessageBubble";
 import { ActivityIndicator, TextInput } from "react-native-paper";
+import RBSheet from "react-native-raw-bottom-sheet";
 //styling
 import useColorScheme from "../hooks/useColorScheme";
 import Colors, { themeColor } from "../constants/Colors";
@@ -30,6 +31,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 	const [messages, setMessages] = useState<Message[]>([]);
 	const { user, dispatch } = useContext(AuthContext);
 	const subscriptionRef = useRef<any>();
+	const refRBSheet = useRef<any | null>(null);
 
 	interface Message {
 		id: string;
@@ -195,7 +197,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 
 						<TouchableOpacity
 							style={styles.ellipsis}
-							onPress={handleOpenChatSettings}
+							onPress={() => {refRBSheet.current.open();}}
 						>
 							<Ionicons
 								name="ellipsis-vertical-outline"
@@ -244,6 +246,74 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 							</TouchableOpacity>
 						</View>
 					</View>
+					<RBSheet
+              ref={refRBSheet}
+              animationType={"slide"}
+              closeOnDragDown={true}
+              closeOnPressMask={true}
+              customStyles={{
+                wrapper: {
+                  backgroundColor: "transparent",
+                },
+                draggableIcon: {
+                  backgroundColor: "grey",
+                },
+                container: {
+                  backgroundColor: Colors[colorScheme].primary,
+                  borderRadius: 20,
+                },
+              }}
+            >
+ 			<Text style={styles.headerText}>Match Settings</Text>
+              <View
+                style={{
+                  borderBottomColor: "black",
+                  borderBottomWidth: 1,
+                  width: "100%",
+                  opacity: 0.2,
+                }}
+              ></View>
+			   <TouchableOpacity
+                onPress={() => {
+                  
+                  refRBSheet.current.close();
+                }}
+                style={styles.clickRow}
+              >
+                <Ionicons
+                  name="videocam"
+                  size={35}
+                  color={Colors[colorScheme].opposite}
+                ></Ionicons>
+                <Text style={styles.optionsText}>Matched Movies</Text>
+                <Ionicons
+                  name="chevron-forward"
+                  size={35}
+                  color={Colors[colorScheme].opposite}
+                ></Ionicons>
+              </TouchableOpacity>
+			 <TouchableOpacity
+                onPress={() => {
+                  
+                  refRBSheet.current.close();
+                }}
+                style={styles.clickRow}
+              >
+                <Ionicons
+                  name="close-circle-outline"
+                  size={35}
+                  color={Colors[colorScheme].opposite}
+                ></Ionicons>
+                <Text style={[styles.optionsText, {color: "red"}]}>Block</Text>
+                <Ionicons
+                  name="chevron-forward"
+                  size={35}
+                  color={Colors[colorScheme].opposite}
+                ></Ionicons>
+              </TouchableOpacity>
+
+
+			</RBSheet>
 				</SafeAreaView>
 			)}
 		</KeyboardAvoidingView>
@@ -303,4 +373,23 @@ const styles = StyleSheet.create({
 		position: "relative",
 	},
 	scrollView: { flex: 1 },
+	headerText: {
+		fontSize: 25,
+		paddingLeft: 20,
+		paddingTop: 15,
+		paddingBottom: 15,
+		fontWeight: "bold",
+		textAlign: "center",
+	  },
+	  clickRow: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		paddingLeft: 10,
+		marginTop: 10,
+	  },
+	  optionsText: {
+		//color: '#4a4a4a',
+		fontSize: 20,
+		paddingLeft: 20,
+	  },
 });
