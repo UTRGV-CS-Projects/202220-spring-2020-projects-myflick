@@ -1,13 +1,13 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import SignIn from '../../screens/SignIn';
+import SignUp from '../../screens/SignUp';
 import {cleanup, fireEvent, render} from '@testing-library/react-native';
 
 
-// SignIn Screen
-//  - Test Button Functionality BDD
-//  - Functions for testing if the username !== 0
-//  - Typing FireEvent, Type
+// SignUp
+//  - Button Functionality
+//  - Functions username and password length
+// - Typing FireEvent, Type
 
 //    const tree: any = renderer.create(<TestScreen />).toJSON(); // Get/render the TestScreen component
 // expect(tree?.children?.length).toBe(2); // Assertion and tells either pass or fail
@@ -22,18 +22,18 @@ const createTestProps = (props: any) => ({
     ...props
   })
 
-describe("Testing the SignIn Screen", () => {
-    describe("Rendering the SignIn Screen", () =>{
+describe("Testing the SignUp Screen", () => {
+    describe("Rendering the SignUp Screen", () =>{
       let props: any;
       let testId: any;
       beforeEach(() => {
         props = createTestProps({});
-        const {getAllByTestId} = render(<SignIn {...props}/>)
+        const {getAllByTestId} = render(<SignUp {...props}/>)
         testId = getAllByTestId;
       })
         
-        it("The button of the Signin Screen works", () => { 
-           const testIDName = "SignInButton";
+        it("The button of the SignUp Screen works", () => { 
+           const testIDName = "SignUpButton";
             const foundButton = testId(testIDName);
             expect(foundButton).toBeTruthy();
         })
