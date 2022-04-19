@@ -57,7 +57,8 @@ function MovieDetails({
         <DetailsPoster/>
           
         <View style={styles.detailsSection} >
-       <Text style={[styles.titletext, {color: Colors[colorScheme].text}]} numberOfLines={4} ellipsizeMode='tail'>{title}</Text>
+       <Text style={[styles.titletext, {color: Colors[colorScheme].text}]} numberOfLines={3} ellipsizeMode='tail'>{title}</Text>
+       
        <View style={{flexDirection: "row"}}> 
         <Ionicons
 										name="calendar-sharp"
@@ -82,7 +83,7 @@ function MovieDetails({
        
         <MovieInfo />
       
-        <Text style={{marginTop: 450, marginLeft: 20, fontSize: 25, position: "absolute", color: Colors[colorScheme].text, fontWeight: "700"}}>Description</Text>
+        <Text style={{marginTop: 450, marginLeft: 10, fontSize: 25, position: "absolute", color: Colors[colorScheme].text, fontWeight: "700"}}>Description</Text>
         <Overview overview={overview}/>
 
         <View style={styles.morelike}>
@@ -91,7 +92,7 @@ function MovieDetails({
             fontWeight: "700",
             fontSize: 25,
             color: Colors[colorScheme].text,
-            marginLeft: 20,
+            marginLeft: 10,
             marginTop: 700
 
           }}
@@ -101,10 +102,10 @@ function MovieDetails({
         </View>
 
         <View style={styles.movies}>      
-      <Image source={dark_knight} style={{width: 90, height: 135, borderRadius: 10, marginRight: 5, marginBottom: 10}} />
-      <Image source={ozark_poster} style={{width: 90, height: 135, borderRadius: 10, marginRight: 5, marginBottom: 10}} />
-      <Image source={marriage_story} style={{width: 90, height: 135, borderRadius: 10, marginRight: 5, marginBottom: 10}} />
-      <Image source={bohoraps} style={{width: 90, height: 135, borderRadius: 10, marginRight: 5, marginBottom: 10}} />
+      <Image source={dark_knight} style={{width: 90, height: 135, borderRadius: 10, marginRight: 9, marginBottom: 10}} />
+      <Image source={ozark_poster} style={{width: 90, height: 135, borderRadius: 10, marginRight: 9, marginBottom: 10}} />
+      <Image source={marriage_story} style={{width: 90, height: 135, borderRadius: 10, marginRight: 9, marginBottom: 10}} />
+      <Image source={bohoraps} style={{width: 90, height: 135, borderRadius: 10, marginRight: 9, marginBottom: 10}} />
       
        </View>
           
@@ -146,19 +147,21 @@ const styles = StyleSheet.create({
     position: 'absolute', 
     flexDirection: 'row',
     marginTop: 740,
-    marginLeft: 20
+    marginLeft: 10
     // backgroundColor: 'red',
 
   },
   titletext: {
     //flex: 0.70,
-    //flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: 'wrap',
     fontSize: 25,
-    // backgroundColor: 'blue',
+    //backgroundColor: 'blue',
     fontWeight: "700",
-    paddingRight: width * 0.05 ,
+    //paddingRight: width * 0.05 ,
     paddingLeft: 30,
-    top: height / 2.68
+    top: height / 2.68, 
+  
 
   },
   release_year: {
@@ -179,7 +182,8 @@ const styles = StyleSheet.create({
     marginLeft: 150, 
     marginTop: 10, 
     position: 'absolute', 
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    //backgroundColor: "red"
   }
 });
 export default MovieDetails;

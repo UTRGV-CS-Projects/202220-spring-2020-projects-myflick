@@ -27,10 +27,11 @@ const styles = StyleSheet.create({
         // color: "#000000",
         // backgroundColor: 'red',
        opacity: 0.6,
-        alignSelf: 'center',
+        alignSelf: 'flex-start',
+        //position: "absolute",
         //marginTop: '40%',
-        marginTop: 180,
-        marginLeft: 15, 
+        marginTop: 480,
+        marginLeft: 10, 
         marginRight: 10
    
       },
