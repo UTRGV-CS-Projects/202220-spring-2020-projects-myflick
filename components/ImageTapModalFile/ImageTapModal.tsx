@@ -40,9 +40,9 @@ const styles = StyleSheet.create({
   image: {
     height: 220,
     width: 150,
-    borderRadius: 25,
-    left: 40,
-    top: 150,
+    borderRadius: 15,
+    left: 20,
+    top: 220,
     // position: 'absolute',
   },
   imageModal: {

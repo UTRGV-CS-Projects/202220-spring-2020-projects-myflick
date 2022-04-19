@@ -1,13 +1,16 @@
 import React from 'react';
 import {View, StyleSheet, ScrollView, Text} from 'react-native';
+import Colors from '../../constants/Colors';
+import useColorScheme from '../../hooks/useColorScheme';
 interface Props {
     overview ?: any
 }
 
 const Overview:React.FC<Props> = ({overview}) => {
+    const colorScheme = useColorScheme();
     return (
         <View style={styles.movies}>
-            <Text style={styles.Description} numberOfLines={7} ellipsizeMode='tail'>
+            <Text style={[styles.Description, {color: Colors[colorScheme].opposite}]} numberOfLines={8} ellipsizeMode='tail'>
             {overview}
             </Text>
         </View>
@@ -18,18 +21,17 @@ const styles = StyleSheet.create({
     Description: {
         // flexDirection: 'row',
         // top: -50,
-        flex: 0.9,
+        //flex: 0.9,
         flexWrap: 'wrap',
-        fontSize: 20,
+        fontSize: 18,
         // color: "#000000",
         // backgroundColor: 'red',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
+       opacity: 0.6,
         alignSelf: 'center',
-        marginTop: '40%',
-        paddingLeft: 15
+        //marginTop: '40%',
+        marginTop: 180,
+        marginLeft: 15, 
+        marginRight: 10
    
       },
       movies: {
