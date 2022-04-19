@@ -17,7 +17,6 @@ import { ColorSchemeName, Pressable, TouchableOpacity } from "react-native";
 
 import Colors, { themeColor } from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import Home from "../screens/Home";
 import Introduction from "../screens/Introduction";
 import Match from "../screens/Match";
 import Messages from "../screens/Messages";
@@ -138,26 +137,6 @@ export function BottomTabNavigator() {
       }}
       initialRouteName="MyProfile"
     >
-      <BottomTab.Screen
-        name="Home"
-        component={Home}
-        options={({ navigation }: RootTabScreenProps<"Home">) => ({
-          title: "",
-          tabBarAccessibilityLabel: "Home",
-          tabBarTestID: "HomeTab",
-          tabBarIcon: ({ color }) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Home");
-              }}
-              accessibilityRole="button"
-            >
-              <Ionicons name="logo-ionic" size={30} color={color} />
-            </TouchableOpacity>
-          ),
-        })}
-      />
-
       <BottomTab.Screen
         name="MovieSwiping"
         component={MovieSwiping}
