@@ -9,6 +9,8 @@ MovieSwiping
  - Movie Click to get MovieDetails page
 */
 
+// Jest.fn() allows to create a new mock function. Spy on the behavior of a function.
+
 const createTestProps = (props: any) => ({ 
     navigation: {
       navigate: jest.fn() // Mock the navigation.. No use for it.
