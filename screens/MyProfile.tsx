@@ -143,7 +143,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
             <View style={styles.innerContainer}>
               <View style={styles.nameAndPronouns}>
                 <Text style={styles.name}>{user.firstName}</Text>
-                <Text style={styles.name}>24</Text>
+                <Text style={styles.name}>{user.age}</Text>
               </View>
 
               <View>
