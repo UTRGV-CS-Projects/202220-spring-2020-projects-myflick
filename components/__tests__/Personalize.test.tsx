@@ -50,3 +50,4 @@ describe('Testing the Personalize Screen', () => {
 
     })
 })
+})
