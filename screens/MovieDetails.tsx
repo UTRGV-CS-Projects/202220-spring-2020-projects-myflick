@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, ImageBackground, Dimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { themeColor } from "../constants/Colors";
+import Colors, { themeColor } from "../constants/Colors";
 import Background from "../components/Match/Background";
 import LottieView from "lottie-react-native";
 import { MatchParamList, RootTabScreenProps } from "../types";
@@ -13,11 +13,12 @@ import { color } from "react-native-elements/dist/helpers";
 import WhitePoster from "../components/MovieDetails/WhitePoster";
 import Overview from "../components/MovieDetails/Overview";
 import MovieInfo from "../components/MovieDetails/MovieInfo";
+import useColorScheme from "../hooks/useColorScheme";
 
 const height = Dimensions.get('window').height
 const width = Dimensions.get('window').width
 
-const white_image = { uri: "https://wallpaperaccess.com/full/1586320.jpg" };
+//const white_image = { uri: "https://wallpaperaccess.com/full/1586320.jpg" };
 
 const ozark_poster = {
 	uri: "https://m.media-amazon.com/images/M/MV5BNGY3MmUzNjktZWEzNi00ODdiLTk4ZDItZjBhMjZlYzI0NTJjXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_FMjpg_UX1000_.jpg",
@@ -37,16 +38,19 @@ function MovieDetails({
 }: RootTabScreenProps<"MovieDetails">) {
 	const { title, poster_path, release_date, overview, vote_average } =
 		route.params;
-
+    const colorScheme = useColorScheme();
   return (
     <View style={styles.container}>
       <View>
- <ImageBackground style={styles.whiteimg} source={white_image}>
-      <MoviePoster image={poster_path} />
+ {/* <ImageBackground style={styles.whiteimg} source={white_image}> */}
+ 
+ 
+       <MoviePoster image={poster_path} /> 
         <Image style={styles.image} source={{ uri: `https://image.tmdb.org/t/p/w500${poster_path}` }}/>
+       
         <WhitePoster />         
-        <View style={{ flexDirection: 'row', position: 'absolute', alignSelf: 'flex-end', justifyContent: 'flex-end'}} >
-       <Text style={styles.titletext} numberOfLines={4} ellipsizeMode='tail'>{title}</Text>
+        <View style={{ flexDirection: 'row', position: 'absolute', alignSelf: 'flex-end', justifyContent: 'flex-end' }} >
+       <Text style={[styles.titletext, {color: Colors[colorScheme].opposite}]} numberOfLines={4} ellipsizeMode='tail'>{title}</Text>
        </View>
         {/* <Text style={styles.release_year}>{release_date}</Text> */}
 
@@ -73,8 +77,9 @@ function MovieDetails({
       <Image source={marriage_story} style={{width: 100, height: 135, borderRadius: 20, marginRight: 3, marginBottom: 10}} />
       
        </View>
-      </ImageBackground>
-      </View>
+       </View>
+      {/* </ImageBackground> */}
+     
      
     </View>
   );
@@ -121,16 +126,11 @@ const styles = StyleSheet.create({
 
   },
   titletext: {
-    flex: 0.70,
     flexWrap: 'wrap',
     fontSize: 25,
-    color: "#4a4a4a",
-    // backgroundColor: 'blue',
-    bottom: 0,
-    right: 0,
-    left: 0,
+    backgroundColor: 'blue',
     paddingRight: width * 0.05 ,
-    paddingLeft: 30,
+    paddingLeft: 60,
     top: height / 2.68
 
   },
