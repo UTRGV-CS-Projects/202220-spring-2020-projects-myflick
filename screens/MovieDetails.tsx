@@ -47,7 +47,7 @@ function MovieDetails({
     const colorScheme = useColorScheme();
   return (
     <View style={styles.container}>
-      <View>
+    
   <ImageBackground style={styles.whiteimg} source={white_image}>
 
       <MoviePoster image={poster_path} />  
@@ -56,17 +56,17 @@ function MovieDetails({
         
         <DetailsPoster/>
           
-        <View style={styles.detailsSection} >
-       <Text style={[styles.titletext, {color: Colors[colorScheme].text}]} numberOfLines={3} ellipsizeMode='tail'>{title}</Text>
-       
-       <View style={{flexDirection: "row"}}> 
+        
+       <Text style={[styles.titletext, {color: Colors[colorScheme].text}]} numberOfLines={2}>{title}</Text>
+       <View style={styles.detailsSection} >
+       {/* <View style={{flexDirection: "row", flexWrap: 'wrap'}}>  */}
         <Ionicons
 										name="calendar-sharp"
 										size={15}
 										color={Colors[colorScheme].opposite}
-										style={{ marginTop: 340, marginLeft: 35, opacity: 0.6 }}
+										style={{ marginTop: 330, marginLeft: 35, opacity: 0.6 }}
 									></Ionicons>
-       <Text style={[styles.release_year, {color: Colors[colorScheme].opposite}]}>{release_date}</Text> 
+        <Text style={[styles.release_year, {color: Colors[colorScheme].opposite}]}>{release_date}</Text>  
       
 
 
@@ -74,12 +74,12 @@ function MovieDetails({
 										name="star"
 										size={15}
 										color={Colors[colorScheme].opposite}
-										style={{ marginTop: 370, marginLeft: -15, opacity: 0.6}}
+										 style={{ marginTop: 330, marginLeft: 100, opacity: 0.6}}
 									></Ionicons>
-        <Text style={[styles.rating, {color: Colors[colorScheme].opposite}]}>{vote_average}/10</Text>
-
+        <Text style={[styles.rating, {color: Colors[colorScheme].opposite}]}>{vote_average}/10</Text> 
+{/* </View> */}
         </View>
-       </View>
+       
        
         <MovieInfo />
       
@@ -93,7 +93,7 @@ function MovieDetails({
             fontSize: 25,
             color: Colors[colorScheme].text,
             marginLeft: 10,
-            marginTop: 700
+            marginTop: 680
 
           }}
         >
@@ -114,7 +114,7 @@ function MovieDetails({
         
       
        </ImageBackground>
-      </View>
+    
      
     </View>
   );
@@ -146,43 +146,52 @@ const styles = StyleSheet.create({
     flex: 1, 
     position: 'absolute', 
     flexDirection: 'row',
-    marginTop: 740,
+    marginTop: 720,
     marginLeft: 10
     // backgroundColor: 'red',
 
   },
   titletext: {
     //flex: 0.70,
-    flexDirection: "row",
+    //flexDirection: "row",
     flexWrap: 'wrap',
     fontSize: 25,
     //backgroundColor: 'blue',
     fontWeight: "700",
     //paddingRight: width * 0.05 ,
-    paddingLeft: 30,
-    top: height / 2.68, 
+    //paddingLeft: 30,
+    //paddingRight: 10,
+    marginRight: 5,
+    marginLeft: 170,
+    paddingLeft: 5,
+    top: height / 2.58, 
+    position: "absolute"
   
 
   },
   release_year: {
     fontSize: 16,
     position: "absolute",
-    top: 340,
+    top: 330,
     left: 60,
     opacity: 0.6
   },
   rating: {
     fontSize: 16,
     position: "absolute",
-    top: 370,
-    left: 60,
+    top: 330,
+    left: 175,
     opacity: 0.6
   },
   detailsSection: {
-    marginLeft: 150, 
-    marginTop: 10, 
+    marginLeft: 135,
+    paddingLeft: 5,
+    marginTop: 70, 
+    paddingRight: 10,
     position: 'absolute', 
     flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "space-between",
     //backgroundColor: "red"
   }
 });
