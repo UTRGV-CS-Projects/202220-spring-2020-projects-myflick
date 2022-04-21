@@ -13,6 +13,7 @@ export interface UserAction {
 import { ProfileCompleteType, SignInType, SignUpType } from "../../types";
 import { User } from "../../src/API";
 import { getUser } from "../../src/graphql/queries";
+import { createMovieLikedList } from "../../apis/messages";
 export const handleLogInGoogle = async (dispatch: Dispatch<UserAction>) => {
 	try {
 		const data = await Auth.federatedSignIn({
@@ -122,6 +123,11 @@ export const handleProfileComplete = async (
 		);
 
 		//console.log("signed up", info);
+		createMovieLikedList(
+			userSub,
+			//create a new field with the new match
+			data.favorites
+		);
 
 		dispatch({ type: UserActionTypes.PROFILE_COMPLETE, payload: data });
 	} catch (error) {
