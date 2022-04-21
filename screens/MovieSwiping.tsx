@@ -94,6 +94,8 @@ const MovieSwiping = () => {
 		setIsSuperLiked(false);
 	};
 
+	
+
 	const index = useRef(0);
 	useEffect(() => {
 		if (isLikeFirstRun.current) {

@@ -130,11 +130,6 @@ const MovieCard = ({ card, genres, cardIndex, genresMap }: MovieCardProps) => {
           >
             {card.title.length < 40 ? card.overview : null}
           </Text>
-          <LinearGradient
-            style={styles.descriptionContainer}
-            colors={["rgba(0, 0, 0, 0)", Colors[colorScheme].primary]}
-            start={{ x: 0.5, y: 0.2 }}
-          ></LinearGradient>
         </View>
       </View>
     </TouchableWithoutFeedback>

@@ -160,14 +160,11 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
 								></Image>
 							</View>
 						</View>
+
 						<View style={styles.innerContainer}>
 							<View style={styles.nameAndPronouns}>
 								<Text style={styles.name}>{user.firstName}</Text>
-								<Text style={styles.name}>24</Text>
-							</View>
-
-							<View>
-								<Text style={styles.pronouns}>{user.pronouns}</Text>
+								<Text style={styles.name}>{user.age}</Text>
 							</View>
 
 							<View style={styles.location}>
