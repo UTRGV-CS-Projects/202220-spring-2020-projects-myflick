@@ -54,16 +54,16 @@ const CustomMovieSwiper = ({
 				currentUserDisplayed,
 			]);
 		} else {
-			console.log("--------------------------------");
-			console.log(matches);
-			console.log(currentCardUser[currentCardUser.length - 4].id);
+			//console.log("--------------------------------");
+			//console.log(matches);
+			//console.log(currentCardUser[currentCardUser.length - 4].id);
 			//check if the field's match list already has the match
 			for (let i = 0; i < matches.likedMovies.length; ++i) {
 				if (
 					matches.likedMovies[i] ==
 					currentCardUser[currentCardUser.length - 4].id
 				) {
-					console.log("already matched");
+					//console.log("already matched");
 					alreadySwiped = true;
 					break;
 				}

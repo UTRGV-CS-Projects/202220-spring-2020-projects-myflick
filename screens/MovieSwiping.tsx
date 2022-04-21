@@ -1,22 +1,14 @@
-import {
-	ActivityIndicator,
-	Button,
-	StyleSheet,
-	TouchableOpacity,
-} from "react-native";
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { GenresType, RootStackScreenProps } from "../types";
+import { GenresType } from "../types";
 import { View, Text, SafeAreaView } from "../components/Themed";
 import Swiper from "react-native-deck-swiper";
 import LottieView from "lottie-react-native";
 import useColorScheme from "../hooks/useColorScheme";
 import { MovieCardType } from "../db/db";
-import PeopleCard from "../components/SwipingComponent/PeopleCard";
-import Colors, { themeColor } from "../constants/Colors";
+import { themeColor } from "../constants/Colors";
 import { EvilIcons } from "@expo/vector-icons";
-import MovieCard from "../components/SwipingComponent/MovieCard";
 import { fetchDiscovery, fetchGenres } from "../apis/movies";
-import CustomerSwiper from "../components/SwipingComponent/CustomMovieSwiper";
 import CustomMovieSwiper from "../components/SwipingComponent/CustomMovieSwiper";
 
 const delay = (ms: number | undefined) =>
@@ -93,8 +85,6 @@ const MovieSwiping = () => {
 
 		setIsSuperLiked(false);
 	};
-
-	
 
 	const index = useRef(0);
 	useEffect(() => {

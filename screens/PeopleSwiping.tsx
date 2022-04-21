@@ -51,12 +51,12 @@ const PeopleSwiping = ({
 				currentUserDisplayed,
 			]);
 		} else {
-			console.log("--------------------------------");
-			console.log(matches.peopleLikedList.length);
+			//console.log("--------------------------------");
+			//console.log(matches.peopleLikedList.length);
 			//check if the field's match list already has the match
 			for (let i = 0; i < matches.peopleLikedList.length; ++i) {
 				if (matches.peopleLikedList[i] === currentUserDisplayed) {
-					console.log("already matched");
+					//console.log("already matched");
 					alreadySwiped = true;
 					break;
 				}
@@ -79,10 +79,10 @@ const PeopleSwiping = ({
 			for (let i = 0; i < swipedUsermatches.peopleLikedList.length; ++i) {
 				//==if yoou both like each other
 				if (swipedUsermatches.peopleLikedList[i] === user.cognitoId) {
+					/*console.log("ITS A MATCH");
 					console.log("ITS A MATCH");
 					console.log("ITS A MATCH");
-					console.log("ITS A MATCH");
-					console.log("ITS A MATCH");
+					console.log("ITS A MATCH");*/
 					//if you do, show match screen
 					handleMatch();
 					// && open a new chat (convo)

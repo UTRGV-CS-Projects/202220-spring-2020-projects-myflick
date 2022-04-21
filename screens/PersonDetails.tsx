@@ -1,5 +1,12 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
+import {
+	StyleSheet,
+	TouchableOpacity,
+	SectionList,
+	FlatList,
+	Image,
+} from "react-native";
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { ScrollView } from "react-native-virtualized-view";
 import { Text, View } from "../components/Themed";
 import { Chip } from "react-native-paper";
 //import { lightThemeColor, themeColor } from "../constants/Colors";
@@ -7,11 +14,34 @@ import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import { RootStackScreenProps } from "../types";
 import LottieView from "lottie-react-native";
 import ImagesSlider from "../components/PersonDetails/ImagesSlider";
-import { createConversations, createUserConversation } from "../apis/messages";
+import {
+	createConversations,
+	createUserConversation,
+	fetchLikedMovies,
+} from "../apis/messages";
+import { MyProfileType } from "../db/db";
 import { AuthContext } from "../store/AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import Colors, { themeColor, lightThemeColor } from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
+import { getMoviePoster } from "../apis/movies";
+const ListItem = ({ item }: { item: any }) => {
+	return (
+		<View style={styles.item}>
+			<TouchableOpacity onPress={() => {}}>
+				<Image
+					source={{
+						uri: item,
+					}}
+					style={styles.itemPhoto}
+					resizeMode="cover"
+					key={uuidv4()}
+				/>
+			</TouchableOpacity>
+		</View>
+	);
+};
+
 const PersonDetails = ({
 	navigation,
 	route,
@@ -22,6 +52,51 @@ const PersonDetails = ({
 	const [isLiked, setIsLiked] = useState(false);
 	const { user, dispatch } = useContext(AuthContext);
 	const colorScheme = useColorScheme();
+	const [posterList, setPosterList] = useState([
+		"https://i.ytimg.com/vi/T9qcT3RHNzg/hqdefault.jpg",
+	]);
+
+	useEffect(() => {
+		const getMovies = async () => {
+			const swipedLikedMovieArray = await fetchLikedMovies(
+				String(person?.cognitoId)
+			);
+			const myLikedMovieArray = await fetchLikedMovies(user.cognitoId);
+			//console.log("liked movies");
+
+			let posters = [];
+			//console.log(likedMovieArray.likedMovies);
+
+			//O(n^2) inefficient, please refactor
+			for (let i = 0; i < swipedLikedMovieArray.likedMovies.length; ++i) {
+				for (let j = 0; j < myLikedMovieArray.likedMovies.length; ++j) {
+					if (
+						swipedLikedMovieArray.likedMovies[i] ===
+						myLikedMovieArray.likedMovies[j]
+					) {
+						posters.push(
+							await getMoviePoster(swipedLikedMovieArray.likedMovies[i])
+						);
+					}
+				}
+			}
+
+			setPosterList(posters);
+		};
+
+		getMovies().catch((err) => {
+			console.log(err);
+		});
+	}, []);
+
+	const MyProfileSections: MyProfileType[] = [
+		{
+			title: "Favorites",
+			horizontal: true,
+			data: posterList,
+		},
+	];
+
 	const handleFavorite = () => {
 		setIsLiked(!isLiked);
 	};
@@ -51,7 +126,7 @@ const PersonDetails = ({
 		const promise3 = createConversations(user.cognitoId, person!.cognitoId, id);
 
 		Promise.all([promise1, promise2, promise3]).then((res) => {
-			console.log("data created", res);
+			//console.log("data created", res);
 			navigation.goBack();
 
 			navigation.navigate("OpenChat", {
@@ -118,60 +193,87 @@ const PersonDetails = ({
 				</View> */}
 			</View>
 			<View style={styles.lowerContainer}>
-				<View style={styles.nameAndAge}>
-					<Text style={styles.name}>
-						{person?.firstName},
-					</Text>
-					<Text style={styles.age}>
-						{person?.age}
-					</Text>
+				<ScrollView showsVerticalScrollIndicator={false}>
+					<View style={styles.nameAndAge}>
+						<Text style={styles.name}>{person?.firstName},</Text>
+						<Text style={styles.age}>{person?.age}</Text>
 					</View>
 					<View style={styles.locationRow}>
 						<Ionicons
-                  name="location-outline"
-                  size={15}
-                  color={Colors[colorScheme].opposite}
-                ></Ionicons>
-					<Text style={styles.location}>{person?.location}</Text>
+							name="location-outline"
+							size={15}
+							color={Colors[colorScheme].opposite}
+						></Ionicons>
+						<Text style={styles.location}>{person?.location}</Text>
 					</View>
 
 					<View style={styles.locationRow}>
 						<Ionicons
-                  name="ios-male-female-outline"
-                  size={15}
-                  color={Colors[colorScheme].opposite}
-                ></Ionicons>
-					<Text style={styles.location}>{person?.pronouns}</Text>
+							name="ios-male-female-outline"
+							size={15}
+							color={Colors[colorScheme].opposite}
+						></Ionicons>
+						<Text style={styles.location}>{person?.pronouns}</Text>
 					</View>
-					
-				
 
-				<View>
-					<Text style={styles.header}>About {person?.firstName}</Text>
+					<View>
+						<Text style={styles.header}>About {person?.firstName}</Text>
 
-					<Text style={styles.bio}>{person?.bio}</Text>
-				</View>
-
-				<View>
-					<Text style={styles.header}>Interests</Text>
-					<View style={styles.chipsContainer}>
-						{person?.interests?.map((interest, index) => {
-							return (
-								<Chip
-									style={styles.chip}
-									key={index}
-									textStyle={styles.chipText}
-									onPress={() => {}}
-									mode="flat"
-								>
-									{interest}
-								</Chip>
-							);
-						})}
+						<Text style={styles.bio}>{person?.bio}</Text>
 					</View>
-				</View>
 
- <View style={styles.bubbleContainer}>
+					<View>
+						<Text style={styles.header}>Matching Movies</Text>
+						<SectionList
+							contentContainerStyle={styles.sectionList}
+							stickySectionHeadersEnabled={false}
+							sections={MyProfileSections}
+							keyExtractor={(index) => index}
+							initialNumToRender={5}
+							renderSectionHeader={({ section }) => (
+								<View>
+									{section.horizontal ? (
+										<FlatList
+											horizontal
+											keyExtractor={(index) => index}
+											data={section.data}
+											renderItem={({ item }) => <ListItem item={item} />}
+											showsHorizontalScrollIndicator={false}
+										/>
+									) : null}
+								</View>
+							)}
+							renderItem={({ item, section }) => {
+								if (section.horizontal) {
+									return null;
+								}
+								return <ListItem item={item} />;
+							}}
+						/>
+					</View>
+
+					<View>
+						<Text style={styles.header}>Interests</Text>
+						<View style={styles.chipsContainer}>
+							{person?.interests?.map((interest, index) => {
+								return (
+									<Chip
+										style={styles.chip}
+										key={index}
+										textStyle={styles.chipText}
+										onPress={() => {}}
+										mode="flat"
+									>
+										{interest}
+									</Chip>
+								);
+							})}
+						</View>
+					</View>
+					<View style={{ paddingBottom: 140 }} />
+				</ScrollView>
+
+				<View style={styles.bubbleContainer}>
 					<TouchableOpacity onPress={handleDislike}>
 						<View style={styles.bubble}>
 							<EvilIcons
@@ -202,11 +304,7 @@ const PersonDetails = ({
 							/>
 						</View>
 					</TouchableOpacity>
-				</View> 
-
-
-
-
+				</View>
 			</View>
 		</View>
 	);
@@ -288,23 +386,23 @@ const styles = StyleSheet.create({
 		//justifyContent: "space-evenly",
 		alignItems: "flex-start",
 		paddingHorizontal: 20,
-		paddingTop: 20
+		paddingTop: 20,
 	},
 
 	name: {
 		fontSize: 31,
 		fontWeight: "bold",
-		paddingRight: 5
+		paddingRight: 5,
 	},
-	age:{
-		fontSize: 28
+	age: {
+		fontSize: 28,
 	},
-	nameAndAge:{
+	nameAndAge: {
 		flexDirection: "row",
 	},
-	locationRow:{
+	locationRow: {
 		flexDirection: "row",
-		opacity: 0.6
+		opacity: 0.6,
 	},
 	location: {
 		fontSize: 18,
@@ -337,5 +435,23 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "flex-start",
 		flexWrap: "wrap",
+	},
+	sectionHeader: {
+		fontWeight: "bold",
+		fontSize: 18,
+		marginTop: 10,
+		marginBottom: 10,
+	},
+	sectionList: {
+		marginVertical: 20,
+		paddingHorizontal: 15,
+	},
+	item: {
+		marginHorizontal: 5,
+	},
+	itemPhoto: {
+		width: 84,
+		height: 128,
+		borderRadius: 8,
 	},
 });

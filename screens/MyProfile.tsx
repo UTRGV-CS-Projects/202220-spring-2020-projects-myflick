@@ -11,7 +11,6 @@ import {
 	TouchableOpacity,
 	FlatList,
 	SectionList,
-	Button,
 	ActivityIndicator,
 } from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
@@ -63,7 +62,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
 	useEffect(() => {
 		const getMovies = async () => {
 			const likedMovieArray = await fetchLikedMovies(user.cognitoId);
-			console.log("liked movies");
+			//console.log("liked movies");
 
 			let posters = [];
 			//console.log(likedMovieArray.likedMovies);
@@ -113,7 +112,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
 		bottomSheetModalRef.current?.present();
 	}, []);
 	const handleSheetChanges = useCallback((index: number) => {
-		console.log("handleSheetChanges", index);
+		//console.log("handleSheetChanges", index);
 	}, []);
 	const refRBSheet = useRef<any | null>(null);
 
@@ -143,7 +142,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
 							}}
 						>
 							<Ionicons
-								name="share-outline"
+								name="refresh-outline"
 								size={30}
 								color={Colors[colorScheme].opposite}
 							></Ionicons>
