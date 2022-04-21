@@ -1,12 +1,15 @@
 import React from 'react';
 import {StyleSheet, View, Image} from 'react-native';
+import Colors from '../../constants/Colors';
+import useColorScheme from '../../hooks/useColorScheme';
 
 const white_image = { uri: "https://wallpaperaccess.com/full/1586320.jpg" };
 
 
-function WhitePoster() {
+function DetailsPoster() {
+    const colorScheme = useColorScheme();
     return (
-        <Image style={styles.imagewht} source={white_image}></Image>
+        <View style={[styles.imagewht, {backgroundColor: Colors[colorScheme].primary}]}></View>
     );
 }
 
@@ -22,4 +25,4 @@ const styles = StyleSheet.create({
       },
 })
 
-export default WhitePoster;
+export default DetailsPoster;

@@ -27,6 +27,7 @@ import MovieSwiping from "../screens/MovieSwiping";
 import PeopleSwiping from "../screens/PeopleSwiping";
 import MovieDetails from "../screens/MovieDetails";
 import MyDiscoverySettings from "../screens/MyDiscoverySettings";
+import SameMovies from "../screens/SameMovies";
 import {
   RootStackParamList,
   RootTabParamList,
@@ -97,7 +98,7 @@ function RootNavigator() {
       <Stack.Screen name="Personalize" component={Personalize} />
       <Stack.Screen name="MySettings" component={MySettings} />
       <Stack.Screen name="OpenChat" component={OpenChat} />
-
+      <Stack.Screen name="SameMovies" component={SameMovies} />
       <Stack.Screen
         name="MyDiscoverySettings"
         component={MyDiscoverySettings}

@@ -16,17 +16,5 @@ function MoviePoster({ image }: MoviePosterProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-      
-  },
-  poster: {
-      height: 220,
-      width: 150,
-      borderRadius: 25,
-      bottom: 375,
-      position: "absolute",
-      left: 40,
-    },
-})
+
 export default MoviePoster;
