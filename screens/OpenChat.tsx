@@ -6,7 +6,6 @@ import {
 	FlatList,
 } from "react-native";
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RootStackScreenProps } from "../types";
 import { SafeAreaView, View } from "../components/Themed";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,10 +16,10 @@ import RBSheet from "react-native-raw-bottom-sheet";
 //styling
 import useColorScheme from "../hooks/useColorScheme";
 import Colors, { themeColor } from "../constants/Colors";
-import { createMessages, listMessage, createMatch } from "../apis/messages";
+import { createMessages, listMessage } from "../apis/messages";
 import { OnCreateMessageSubscription } from "../src/API";
 import { AuthContext } from "../store/AuthContext";
-import { API, graphqlOperation } from "aws-amplify";
+import { API } from "aws-amplify";
 import { onCreateMessage } from "../src/graphql/subscriptions";
 
 const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
@@ -73,7 +72,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 			}) as any
 		).subscribe({
 			next: (response: SubscriptionValue<T>) => {
-				console.log("res value: ", response.value);
+				//console.log("res value: ", response.value);
 				callback(response.value.data);
 			},
 			error: (error: any) => console.warn(error),
@@ -87,14 +86,14 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 		createMessageSubscription: OnCreateMessageSubscription
 	) => {
 		const message = mapOnCreateMessageSubscription(createMessageSubscription);
-		console.log("new msg received");
+		//console.log("new msg received");
 		setMessages([...messages, message]);
 	};
 
 	useEffect(() => {
-		console.log(conversationId);
-		console.log(userId);
-		console.log(person);
+		//console.log(conversationId);
+		//console.log(userId);
+		//console.log(person);
 
 		listMessage(conversationId)
 			.then((res) => {
@@ -111,7 +110,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 	}, []);
 
 	useEffect(() => {
-		console.log("messages", messages);
+		//console.log("messages", messages);
 
 		// Subscribe to creation of Message
 		const subscription = subscribeGraphQL<OnCreateMessageSubscription>(

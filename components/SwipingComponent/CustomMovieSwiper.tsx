@@ -1,11 +1,19 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { MovieCardType } from "../../db/db";
 import Swiper from "react-native-deck-swiper";
 import MovieCard from "./MovieCard";
 import { GenresType } from "../../types";
 import Colors, { themeColor } from "../../constants/Colors";
 import useColorScheme from "../../hooks/useColorScheme";
+import { AuthContext } from "../../store/AuthContext";
+import {
+	createMovieLikedList,
+	fetchLikedMovies,
+	updateLikedMoviesCall,
+} from "../../apis/messages";
+
+let currentCardUser = [{ id: "0" }];
 
 interface CustomSwiperProps {
 	movies: MovieCardType[];
@@ -17,10 +25,6 @@ interface CustomSwiperProps {
 	btnTriggerRight: boolean;
 	genresMap: any;
 }
-
-const handleSwipeLeft = () => {};
-const handleSwipeRight = () => {};
-const handleSwipeTop = () => {};
 
 const CustomMovieSwiper = ({
 	movies,
@@ -34,6 +38,50 @@ const CustomMovieSwiper = ({
 }: CustomSwiperProps) => {
 	const useSwiper = useRef<Swiper<MovieCardType>>(null);
 	const colorScheme = useColorScheme();
+	const { user, dispatch } = useContext(AuthContext);
+
+	const handleSwipeLeft = () => {};
+	const handleSwipeRight = async () => {
+		let matches = await fetchLikedMovies(user.cognitoId);
+		//console.log(currentCardUser[currentCardUser.length - 4]);
+		let currentUserDisplayed = currentCardUser[currentCardUser.length - 4].id;
+		let alreadySwiped = false;
+
+		//if there doesn't exists a match field for the current logged in user
+		if (matches == null) {
+			createMovieLikedList(user.cognitoId, [
+				//create a new field with the new match
+				currentUserDisplayed,
+			]);
+		} else {
+			//console.log("--------------------------------");
+			//console.log(matches);
+			//console.log(currentCardUser[currentCardUser.length - 4].id);
+			//check if the field's match list already has the match
+			for (let i = 0; i < matches.likedMovies.length; ++i) {
+				if (
+					matches.likedMovies[i] ==
+					currentCardUser[currentCardUser.length - 4].id
+				) {
+					//console.log("already matched");
+					alreadySwiped = true;
+					break;
+				}
+
+				//if not, update and add new swiped user to the already existent list
+			}
+
+			if (!alreadySwiped) {
+				//first, add that user to the retrieved user matches list
+				matches.likedMovies.push(currentUserDisplayed);
+				//then update the graphql list to this new one
+				updateLikedMoviesCall(user.cognitoId, matches.likedMovies);
+			}
+		}
+	};
+	const handleSwipeTop = async () => {
+		await handleSwipeRight();
+	};
 
 	const checkforBtnTriggers = () => {
 		btnTriggerLeft ? useSwiper.current?.swipeLeft() : {};
@@ -52,6 +100,7 @@ const CustomMovieSwiper = ({
 			key={movies.length}
 			keyExtractor={(item) => item.id}
 			renderCard={(card) => {
+				currentCardUser.push(card);
 				return (
 					<MovieCard
 						card={card}
