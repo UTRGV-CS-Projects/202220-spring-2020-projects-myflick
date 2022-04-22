@@ -46,8 +46,8 @@ export type ProfileType = {
   bio: string;
   location: string;
   age: string;
-  photos: string[];
-  interests: string[];
+  photos: Array<string>;
+  interests: Array<string>;
   sub: string;
   cognitoId: string;
   loggedIn?: boolean;
@@ -72,6 +72,19 @@ const reducer = (user: ProfileType = initialState, action: UserAction) => {
     case UserActionTypes.LOG_OUT:
       return {
         ...initialState,
+      };
+    case UserActionTypes.UPDATE_USER:
+      const { photos, firstName, age, pronouns, location, bio, interests } =
+        action.payload.data.updateUser;
+      return {
+        ...user,
+        photos,
+        firstName,
+        age,
+        pronouns,
+        location,
+        bio,
+        interests,
       };
     case UserActionTypes.SET_USER:
       const newUser = action.payload as ProfileType;
