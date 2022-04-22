@@ -38,19 +38,29 @@ const Card = (props: { item: any; parentCallBack: any }) => {
         <View
           style={[
             styles.favourite,
-            { backgroundColor: Colors[colorScheme].primary },
+            { backgroundColor: Colors[colorScheme].secondary },
           ]}
         >
-          <AntDesign name="heart" size={24} color={themeColor} />
+          <AntDesign
+            name="heart"
+            size={24}
+            color={themeColor}
+            onPress={getFavorites}
+          />
         </View>
       ) : (
         <View
           style={[
             styles.favourite,
-            { backgroundColor: Colors[colorScheme].opposite },
+            { backgroundColor: Colors[colorScheme].secondary },
           ]}
         >
-          <AntDesign name="hearto" size={24} color={themeColor} />
+          <AntDesign
+            name="hearto"
+            size={24}
+            color={themeColor}
+            onPress={getFavorites}
+          />
         </View>
       )}
       <Image
@@ -91,13 +101,15 @@ const styles = StyleSheet.create({
   },
   favourite: {
     textAlign: "center",
-    width: 28,
+    width: 33,
     top: 0,
     right: 0,
     position: "absolute",
     opacity: 1,
     borderRadius: 10,
     borderTopLeftRadius: 0,
+    justifyContent: "center",
+    alignItems: "center",
     borderBottomRightRadius: 0,
     zIndex: 1000,
   },

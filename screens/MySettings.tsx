@@ -45,6 +45,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
   const refRBSheet4 = useRef<any | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [interest, setInterest] = useState("");
+  const [localImages, setLocalImages] = useState(user.photos);
 
   const [userData, setUserData] = useState<UpdateUserInput>({
     cognitoId: user.cognitoId,
@@ -97,6 +98,14 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
       },
     })
       .then((response) => {
+        setUserData({
+          ...userData,
+          photos: [
+            ...userData.photos!,
+            "https://myflick5b148c436f79489cb4ec3f71bd3b647a145327-dev.s3.us-east-2.amazonaws.com/public/" +
+              response.key,
+          ],
+        });
         return response.key;
       })
       .catch((error) => {
@@ -114,21 +123,6 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
     }
   };
 
-  const downloadImages = (uri: string) => {
-    Storage.get(uri)
-      .then((result) =>
-        setUserData({
-          ...userData,
-          photos: [
-            ...userData.photos!,
-            "https://myflick5b148c436f79489cb4ec3f71bd3b647a145327-dev.s3.us-east-2.amazonaws.com/public/" +
-              uri,
-          ],
-        })
-      )
-      .catch((err) => console.log(err));
-  };
-
   const clickedPhoto = () => {
     refRBSheet.current.open();
   };
@@ -141,10 +135,9 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
       if (result?.cancelled) {
         return;
       } else {
-        setLoading(true);
+        setLocalImages([...localImages, result!.uri]);
         const img = await fetchImageFromUri(result!.uri);
         const uploadUrl = await uploadImage(uuidv4(), img);
-        downloadImages(uploadUrl);
       }
     } catch (error) {
       console.log(error);
@@ -294,7 +287,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
                   </View>
                 </TouchableOpacity>
 
-                {userData.photos!.length > 0 ? (
+                {localImages!.length > 0 ? (
                   <ScrollView>
                     <FlatList
                       horizontal={true}
