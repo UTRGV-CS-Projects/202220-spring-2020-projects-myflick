@@ -22,7 +22,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
-import SearchBar from "react-native-dynamic-search-bar";
+//import SearchBar from "react-native-dynamic-search-bar";
 import { AuthContext } from "../store/AuthContext";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import { UpdateUserInput } from "../src/API";
@@ -249,6 +249,7 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
         </Modal>
         <View style={styles.titleBar}>
           <TouchableOpacity
+            testID="backButton"
             onPress={() => {
               navigation.navigate("MyProfile");
             }}
@@ -559,11 +560,11 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
                   marginBottom: 5,
                 }}
               ></View>
-              <SearchBar
+              {/* <SearchBar
                 placeholder="Search here"
                 //onPress={() => alert("onPress")}
                 onChangeText={(text) => console.log(text)}
-              />
+              /> */}
             </RBSheet>
 
             <RBSheet
@@ -595,11 +596,11 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
                 }}
               ></View>
 
-              <SearchBar
+             {/*  <SearchBar
                 placeholder="Search here"
                 //onPress={() => alert("onPress")}
                 onChangeText={(text) => console.log(text)}
-              />
+              /> */}
             </RBSheet>
 
             <RBSheet
@@ -631,11 +632,11 @@ const MySettings = ({ navigation }: RootStackScreenProps<"MySettings">) => {
                 }}
               ></View>
 
-              <SearchBar
+             {/*  <SearchBar
                 placeholder="Search here"
                 //onPress={() => alert("onPress")}
                 onChangeText={(text) => console.log(text)}
-              />
+              /> */}
             </RBSheet>
           </View>
         </ScrollView>

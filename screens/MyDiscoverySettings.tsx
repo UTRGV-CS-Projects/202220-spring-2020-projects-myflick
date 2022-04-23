@@ -12,10 +12,12 @@ import { RootStackScreenProps } from "../types";
 //import { themeColor, lightThemeColor } from "../constants/Colors";
 //import { MyProfileSections } from "../db/db";
 import { View, Text, SafeAreaView } from "../components/Themed";
+import MultiSlider from "@ptomasroos/react-native-multi-slider";
+
 import useColorScheme from "../hooks/useColorScheme";
 import Slider from "@react-native-community/slider";
 import { parseSync } from "@babel/core";
-import MultiSlider from "@ptomasroos/react-native-multi-slider";
+
 import Colors, { themeColor } from "../constants/Colors";
 import * as Location from "expo-location";
 import Constants from "expo-constants";
@@ -91,15 +93,12 @@ const MyDiscoverySettings = ({
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.titleBar}>
-				<TouchableOpacity
-					onPress={() => {
-						navigation.navigate("MyProfile");
-					}}
+				<TouchableOpacity onPress={() => { navigation.navigate("MyProfile");}} testID="cancelbutton"
 				>
 					<Text style={styles.cancelButton}>Cancel</Text>
 				</TouchableOpacity>
 				<Text style={styles.title1}>Discovery</Text>
-				<TouchableOpacity onPress={() => {}}>
+				<TouchableOpacity onPress={() => {}} testID="savebutton">
 					<Text style={styles.saveButton}>Save</Text>
 				</TouchableOpacity>
 			</View>
@@ -113,6 +112,7 @@ const MyDiscoverySettings = ({
 				>
 					<Text style={styles.switchText}>Enable Notifications</Text>
 					<Switch
+						testID="switch"
 						style={styles.switch}
 						trackColor={{ false: "#fff", true: themeColor }}
 						thumbColor={isEnabled ? "#fff" : "#fff"}
@@ -135,6 +135,7 @@ const MyDiscoverySettings = ({
 				<View style={styles.container}>
 					<Text style={styles.questions}>I'm interested in...</Text>
 					<TouchableOpacity
+						testID="menbutton"
 						onPress={() => {}}
 						style={[
 							styles.appButtonContainer,
@@ -144,6 +145,7 @@ const MyDiscoverySettings = ({
 						<Text style={styles.appButtonText}>Men</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
+						testID="womenbutton"
 						onPress={() => {}}
 						style={[
 							styles.appButtonContainer,
@@ -153,6 +155,7 @@ const MyDiscoverySettings = ({
 						<Text style={styles.appButtonText}>Women</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
+						testID="anybutton"
 						onPress={() => {}}
 						style={[
 							styles.appButtonContainer,
@@ -168,7 +171,7 @@ const MyDiscoverySettings = ({
 							Between {multiSliderValue[0]} and {multiSliderValue[1]} Years Old
 						</Text>
 					</View>
-					<MultiSlider
+					 <MultiSlider
 						values={[multiSliderValue[0], multiSliderValue[1]]}
 						sliderLength={370}
 						onValuesChangeFinish={multiSliderValuesChange}
@@ -180,7 +183,7 @@ const MyDiscoverySettings = ({
 						unselectedStyle={{ backgroundColor: "white" }}
 						trackStyle={{ height: 3.5 }}
 						containerStyle={{ marginLeft: 20, marginRight: 20 }}
-					/>
+					/> 
 
 					<View style={styles.ageAndDistance}>
 						<Text style={styles.questions}>Distance...</Text>
