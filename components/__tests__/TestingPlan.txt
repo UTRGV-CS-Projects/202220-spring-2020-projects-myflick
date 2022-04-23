@@ -45,6 +45,13 @@ MovieDetails
 MySettings
  - Check Image picture
 
+MyDiscovery
+ - Check buttons
+ - Check location permission enabled
+
+MyProfile
+ - Check buttons work
+
 Messages Screens
  - Check if user can Type
  - Check if the submit message works

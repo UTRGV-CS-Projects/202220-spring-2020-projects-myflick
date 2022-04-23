@@ -91,10 +91,7 @@ const MyDiscoverySettings = ({
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.titleBar}>
-				<TouchableOpacity
-					onPress={() => {
-						navigation.navigate("MyProfile");
-					}}
+				<TouchableOpacity onPress={() => { navigation.navigate("MyProfile");}} testID="cancelbutton"
 				>
 					<Text style={styles.cancelButton}>Cancel</Text>
 				</TouchableOpacity>
