@@ -98,7 +98,7 @@ const MyDiscoverySettings = ({
 					<Text style={styles.cancelButton}>Cancel</Text>
 				</TouchableOpacity>
 				<Text style={styles.title1}>Discovery</Text>
-				<TouchableOpacity onPress={() => {}}>
+				<TouchableOpacity onPress={() => {}} testID="savebutton">
 					<Text style={styles.saveButton}>Save</Text>
 				</TouchableOpacity>
 			</View>
@@ -112,6 +112,7 @@ const MyDiscoverySettings = ({
 				>
 					<Text style={styles.switchText}>Enable Notifications</Text>
 					<Switch
+						testID="switch"
 						style={styles.switch}
 						trackColor={{ false: "#fff", true: themeColor }}
 						thumbColor={isEnabled ? "#fff" : "#fff"}
@@ -134,6 +135,7 @@ const MyDiscoverySettings = ({
 				<View style={styles.container}>
 					<Text style={styles.questions}>I'm interested in...</Text>
 					<TouchableOpacity
+						testID="menbutton"
 						onPress={() => {}}
 						style={[
 							styles.appButtonContainer,
@@ -143,6 +145,7 @@ const MyDiscoverySettings = ({
 						<Text style={styles.appButtonText}>Men</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
+						testID="womenbutton"
 						onPress={() => {}}
 						style={[
 							styles.appButtonContainer,
@@ -152,6 +155,7 @@ const MyDiscoverySettings = ({
 						<Text style={styles.appButtonText}>Women</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
+						testID="anybutton"
 						onPress={() => {}}
 						style={[
 							styles.appButtonContainer,
@@ -168,6 +172,7 @@ const MyDiscoverySettings = ({
 						</Text>
 					</View>
 					 <MultiSlider
+						
 						values={[multiSliderValue[0], multiSliderValue[1]]}
 						sliderLength={370}
 						onValuesChangeFinish={multiSliderValuesChange}
