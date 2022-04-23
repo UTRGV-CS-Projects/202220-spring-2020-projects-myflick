@@ -13,8 +13,17 @@
     "amplify-push": "node amplify/scripts/amplify-push.js"
   },
   "jest": {
-    "preset": "jest-expo"
-  },
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|@?ptomasroos/react-native-multi-slider|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ]
+    },
   "dependencies": {
     "@breeffy/react-native-popup-menu": "^0.8.0",
     "@dietime/react-native-date-picker": "^1.2.0",

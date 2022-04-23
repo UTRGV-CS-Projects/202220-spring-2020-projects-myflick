@@ -19,11 +19,11 @@ const createTestProps = (props: any) => ({
         let testId: any;
         beforeEach(() => {
           props = createTestProps({});
-          const {getAllByTestId} = render(<MyDiscoverySettings {...props}/>)
+          const {getAllByTestId} = render(<MyDiscoverySettings {...props}/>);
           testId = getAllByTestId;
         })
     it('Testing cancel button', () => {
-        const testIDName = "cancelButton";
+        const testIDName = "cancelbutton";
         const foundButton = testId(testIDName);
         expect(foundButton).toBeTruthy();
     })

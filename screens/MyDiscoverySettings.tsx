@@ -12,10 +12,12 @@ import { RootStackScreenProps } from "../types";
 //import { themeColor, lightThemeColor } from "../constants/Colors";
 //import { MyProfileSections } from "../db/db";
 import { View, Text, SafeAreaView } from "../components/Themed";
+import MultiSlider from "@ptomasroos/react-native-multi-slider";
+
 import useColorScheme from "../hooks/useColorScheme";
 import Slider from "@react-native-community/slider";
 import { parseSync } from "@babel/core";
-import MultiSlider from "@ptomasroos/react-native-multi-slider";
+
 import Colors, { themeColor } from "../constants/Colors";
 import * as Location from "expo-location";
 import Constants from "expo-constants";
@@ -165,7 +167,7 @@ const MyDiscoverySettings = ({
 							Between {multiSliderValue[0]} and {multiSliderValue[1]} Years Old
 						</Text>
 					</View>
-					<MultiSlider
+					 <MultiSlider
 						values={[multiSliderValue[0], multiSliderValue[1]]}
 						sliderLength={370}
 						onValuesChangeFinish={multiSliderValuesChange}
@@ -177,7 +179,7 @@ const MyDiscoverySettings = ({
 						unselectedStyle={{ backgroundColor: "white" }}
 						trackStyle={{ height: 3.5 }}
 						containerStyle={{ marginLeft: 20, marginRight: 20 }}
-					/>
+					/> 
 
 					<View style={styles.ageAndDistance}>
 						<Text style={styles.questions}>Distance...</Text>
