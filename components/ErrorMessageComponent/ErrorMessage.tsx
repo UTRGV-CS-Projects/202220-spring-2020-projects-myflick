@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text } from "react-native";
+// This file is to add an error message
 
-// import Text from "../Text";
 interface Props {
     error ?: any,
     visible?: any
@@ -17,3 +17,4 @@ const styles = StyleSheet.create({
 });
 
 export default ErrorMessage;
+ 
