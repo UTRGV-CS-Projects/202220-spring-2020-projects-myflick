@@ -54,7 +54,7 @@ MyProfile
 
 Messages Screens
  - Check if user can Type
- - Check if the submit message works
+ - Check if the submit message button works
 
 
 
