@@ -12,9 +12,7 @@
     "amplify-modelgen": "node amplify/scripts/amplify-modelgen.js",
     "amplify-push": "node amplify/scripts/amplify-push.js"
   },
-  "jest": {
-    "preset": "jest-expo"
-  },
+  "jest": {},
   "dependencies": {
     "@breeffy/react-native-popup-menu": "^0.8.0",
     "@dietime/react-native-date-picker": "^1.2.0",
