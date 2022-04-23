@@ -23,8 +23,11 @@ import DetailsPoster from "../components/MovieDetails/DetailsBackground";
 import ImageTapModal from "../components/ImageTapModalFile/ImageTapModal";
 import { Text } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
+import FastImage from 'react-native-fast-image';
+
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
+
 
 const white_image = { uri: "https://wallpaperaccess.com/full/1586320.jpg" };
 
