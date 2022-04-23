@@ -172,7 +172,6 @@ const MyDiscoverySettings = ({
 						</Text>
 					</View>
 					 <MultiSlider
-						
 						values={[multiSliderValue[0], multiSliderValue[1]]}
 						sliderLength={370}
 						onValuesChangeFinish={multiSliderValuesChange}
