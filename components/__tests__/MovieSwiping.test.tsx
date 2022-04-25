@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import MovieSwiping from '../../screens/MovieSwiping';
-import {cleanup, fireEvent, render} from '@testing-library/react-native'; // User actions.
+import {act, cleanup, fireEvent, render} from '@testing-library/react-native'; // User actions.
 
 /*
 MovieSwiping
@@ -22,15 +22,18 @@ const createTestProps = (props: any) => ({
     describe("Rendering the MovieSwiping Screen", () =>{
         let props: any;
         let testId: any;
-        beforeEach(() => {
+        beforeEach(async () => {
           props = createTestProps({});
-          const {getAllByTestId} = render(<MovieSwiping {...props}/>)
+          const {getAllByTestId} =  render(<MovieSwiping {...props}/>);
           testId = getAllByTestId;
         })
-    it('Testing the swiping Functionality', () => {
+    it('Testing the swiping Left Functionality', () => {
+        const testIDName = "swipeLeft";
+        const foundButton = testId(testIDName);
+        expect(foundButton).toBeTruthy();
 
     })
-    it("Test the Movie Swiping image click to navigate to MovieDetails", () => {
+    it.skip("Test the Movie Swiping image click to navigate to MovieDetails", () => {
 
     })
 })

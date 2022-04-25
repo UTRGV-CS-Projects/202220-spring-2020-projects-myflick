@@ -182,7 +182,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 							{ borderBottomColor: Colors[colorScheme].opposite },
 						]}
 					>
-						<TouchableOpacity style={styles.backBtn} onPress={handleGoBack}>
+						<TouchableOpacity style={styles.backBtn} onPress={handleGoBack} testID="back">
 							<Ionicons
 								name="chevron-back-outline"
 								size={30}

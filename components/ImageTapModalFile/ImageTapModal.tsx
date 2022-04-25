@@ -15,13 +15,13 @@ const ImageTapModal:React.FC<Props> = ({image}) => {
   return (
     <View style={styles.container}>
 
-        <TouchableOpacity activeOpacity={.5} onPress={() => setModalVisible(true)}>
+        <TouchableOpacity testID='poster' activeOpacity={.5} onPress={() => setModalVisible(true)}>
             <Image source={image} style={styles.image}/>
         </TouchableOpacity>
        
     <Modal visible={modalVisible} animationType="fade" transparent={true} onRequestClose={() => setModalVisible(false)}>
         <Screen style={styles.container}>
-        <TouchableOpacity style={styles.modalContainer} onPress={() => setModalVisible(false)}>
+        <TouchableOpacity testID='' style={styles.modalContainer} onPress={() => setModalVisible(false)}>
              <TouchableOpacity style={styles.modal} onPress={() => console.log('Test')} activeOpacity={1} >
                     <Image source={image} style={styles.imageModal} />
                 </TouchableOpacity>

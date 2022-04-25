@@ -2,7 +2,10 @@ import React, { useContext } from "react";
 import renderer from "react-test-renderer";
 import MyProfile from "../../screens/MyProfile";
 import { fireEvent, render } from "@testing-library/react-native";
+import navigation from "../../navigation";
+import { AuthContext } from "../../store/AuthContext";
 
+//This test will only pass if you comment out the lines in the MyProfile.tsx file that says {user.loggedIn?}
 // MyProfile Screen
 //  - Check buttons work
 
@@ -13,17 +16,31 @@ const createTestProps = (props: any) => ({
     ...props
   })
 
+  const { user, dispatch } = React.useContext(AuthContext);
+
  describe('Testing the myProfile Screen', () => {
     describe("Rendering the myProfile Screen", () =>{
         let props: any;
-        let testId: any;
+        let loggin: any;
+        let testID: any;
         beforeEach(() => {
+          loggin = user.loggedIn;
           props = createTestProps({});
           const {getAllByTestId} = render(<MyProfile {...props}/>);
-          testId = getAllByTestId;
+          testID = getAllByTestId;
         })
-        it("Check if button works", () => {
-            
+        it('Testing settings button', () => {
+          const testIDName = "settingsbutton";
+          const {getByTestId} = render(<MyProfile {...props}/>);
+          const foundButton = getByTestId(testIDName);
+          expect(foundButton).toBeTruthy();
+           
+        })
+        it('Do movies refresh', () => {
+          const testIDName = "refreshbutton";
+          const foundButton = testID(testIDName);
+          expect(foundButton).toBeTruthy();
         })
     })
 })
+

@@ -59,7 +59,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
 
 	const [update, setUpdate] = useState(0);
 
-	useEffect(() => {
+	/* useEffect(() => {
 		const getMovies = async () => {
 			const likedMovieArray = await fetchLikedMovies(user.cognitoId);
 			//console.log("liked movies");
@@ -77,7 +77,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
 		getMovies().catch((err) => {
 			console.log(err);
 		});
-	}, [update]);
+	}, [update]); */
 
 	const MyProfileSections: MyProfileType[] = [
 		{
@@ -119,15 +119,14 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
 	return (
 		// <BottomSheetModalProvider>
 		<SafeAreaView style={styles.container}>
-			{user.loggedIn ? (
+			 {user.loggedIn ? (  
 				<View>
 					<View style={styles.titleBar}>
-						<TouchableOpacity
-							onPress={() => {
-								refRBSheet.current.open();
-							}}
+						<TouchableOpacity onPress={() => {refRBSheet.current.open();}}
+							testID="settingsbutton"
 						>
 							<Ionicons
+							
 								name="settings-outline"
 								size={30}
 								color={Colors[colorScheme].opposite}
@@ -137,6 +136,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
 						<Text style={styles.title}>Profile</Text>
 
 						<TouchableOpacity
+							testID="refreshbutton"
 							onPress={() => {
 								setUpdate(update + 1);
 							}}
@@ -337,7 +337,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
 						</RBSheet>
 					</ScrollView>
 				</View>
-			) : (
+			 ) : (
 				<ActivityIndicator
 					size="large"
 					color={themeColor}
@@ -345,7 +345,7 @@ const MyProfile = ({ navigation }: RootStackScreenProps<"MyProfile">) => {
 						flex: 1,
 					}}
 				/>
-			)}
+			) }
 		</SafeAreaView>
 		// </BottomSheetModalProvider>
 	);

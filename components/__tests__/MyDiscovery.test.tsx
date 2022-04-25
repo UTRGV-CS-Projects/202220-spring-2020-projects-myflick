@@ -3,9 +3,6 @@ import { render, shallow } from '@testing-library/react-native';
 import React from 'react';
 import MyDiscoverySettings from '../../screens/MyDiscoverySettings';
 
-
-
-
 const createTestProps = (props: any) => ({ 
     navigation: {
       navigate: jest.fn() // Mock the navigation.. No use for it.
@@ -14,8 +11,8 @@ const createTestProps = (props: any) => ({
   })
 
 
-  describe('Testing the MovieSwiping Screen', () => {
-    describe("Rendering the MovieSwiping Screen", () =>{
+  describe('Testing the MyDiscovery Screen', () => {
+    describe("Rendering the MyDiscovery Screen", () =>{
         let props: any;
         let testId: any;
         beforeEach(() => {

@@ -9,8 +9,8 @@ const createTestProps = (props: any) => ({
     ...props
   })
 
-  describe('Testing the MySettings Screen', () => {
-    describe("Rendering the MySettings Screen", () =>{
+  describe.skip('Testing the MySettings Screen', () => {
+    describe.skip("Rendering the MySettings Screen", () =>{
         let props: any;
         let testId: any;
         beforeEach(() => {
@@ -18,7 +18,7 @@ const createTestProps = (props: any) => ({
           const {getAllByTestId} = render(<MySettings {...props}/>);
           testId = getAllByTestId;
         })
-    it('Testing cancel button', () => {
+    it.skip('Testing cancel button', () => {
         const testIDName = "backButton";
         const foundButton = testId(testIDName);
         expect(foundButton).toBeTruthy();
