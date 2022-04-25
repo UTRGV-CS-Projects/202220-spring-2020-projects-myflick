@@ -5,7 +5,7 @@ import { fireEvent, render } from "@testing-library/react-native";
 import navigation from "../../navigation";
 import { AuthContext } from "../../store/AuthContext";
 
-//This test will only pass if you comment out the lines in the MyProfile.tsx file that says {user.loggedIn?}
+//This test will only pass if you comment out the lines in the MyProfile.tsx file lines 122 and 348
 // MyProfile Screen
 //  - Check buttons work
 
@@ -16,15 +16,14 @@ const createTestProps = (props: any) => ({
     ...props
   })
 
-  const { user, dispatch } = React.useContext(AuthContext);
 
  describe('Testing the myProfile Screen', () => {
     describe("Rendering the myProfile Screen", () =>{
         let props: any;
-        let loggin: any;
+        
         let testID: any;
         beforeEach(() => {
-          loggin = user.loggedIn;
+          
           props = createTestProps({});
           const {getAllByTestId} = render(<MyProfile {...props}/>);
           testID = getAllByTestId;

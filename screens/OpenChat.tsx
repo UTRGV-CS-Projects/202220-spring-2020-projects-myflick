@@ -230,6 +230,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 					<View style={styles.bottomBarContainer}>
 						<View style={styles.bottomBar}>
 							<TextInput
+								testID="textBar"
 								autoComplete={false}
 								mode="outlined"
 								autoCapitalize="none"
@@ -242,6 +243,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 								onPressIn={handleOnChange}
 							/>
 							<TouchableOpacity
+								testID="sendbutton"
 								style={styles.sendButton}
 								onPressIn={sendBtnTrigger}
 							>

@@ -31,11 +31,12 @@ const createTestProps = (props: any) => ({
     it('Testing the swiping Left Functionality', () => {
         const testIDName = "left";
         const foundButton = testId(testIDName);
+       
         expect(foundButton).toBeTruthy();
 
     })
     it('Testing the swiping Top Functionality', () => {
-      const testIDName = "top";
+      const testIDName = "middle";
       const foundButton = testId(testIDName);
       expect(foundButton).toBeTruthy();
 
