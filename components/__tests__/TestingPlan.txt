@@ -50,7 +50,8 @@ MyDiscovery
  - Check location permission enabled
 
 MyProfile
- - Check buttons work
+ - Check settings button work
+ - Check refresh works
 
 Messages Screens
  - Check if user can Type

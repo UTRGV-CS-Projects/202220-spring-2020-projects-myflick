@@ -2,6 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import MovieDetails from '../../screens/MovieDetails';
 import {cleanup, fireEvent, render} from '@testing-library/react-native'; // User actions.
+import ImageTapModal from '../ImageTapModalFile/ImageTapModal';
 
 /*
 MovieDetails
@@ -21,14 +22,15 @@ const createTestProps = (props: any) => ({ // Mock the Navigation.
         let testId: any;
         beforeEach(() => {
           props = createTestProps({});
-          const {getAllByTestId} = render(<MovieDetails {...props}/>)
+          const {getAllByTestId} = render(<ImageTapModal {...props}/>)
           testId = getAllByTestId;
         })
     it('Testing the MovieDetails clickable image', () => {
         // Need the ImageTapModal Component
+        const testIDName = "poster";
+        const foundButton = testId(testIDName);
+        expect(foundButton).toBeTruthy();
     })
-    it("Test the MovieDetails Scroll for the text?", () => {
-
-    })
+   
 })
 })

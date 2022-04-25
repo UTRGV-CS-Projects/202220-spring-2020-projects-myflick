@@ -225,7 +225,7 @@ const MovieSwiping = () => {
 					/>
 
 					<View style={styles.buttonContainer}>
-						<TouchableOpacity onPress={btnSwipeLeft}>
+						<TouchableOpacity testID='swipeLeft' onPress={btnSwipeLeft}>
 							<View style={[styles.bubble, { borderColor: "#FD484E" }]}>
 								<EvilIcons
 									name="close"
