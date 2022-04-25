@@ -28,11 +28,10 @@ const createTestProps = (props: any) => ({
           testId = getAllByTestId;
         })
     it('Testing the swiping Left Functionality', () => {
-      act(() => {
         const testIDName = "swipeLeft";
         const foundButton = testId(testIDName);
         expect(foundButton).toBeTruthy();
-      })
+
     })
     it.skip("Test the Movie Swiping image click to navigate to MovieDetails", () => {
 
