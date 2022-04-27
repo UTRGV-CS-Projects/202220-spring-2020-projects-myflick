@@ -68,6 +68,7 @@ const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
             ]}
           >
             <TextInput
+            testID="EmailInput"
               label="Email"
               keyboard-type="email-address"
               mode="outlined"
@@ -83,6 +84,7 @@ const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
               left={<TextInput.Icon name="account" />}
             />
             <TextInput
+            testID="PasswordInput"
               label="Password"
               autoComplete={false}
               mode="outlined"
@@ -93,7 +95,7 @@ const SignUp = ({ navigation }: RootStackScreenProps<"SignUp">) => {
               style={[styles.textInput]}
               left={<TextInput.Icon name="eye" />}
             />
-            <TouchableOpacity style={styles.signInButton} onPress={signUp} testID="SignUnButton">
+            <TouchableOpacity style={styles.signInButton} onPress={signUp} testID="SignUpButton">
               <Text style={styles.signInText}>Sign Up</Text>
             </TouchableOpacity>
           </View>

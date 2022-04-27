@@ -21,8 +21,8 @@ const createTestProps = (props: any) => ({
           props = createTestProps({});
           const {getAllByTestId} = render(<OpenChat {...props}/>);
           testId = getAllByTestId;})
-        it('User can type a message', () => {
-            const testIDName = "back";
+        it('User can type a message', async () => {
+            const testIDName = "sendbutton";
             const foundButton = testId(testIDName);
             expect(foundButton).toBeTruthy();
 

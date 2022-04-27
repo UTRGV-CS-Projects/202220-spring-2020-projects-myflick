@@ -35,10 +35,9 @@ Personalize
  - Functions
  - Movie Scroll?
 
-MovieSwiping
+MovieSwiping.. Testing Swiping Components instead
  - Swiping Functionality
- - Movie Click to get MovieDetails page
-
+ 
 MovieDetails
  - Check if the image is clickable
  

@@ -404,7 +404,7 @@ const SwipingComponent = ({ useMovie, usePerson }: props) => {
       )}
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={btnSwipeLeft}>
+        <TouchableOpacity testID="left" onPress={btnSwipeLeft}>
           <View style={[styles.bubble, { borderColor: "#FD484E" }]}>
             <EvilIcons
               name="close"
@@ -415,7 +415,7 @@ const SwipingComponent = ({ useMovie, usePerson }: props) => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={btnSwipeTop}>
+        <TouchableOpacity testID="middle" onPress={btnSwipeTop}>
           <View style={[styles.bubble, { borderColor: "#35C3E7" }]}>
             <LottieView
               ref={star}
@@ -425,7 +425,7 @@ const SwipingComponent = ({ useMovie, usePerson }: props) => {
             />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={btnSwipeRight}>
+        <TouchableOpacity testID="right" onPress={btnSwipeRight}>
           <View style={[styles.bubble, { borderColor: "#2FEB5D" /*#FD484E*/ }]}>
             <LottieView
               ref={heart}
