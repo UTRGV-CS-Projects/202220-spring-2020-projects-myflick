@@ -106,8 +106,8 @@ function MovieDetails({
         <Text
           style={{
             marginTop: 450,
-            marginLeft: 10,
-            fontSize: 25,
+            marginLeft: 15,
+            fontSize: 20,
             position: "absolute",
             color: Colors[colorScheme].text,
             fontWeight: "700",
@@ -121,7 +121,7 @@ function MovieDetails({
           <Text
             style={{
               fontWeight: "700",
-              fontSize: 25,
+              fontSize: 20,
               color: Colors[colorScheme].text,
               marginLeft: 10,
               marginTop: 680,
@@ -213,14 +213,14 @@ const styles = StyleSheet.create({
     //flex: 0.70,
     //flexDirection: "row",
     flexWrap: "wrap",
-    fontSize: 25,
+    fontSize: 23,
     //backgroundColor: 'blue',
     fontWeight: "700",
     //paddingRight: width * 0.05 ,
     //paddingLeft: 30,
     //paddingRight: 10,
     marginRight: 5,
-    marginLeft: 170,
+    marginLeft: 175,
     paddingLeft: 5,
     top: height / 2.58,
     position: "absolute",
@@ -240,9 +240,9 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   detailsSection: {
-    marginLeft: 135,
+    marginLeft: 140,
     paddingLeft: 5,
-    marginTop: 70,
+    marginTop: 60,
     paddingRight: 10,
     position: "absolute",
     flexWrap: "wrap",
