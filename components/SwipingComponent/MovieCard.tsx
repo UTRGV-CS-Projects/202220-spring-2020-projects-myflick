@@ -106,6 +106,8 @@ const MovieCard = ({ card, genres, cardIndex, genresMap }: MovieCardProps) => {
             ]}
           >
             {card.genre_ids?.map((genre, index) => {
+              if (index > 1) return null;
+
               return (
                 <TouchableOpacity key={index}>
                   <Chip
