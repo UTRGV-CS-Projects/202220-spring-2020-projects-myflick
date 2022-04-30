@@ -6,160 +6,49 @@ import {
 	FlatList,
 } from "react-native";
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { RootStackScreenProps } from "../types";
-import { SafeAreaView, View } from "../components/Themed";
+import { RootStackScreenProps } from "../../types";
+import { SafeAreaView, View } from "../../components/Themed";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import MessageBubble from "../components/Messages/MessageBubble";
+import MessageBubble from "../../components/Messages/MessageBubble";
 import { ActivityIndicator, TextInput } from "react-native-paper";
 import RBSheet from "react-native-raw-bottom-sheet";
 //styling
-import useColorScheme from "../hooks/useColorScheme";
-import Colors, { themeColor } from "../constants/Colors";
-import { createMessages, listMessage } from "../apis/messages";
-import { OnCreateMessageSubscription } from "../src/API";
-import { AuthContext } from "../store/AuthContext";
+import useColorScheme from "../../hooks/useColorScheme";
+import Colors, { themeColor } from "../../constants/Colors";
+import { createMessages, listMessage } from "../../apis/messages";
+import { OnCreateMessageSubscription } from "../../src/API";
+import { AuthContext } from "../../store/AuthContext";
 import { API } from "aws-amplify";
-import { onCreateMessage } from "../src/graphql/subscriptions";
+import { onCreateMessage } from "../../src/graphql/subscriptions";
 
 const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
-	const [conversationId, setConversationId] = useState(route.params?.id);
-	const [userId, setUserId] = useState(route.params?.name);
-	const [person, setPerson] = useState(route.params?.person); 
+	//const [conversationId, setConversationId] = useState(route.params?.id);
+	//const [userId, setUserId] = useState(route.params?.name);
+	//const [person, setPerson] = useState(route.params?.person); 
 	const [loading, setLoading] = useState(true);
-	const [messages, setMessages] = useState<Message[]>([]);
+	//const [messages, setMessages] = useState<Message[]>([]);
 	const { user, dispatch } = useContext(AuthContext);
 	const subscriptionRef = useRef<any>();
 	const refRBSheet = useRef<any | null>(null);
 	const handleSameMovies = () => {
 		navigation.navigate("SameMovies");
 	  };
-	interface Message {
-		id: string;
-		content: string;
-		conversationId: string;
-		createdAt: string;
-		sender: string;
-	}
-
-	interface SubscriptionValue<T> {
-		value: { data: T };
-	}
-	function mapOnCreateMessageSubscription(
-		createMessageSubscription: OnCreateMessageSubscription
-	): Message {
-		const { id, content, conversationId, sender, createdAt } =
-			createMessageSubscription.onCreateMessage || {};
-		return {
-			id,
-			content,
-			conversationId,
-			sender,
-			createdAt,
-		} as Message;
-	}
-
-	function subscribeGraphQL<T>(
-		subscription: any,
-		callback: (value: T) => void
-	) {
-		return (
-			API.graphql({
-				query: subscription,
-				variables: {
-					conversationId,
-				},
-			}) as any
-		).subscribe({
-			next: (response: SubscriptionValue<T>) => {
-				//console.log("res value: ", response.value);
-				callback(response.value.data);
-			},
-			error: (error: any) => console.warn(error),
-		});
-		/* return (API.graphql(graphqlOperation(subscription)) as any).subscribe({
-      next: (response: SubscriptionValue<T>) => callback(response.value.data),
-    }); */
-	}
-
-	const onCreateMessageHandler = (
-		createMessageSubscription: OnCreateMessageSubscription
-	) => {
-		const message = mapOnCreateMessageSubscription(createMessageSubscription);
-		//console.log("new msg received");
-		setMessages([...messages, message]);
-	};
-
-	 useEffect(() => {
-		//console.log(conversationId);
-		//console.log(userId);
-		//console.log(person);
-
-		listMessage(conversationId)
-			.then((res) => {
-				let messagesResponse = res?.data?.listMessages?.items as Message[];
-				messagesResponse = messagesResponse.sort((a, b) => {
-					return a.createdAt.localeCompare(b.createdAt);
-				});
-				setMessages(messagesResponse);
-				setLoading(false);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	}, []); 
-
-	useEffect(() => {
-		//console.log("messages", messages);
-
-		// Subscribe to creation of Message
-		const subscription = subscribeGraphQL<OnCreateMessageSubscription>(
-			onCreateMessage,
-			onCreateMessageHandler
-		);
-
-		return () => {
-			// Stop receiving data updates from the subscription
-			subscription.unsubscribe();
-		};
-	}, [messages]);
-
-	const colorScheme = useColorScheme();
-	const flatListRef = useRef<FlatList>(null);
-
-	const [textBarInput, setTextBarInput] = useState("");
-
-	//methods (triggers)
-	const handleGoBack = () => {
+	
+      const colorScheme = useColorScheme();
+      const flatListRef = useRef<FlatList>(null);
+      const handleGoBack = () => {
 		navigation.goBack();
 	};
-
-	const sendBtnTrigger = async () => {
-		//if textBarInput is empty, do nothing
-		if (textBarInput === "") return;
-
-		//else, add new message input to the chat
-		createMessages(conversationId, textBarInput, false, user.cognitoId);
-
-		//once submitted, reset textBarInput
-		setTextBarInput("");
-	};
-
-	const handleOpenChatSettings = async () => {
-		console.warn("open chat settings button triggered");
-	};
-
-	//when data loads or is changed, the flatlist scrolls to the bottom
-	const handleOnChange = () => {
+    const handleOnChange = () => {
 		if (flatListRef.current) flatListRef.current.scrollToOffset({ offset: 0 });
 	};
-
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
 			style={styles.container}
 		>
-			{loading ? (
+			
 				<ActivityIndicator
 					animating={loading}
 					color={themeColor}
@@ -193,7 +82,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 						<Text
 							style={[styles.name, { color: Colors[colorScheme].opposite }]}
 						>
-							 {person?.firstName} 
+							Name
 						</Text>
 
 						<TouchableOpacity
@@ -211,7 +100,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 					</View>
 					<FlatList
 						ref={flatListRef}
-						data={messages}
+						data={[]}
 						showsVerticalScrollIndicator={false}
 						showsHorizontalScrollIndicator={false}
 						inverted={true}
@@ -223,7 +112,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 								message={item}
 								currentUserId={user.cognitoId}
 								key={item.id}
-								user={person}
+								user={item}
 								
 							/>
 						)}
@@ -231,22 +120,22 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 					<View style={styles.bottomBarContainer}>
 						<View style={styles.bottomBar}>
 							<TextInput
-								testID="textBar"
+								testID="typing"
 								autoComplete={false}
 								mode="outlined"
 								autoCapitalize="none"
 								secureTextEntry={false}
 								activeOutlineColor={Colors[colorScheme].opposite}
-								onChangeText={(value) => setTextBarInput(value)}
-								value={textBarInput}
+								//onChangeText={(value) => setTextBarInput(value)}
+								//value={textBarInput}
 								style={[styles.textInput]}
-								onSubmitEditing={sendBtnTrigger}
+								//onSubmitEditing={sendBtnTrigger}
 								onPressIn={handleOnChange}
 							/>
 							<TouchableOpacity
 								testID="sendbutton"
 								style={styles.sendButton}
-								onPressIn={sendBtnTrigger}
+								//onPressIn={sendBtnTrigger}
 							>
 								<Text style={styles.sendText}>Send</Text>
 							</TouchableOpacity>
@@ -321,7 +210,7 @@ const OpenChat = ({ navigation, route }: RootStackScreenProps<"OpenChat">) => {
 
 			</RBSheet>
 				</SafeAreaView>
-			)}
+			
 		</KeyboardAvoidingView>
 	);
 };

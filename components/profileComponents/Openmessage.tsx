@@ -38,14 +38,14 @@ const Message = ({ item, navigation }: MessageParamList) => {
       >
         <View style={styles.innerMessage}>
           <Text style={styles.name}>{item?.user?.firstName}</Text>
-          <Text 
-              style={
+          <Text>
+            {/*  style={
               item.lastMessage === ErrorTypes.START_CONVERSATING
                 ? styles.startConversation
                 : null
             }
-          >
-            {formatMessage(item.lastMessage)} 
+          
+            {formatMessage(item.lastMessage)}  */}
           </Text>
         </View>
       </TouchableOpacity>
