@@ -20,6 +20,11 @@ Once a user signs up or logs in, they can swipe on other users and movies to add
 - Jest 🧪
 - TheMovieDB 🎥 (Movies API)
 
+### Preview
+
+![SignUp](https://user-images.githubusercontent.com/67802169/169106545-8d95a65d-088d-4428-9ff8-71a7140745e7.gif)
+
+
 ### Team Members 🤝
 
 - Jordan Molina
