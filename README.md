@@ -25,7 +25,7 @@ Once a user signs up or logs in, they can swipe on other users and movies to add
 A user signing in and changing their details
 
 ![SignIn](https://user-images.githubusercontent.com/67802169/169108130-8bbb79be-187f-4f96-a4ad-998ed2e7a26c.gif)
-<br/>
+
 A user liking another movie and adding it to their favorites
 
 ![User liking movies](https://user-images.githubusercontent.com/67802169/169109087-deb57c35-316e-4b8c-908b-7fd1817618a9.gif)
