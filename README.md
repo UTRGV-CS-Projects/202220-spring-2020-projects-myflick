@@ -22,7 +22,8 @@ Once a user signs up or logs in, they can swipe on other users and movies to add
 
 ### Preview
 
-![SignUp](https://user-images.githubusercontent.com/67802169/169106545-8d95a65d-088d-4428-9ff8-71a7140745e7.gif)
+![SignIn](https://user-images.githubusercontent.com/67802169/169108130-8bbb79be-187f-4f96-a4ad-998ed2e7a26c.gif)
+
 
 
 ### Team Members 🤝
