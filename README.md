@@ -26,23 +26,29 @@ A user signing in and changing their details
 
 ![SignIn](https://user-images.githubusercontent.com/67802169/169108130-8bbb79be-187f-4f96-a4ad-998ed2e7a26c.gif)
 
+<br/>
+
 A user liking another movie and adding it to their favorites
 
 ![User liking movies](https://user-images.githubusercontent.com/67802169/169109087-deb57c35-316e-4b8c-908b-7fd1817618a9.gif)
+
+<br/>
 
 A user viewing another user and liking them
 
 ![User swiping users](https://user-images.githubusercontent.com/67802169/169109190-aa2442cd-dc0c-4430-a22e-0e0af455d0d6.gif)
 
+<br/>
+
 A user messaging another user
 
 ![Messaging a user](https://user-images.githubusercontent.com/67802169/169109865-717d7415-33a6-4e99-ade1-f594a922e0ef.png)
 
+<br/>
+
 A user's discovery settings to find other users
 
 ![User discovery settings](https://user-images.githubusercontent.com/67802169/169109902-6441dde5-4b18-4610-bbda-a3b0cb7e8439.png)
-
-
 
 ### Team Members 🤝
 
